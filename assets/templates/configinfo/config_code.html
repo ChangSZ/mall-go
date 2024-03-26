@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/bootstrap/css/style.min.css" rel="stylesheet">
+</head>
+
+<body>
+<div class="container-fluid p-t-15">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <header class="card-header">
+                    <div class="card-title"> 错误码</div>
+                </header>
+                <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4 col-xs-12">
+                                <p><code>服务级错误码</code></p>
+                                <ul class="list-unstyled">
+                                    {{range $key, $value := .SystemCodes}}
+                                    <li><code>{{$value.Code}}</code> <small>{{$value.Message}}</small></li>
+                                    {{end}}
+                                </ul>
+                            </div>
+
+                            <div class="col-sm-4 col-xs-12">
+                                <p><code>模块级错误码</code></p>
+                                <ul class="list-unstyled">
+                                    {{range $key, $value := .BusinessCodes}}
+                                        <li><code>{{$value.Code}}</code> <small>{{$value.Message}}</small></li>
+                                    {{end}}
+                                </ul>
+                            </div>
+
+                        </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div style="display:none">
+    <script type="text/javascript">document.write(unescape("%3Cspan id='cnzz_stat_icon_1279911342'%3E%3C/span%3E%3Cscript src='https://v1.cnzz.com/z_stat.php%3Fid%3D1279911342%26' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+</body>
+</html>
