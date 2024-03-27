@@ -1,0 +1,25 @@
+package role
+
+import (
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
+)
+
+type listMenuRequest struct{}
+
+type listMenuResponse struct{}
+
+// ListMenu 获取角色相关菜单
+// @Summary 获取角色相关菜单
+// @Description 获取角色相关菜单
+// @Tags ROLE
+// @Accept application/x-www-form-urlencoded
+// @Produce json
+// @Param Request body listMenuRequest true "请求信息"
+// @Success 200 {object} listMenuResponse
+// @Failure 400 {object} code.Failure
+// @Router /role/listMenu/{roleId} [get]
+func (h *handler) ListMenu() core.HandlerFunc {
+	return func(ctx core.Context) {
+
+	}
+}

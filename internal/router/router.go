@@ -90,6 +90,9 @@ func NewHTTPServer(logger *zap.Logger, cronLogger *zap.Logger) (*Server, error) 
 	// 设置 API 路由
 	setApiRouter(r)
 
+	// 设置 role 路由
+	setRoleRouter(r)
+
 	// 设置 GraphQL 路由
 	setGraphQLRouter(r)
 
