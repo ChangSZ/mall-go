@@ -1,10 +1,10 @@
 package router
 
-import "github.com/ChangSZ/mall-go/internal/api/role"
+import "github.com/ChangSZ/mall-go/internal/api/ums_role"
 
 // 后台用户角色管理
-func setRoleRouter(r *resource) {
-	roleHandler := role.New(r.logger, r.db, r.cache)
+func setUmsRoleRouter(r *resource) {
+	roleHandler := ums_role.New(r.logger, r.db, r.cache)
 	roles := r.mux.Group("/role")
 	{
 		roles.POST("/create", roleHandler.Create())                    // 添加角色

@@ -1,4 +1,4 @@
-package role
+package ums_role
 
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"

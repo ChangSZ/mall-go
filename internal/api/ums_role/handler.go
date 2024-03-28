@@ -1,4 +1,4 @@
-package role
+package ums_role
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
@@ -23,7 +23,7 @@ type Handler interface {
 
 	// Update 修改角色
 	// @Tags ROLE
-	// @Router /role/update/{id} [get]
+	// @Router /role/update/{id} [post]
 	Update() core.HandlerFunc
 
 	// Delete 批量删除角色
