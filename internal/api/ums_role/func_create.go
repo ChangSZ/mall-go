@@ -11,7 +11,7 @@ type createResponse struct{}
 // Create 添加角色
 // @Summary 添加角色
 // @Description 添加角色
-// @Tags ROLE
+// @Tags UmsRoleController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body createRequest true "请求信息"

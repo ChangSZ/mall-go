@@ -11,7 +11,7 @@ type updateResponse struct{}
 // Update 修改后台资源
 // @Summary 修改后台资源
 // @Description 修改后台资源
-// @Tags RESOURCE
+// @Tags UmsResourceController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body updateRequest true "请求信息"

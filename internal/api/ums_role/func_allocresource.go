@@ -11,7 +11,7 @@ type allocResourceResponse struct{}
 // AllocResource 给角色分配资源
 // @Summary 给角色分配资源
 // @Description 给角色分配资源
-// @Tags ROLE
+// @Tags UmsRoleController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body allocResourceRequest true "请求信息"

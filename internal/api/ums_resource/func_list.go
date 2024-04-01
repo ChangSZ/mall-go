@@ -11,7 +11,7 @@ type listResponse struct{}
 // List 分页模糊查询后台资源
 // @Summary 分页模糊查询后台资源
 // @Description 分页模糊查询后台资源
-// @Tags RESOURCE
+// @Tags UmsResourceController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body listRequest true "请求信息"

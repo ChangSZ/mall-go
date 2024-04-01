@@ -11,7 +11,7 @@ type deleteResponse struct{}
 // Delete 批量删除角色
 // @Summary 批量删除角色
 // @Description 批量删除角色
-// @Tags ROLE
+// @Tags UmsRoleController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body deleteRequest true "请求信息"
