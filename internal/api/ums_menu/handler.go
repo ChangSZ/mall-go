@@ -1,4 +1,4 @@
-package ums_resource
+package ums_menu
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
@@ -16,35 +16,40 @@ var _ Handler = (*handler)(nil)
 type Handler interface {
 	i()
 
-	// Create 添加后台资源
-	// @Tags UmsResourceController
-	// @Router /resource/create [post]
+	// Create 添加后台菜单
+	// @Tags UmsMenuController
+	// @Router /menu/create [post]
 	Create() core.HandlerFunc
 
-	// Update 修改后台资源
-	// @Tags UmsResourceController
-	// @Router /resource/update/{id} [post]
+	// Update 修改后台菜单
+	// @Tags UmsMenuController
+	// @Router /menu/update/{id} [post]
 	Update() core.HandlerFunc
 
-	// Get 根据ID获取资源详情
-	// @Tags UmsResourceController
-	// @Router /resource/{id} [get]
+	// Get 根据ID获取菜单详情
+	// @Tags UmsMenuController
+	// @Router /menu/{id} [get]
 	Get() core.HandlerFunc
 
-	// Delete 根据ID删除后台资源
-	// @Tags UmsResourceController
-	// @Router /resource/delete/{id} [post]
+	// Delete 根据ID删除后台菜单
+	// @Tags UmsMenuController
+	// @Router /menu/delete/{id} [post]
 	Delete() core.HandlerFunc
 
-	// List 分页模糊查询后台资源
-	// @Tags UmsResourceController
-	// @Router /resource/list [get]
+	// List 分页查询后台菜单
+	// @Tags UmsMenuController
+	// @Router /menu/list/{parentId} [get]
 	List() core.HandlerFunc
 
-	// ListAll 查询所有后台资源
-	// @Tags UmsResourceController
-	// @Router /resource/listAll [get]
-	ListAll() core.HandlerFunc
+	// TreeList 树形结构返回所有菜单列表
+	// @Tags UmsMenuController
+	// @Router /menu/treeList [get]
+	TreeList() core.HandlerFunc
+
+	// UpdateHidden 修改菜单显示状态
+	// @Tags UmsMenuController
+	// @Router /menu/updateHidden/{id} [post]
+	UpdateHidden() core.HandlerFunc
 }
 
 type handler struct {

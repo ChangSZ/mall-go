@@ -1,4 +1,4 @@
-package ums_resource
+package ums_member_level
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
@@ -16,35 +16,10 @@ var _ Handler = (*handler)(nil)
 type Handler interface {
 	i()
 
-	// Create 添加后台资源
-	// @Tags UmsResourceController
-	// @Router /resource/create [post]
-	Create() core.HandlerFunc
-
-	// Update 修改后台资源
-	// @Tags UmsResourceController
-	// @Router /resource/update/{id} [post]
-	Update() core.HandlerFunc
-
-	// Get 根据ID获取资源详情
-	// @Tags UmsResourceController
-	// @Router /resource/{id} [get]
-	Get() core.HandlerFunc
-
-	// Delete 根据ID删除后台资源
-	// @Tags UmsResourceController
-	// @Router /resource/delete/{id} [post]
-	Delete() core.HandlerFunc
-
-	// List 分页模糊查询后台资源
-	// @Tags UmsResourceController
-	// @Router /resource/list [get]
+	// List 查询所有会员等级
+	// @Tags UmsMemberLevelController
+	// @Router /memberLevel/list [get]
 	List() core.HandlerFunc
-
-	// ListAll 查询所有后台资源
-	// @Tags UmsResourceController
-	// @Router /resource/listAll [get]
-	ListAll() core.HandlerFunc
 }
 
 type handler struct {

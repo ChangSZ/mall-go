@@ -90,10 +90,13 @@ func NewHTTPServer(logger *zap.Logger, cronLogger *zap.Logger) (*Server, error) 
 	// 设置 API 路由
 	setApiRouter(r)
 
-	// 设置 UmsRole 路由
-	setUmsRoleRouter(r)
-	// 设置 UmsResource 路由
+	// 设置 Ums 路由
+	setUmsAdminRouter(r)
+	setUmsMemberLevelRouter(r)
+	setUmsMenuRouter(r)
+	setUmsResourceCateRouter(r)
 	setUmsResourceRouter(r)
+	setUmsRoleRouter(r)
 
 	// 设置 GraphQL 路由
 	setGraphQLRouter(r)

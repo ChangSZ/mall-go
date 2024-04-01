@@ -11,7 +11,7 @@ type listMenuResponse struct{}
 // ListMenu 获取角色相关菜单
 // @Summary 获取角色相关菜单
 // @Description 获取角色相关菜单
-// @Tags ROLE
+// @Tags UmsRoleController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body listMenuRequest true "请求信息"

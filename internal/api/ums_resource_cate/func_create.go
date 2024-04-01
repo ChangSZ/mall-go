@@ -1,4 +1,4 @@
-package ums_resource
+package ums_resource_cate
 
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
@@ -8,16 +8,16 @@ type createRequest struct{}
 
 type createResponse struct{}
 
-// Create 添加后台资源
-// @Summary 添加后台资源
-// @Description 添加后台资源
+// Create 添加后台资源分类
+// @Summary 添加后台资源分类
+// @Description 添加后台资源分类
 // @Tags UmsResourceController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body createRequest true "请求信息"
 // @Success 200 {object} createResponse
 // @Failure 400 {object} code.Failure
-// @Router /resource/create [post]
+// @Router /resourceCategory/create [post]
 func (h *handler) Create() core.HandlerFunc {
 	return func(ctx core.Context) {
 

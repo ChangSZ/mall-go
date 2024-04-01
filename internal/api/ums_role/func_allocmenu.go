@@ -11,7 +11,7 @@ type allocMenuResponse struct{}
 // AllocMenu 给角色分配菜单
 // @Summary 给角色分配菜单
 // @Description 给角色分配菜单
-// @Tags ROLE
+// @Tags UmsRoleController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body allocMenuRequest true "请求信息"

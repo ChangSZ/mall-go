@@ -11,7 +11,7 @@ type listAllResponse struct{}
 // ListAll 查询所有后台资源
 // @Summary 查询所有后台资源
 // @Description 查询所有后台资源
-// @Tags RESOURCE
+// @Tags UmsResourceController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body listAllRequest true "请求信息"

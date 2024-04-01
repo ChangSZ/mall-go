@@ -11,7 +11,7 @@ type listResourceResponse struct{}
 // ListResource 获取角色相关资源
 // @Summary 获取角色相关资源
 // @Description 获取角色相关资源
-// @Tags ROLE
+// @Tags UmsRoleController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body listResourceRequest true "请求信息"
