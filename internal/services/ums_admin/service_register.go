@@ -5,9 +5,9 @@ import (
 	"time"
 
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/pkg/password"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
+	"github.com/ChangSZ/mall-go/pkg/password"
 )
 
 type UmsAdminParam struct {
@@ -22,7 +22,11 @@ type UmsAdminParam struct {
 func (s *service) Register(ctx core.Context, umsAdminParam *UmsAdminParam) (*ums_admin.UmsAdmin, error) {
 	umsAdmin := ums_admin.NewModel()
 	umsAdmin.Username = umsAdminParam.Username
-	umsAdmin.Password = password.GeneratePassword(umsAdminParam.Password)
+	encodePassword, err := password.Encoder.Encode(umsAdminParam.Password)
+	if err != nil {
+		return nil, fmt.Errorf("failed to encode password: %w", err)
+	}
+	umsAdmin.Password = encodePassword
 	umsAdmin.Icon = umsAdminParam.Icon
 	umsAdmin.Email = umsAdminParam.Email
 	umsAdmin.NickName = umsAdminParam.NickName
