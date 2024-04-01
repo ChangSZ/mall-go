@@ -7,7 +7,7 @@ import "time"
 //go:generate gormgen -structs UmsResourceCategory -input .
 type UmsResourceCategory struct {
 	Id         int64     //
-	CreateTime time.Time `gorm:"time"` // 创建时间
+	CreateTime time.Time `gorm:"autoCreateTime"` // 创建时间
 	Name       string    // 分类名称
 	Sort       int32     // 排序
 }

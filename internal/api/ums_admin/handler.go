@@ -5,7 +5,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
-	"github.com/ChangSZ/mall-go/internal/services/menu"
+	"github.com/ChangSZ/mall-go/internal/services/ums_admin"
 	"github.com/ChangSZ/mall-go/pkg/hash"
 
 	"go.uber.org/zap"
@@ -83,18 +83,18 @@ type Handler interface {
 }
 
 type handler struct {
-	logger      *zap.Logger
-	cache       redis.Repo
-	hashids     hash.Hash
-	menuService menu.Service
+	logger          *zap.Logger
+	cache           redis.Repo
+	hashids         hash.Hash
+	umsAdminService ums_admin.Service
 }
 
 func New(logger *zap.Logger, db mysql.Repo, cache redis.Repo) Handler {
 	return &handler{
-		logger:      logger,
-		cache:       cache,
-		hashids:     hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
-		menuService: menu.New(db, cache),
+		logger:          logger,
+		cache:           cache,
+		hashids:         hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
+		umsAdminService: ums_admin.New(db, cache),
 	}
 }
 

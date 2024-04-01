@@ -8,7 +8,7 @@ import "time"
 type UmsAdminLoginLog struct {
 	Id         int64     //
 	AdminId    int64     //
-	CreateTime time.Time `gorm:"time"` //
+	CreateTime time.Time `gorm:"autoCreateTime"` //
 	Ip         string    //
 	Address    string    //
 	UserAgent  string    // 浏览器登录类型

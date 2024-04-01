@@ -8,7 +8,7 @@ import "time"
 type UmsMemberLoginLog struct {
 	Id         int64     //
 	MemberId   int64     //
-	CreateTime time.Time `gorm:"time"` //
+	CreateTime time.Time `gorm:"autoCreateTime"` //
 	Ip         string    //
 	City       string    //
 	LoginType  int32     // 登录类型：0->PC；1->android;2->ios;3->小程序
