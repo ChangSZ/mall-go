@@ -8,7 +8,7 @@ import "time"
 type UmsMenu struct {
 	Id         int64     //
 	ParentId   int64     // 父级ID
-	CreateTime time.Time `gorm:"time"` // 创建时间
+	CreateTime time.Time `gorm:"autoCreateTime"` // 创建时间
 	Title      string    // 菜单名称
 	Level      int32     // 菜单级数
 	Sort       int32     // 菜单排序

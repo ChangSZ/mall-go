@@ -69,6 +69,8 @@ type Context interface {
 	// tag: `form:"xxx"`
 	ShouldBindForm(obj interface{}) error
 
+	ShouldBind(obj interface{}) error
+
 	// ShouldBindJSON 反序列化 postjson
 	// tag: `json:"xxx"`
 	ShouldBindJSON(obj interface{}) error
@@ -184,6 +186,10 @@ func (c *context) ShouldBindPostForm(obj interface{}) error {
 // tag: `form:"xxx"`
 func (c *context) ShouldBindForm(obj interface{}) error {
 	return c.ctx.ShouldBindWith(obj, binding.Form)
+}
+
+func (c *context) ShouldBind(obj interface{}) error {
+	return c.ctx.ShouldBind(obj)
 }
 
 // ShouldBindJSON 反序列化postjson
