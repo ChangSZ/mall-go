@@ -4,6 +4,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 )
 
@@ -15,7 +16,7 @@ type Service interface {
 	/**
 	 * 根据用户名获取后台管理员
 	 */
-	// GetAdminByUsername(ctx core.Context, username string) (ums_admin.UmsAdmin, error)
+	GetAdminByUsername(ctx core.Context, username string) (*ums_admin.UmsAdmin, error)
 
 	/**
 	 * 注册功能
@@ -76,10 +77,10 @@ type Service interface {
 	//  */
 	// UpdatePassword(ctx core.Context, updatePasswordParam dto.UpdateAdminPasswordParam) (int64, error)
 
-	// /**
-	// * 获取用户信息
-	//  */
-	// LoadUserByUsername(ctx core.Context, username string) (bo.AdminUserDetails, error)
+	/**
+	* 获取用户信息
+	 */
+	// LoadUserByUsername(ctx core.Context, username string) (AdminUserDetails, error)
 
 	/**
 	* 获取缓存服务
@@ -89,14 +90,27 @@ type Service interface {
 
 type service struct {
 	db    mysql.Repo
-	cache redis.Repo
+	cache UmsAdminCacheServiceImpl
 }
 
 func New(db mysql.Repo, cache redis.Repo) Service {
 	return &service{
 		db:    db,
-		cache: cache,
+		cache: UmsAdminCacheServiceImpl{cache},
 	}
 }
 
 func (s *service) i() {}
+
+// UmsAdminCacheService interface for the cache service
+type UmsAdminCacheService interface {
+	DelAdmin(adminId int64)
+	DelResourceList(adminId int64)
+	DelResourceListByRole(roleId int64)
+	DelResourceListByRoleIds(roleIds []int64)
+	DelResourceListByResource(resourceId int64)
+	GetAdmin(username string) *ums_admin.UmsAdmin
+	SetAdmin(admin *ums_admin.UmsAdmin)
+	GetResourceList(adminId int64) []ums_resource.UmsResource
+	SetResourceList(adminId int64, resourceList []ums_resource.UmsResource)
+}
