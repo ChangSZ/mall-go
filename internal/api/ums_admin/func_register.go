@@ -11,10 +11,10 @@ import (
 )
 
 type registerRequest struct {
-	Username string `json:"username" validate:"required"`
-	Password string `json:"password" validate:"required"`
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
 	Icon     string `json:"icon"`
-	Email    string `json:"email" validate:"email"`
+	Email    string `json:"email" binding:"email"`
 	NickName string `json:"nickName"`
 	Note     string `json:"note"`
 }
@@ -67,8 +67,8 @@ func (h *handler) Register() core.HandlerFunc {
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,
-				code.AdminCreateError,
-				code.Text(code.AdminCreateError)).WithError(err),
+				code.UmsAdminRegisterError,
+				code.Text(code.UmsAdminRegisterError)).WithError(err),
 			)
 			return
 		}

@@ -14,7 +14,7 @@ user = ''
 
 [mysql]
 [mysql.base]
-connmaxlifetime = 60
+connMaxLifeTime = 60
 maxidleconn = 60
 maxopenconn = 10
 
@@ -37,3 +37,21 @@ maxretries = 3
 minidleconns = 5
 pass = ''
 poolsize = 10
+database = "mall"
+
+[redis.key]
+admin = "ums:admin"
+resourceList = "ums:resourceList"
+
+[redis.expire]
+common = 86400
+
+[jwt]
+# JWT存储的请求头
+tokenHeader = 'Authorization'
+# JWT加解密使用的密钥
+secret = 'mall-admin-secret'
+# JWT的超期限时间(60*60*24*7)
+expiration = 604800
+# JWT负载中拿到开头
+tokenHead = 'Bearer '  
