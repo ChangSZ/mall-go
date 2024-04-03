@@ -16,6 +16,13 @@ import (
  * signature的生成算法：
  * HMACSHA512(base64UrlEncode(header) + "." +base64UrlEncode(payload),secret)
  */
+
+const (
+	CLAIM_KEY_USERNAME = "sub"
+	CLAIM_KEY_CREATED  = "created"
+	CLAIM_KEY_EXP      = "exp"
+)
+
 type JwtTokenUtil struct {
 	Secret     string
 	Expiration int64
@@ -33,9 +40,9 @@ func NewJwtTokenUtil(secret string, expiration int64, tokenHead string) *JwtToke
 // GenerateToken 根据用户信息生成JWT的token
 func (j *JwtTokenUtil) GenerateToken(username string) (string, error) {
 	claims := jwt.MapClaims{
-		"sub":     username,
-		"created": time.Now().Unix(),
-		"exp":     time.Now().Add(time.Duration(j.Expiration) * time.Second).Unix(),
+		CLAIM_KEY_USERNAME: username,
+		CLAIM_KEY_CREATED:  time.Now().Unix(),
+		CLAIM_KEY_EXP:      time.Now().Add(time.Duration(j.Expiration) * time.Second).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
 	return token.SignedString([]byte(j.Secret))
@@ -65,8 +72,8 @@ func (j *JwtTokenUtil) ValidateToken(tokenString string, username string) (bool,
 		return false, err
 	}
 
-	user := claims["sub"].(string)
-	expiration := time.Unix(int64(claims["exp"].(float64)), 0)
+	user := claims[CLAIM_KEY_USERNAME].(string)
+	expiration := time.Unix(int64(claims[CLAIM_KEY_EXP].(float64)), 0)
 
 	return user == username && time.Now().Before(expiration), nil
 }

@@ -60,4 +60,7 @@ var zhCNText = map[int]string{
 	CronListError:    "获取定时任务列表失败",
 	CronDetailError:  "获取定时任务详情失败",
 	CronExecuteError: "手动执行定时任务失败",
+
+	UmsAdminRegisterError:   "注册管理员失败",
+	UmsAdminAuthorizedError: "认证管理员失败",
 }

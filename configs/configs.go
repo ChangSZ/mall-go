@@ -45,6 +45,14 @@ type Config struct {
 		MaxRetries   int    `toml:"maxRetries"`
 		PoolSize     int    `toml:"poolSize"`
 		MinIdleConns int    `toml:"minIdleConns"`
+		Database     string `toml:"database"`
+		Key          struct {
+			Admin        string `toml:"admin"`
+			ResourceList string `toml:"resourceList"`
+		} `toml:"key"`
+		Expire struct {
+			Common int64 `toml:"common"`
+		} `toml:"expire"`
 	} `toml:"redis"`
 
 	Mail struct {
@@ -63,6 +71,13 @@ type Config struct {
 	Language struct {
 		Local string `toml:"local"`
 	} `toml:"language"`
+
+	Jwt struct {
+		TokenHeader string `toml:"tokenHeader"`
+		Secret      string `toml:"secret"`
+		Expiration  int64  `toml:"expiration"`
+		TokenHead   string `toml:"tokenHead"`
+	} `toml:"jwt"`
 }
 
 var (

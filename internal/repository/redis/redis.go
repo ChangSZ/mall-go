@@ -29,7 +29,7 @@ var _ Repo = (*cacheRepo)(nil)
 
 type Repo interface {
 	i()
-	Set(key, value string, ttl time.Duration, options ...Option) error
+	Set(key string, value interface{}, ttl time.Duration, options ...Option) error
 	Get(key string, options ...Option) (string, error)
 	TTL(key string) (time.Duration, error)
 	Expire(key string, ttl time.Duration) bool
@@ -77,7 +77,7 @@ func redisConnect() (*redis.Client, error) {
 }
 
 // Set set some <key,value> into redis
-func (c *cacheRepo) Set(key, value string, ttl time.Duration, options ...Option) error {
+func (c *cacheRepo) Set(key string, value interface{}, ttl time.Duration, options ...Option) error {
 	ts := time.Now()
 	opt := newOption()
 	defer func() {

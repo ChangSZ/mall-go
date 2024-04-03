@@ -60,4 +60,7 @@ var enUSText = map[int]string{
 	CronListError:    "Failed to get cron list",
 	CronDetailError:  "Failed to get cron detail",
 	CronExecuteError: "Failed to execute cron",
+
+	UmsAdminRegisterError:   "Failed to register admin",
+	UmsAdminAuthorizedError: "Failed to authorized admin",
 }
