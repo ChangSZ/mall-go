@@ -38,6 +38,8 @@ $ go run main.go -env fat
 重新启动程序，会在浏览器中自动打开登录界面，链接地址：http://127.0.0.1:9999/login
 输入默认账号 admin，密码 admin 即可登录成功
 
+如果想重新安装，删除INSTALL.lock文件即可。该文件存在即认为无需安装。
+
 
 ## 框架使用
 参见[go-gin-api语雀](https://www.yuque.com/xinliangnote/go-gin-api)

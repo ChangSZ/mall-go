@@ -22,15 +22,14 @@ type HandlerFunc func(c Context)
 type Trace = trace.T
 
 const (
-	_Alias            = "_alias_"
-	_TraceName        = "_trace_"
-	_LoggerName       = "_logger_"
-	_BodyName         = "_body_"
-	_PayloadName      = "_payload_"
-	_GraphPayloadName = "_graph_payload_"
-	_SessionUserInfo  = "_session_user_info"
-	_AbortErrorName   = "_abort_error_"
-	_IsRecordMetrics  = "_is_record_metrics_"
+	_Alias           = "_alias_"
+	_TraceName       = "_trace_"
+	_LoggerName      = "_logger_"
+	_BodyName        = "_body_"
+	_PayloadName     = "_payload_"
+	_SessionUserInfo = "_session_user_info"
+	_AbortErrorName  = "_abort_error_"
+	_IsRecordMetrics = "_is_record_metrics_"
 )
 
 var contextPool = &sync.Pool{
@@ -94,10 +93,6 @@ type Context interface {
 	// Payload 正确返回
 	Payload(payload interface{})
 	getPayload() interface{}
-
-	// GraphPayload GraphQL返回值 与 api 返回结构不同
-	GraphPayload(payload interface{})
-	getGraphPayload() interface{}
 
 	// HTML 返回界面
 	HTML(name string, obj interface{})
@@ -248,17 +243,6 @@ func (c *context) getPayload() interface{} {
 
 func (c *context) Payload(payload interface{}) {
 	c.ctx.Set(_PayloadName, payload)
-}
-
-func (c *context) getGraphPayload() interface{} {
-	if payload, ok := c.ctx.Get(_GraphPayloadName); ok != false {
-		return payload
-	}
-	return nil
-}
-
-func (c *context) GraphPayload(payload interface{}) {
-	c.ctx.Set(_GraphPayloadName, payload)
 }
 
 func (c *context) HTML(name string, obj interface{}) {
