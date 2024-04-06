@@ -59,7 +59,6 @@ func CreateMenuTableDataSql() (sql string) {
 	sql += "(17, 16, 'Hashids', '/tool/hashids', '', 2, 702, 'init'),"
 	sql += "(18, 16, '调用日志', '/tool/logs', '', 2, 703, 'init'),"
 	sql += "(19, 16, '接口文档', '/swagger/index.html', '', 2, 704, 'init'),"
-	sql += "(20, 16, 'GraphQL', '/graphql', '', 2, 705, 'init'),"
 	sql += "(21, 16, '接口指标', '/metrics', '', 2, 706, 'init'),"
 	sql += "(22, 16, '服务升级', '/upgrade', '', 2, 701, 'init'),"
 	sql += "(23, 0, '后台任务', '', 'mdi-av-timer', 1, 40, 'init'),"

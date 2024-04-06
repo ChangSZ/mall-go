@@ -356,7 +356,6 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 				businessCodeMsg string
 				abortErr        error
 				traceId         string
-				graphResponse   interface{}
 			)
 
 			if ct := context.Trace(); ct != nil {
@@ -485,11 +484,6 @@ func New(logger *zap.Logger, options ...Option) (Mux, error) {
 
 			if response != nil {
 				responseBody = response
-			}
-
-			graphResponse = context.getGraphPayload()
-			if graphResponse != nil {
-				responseBody = graphResponse
 			}
 
 			t.WithResponse(&trace.Response{
