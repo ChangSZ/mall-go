@@ -15,6 +15,11 @@ import (
 	"github.com/ChangSZ/mall-go/pkg/password"
 )
 
+var (
+	jwtConfig    = configs.Get().Jwt
+	jwtTokenUtil = jwt.NewJwtTokenUtil(jwtConfig.Secret, jwtConfig.Expiration, jwtConfig.TokenHead)
+)
+
 type service struct {
 	db    mysql.Repo
 	cache *umsAdminCacheService
@@ -99,13 +104,16 @@ func (s *service) Login(ctx core.Context, username, passwd string) (string, erro
 	if !userDetails.IsEnabled() {
 		return "", fmt.Errorf("账号已被禁用")
 	}
-	config := configs.Get().Jwt
-	jwtTokenUtil := jwt.NewJwtTokenUtil(config.Secret, config.Expiration, config.TokenHead)
+
 	token, err = jwtTokenUtil.GenerateToken(username)
 	if err != nil {
 		return "", fmt.Errorf("生成token失败: %w", err)
 	}
 	return token, nil
+}
+
+func (s *service) RefreshToken(ctx core.Context, oldToken string) (string, error) {
+	return jwtTokenUtil.RefreshHeadToken(oldToken, 1800) // 30 minutes
 }
 
 type UpdateAdminPasswordParam struct {

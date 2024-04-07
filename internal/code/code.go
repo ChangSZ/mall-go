@@ -76,8 +76,9 @@ const (
 	CronDetailError  = 20404
 	CronExecuteError = 20405
 
-	UmsAdminRegisterError   = 30101
-	UmsAdminAuthorizedError = 30102
+	UmsAdminRegisterError     = 30101
+	UmsAdminAuthorizedError   = 30102
+	UmsAdminRefreshTokenError = 30103
 )
 
 func Text(code int) string {
