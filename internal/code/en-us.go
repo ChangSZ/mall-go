@@ -64,4 +64,7 @@ var enUSText = map[int]string{
 	UmsAdminRegisterError:     "Failed to register admin",
 	UmsAdminAuthorizedError:   "Failed to authorized admin",
 	UmsAdminRefreshTokenError: "Failed to refresh token",
+	UmsAdminGetUsernameError:  "Failed to get username",
+	UmsAdminGetMenuListError:  "Failed to get menu list",
+	UmsAdminGetRoleListError:  "Failed to get role list",
 }

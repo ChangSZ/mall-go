@@ -3,6 +3,7 @@ package ums_admin
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
 )
 
 var _ Service = (*service)(nil)
@@ -49,10 +50,10 @@ type Service interface {
 	//  */
 	// UpdateRole(ctx core.Context, adminId int64, roleIds []int64) (int64, error)
 
-	// /**
-	// * 获取用户对应角色
-	//  */
-	// GetRoleList(ctx core.Context, adminId int64) ([]ums_admin.UmsAdmin, error)
+	/**
+	* 获取用户对应角色
+	 */
+	GetRoleList(ctx core.Context, adminId int64) ([]ums_role.UmsRole, error)
 
 	// /**
 	// * 修改密码

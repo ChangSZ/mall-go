@@ -96,7 +96,7 @@ func main() {
 		fmt.Println("  └── file : ", table.Name+"/gen_model.go")
 
 		modelContent := fmt.Sprintf("package %s\n", table.Name)
-		modelContent += fmt.Sprintf(`import "time"`)
+		modelContent += `import "time"`
 		modelContent += fmt.Sprintf("\n\n// %s %s \n", capitalize(table.Name), table.Comment.String)
 		modelContent += fmt.Sprintf("//go:generate gormgen -structs %s -input . \n", capitalize(table.Name))
 		modelContent += fmt.Sprintf("type %s struct {\n", capitalize(table.Name))
@@ -127,7 +127,26 @@ func main() {
 			)
 
 			if textType(info.DataType) == "time.Time" {
-				modelContent += fmt.Sprintf("%s %s `%s` // %s\n", capitalize(info.ColumnName), textType(info.DataType), "gorm:\"time\"", info.ColumnComment.String)
+				switch info.ColumnName {
+				case "create_time":
+					modelContent += fmt.Sprintf("%s %s `%s` // %s\n",
+						capitalize(info.ColumnName),
+						textType(info.DataType),
+						"gorm:\"autoCreateTime\"",
+						info.ColumnComment.String)
+				case "update_time":
+					modelContent += fmt.Sprintf("%s %s `%s` // %s\n",
+						capitalize(info.ColumnName),
+						textType(info.DataType),
+						"gorm:\"autoUpdateTime\"",
+						info.ColumnComment.String)
+				default:
+					modelContent += fmt.Sprintf("%s %s `%s` // %s\n",
+						capitalize(info.ColumnName),
+						textType(info.DataType),
+						"gorm:\"time\"",
+						info.ColumnComment.String)
+				}
 			} else {
 				modelContent += fmt.Sprintf("%s %s // %s\n", capitalize(info.ColumnName), textType(info.DataType), info.ColumnComment.String)
 			}

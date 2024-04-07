@@ -10,7 +10,7 @@ type UmsRole struct {
 	Name        string    // 名称
 	Description string    // 描述
 	AdminCount  int32     // 后台用户数量
-	CreateTime  time.Time `gorm:"time"` // 创建时间
+	CreateTime  time.Time `gorm:"autoCreateTime"` // 创建时间
 	Status      int32     // 启用状态：0->禁用；1->启用
 	Sort        int32     //
 }

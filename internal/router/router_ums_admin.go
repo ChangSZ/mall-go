@@ -14,7 +14,6 @@ func setUmsAdminRouter(r *resource) {
 		admins.POST("/register", adminHandler.Register())                                                               // 用户注册
 		admins.POST("/login", adminHandler.Login())                                                                     // 登录以后返回token
 		admins.GET("/refreshToken", core.WrapTokenHandler(r.interceptors.CheckToken), adminHandler.RefreshToken())      // 刷新token
-		admins.GET("/listAll", core.WrapTokenHandler(r.interceptors.CheckToken), adminHandler.ListAll())                // 获取所有角色
 		admins.GET("/info", core.WrapTokenHandler(r.interceptors.CheckToken), adminHandler.Info())                      // 获取当前登录用户信息
 		admins.GET("/logout", core.WrapTokenHandler(r.interceptors.CheckToken), adminHandler.Logout())                  // 登出功能
 		admins.GET("/:id", core.WrapTokenHandler(r.interceptors.CheckToken), adminHandler.Get())                        // 获取指定用户信息

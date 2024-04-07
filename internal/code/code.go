@@ -79,6 +79,9 @@ const (
 	UmsAdminRegisterError     = 30101
 	UmsAdminAuthorizedError   = 30102
 	UmsAdminRefreshTokenError = 30103
+	UmsAdminGetUsernameError  = 30104
+	UmsAdminGetMenuListError  = 30105
+	UmsAdminGetRoleListError  = 30106
 )
 
 func Text(code int) string {
