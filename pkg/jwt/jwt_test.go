@@ -29,11 +29,11 @@ func TestJwtTokenUtil(t *testing.T) {
 			expiration := jwtUtil.getExpiredDateFromToken(token)
 			assert.NotEqual(t, time.Time{}, expiration, "应该解析出过期时间")
 
-			ok := jwtUtil.ValidateToken(token, "nick")
-			assert.Equal(t, false, ok)
+			err = jwtUtil.ValidateToken(token, "nick")
+			assert.NotNil(t, err)
 
-			ok = jwtUtil.ValidateToken(token, "jack")
-			assert.Equal(t, true, ok)
+			err = jwtUtil.ValidateToken(token, "jack")
+			assert.Nil(t, err)
 
 			newToken, err := jwtUtil.RefreshHeadToken(token, 1)
 			assert.Equal(t, nil, err)
@@ -46,8 +46,8 @@ func TestJwtTokenUtil(t *testing.T) {
 
 			// token过期失效
 			time.Sleep(time.Second * 2)
-			ok = jwtUtil.ValidateToken(token, "jack")
-			assert.Equal(t, false, ok, "token应该过期")
+			err = jwtUtil.ValidateToken(token, "jack")
+			assert.NotNil(t, err, "token应该过期")
 		})
 	}
 }

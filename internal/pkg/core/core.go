@@ -139,6 +139,18 @@ func WrapAuthHandler(handler func(Context) (sessionUserInfo proposal.SessionUser
 	}
 }
 
+func WrapTokenHandler(handler func(Context) (info proposal.UmsUserInfo, err BusinessError)) HandlerFunc {
+	return func(ctx Context) {
+		info, err := handler(ctx)
+		if err != nil {
+			ctx.AbortWithError(err)
+			return
+		}
+
+		ctx.setUmsUserInfo(info)
+	}
+}
+
 // RouterGroup 包装gin的RouterGroup
 type RouterGroup interface {
 	Group(string, ...HandlerFunc) RouterGroup
