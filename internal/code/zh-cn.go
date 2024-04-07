@@ -64,4 +64,7 @@ var zhCNText = map[int]string{
 	UmsAdminRegisterError:     "注册管理员失败",
 	UmsAdminAuthorizedError:   "认证管理员失败",
 	UmsAdminRefreshTokenError: "刷新Token失败",
+	UmsAdminGetUsernameError:  "获取用户信息时失败",
+	UmsAdminGetMenuListError:  "获取菜单列表失败",
+	UmsAdminGetRoleListError:  "获取角色列表失败",
 }

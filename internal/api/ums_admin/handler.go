@@ -5,6 +5,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/services/ums_admin"
+	"github.com/ChangSZ/mall-go/internal/services/ums_role"
 	"github.com/ChangSZ/mall-go/internal/services/ums_user"
 
 	"go.uber.org/zap"
@@ -29,11 +30,6 @@ type Handler interface {
 	// @Tags UmsAdminController
 	// @Router /admin/refreshToken [get]
 	RefreshToken() core.HandlerFunc
-
-	// ListAll 获取所有角色
-	// @Tags UmsAdminController
-	// @Router /admin/listAll [get]
-	ListAll() core.HandlerFunc
 
 	// Info 获取当前登录用户信息
 	// @Tags UmsAdminController
@@ -85,6 +81,7 @@ type handler struct {
 	logger          *zap.Logger
 	cache           redis.Repo
 	umsAdminService ums_admin.Service
+	umsRoleService  ums_role.Service
 }
 
 func New(logger *zap.Logger, db mysql.Repo, cache redis.Repo) Handler {
@@ -92,6 +89,7 @@ func New(logger *zap.Logger, db mysql.Repo, cache redis.Repo) Handler {
 		logger:          logger,
 		cache:           cache,
 		umsAdminService: ums_admin.New(db),
+		umsRoleService:  ums_role.New(db),
 	}
 }
 

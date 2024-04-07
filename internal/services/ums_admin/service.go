@@ -5,9 +5,11 @@ import (
 	"time"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
 	"github.com/ChangSZ/mall-go/internal/services/ums_user"
 	"github.com/ChangSZ/mall-go/pkg/jwt"
 	"github.com/ChangSZ/mall-go/pkg/password"
@@ -100,6 +102,10 @@ type UpdateAdminPasswordParam struct {
 
 func (s *service) UpdatePassword(ctx core.Context, updatePasswordParam *UpdateAdminPasswordParam) (int64, error) {
 	return 0, nil
+}
+
+func (s *service) GetRoleList(ctx core.Context, adminId int64) ([]ums_role.UmsRole, error) {
+	return dao.GetRoleList(s.db.GetDbR(), adminId)
 }
 
 // func (s *service) GetCacheService() *umsAdminCacheService {
