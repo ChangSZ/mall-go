@@ -1,12 +1,11 @@
 package ums_admin
 
 import (
-	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/services/ums_admin"
-	"github.com/ChangSZ/mall-go/pkg/hash"
+	"github.com/ChangSZ/mall-go/internal/services/ums_user"
 
 	"go.uber.org/zap"
 )
@@ -85,7 +84,6 @@ type Handler interface {
 type handler struct {
 	logger          *zap.Logger
 	cache           redis.Repo
-	hashids         hash.Hash
 	umsAdminService ums_admin.Service
 }
 
@@ -93,9 +91,12 @@ func New(logger *zap.Logger, db mysql.Repo, cache redis.Repo) Handler {
 	return &handler{
 		logger:          logger,
 		cache:           cache,
-		hashids:         hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
-		umsAdminService: ums_admin.New(db, cache),
+		umsAdminService: ums_admin.New(db),
 	}
 }
 
 func (h *handler) i() {}
+
+func InitUmsUserService(db mysql.Repo, cache redis.Repo) {
+	ums_user.DefaultService(db, cache)
+}

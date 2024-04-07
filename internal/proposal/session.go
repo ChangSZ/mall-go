@@ -13,3 +13,8 @@ func (user *SessionUserInfo) Marshal() (jsonRaw []byte) {
 	jsonRaw, _ = json.Marshal(user)
 	return
 }
+
+type UmsUserInfo struct {
+	UserName string `json:"username"` // 用户名
+	Token    string `json:"token"`    // token
+}

@@ -1,4 +1,4 @@
-package ums_admin
+package ums_user
 
 import (
 	"fmt"

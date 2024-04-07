@@ -2,6 +2,7 @@ package jwt
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -72,9 +73,15 @@ func (j *JwtTokenUtil) GetClaimsFromToken(tokenString string) (jwt.MapClaims, er
 }
 
 // ValidateToken 验证token是否还有效
-func (j *JwtTokenUtil) ValidateToken(tokenString string, username string) bool {
+func (j *JwtTokenUtil) ValidateToken(tokenString string, username string) error {
 	user := j.GetUserNameFromToken(tokenString)
-	return user == username && !j.isTokenExpired(tokenString)
+	if user != username {
+		return fmt.Errorf("token与用户不一致")
+	}
+	if j.isTokenExpired(tokenString) {
+		return jwt.ErrTokenExpired
+	}
+	return nil
 }
 
 // isTokenExpired 判断token是否已经失效

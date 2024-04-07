@@ -28,9 +28,9 @@ type refreshTokenResponse struct {
 func (h *handler) RefreshToken() core.HandlerFunc {
 	return func(c core.Context) {
 		res := new(refreshTokenResponse)
-		token := c.Request().Header.Get(configs.Get().Jwt.TokenHeader)
+		userInfo := c.GetUmsUserInfo()
 
-		token, err := h.umsAdminService.RefreshToken(c, token)
+		token, err := h.umsAdminService.RefreshToken(c, userInfo.Token)
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,

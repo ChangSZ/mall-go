@@ -30,6 +30,7 @@ const (
 	_SessionUserInfo = "_session_user_info"
 	_AbortErrorName  = "_abort_error_"
 	_IsRecordMetrics = "_is_record_metrics_"
+	_UmsUserInfo     = "_ums_user_info_"
 )
 
 var contextPool = &sync.Pool{
@@ -111,6 +112,10 @@ type Context interface {
 	// SessionUserInfo 当前用户信息
 	SessionUserInfo() proposal.SessionUserInfo
 	setSessionUserInfo(info proposal.SessionUserInfo)
+
+	// GetUmsUserInfo ums用户信息
+	GetUmsUserInfo() proposal.UmsUserInfo
+	setUmsUserInfo(proposal.UmsUserInfo)
 
 	// Alias 设置路由别名 for metrics path
 	Alias() string
@@ -235,7 +240,7 @@ func (c *context) setLogger(logger *zap.Logger) {
 }
 
 func (c *context) getPayload() interface{} {
-	if payload, ok := c.ctx.Get(_PayloadName); ok != false {
+	if payload, ok := c.ctx.Get(_PayloadName); ok {
 		return payload
 	}
 	return nil
@@ -281,6 +286,18 @@ func (c *context) SessionUserInfo() proposal.SessionUserInfo {
 
 func (c *context) setSessionUserInfo(info proposal.SessionUserInfo) {
 	c.ctx.Set(_SessionUserInfo, info)
+}
+
+func (c *context) GetUmsUserInfo() proposal.UmsUserInfo {
+	val, ok := c.ctx.Get(_UmsUserInfo)
+	if !ok {
+		return proposal.UmsUserInfo{}
+	}
+	return val.(proposal.UmsUserInfo)
+}
+
+func (c *context) setUmsUserInfo(info proposal.UmsUserInfo) {
+	c.ctx.Set(_UmsUserInfo, info)
 }
 
 func (c *context) AbortWithError(err BusinessError) {
