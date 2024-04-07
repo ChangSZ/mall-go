@@ -29,11 +29,11 @@ type Service interface {
 	 */
 	Login(ctx core.Context, username, password string) (string, error)
 
-	// /**
-	//  * 刷新token的功能
-	//  * @param oldToken 旧的token
-	//  */
-	// RefreshToken(ctx core.Context, oldToken string) (string, error)
+	/**
+	 * 刷新token的功能
+	 * @param oldToken 旧的token
+	 */
+	RefreshToken(ctx core.Context, oldToken string) (string, error)
 
 	/**
 	 * 根据用户id获取用户
