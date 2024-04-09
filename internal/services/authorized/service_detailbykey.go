@@ -28,7 +28,7 @@ func (s *service) DetailByKey(ctx core.Context, key string) (cacheData *CacheAut
 	// 查询缓存
 	cacheKey := configs.RedisKeyPrefixSignature + key
 
-	if !s.cache.Exists(cacheKey) {
+	if !redis.Cache().Exists(cacheKey) {
 		// 查询调用方信息
 		authorizedInfo, err := authorized.NewQueryBuilder().
 			WhereIsDeleted(mysql.EqualPredicate, -1).
@@ -67,7 +67,7 @@ func (s *service) DetailByKey(ctx core.Context, key string) (cacheData *CacheAut
 
 		cacheDataByte, _ := json.Marshal(cacheData)
 
-		err = s.cache.Set(cacheKey, string(cacheDataByte), configs.LoginSessionTTL, redis.WithTrace(ctx.Trace()))
+		err = redis.Cache().Set(cacheKey, string(cacheDataByte), configs.LoginSessionTTL, redis.WithTrace(ctx.Trace()))
 		if err != nil {
 			return nil, err
 		}
@@ -75,7 +75,7 @@ func (s *service) DetailByKey(ctx core.Context, key string) (cacheData *CacheAut
 		return cacheData, nil
 	}
 
-	value, err := s.cache.Get(cacheKey, redis.WithTrace(ctx.RequestContext().Trace))
+	value, err := redis.Cache().Get(cacheKey, redis.WithTrace(ctx.RequestContext().Trace))
 	if err != nil {
 		return nil, err
 	}

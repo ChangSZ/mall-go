@@ -41,7 +41,7 @@ func (h *handler) SearchCache() core.HandlerFunc {
 			return
 		}
 
-		if b := h.cache.Exists(req.RedisKey); b != true {
+		if b := redis.Cache().Exists(req.RedisKey); !b {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,
 				code.CacheNotExist,
@@ -50,7 +50,7 @@ func (h *handler) SearchCache() core.HandlerFunc {
 			return
 		}
 
-		val, err := h.cache.Get(req.RedisKey, redis.WithTrace(c.Trace()))
+		val, err := redis.Cache().Get(req.RedisKey, redis.WithTrace(c.Trace()))
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,
@@ -60,7 +60,7 @@ func (h *handler) SearchCache() core.HandlerFunc {
 			return
 		}
 
-		ttl, err := h.cache.TTL(req.RedisKey)
+		ttl, err := redis.Cache().TTL(req.RedisKey)
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,

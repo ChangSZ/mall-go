@@ -30,7 +30,6 @@ import (
 	"golang.org/x/time/rate"
 )
 
-// see https://patorjk.com/software/taag/#p=testall&f=Graffiti&t=go-gin-api
 const _UI = `
 _      ____  _     _           _____ ____ 
 / \__/|/  _ \/ \   / \         /  __//  _ \

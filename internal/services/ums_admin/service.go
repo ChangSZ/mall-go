@@ -109,5 +109,5 @@ func (s *service) GetRoleList(ctx core.Context, adminId int64) ([]ums_role.UmsRo
 }
 
 // func (s *service) GetCacheService() *umsAdminCacheService {
-// 	return s.cache
+// 	return redis.Cache()
 // }

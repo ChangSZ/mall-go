@@ -46,7 +46,6 @@ var _ gorm.Plugin = &TracePlugin{}
 
 func before(db *gorm.DB) {
 	db.InstanceSet(startTime, time.Now())
-	return
 }
 
 func after(db *gorm.DB) {
@@ -78,6 +77,4 @@ func after(db *gorm.DB) {
 	if ctx.Trace != nil {
 		ctx.Trace.AppendSQL(sqlInfo)
 	}
-
-	return
 }

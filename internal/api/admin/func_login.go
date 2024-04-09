@@ -81,7 +81,7 @@ func (h *handler) Login() core.HandlerFunc {
 		}
 
 		// 将用户信息记录到 Redis 中
-		err = h.cache.Set(configs.RedisKeyPrefixLoginUser+token, string(sessionUserInfo.Marshal()), configs.LoginSessionTTL, redis.WithTrace(c.Trace()))
+		err = redis.Cache().Set(configs.RedisKeyPrefixLoginUser+token, string(sessionUserInfo.Marshal()), configs.LoginSessionTTL, redis.WithTrace(c.Trace()))
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,
@@ -107,7 +107,7 @@ func (h *handler) Login() core.HandlerFunc {
 		menuJsonInfo, _ := json.Marshal(menu)
 
 		// 将菜单栏信息记录到 Redis 中
-		err = h.cache.Set(configs.RedisKeyPrefixLoginUser+token+":menu", string(menuJsonInfo), configs.LoginSessionTTL, redis.WithTrace(c.Trace()))
+		err = redis.Cache().Set(configs.RedisKeyPrefixLoginUser+token+":menu", string(menuJsonInfo), configs.LoginSessionTTL, redis.WithTrace(c.Trace()))
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,
@@ -133,7 +133,7 @@ func (h *handler) Login() core.HandlerFunc {
 		actionJsonInfo, _ := json.Marshal(action)
 
 		// 将可访问接口信息记录到 Redis 中
-		err = h.cache.Set(configs.RedisKeyPrefixLoginUser+token+":action", string(actionJsonInfo), configs.LoginSessionTTL, redis.WithTrace(c.Trace()))
+		err = redis.Cache().Set(configs.RedisKeyPrefixLoginUser+token+":action", string(actionJsonInfo), configs.LoginSessionTTL, redis.WithTrace(c.Trace()))
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,

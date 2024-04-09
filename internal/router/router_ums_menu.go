@@ -4,7 +4,7 @@ import "github.com/ChangSZ/mall-go/internal/api/ums_menu"
 
 // 后台菜单管理
 func setUmsMenuRouter(r *resource) {
-	menuHandler := ums_menu.New(r.logger, r.db, r.cache)
+	menuHandler := ums_menu.New(r.logger, r.db)
 	menus := r.mux.Group("/menu")
 	{
 		menus.POST("/create", menuHandler.Create())                 // 添加后台菜单

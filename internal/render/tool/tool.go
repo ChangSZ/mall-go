@@ -6,7 +6,6 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
-	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/pkg/file"
 
 	"go.uber.org/zap"
@@ -14,13 +13,11 @@ import (
 
 type handler struct {
 	logger *zap.Logger
-	cache  redis.Repo
 }
 
-func New(logger *zap.Logger, db mysql.Repo, cache redis.Repo) *handler {
+func New(logger *zap.Logger, db mysql.Repo) *handler {
 	return &handler{
 		logger: logger,
-		cache:  cache,
 	}
 }
 

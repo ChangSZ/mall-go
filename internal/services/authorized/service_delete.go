@@ -33,6 +33,6 @@ func (s *service) Delete(ctx core.Context, id int32) (err error) {
 		return err
 	}
 
-	s.cache.Del(configs.RedisKeyPrefixSignature+authorizedInfo.BusinessKey, redis.WithTrace(ctx.Trace()))
+	redis.Cache().Del(configs.RedisKeyPrefixSignature+authorizedInfo.BusinessKey, redis.WithTrace(ctx.Trace()))
 	return
 }

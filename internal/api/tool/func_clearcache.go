@@ -40,7 +40,7 @@ func (h *handler) ClearCache() core.HandlerFunc {
 			return
 		}
 
-		if b := h.cache.Exists(req.RedisKey); b != true {
+		if b := redis.Cache().Exists(req.RedisKey); !b {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,
 				code.CacheNotExist,
@@ -49,8 +49,7 @@ func (h *handler) ClearCache() core.HandlerFunc {
 			return
 		}
 
-		b := h.cache.Del(req.RedisKey, redis.WithTrace(c.Trace()))
-		if b != true {
+		if b := redis.Cache().Del(req.RedisKey, redis.WithTrace(c.Trace())); !b {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,
 				code.CacheDelError,
@@ -59,7 +58,7 @@ func (h *handler) ClearCache() core.HandlerFunc {
 			return
 		}
 
-		res.Bool = b
+		res.Bool = true
 		c.Payload(res)
 	}
 }

@@ -20,7 +20,6 @@ var (
 )
 
 type umsUserCacheService struct {
-	cache   redis.Repo
 	service *service
 }
 
@@ -28,13 +27,13 @@ func (s *umsUserCacheService) DelAdmin(ctx core.Context, adminId int64) {
 	admin, _ := s.service.GetItem(ctx, adminId)
 	if admin != nil {
 		key := REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.Username
-		s.cache.Del(key)
+		redis.Cache().Del(key)
 	}
 }
 
 func (s *umsUserCacheService) DelResourceList(ctx core.Context, adminId int64) {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
-	s.cache.Del(key)
+	redis.Cache().Del(key)
 }
 
 func (s *umsUserCacheService) DelResourceListByRole(ctx core.Context, roleId int64) {
@@ -51,7 +50,7 @@ func (s *umsUserCacheService) DelResourceListByResource(ctx core.Context, resour
 
 func (s *umsUserCacheService) GetAdmin(ctx core.Context, username string) *ums_admin.UmsAdmin {
 	key := REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + username
-	ret, err := s.cache.Get(key)
+	ret, err := redis.Cache().Get(key)
 	if err != nil {
 		return nil
 	}
@@ -65,12 +64,12 @@ func (s *umsUserCacheService) GetAdmin(ctx core.Context, username string) *ums_a
 func (s *umsUserCacheService) SetAdmin(ctx core.Context, admin *ums_admin.UmsAdmin) {
 	key := REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.Username
 	adminBytes, _ := json.Marshal(admin)
-	s.cache.Set(key, string(adminBytes), REDIS_EXPIRE)
+	redis.Cache().Set(key, string(adminBytes), REDIS_EXPIRE)
 }
 
 func (s *umsUserCacheService) GetResourceList(ctx core.Context, adminId int64) []*ums_resource.UmsResource {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
-	ret, err := s.cache.Get(key)
+	ret, err := redis.Cache().Get(key)
 	if err != nil {
 		return nil
 	}
@@ -85,5 +84,5 @@ func (s *umsUserCacheService) SetResourceList(ctx core.Context,
 	adminId int64, resourceList []*ums_resource.UmsResource) {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
 	resourceListBytes, _ := json.Marshal(resourceList)
-	s.cache.Set(key, string(resourceListBytes), REDIS_EXPIRE)
+	redis.Cache().Set(key, string(resourceListBytes), REDIS_EXPIRE)
 }

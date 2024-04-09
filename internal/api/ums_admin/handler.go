@@ -3,7 +3,6 @@ package ums_admin
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
-	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/services/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/services/ums_role"
 	"github.com/ChangSZ/mall-go/internal/services/ums_user"
@@ -79,15 +78,13 @@ type Handler interface {
 
 type handler struct {
 	logger          *zap.Logger
-	cache           redis.Repo
 	umsAdminService ums_admin.Service
 	umsRoleService  ums_role.Service
 }
 
-func New(logger *zap.Logger, db mysql.Repo, cache redis.Repo) Handler {
+func New(logger *zap.Logger, db mysql.Repo) Handler {
 	return &handler{
 		logger:          logger,
-		cache:           cache,
 		umsAdminService: ums_admin.New(db),
 		umsRoleService:  ums_role.New(db),
 	}
@@ -95,6 +92,6 @@ func New(logger *zap.Logger, db mysql.Repo, cache redis.Repo) Handler {
 
 func (h *handler) i() {}
 
-func InitUmsUserService(db mysql.Repo, cache redis.Repo) {
-	ums_user.DefaultService(db, cache)
+func InitUmsUserService(db mysql.Repo) {
+	ums_user.DefaultService(db)
 }

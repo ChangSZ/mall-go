@@ -1,6 +1,7 @@
 package redis
 
 import (
+	"fmt"
 	"strings"
 	"time"
 
@@ -41,19 +42,24 @@ type Repo interface {
 	Version() string
 }
 
+var cache *cacheRepo
+
 type cacheRepo struct {
 	client *redis.Client
 }
 
-func New() (Repo, error) {
+func Init() error {
 	client, err := redisConnect()
 	if err != nil {
-		return nil, err
+		panic(fmt.Sprintf("redis连接失败: %v", err))
 	}
 
-	return &cacheRepo{
-		client: client,
-	}, nil
+	cache = &cacheRepo{client: client}
+	return nil
+}
+
+func Cache() *cacheRepo {
+	return cache
 }
 
 func (c *cacheRepo) i() {}

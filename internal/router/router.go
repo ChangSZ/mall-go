@@ -19,7 +19,6 @@ type resource struct {
 	mux          core.Mux
 	logger       *zap.Logger
 	db           mysql.Repo
-	cache        redis.Repo
 	interceptors interceptor.Interceptor
 	cronServer   cron.Server
 }
@@ -27,7 +26,6 @@ type resource struct {
 type Server struct {
 	Mux        core.Mux
 	Db         mysql.Repo
-	Cache      redis.Repo
 	CronServer cron.Server
 }
 
@@ -54,14 +52,10 @@ func NewHTTPServer(logger *zap.Logger, cronLogger *zap.Logger) (*Server, error) 
 		r.db = dbRepo
 
 		// 初始化 Cache
-		cacheRepo, err := redis.New()
-		if err != nil {
-			logger.Fatal("new cache err", zap.Error(err))
-		}
-		r.cache = cacheRepo
+		redis.Init()
 
 		// 初始化 CRON Server
-		cronServer, err := cron.New(cronLogger, dbRepo, cacheRepo)
+		cronServer, err := cron.New(cronLogger, dbRepo)
 		if err != nil {
 			logger.Fatal("new cron err", zap.Error(err))
 		}
@@ -82,7 +76,7 @@ func NewHTTPServer(logger *zap.Logger, cronLogger *zap.Logger) (*Server, error) 
 	}
 
 	r.mux = mux
-	r.interceptors = interceptor.New(logger, r.cache, r.db)
+	r.interceptors = interceptor.New(logger, r.db)
 
 	// 设置 Render 路由
 	setRenderRouter(r)
@@ -104,7 +98,6 @@ func NewHTTPServer(logger *zap.Logger, cronLogger *zap.Logger) (*Server, error) 
 	s := new(Server)
 	s.Mux = mux
 	s.Db = r.db
-	s.Cache = r.cache
 	s.CronServer = r.cronServer
 
 	return s, nil

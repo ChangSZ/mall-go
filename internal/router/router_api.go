@@ -13,7 +13,7 @@ import (
 
 func setApiRouter(r *resource) {
 	// helper
-	helperHandler := helper.New(r.logger, r.db, r.cache)
+	helperHandler := helper.New(r.logger, r.db)
 
 	helpers := r.mux.Group("/helper")
 	{
@@ -22,7 +22,7 @@ func setApiRouter(r *resource) {
 	}
 
 	// admin
-	adminHandler := admin.New(r.logger, r.db, r.cache)
+	adminHandler := admin.New(r.logger, r.db)
 
 	// 需要签名验证，无需登录验证，无需 RBAC 权限验证
 	login := r.mux.Group("/api", r.interceptors.CheckSignature())
@@ -43,7 +43,7 @@ func setApiRouter(r *resource) {
 	api := r.mux.Group("/api", core.WrapAuthHandler(r.interceptors.CheckLogin), r.interceptors.CheckSignature(), r.interceptors.CheckRBAC())
 	{
 		// authorized
-		authorizedHandler := authorized.New(r.logger, r.db, r.cache)
+		authorizedHandler := authorized.New(r.logger, r.db)
 		api.POST("/authorized", authorizedHandler.Create())
 		api.GET("/authorized", authorizedHandler.List())
 		api.PATCH("/authorized/used", authorizedHandler.UpdateUsed())
@@ -64,7 +64,7 @@ func setApiRouter(r *resource) {
 		api.GET("/admin/menu/:id", core.AliasForRecordMetrics("/api/admin/menu"), adminHandler.ListAdminMenu())
 
 		// menu
-		menuHandler := menu.New(r.logger, r.db, r.cache)
+		menuHandler := menu.New(r.logger, r.db)
 		api.POST("/menu", menuHandler.Create())
 		api.GET("/menu", menuHandler.List())
 		api.GET("/menu/:id", core.AliasForRecordMetrics("/api/menu"), menuHandler.Detail())
@@ -76,7 +76,7 @@ func setApiRouter(r *resource) {
 		api.DELETE("/menu_action/:id", core.AliasForRecordMetrics("/api/menu_action"), menuHandler.DeleteAction())
 
 		// tool
-		toolHandler := tool.New(r.logger, r.db, r.cache)
+		toolHandler := tool.New(r.logger, r.db)
 		api.GET("/tool/hashids/encode/:id", core.AliasForRecordMetrics("/api/tool/hashids/encode"), toolHandler.HashIdsEncode())
 		api.GET("/tool/hashids/decode/:id", core.AliasForRecordMetrics("/api/tool/hashids/decode"), toolHandler.HashIdsDecode())
 		api.POST("/tool/cache/search", toolHandler.SearchCache())
@@ -87,11 +87,11 @@ func setApiRouter(r *resource) {
 		api.POST("/tool/send_message", toolHandler.SendMessage())
 
 		// config
-		configHandler := config.New(r.logger, r.db, r.cache)
+		configHandler := config.New(r.logger, r.db)
 		api.PATCH("/config/email", configHandler.Email())
 
 		// cron
-		cronHandler := cron.New(r.logger, r.db, r.cache, r.cronServer)
+		cronHandler := cron.New(r.logger, r.db, r.cronServer)
 		api.POST("/cron", cronHandler.Create())
 		api.GET("/cron", cronHandler.List())
 		api.GET("/cron/:id", core.AliasForRecordMetrics("/api/cron/detail"), cronHandler.Detail())

@@ -26,6 +26,6 @@ func (s *service) CreateAPI(ctx core.Context, authorizedAPIData *CreateAuthorize
 		return 0, err
 	}
 
-	s.cache.Del(configs.RedisKeyPrefixSignature+authorizedAPIData.BusinessKey, redis.WithTrace(ctx.Trace()))
+	redis.Cache().Del(configs.RedisKeyPrefixSignature+authorizedAPIData.BusinessKey, redis.WithTrace(ctx.Trace()))
 	return
 }
