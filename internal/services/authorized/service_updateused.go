@@ -14,7 +14,7 @@ func (s *service) UpdateUsed(ctx core.Context, id int32, used int32) (err error)
 	authorizedInfo, err := authorized.NewQueryBuilder().
 		WhereIsDeleted(mysql.EqualPredicate, -1).
 		WhereId(mysql.EqualPredicate, id).
-		First(s.db.GetDbR().WithContext(ctx.RequestContext()))
+		First(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
 
 	if err == gorm.ErrRecordNotFound {
 		return nil
@@ -27,7 +27,7 @@ func (s *service) UpdateUsed(ctx core.Context, id int32, used int32) (err error)
 
 	qb := authorized.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	err = qb.Updates(s.db.GetDbW().WithContext(ctx.RequestContext()), data)
+	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx.RequestContext()), data)
 	if err != nil {
 		return err
 	}

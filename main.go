@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/router"
 	"github.com/ChangSZ/mall-go/pkg/env"
@@ -93,12 +94,12 @@ func main() {
 
 		// 关闭 db
 		func() {
-			if s.Db != nil {
-				if err := s.Db.DbWClose(); err != nil {
+			if mysql.DB() != nil {
+				if err := mysql.DB().DbWClose(); err != nil {
 					accessLogger.Error("dbw close err", zap.Error(err))
 				}
 
-				if err := s.Db.DbRClose(); err != nil {
+				if err := mysql.DB().DbRClose(); err != nil {
 					accessLogger.Error("dbr close err", zap.Error(err))
 				}
 			}

@@ -6,6 +6,7 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 )
 
 type tablesRequest struct {
@@ -48,7 +49,7 @@ func (h *handler) Tables() core.HandlerFunc {
 		sqlTables := fmt.Sprintf("SELECT `table_name`,`table_comment` FROM `information_schema`.`tables` WHERE `table_schema`= '%s'", req.DbName)
 
 		// TODO 后期支持查询多个数据库
-		rows, err := h.db.GetDbR().Raw(sqlTables).Rows()
+		rows, err := mysql.DB().GetDbR().Raw(sqlTables).Rows()
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,

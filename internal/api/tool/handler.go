@@ -3,7 +3,6 @@ package tool
 import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/pkg/hash"
 
 	"go.uber.org/zap"
@@ -57,14 +56,12 @@ type Handler interface {
 
 type handler struct {
 	logger  *zap.Logger
-	db      mysql.Repo
 	hashids hash.Hash
 }
 
-func New(logger *zap.Logger, db mysql.Repo) Handler {
+func New(logger *zap.Logger) Handler {
 	return &handler{
 		logger:  logger,
-		db:      db,
 		hashids: hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
 	}
 }

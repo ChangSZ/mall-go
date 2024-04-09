@@ -2,7 +2,6 @@ package helper
 
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
 
 	"go.uber.org/zap"
@@ -26,15 +25,13 @@ type Handler interface {
 
 type handler struct {
 	logger            *zap.Logger
-	db                mysql.Repo
 	authorizedService authorized.Service
 }
 
-func New(logger *zap.Logger, db mysql.Repo) Handler {
+func New(logger *zap.Logger) Handler {
 	return &handler{
 		logger:            logger,
-		db:                db,
-		authorizedService: authorized.New(db),
+		authorizedService: authorized.New(),
 	}
 }
 

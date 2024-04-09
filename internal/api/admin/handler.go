@@ -3,7 +3,6 @@ package admin
 import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/hash"
 
@@ -87,11 +86,11 @@ type handler struct {
 	adminService admin.Service
 }
 
-func New(logger *zap.Logger, db mysql.Repo) Handler {
+func New(logger *zap.Logger) Handler {
 	return &handler{
 		logger:       logger,
 		hashids:      hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
-		adminService: admin.New(db),
+		adminService: admin.New(),
 	}
 }
 

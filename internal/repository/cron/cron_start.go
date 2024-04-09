@@ -16,7 +16,7 @@ func (s *server) Start() {
 
 	qb := cron_task.NewQueryBuilder()
 	qb.WhereIsUsed(mysql.EqualPredicate, cron_task.IsUsedYES)
-	totalNum, err := qb.Count(s.db.GetDbR())
+	totalNum, err := qb.Count(mysql.DB().GetDbR())
 	if err != nil {
 		s.logger.Fatal("cron initialize tasks count err", zap.Error(err))
 	}
@@ -34,7 +34,7 @@ func (s *server) Start() {
 			Limit(pageSize).
 			Offset((page - 1) * pageSize).
 			OrderById(false).
-			QueryAll(s.db.GetDbR())
+			QueryAll(mysql.DB().GetDbR())
 		if err != nil {
 			s.logger.Fatal("cron initialize tasks list err", zap.Error(err))
 		}

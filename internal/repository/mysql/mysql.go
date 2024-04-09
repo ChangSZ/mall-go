@@ -42,22 +42,24 @@ type dbRepo struct {
 	DbW *gorm.DB
 }
 
-func New() (Repo, error) {
+var db *dbRepo
+
+func Init() {
 	cfg := configs.Get().MySQL
 	dbr, err := dbConnect(cfg.Read.User, cfg.Read.Pass, cfg.Read.Addr, cfg.Read.Name)
 	if err != nil {
-		return nil, err
+		panic(fmt.Sprintf("mysql读库连接失败: %v", err))
 	}
 
 	dbw, err := dbConnect(cfg.Write.User, cfg.Write.Pass, cfg.Write.Addr, cfg.Write.Name)
 	if err != nil {
-		return nil, err
+		panic(fmt.Sprintf("mysql写库连接失败: %v", err))
 	}
+	db = &dbRepo{DbR: dbr, DbW: dbw}
+}
 
-	return &dbRepo{
-		DbR: dbr,
-		DbW: dbw,
-	}, nil
+func DB() *dbRepo {
+	return db
 }
 
 func (d *dbRepo) i() {}

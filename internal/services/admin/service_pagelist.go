@@ -47,7 +47,7 @@ func (s *service) PageList(ctx core.Context, searchData *SearchData) (listData [
 		Limit(pageSize).
 		Offset(offset).
 		OrderById(false).
-		QueryAll(s.db.GetDbR().WithContext(ctx.RequestContext()))
+		QueryAll(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
 	if err != nil {
 		return nil, err
 	}

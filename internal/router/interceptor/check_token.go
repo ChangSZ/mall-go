@@ -31,7 +31,7 @@ func (i *interceptor) CheckToken(ctx core.Context) (userInfo proposal.UmsUserInf
 	}
 	token = strings.TrimPrefix(token, jwtConfig.TokenHead)
 	username := jwtTokenUtil.GetUserNameFromToken(token)
-	userDetails, loadErr := ums_user.DefalutService.LoadUserByUsername(ctx, username)
+	userDetails, loadErr := ums_user.New().LoadUserByUsername(ctx, username)
 	if loadErr != nil {
 		err = core.Error(
 			http.StatusUnauthorized,

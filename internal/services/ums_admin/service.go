@@ -20,13 +20,10 @@ var (
 	jwtTokenUtil = jwt.NewJwtTokenUtil(jwtConfig.Secret, jwtConfig.Expiration, jwtConfig.TokenHead)
 )
 
-type service struct {
-	db mysql.Repo
-}
+type service struct{}
 
-func New(db mysql.Repo) Service {
-	s := &service{db: db}
-	return s
+func New() Service {
+	return &service{}
 }
 
 func (s *service) i() {}
@@ -58,7 +55,7 @@ func (s *service) Register(ctx core.Context, umsAdminParam *UmsAdminParam) (*ums
 	// 查询是否有相同用户名的用户
 	queryBuilder := ums_admin.NewQueryBuilder()
 	queryBuilder.WhereUsername(mysql.EqualPredicate, umsAdmin.Username)
-	umsAdminList, err := queryBuilder.QueryAll(s.db.GetDbR())
+	umsAdminList, err := queryBuilder.QueryAll(mysql.DB().GetDbR())
 	if err != nil {
 		return nil, err
 	}
@@ -66,13 +63,13 @@ func (s *service) Register(ctx core.Context, umsAdminParam *UmsAdminParam) (*ums
 		return nil, fmt.Errorf("用户名已存在")
 	}
 
-	_, err = umsAdmin.Create(s.db.GetDbW().WithContext(ctx.RequestContext()))
+	_, err = umsAdmin.Create(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
 	return umsAdmin, err
 }
 
 func (s *service) Login(ctx core.Context, username, passwd string) (string, error) {
 	var token string
-	userDetails, err := ums_user.DefalutService.LoadUserByUsername(ctx, username)
+	userDetails, err := ums_user.New().LoadUserByUsername(ctx, username)
 	if err != nil {
 		return "", err
 	}
@@ -105,7 +102,7 @@ func (s *service) UpdatePassword(ctx core.Context, updatePasswordParam *UpdateAd
 }
 
 func (s *service) GetRoleList(ctx core.Context, adminId int64) ([]ums_role.UmsRole, error) {
-	return dao.GetRoleList(s.db.GetDbR(), adminId)
+	return dao.GetRoleList(mysql.DB().GetDbR(), adminId)
 }
 
 // func (s *service) GetCacheService() *umsAdminCacheService {

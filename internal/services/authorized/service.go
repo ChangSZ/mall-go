@@ -2,7 +2,6 @@ package authorized
 
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized_api"
 )
@@ -26,14 +25,10 @@ type Service interface {
 	DeleteAPI(ctx core.Context, id int32) (err error)
 }
 
-type service struct {
-	db mysql.Repo
-}
+type service struct{}
 
-func New(db mysql.Repo) Service {
-	return &service{
-		db: db,
-	}
+func New() Service {
+	return &service{}
 }
 
 func (s *service) i() {}

@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/pkg/errors"
 
 	"github.com/gorilla/websocket"
@@ -15,7 +14,6 @@ var _ Server = (*server)(nil)
 
 type server struct {
 	logger *zap.Logger
-	db     mysql.Repo
 	socket *websocket.Conn
 }
 
@@ -39,15 +37,10 @@ var upGrader = websocket.Upgrader{
 	},
 }
 
-func New(logger *zap.Logger, db mysql.Repo, w http.ResponseWriter, r *http.Request, responseHeader http.Header) (Server, error) {
+func New(logger *zap.Logger, w http.ResponseWriter, r *http.Request, responseHeader http.Header) (Server, error) {
 	if logger == nil {
 		return nil, errors.New("logger required")
 	}
-
-	if db == nil {
-		return nil, errors.New("db required")
-	}
-
 	ws, err := upGrader.Upgrade(w, r, responseHeader)
 	if err != nil {
 		return nil, errors.Wrap(err, "ws error")
@@ -55,7 +48,6 @@ func New(logger *zap.Logger, db mysql.Repo, w http.ResponseWriter, r *http.Reque
 
 	return &server{
 		logger: logger,
-		db:     db,
 		socket: ws,
 	}, nil
 }

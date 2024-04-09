@@ -4,7 +4,6 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	cronRepo "github.com/ChangSZ/mall-go/internal/repository/cron"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/services/cron"
 	"github.com/ChangSZ/mall-go/pkg/hash"
 
@@ -53,11 +52,11 @@ type handler struct {
 	cronService cron.Service
 }
 
-func New(logger *zap.Logger, db mysql.Repo, cronServer cronRepo.Server) Handler {
+func New(logger *zap.Logger, cronServer cronRepo.Server) Handler {
 	return &handler{
 		logger:      logger,
 		hashids:     hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
-		cronService: cron.New(db, cronServer),
+		cronService: cron.New(cronServer),
 	}
 }
 

@@ -5,6 +5,7 @@ import (
 
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 
 	"go.uber.org/zap"
 )
@@ -21,7 +22,7 @@ func (h *handler) GormView() core.HandlerFunc {
 
 		mysqlConf := configs.Get().MySQL.Read
 		sqlTables := fmt.Sprintf("SELECT `table_name`,`table_comment` FROM `information_schema`.`tables` WHERE `table_schema`= '%s'", mysqlConf.Name)
-		rows, err := h.db.GetDbR().Raw(sqlTables).Rows()
+		rows, err := mysql.DB().GetDbR().Raw(sqlTables).Rows()
 		if err != nil {
 			h.logger.Error("rows err", zap.Error(err))
 

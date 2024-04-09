@@ -2,7 +2,6 @@ package sysmessage
 
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/socket"
 	"github.com/ChangSZ/mall-go/pkg/errors"
 
@@ -16,13 +15,11 @@ var (
 
 type handler struct {
 	logger *zap.Logger
-	db     mysql.Repo
 }
 
-func New(logger *zap.Logger, db mysql.Repo) *handler {
+func New(logger *zap.Logger) *handler {
 	return &handler{
 		logger: logger,
-		db:     db,
 	}
 }
 
@@ -36,7 +33,7 @@ func GetConn() (socket.Server, error) {
 
 func (h *handler) Connect() core.HandlerFunc {
 	return func(ctx core.Context) {
-		server, err = socket.New(h.logger, h.db, ctx.ResponseWriter(), ctx.Request(), nil)
+		server, err = socket.New(h.logger, ctx.ResponseWriter(), ctx.Request(), nil)
 		if err != nil {
 			return
 		}

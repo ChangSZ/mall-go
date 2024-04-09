@@ -46,7 +46,7 @@ func (s *service) Modify(ctx core.Context, id int32, modifyData *ModifyCronTaskD
 
 	qb := cron_task.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	err = qb.Updates(s.db.GetDbW().WithContext(ctx.RequestContext()), data)
+	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx.RequestContext()), data)
 	if err != nil {
 		return err
 	}
@@ -57,7 +57,7 @@ func (s *service) Modify(ctx core.Context, id int32, modifyData *ModifyCronTaskD
 	} else {
 		qb = cron_task.NewQueryBuilder()
 		qb.WhereId(mysql.EqualPredicate, id)
-		info, err := qb.QueryOne(s.db.GetDbW().WithContext(ctx.RequestContext()))
+		info, err := qb.QueryOne(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
 		if err != nil {
 			return err
 		}
