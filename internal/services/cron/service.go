@@ -3,7 +3,6 @@ package cron
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/cron"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 )
 
@@ -22,15 +21,11 @@ type Service interface {
 }
 
 type service struct {
-	db         mysql.Repo
 	cronServer cron.Server
 }
 
-func New(db mysql.Repo, cron cron.Server) Service {
-	return &service{
-		db:         db,
-		cronServer: cron,
-	}
+func New(cron cron.Server) Service {
+	return &service{cronServer: cron}
 }
 
 func (s *service) i() {}

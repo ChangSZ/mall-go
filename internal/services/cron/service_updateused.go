@@ -16,7 +16,7 @@ func (s *service) UpdateUsed(ctx core.Context, id int32, used int32) (err error)
 
 	qb := cron_task.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	err = qb.Updates(s.db.GetDbW().WithContext(ctx.RequestContext()), data)
+	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx.RequestContext()), data)
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func (s *service) UpdateUsed(ctx core.Context, id int32, used int32) (err error)
 	} else {
 		qb = cron_task.NewQueryBuilder()
 		qb.WhereId(mysql.EqualPredicate, id)
-		info, err := qb.QueryOne(s.db.GetDbW().WithContext(ctx.RequestContext()))
+		info, err := qb.QueryOne(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
 		if err != nil {
 			return err
 		}

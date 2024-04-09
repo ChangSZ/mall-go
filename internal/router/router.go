@@ -18,14 +18,12 @@ import (
 type resource struct {
 	mux          core.Mux
 	logger       *zap.Logger
-	db           mysql.Repo
 	interceptors interceptor.Interceptor
 	cronServer   cron.Server
 }
 
 type Server struct {
 	Mux        core.Mux
-	Db         mysql.Repo
 	CronServer cron.Server
 }
 
@@ -43,19 +41,14 @@ func NewHTTPServer(logger *zap.Logger, cronLogger *zap.Logger) (*Server, error) 
 	if !ok { // 未安装
 		openBrowserUri += "/install"
 	} else { // 已安装
-
 		// 初始化 DB
-		dbRepo, err := mysql.New()
-		if err != nil {
-			logger.Fatal("new db err", zap.Error(err))
-		}
-		r.db = dbRepo
+		mysql.Init()
 
 		// 初始化 Cache
 		redis.Init()
 
 		// 初始化 CRON Server
-		cronServer, err := cron.New(cronLogger, dbRepo)
+		cronServer, err := cron.New(cronLogger)
 		if err != nil {
 			logger.Fatal("new cron err", zap.Error(err))
 		}
@@ -76,7 +69,7 @@ func NewHTTPServer(logger *zap.Logger, cronLogger *zap.Logger) (*Server, error) 
 	}
 
 	r.mux = mux
-	r.interceptors = interceptor.New(logger, r.db)
+	r.interceptors = interceptor.New(logger)
 
 	// 设置 Render 路由
 	setRenderRouter(r)
@@ -97,7 +90,6 @@ func NewHTTPServer(logger *zap.Logger, cronLogger *zap.Logger) (*Server, error) 
 
 	s := new(Server)
 	s.Mux = mux
-	s.Db = r.db
 	s.CronServer = r.cronServer
 
 	return s, nil

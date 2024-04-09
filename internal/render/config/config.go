@@ -7,7 +7,6 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
@@ -21,10 +20,8 @@ type handler struct {
 	logger *zap.Logger
 }
 
-func New(logger *zap.Logger, db mysql.Repo) *handler {
-	return &handler{
-		logger: logger,
-	}
+func New(logger *zap.Logger) *handler {
+	return &handler{logger: logger}
 }
 
 func (h *handler) Email() core.HandlerFunc {

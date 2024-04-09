@@ -16,9 +16,7 @@ type handler struct {
 }
 
 func New(logger *zap.Logger) *handler {
-	return &handler{
-		logger: logger,
-	}
+	return &handler{logger: logger}
 }
 
 func (h *handler) View() core.HandlerFunc {

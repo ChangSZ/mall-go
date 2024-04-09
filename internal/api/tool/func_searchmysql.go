@@ -7,6 +7,7 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 
 	"github.com/spf13/cast"
 )
@@ -140,7 +141,7 @@ func (h *handler) SearchMySQL() core.HandlerFunc {
 		}
 
 		// TODO 后期支持查询多个数据库
-		rows, err := h.db.GetDbR().Raw(sql).Rows()
+		rows, err := mysql.DB().GetDbR().Raw(sql).Rows()
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,
@@ -189,7 +190,7 @@ func (h *handler) SearchMySQL() core.HandlerFunc {
 		sqlTableColumn := fmt.Sprintf("SELECT `COLUMN_NAME`, `COLUMN_COMMENT` FROM `information_schema`.`columns` WHERE `table_schema`= '%s' AND `table_name`= '%s' ORDER BY `ORDINAL_POSITION` ASC",
 			req.DbName, req.TableName)
 
-		rows, err = h.db.GetDbR().Raw(sqlTableColumn).Rows()
+		rows, err = mysql.DB().GetDbR().Raw(sqlTableColumn).Rows()
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,

@@ -20,7 +20,7 @@ func (s *service) ModifyPersonalInfo(ctx core.Context, id int32, modifyData *Mod
 
 	qb := admin.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	err = qb.Updates(s.db.GetDbW().WithContext(ctx.RequestContext()), data)
+	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx.RequestContext()), data)
 	if err != nil {
 		return err
 	}

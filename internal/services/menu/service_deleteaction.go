@@ -13,7 +13,7 @@ func (s *service) DeleteAction(ctx core.Context, id int32) (err error) {
 	_, err = menu_action.NewQueryBuilder().
 		WhereIsDeleted(mysql.EqualPredicate, -1).
 		WhereId(mysql.EqualPredicate, id).
-		First(s.db.GetDbR().WithContext(ctx.RequestContext()))
+		First(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
 
 	if err == gorm.ErrRecordNotFound {
 		return nil
@@ -26,7 +26,7 @@ func (s *service) DeleteAction(ctx core.Context, id int32) (err error) {
 
 	qb := menu_action.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	err = qb.Updates(s.db.GetDbW().WithContext(ctx.RequestContext()), data)
+	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx.RequestContext()), data)
 	if err != nil {
 		return err
 	}

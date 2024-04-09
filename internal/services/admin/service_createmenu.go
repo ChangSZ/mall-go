@@ -18,7 +18,7 @@ type CreateMenuData struct {
 func (s *service) CreateMenu(ctx core.Context, menuData *CreateMenuData) (err error) {
 	qb := admin_menu.NewQueryBuilder()
 	qb.WhereAdminId(mysql.EqualPredicate, menuData.AdminId)
-	if err = qb.Delete(s.db.GetDbW().WithContext(ctx.RequestContext())); err != nil {
+	if err = qb.Delete(mysql.DB().GetDbW().WithContext(ctx.RequestContext())); err != nil {
 		return
 	}
 
@@ -29,7 +29,7 @@ func (s *service) CreateMenu(ctx core.Context, menuData *CreateMenuData) (err er
 		createModel.MenuId = cast.ToInt32(v)
 		createModel.CreatedUser = ctx.SessionUserInfo().UserName
 
-		_, err = createModel.Create(s.db.GetDbW().WithContext(ctx.RequestContext()))
+		_, err = createModel.Create(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
 		if err != nil {
 			return
 		}

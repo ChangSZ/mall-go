@@ -44,7 +44,7 @@ func (s *service) Detail(ctx core.Context, searchOneData *SearchOneData) (info *
 		qb.WhereIsUsed(mysql.EqualPredicate, searchOneData.IsUsed)
 	}
 
-	info, err = qb.QueryOne(s.db.GetDbR().WithContext(ctx.RequestContext()))
+	info, err = qb.QueryOne(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
 	if err != nil {
 		return nil, err
 	}

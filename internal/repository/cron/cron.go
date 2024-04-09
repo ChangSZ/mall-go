@@ -3,7 +3,6 @@ package cron
 import (
 	"sync"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 	"github.com/ChangSZ/mall-go/pkg/errors"
 
@@ -41,7 +40,6 @@ func (tc *taskCount) Wait() {
 
 type server struct {
 	logger    *zap.Logger
-	db        mysql.Repo
 	cron      *cron.Cron
 	taskCount *taskCount
 }
@@ -65,18 +63,13 @@ type Server interface {
 	AddJob(task *cron_task.CronTask) cron.FuncJob
 }
 
-func New(logger *zap.Logger, db mysql.Repo) (Server, error) {
+func New(logger *zap.Logger) (Server, error) {
 	if logger == nil {
 		return nil, errors.New("logger required")
 	}
 
-	if db == nil {
-		return nil, errors.New("db required")
-	}
-
 	return &server{
 		logger: logger,
-		db:     db,
 		cron:   cron.New(),
 		taskCount: &taskCount{
 			wg:   sync.WaitGroup{},

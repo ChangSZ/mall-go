@@ -33,7 +33,7 @@ func (s *service) DetailByKey(ctx core.Context, key string) (cacheData *CacheAut
 		authorizedInfo, err := authorized.NewQueryBuilder().
 			WhereIsDeleted(mysql.EqualPredicate, -1).
 			WhereBusinessKey(mysql.EqualPredicate, key).
-			First(s.db.GetDbR().WithContext(ctx.RequestContext()))
+			First(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
 
 		if err != nil {
 			return nil, err
@@ -44,7 +44,7 @@ func (s *service) DetailByKey(ctx core.Context, key string) (cacheData *CacheAut
 			WhereIsDeleted(mysql.EqualPredicate, -1).
 			WhereBusinessKey(mysql.EqualPredicate, key).
 			OrderById(false).
-			QueryAll(s.db.GetDbR().WithContext(ctx.RequestContext()))
+			QueryAll(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
 
 		if err != nil {
 			return nil, err

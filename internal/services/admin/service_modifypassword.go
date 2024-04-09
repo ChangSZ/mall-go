@@ -17,7 +17,7 @@ func (s *service) ModifyPassword(ctx core.Context, id int32, newPassword string)
 
 	qb := admin.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	err = qb.Updates(s.db.GetDbW().WithContext(ctx.RequestContext()), data)
+	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx.RequestContext()), data)
 	if err != nil {
 		return err
 	}

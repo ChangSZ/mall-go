@@ -6,6 +6,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal/tablesqls"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/pkg/errors"
 )
 
@@ -64,7 +65,7 @@ func (h *handler) UpgradeExecute() core.HandlerFunc {
 		}
 
 		outPutString := ""
-		db := h.db.GetDbW()
+		db := mysql.DB().GetDbW()
 
 		if upgradeTableList[req.TableName] == nil {
 			ctx.AbortWithError(core.Error(

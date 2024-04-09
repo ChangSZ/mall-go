@@ -48,14 +48,13 @@ type cacheRepo struct {
 	client *redis.Client
 }
 
-func Init() error {
+func Init() {
 	client, err := redisConnect()
 	if err != nil {
 		panic(fmt.Sprintf("redis连接失败: %v", err))
 	}
 
 	cache = &cacheRepo{client: client}
-	return nil
 }
 
 func Cache() *cacheRepo {

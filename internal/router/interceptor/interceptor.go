@@ -3,7 +3,6 @@ package interceptor
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
 
@@ -30,17 +29,15 @@ type Interceptor interface {
 
 type interceptor struct {
 	logger            *zap.Logger
-	db                mysql.Repo
 	authorizedService authorized.Service
 	adminService      admin.Service
 }
 
-func New(logger *zap.Logger, db mysql.Repo) Interceptor {
+func New(logger *zap.Logger) Interceptor {
 	return &interceptor{
 		logger:            logger,
-		db:                db,
-		authorizedService: authorized.New(db),
-		adminService:      admin.New(db),
+		authorizedService: authorized.New(),
+		adminService:      admin.New(),
 	}
 }
 

@@ -9,7 +9,7 @@ import (
 func (s *service) Execute(ctx core.Context, id int32) (err error) {
 	qb := cron_task.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	info, err := qb.QueryOne(s.db.GetDbR().WithContext(ctx.RequestContext()))
+	info, err := qb.QueryOne(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
 	if err != nil {
 		return err
 	}

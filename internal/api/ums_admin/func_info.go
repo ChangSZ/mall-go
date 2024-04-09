@@ -32,7 +32,7 @@ func (h *handler) Info() core.HandlerFunc {
 	return func(c core.Context) {
 		res := new(infoResponse)
 		userInfo := c.GetUmsUserInfo()
-		umsAdmin, err := ums_user.DefalutService.GetAdminByUsername(c, userInfo.UserName)
+		umsAdmin, err := ums_user.New().GetAdminByUsername(c, userInfo.UserName)
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,

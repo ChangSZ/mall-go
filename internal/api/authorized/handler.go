@@ -3,7 +3,6 @@ package authorized
 import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
 	"github.com/ChangSZ/mall-go/pkg/hash"
 
@@ -57,10 +56,10 @@ type handler struct {
 	hashids           hash.Hash
 }
 
-func New(logger *zap.Logger, db mysql.Repo) Handler {
+func New(logger *zap.Logger) Handler {
 	return &handler{
 		logger:            logger,
-		authorizedService: authorized.New(db),
+		authorizedService: authorized.New(),
 		hashids:           hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
 	}
 }

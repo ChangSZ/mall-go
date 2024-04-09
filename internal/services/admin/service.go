@@ -2,7 +2,6 @@ package admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/admin"
 )
 
@@ -27,14 +26,10 @@ type Service interface {
 	MyAction(ctx core.Context, searchData *SearchMyActionData) (actionData []MyActionData, err error)
 }
 
-type service struct {
-	db mysql.Repo
-}
+type service struct{}
 
-func New(db mysql.Repo) Service {
-	return &service{
-		db: db,
-	}
+func New() Service {
+	return &service{}
 }
 
 func (s *service) i() {}

@@ -7,17 +7,14 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
 )
 
-type service struct {
-	db mysql.Repo
-}
+type service struct{}
 
-func New(db mysql.Repo) Service {
-	s := &service{db: db}
-	return s
+func New() Service {
+	return &service{}
 }
 
 func (s *service) i() {}
 
 func (s *service) GetMenuList(ctx core.Context, adminId int64) ([]ums_menu.UmsMenu, error) {
-	return dao.GetMenuList(s.db.GetDbR(), adminId)
+	return dao.GetMenuList(mysql.DB().GetDbR(), adminId)
 }

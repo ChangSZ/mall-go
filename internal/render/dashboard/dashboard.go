@@ -23,14 +23,10 @@ import (
 
 type handler struct {
 	logger *zap.Logger
-	db     mysql.Repo
 }
 
-func New(logger *zap.Logger, db mysql.Repo) *handler {
-	return &handler{
-		logger: logger,
-		db:     db,
-	}
+func New(logger *zap.Logger) *handler {
+	return &handler{logger: logger}
 }
 
 const (
@@ -46,8 +42,8 @@ func (h *handler) View() core.HandlerFunc {
 	}
 
 	mysqlVer := new(mysqlVersion)
-	if h.db != nil {
-		h.db.GetDbR().Raw("SELECT version() as ver").Scan(mysqlVer)
+	if mysql.DB() != nil {
+		mysql.DB().GetDbR().Raw("SELECT version() as ver").Scan(mysqlVer)
 	}
 
 	type viewResponse struct {

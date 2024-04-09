@@ -6,6 +6,7 @@ import (
 	"io"
 
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 )
 
@@ -29,7 +30,7 @@ func (s *service) Create(ctx core.Context, authorizedData *CreateAuthorizedData)
 	model.IsUsed = 1
 	model.IsDeleted = -1
 
-	id, err = model.Create(s.db.GetDbW().WithContext(ctx.RequestContext()))
+	id, err = model.Create(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
 	if err != nil {
 		return 0, err
 	}

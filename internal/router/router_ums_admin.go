@@ -7,8 +7,7 @@ import (
 
 // 后台用户管理
 func setUmsAdminRouter(r *resource) {
-	ums_admin.InitUmsUserService(r.db)
-	adminHandler := ums_admin.New(r.logger, r.db)
+	adminHandler := ums_admin.New(r.logger)
 	admins := r.mux.Group("/admin")
 	{
 		admins.POST("/register", adminHandler.Register())                                                               // 用户注册

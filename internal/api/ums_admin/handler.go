@@ -2,10 +2,8 @@ package ums_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/services/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/services/ums_role"
-	"github.com/ChangSZ/mall-go/internal/services/ums_user"
 
 	"go.uber.org/zap"
 )
@@ -82,16 +80,12 @@ type handler struct {
 	umsRoleService  ums_role.Service
 }
 
-func New(logger *zap.Logger, db mysql.Repo) Handler {
+func New(logger *zap.Logger) Handler {
 	return &handler{
 		logger:          logger,
-		umsAdminService: ums_admin.New(db),
-		umsRoleService:  ums_role.New(db),
+		umsAdminService: ums_admin.New(),
+		umsRoleService:  ums_role.New(),
 	}
 }
 
 func (h *handler) i() {}
-
-func InitUmsUserService(db mysql.Repo) {
-	ums_user.DefaultService(db)
-}

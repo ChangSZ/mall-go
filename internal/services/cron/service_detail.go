@@ -17,7 +17,7 @@ func (s *service) Detail(ctx core.Context, searchOneData *SearchOneData) (info *
 		qb.WhereId(mysql.EqualPredicate, searchOneData.Id)
 	}
 
-	info, err = qb.QueryOne(s.db.GetDbR().WithContext(ctx.RequestContext()))
+	info, err = qb.QueryOne(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
 	if err != nil {
 		return nil, err
 	}
