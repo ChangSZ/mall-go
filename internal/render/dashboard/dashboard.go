@@ -23,14 +23,12 @@ import (
 
 type handler struct {
 	logger *zap.Logger
-	cache  redis.Repo
 	db     mysql.Repo
 }
 
-func New(logger *zap.Logger, db mysql.Repo, cache redis.Repo) *handler {
+func New(logger *zap.Logger, db mysql.Repo) *handler {
 	return &handler{
 		logger: logger,
-		cache:  cache,
 		db:     db,
 	}
 }
@@ -50,11 +48,6 @@ func (h *handler) View() core.HandlerFunc {
 	mysqlVer := new(mysqlVersion)
 	if h.db != nil {
 		h.db.GetDbR().Raw("SELECT version() as ver").Scan(mysqlVer)
-	}
-
-	redisVer := ""
-	if h.cache != nil {
-		redisVer = h.cache.Version()
 	}
 
 	type viewResponse struct {
@@ -126,7 +119,7 @@ func (h *handler) View() core.HandlerFunc {
 		obj.GoArch = runtime.GOARCH
 		obj.ProjectVersion = configs.ProjectVersion
 		obj.MySQLVersion = mysqlVer.Ver
-		obj.RedisVersion = redisVer
+		obj.RedisVersion = redis.Cache().Version()
 
 		ctx.HTML("dashboard", obj)
 	}

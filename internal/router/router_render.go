@@ -17,15 +17,15 @@ import (
 func setRenderRouter(r *resource) {
 
 	renderInstall := install.New(r.logger)
-	renderIndex := index.New(r.logger, r.db, r.cache)
-	renderDashboard := dashboard.New(r.logger, r.db, r.cache)
-	renderGenerator := generator_handler.New(r.logger, r.db, r.cache)
-	renderConfig := config.New(r.logger, r.db, r.cache)
-	renderAuthorized := authorized.New(r.logger, r.db, r.cache)
-	renderTool := tool.New(r.logger, r.db, r.cache)
-	renderAdmin := admin.New(r.logger, r.db, r.cache)
-	renderUpgrade := upgrade.New(r.logger, r.db, r.cache)
-	renderCron := cron.New(r.logger, r.db, r.cache)
+	renderIndex := index.New(r.logger, r.db)
+	renderDashboard := dashboard.New(r.logger, r.db)
+	renderGenerator := generator_handler.New(r.logger, r.db)
+	renderConfig := config.New(r.logger, r.db)
+	renderAuthorized := authorized.New(r.logger, r.db)
+	renderTool := tool.New(r.logger, r.db)
+	renderAdmin := admin.New(r.logger, r.db)
+	renderUpgrade := upgrade.New(r.logger, r.db)
+	renderCron := cron.New(r.logger, r.db)
 
 	// 无需记录日志，无需 RBAC 权限验证
 	notRBAC := r.mux.Group("", core.DisableTraceLog, core.DisableRecordMetrics)

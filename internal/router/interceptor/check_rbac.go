@@ -25,7 +25,7 @@ func (i *interceptor) CheckRBAC() core.HandlerFunc {
 			return
 		}
 
-		if !i.cache.Exists(configs.RedisKeyPrefixLoginUser + token) {
+		if !redis.Cache().Exists(configs.RedisKeyPrefixLoginUser + token) {
 			c.AbortWithError(core.Error(
 				http.StatusUnauthorized,
 				code.CacheGetError,
@@ -34,7 +34,7 @@ func (i *interceptor) CheckRBAC() core.HandlerFunc {
 			return
 		}
 
-		if !i.cache.Exists(configs.RedisKeyPrefixLoginUser + token + ":action") {
+		if !redis.Cache().Exists(configs.RedisKeyPrefixLoginUser + token + ":action") {
 			c.AbortWithError(core.Error(
 				http.StatusUnauthorized,
 				code.CacheGetError,
@@ -43,7 +43,7 @@ func (i *interceptor) CheckRBAC() core.HandlerFunc {
 			return
 		}
 
-		actionData, err := i.cache.Get(configs.RedisKeyPrefixLoginUser+token+":action", redis.WithTrace(c.Trace()))
+		actionData, err := redis.Cache().Get(configs.RedisKeyPrefixLoginUser+token+":action", redis.WithTrace(c.Trace()))
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusUnauthorized,

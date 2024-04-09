@@ -29,7 +29,7 @@ func (h *handler) Logout() core.HandlerFunc {
 		res := new(logoutResponse)
 		res.Username = c.SessionUserInfo().UserName
 
-		if !h.cache.Del(configs.RedisKeyPrefixLoginUser+c.GetHeader(configs.HeaderLoginToken), redis.WithTrace(c.Trace())) {
+		if !redis.Cache().Del(configs.RedisKeyPrefixLoginUser+c.GetHeader(configs.HeaderLoginToken), redis.WithTrace(c.Trace())) {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,
 				code.AdminLogOutError,

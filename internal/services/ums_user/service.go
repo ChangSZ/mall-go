@@ -8,7 +8,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_resource_relation"
-	"github.com/ChangSZ/mall-go/internal/repository/redis"
 )
 
 /*
@@ -18,13 +17,13 @@ import (
 var DefalutService *service
 
 type service struct {
-	db    mysql.Repo
-	cache *umsUserCacheService
+	db           mysql.Repo
+	cacheService *umsUserCacheService
 }
 
-func DefaultService(db mysql.Repo, cache redis.Repo) {
+func DefaultService(db mysql.Repo) {
 	s := &service{db: db}
-	s.cache = &umsUserCacheService{cache: cache, service: s}
+	s.cacheService = &umsUserCacheService{service: s}
 	DefalutService = s
 }
 
@@ -34,7 +33,7 @@ func NewService(db mysql.Repo, cache *umsUserCacheService) *service {
 
 func (s *service) GetResourceList(ctx core.Context, adminId int64) ([]*ums_resource.UmsResource, error) {
 	// 先从缓存中获取数据
-	resourceList := s.cache.GetResourceList(ctx, adminId)
+	resourceList := s.cacheService.GetResourceList(ctx, adminId)
 	if len(resourceList) != 0 {
 		return resourceList, nil
 	}
@@ -56,14 +55,14 @@ func (s *service) GetResourceList(ctx core.Context, adminId int64) ([]*ums_resou
 	ret, err := resourceQueryBuilder.QueryAll(s.db.GetDbR())
 	if len(ret) != 0 {
 		// 将数据库中的数据存入缓存中
-		s.cache.SetResourceList(ctx, adminId, ret)
+		s.cacheService.SetResourceList(ctx, adminId, ret)
 	}
 	return ret, err
 }
 
 func (s *service) GetAdminByUsername(ctx core.Context, username string) (*ums_admin.UmsAdmin, error) {
 	// 先从缓存中获取数据
-	admin := s.cache.GetAdmin(ctx, username)
+	admin := s.cacheService.GetAdmin(ctx, username)
 	if admin != nil {
 		return admin, nil
 	}
@@ -77,7 +76,7 @@ func (s *service) GetAdminByUsername(ctx core.Context, username string) (*ums_ad
 	}
 
 	// 将数据库中的数据存入缓存中
-	s.cache.SetAdmin(ctx, admin)
+	s.cacheService.SetAdmin(ctx, admin)
 	return admin, nil
 }
 

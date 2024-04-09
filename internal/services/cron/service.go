@@ -5,7 +5,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/cron"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
-	"github.com/ChangSZ/mall-go/internal/repository/redis"
 )
 
 var _ Service = (*service)(nil)
@@ -24,14 +23,12 @@ type Service interface {
 
 type service struct {
 	db         mysql.Repo
-	cache      redis.Repo
 	cronServer cron.Server
 }
 
-func New(db mysql.Repo, cache redis.Repo, cron cron.Server) Service {
+func New(db mysql.Repo, cron cron.Server) Service {
 	return &service{
 		db:         db,
-		cache:      cache,
 		cronServer: cron,
 	}
 }

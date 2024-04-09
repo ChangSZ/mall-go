@@ -4,7 +4,6 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
-	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/hash"
 
@@ -84,17 +83,15 @@ type Handler interface {
 
 type handler struct {
 	logger       *zap.Logger
-	cache        redis.Repo
 	hashids      hash.Hash
 	adminService admin.Service
 }
 
-func New(logger *zap.Logger, db mysql.Repo, cache redis.Repo) Handler {
+func New(logger *zap.Logger, db mysql.Repo) Handler {
 	return &handler{
 		logger:       logger,
-		cache:        cache,
 		hashids:      hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
-		adminService: admin.New(db, cache),
+		adminService: admin.New(db),
 	}
 }
 

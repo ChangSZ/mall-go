@@ -3,7 +3,6 @@ package sysmessage
 import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
-	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/repository/socket"
 	"github.com/ChangSZ/mall-go/pkg/errors"
 
@@ -17,14 +16,12 @@ var (
 
 type handler struct {
 	logger *zap.Logger
-	cache  redis.Repo
 	db     mysql.Repo
 }
 
-func New(logger *zap.Logger, db mysql.Repo, cache redis.Repo) *handler {
+func New(logger *zap.Logger, db mysql.Repo) *handler {
 	return &handler{
 		logger: logger,
-		cache:  cache,
 		db:     db,
 	}
 }
@@ -39,7 +36,7 @@ func GetConn() (socket.Server, error) {
 
 func (h *handler) Connect() core.HandlerFunc {
 	return func(ctx core.Context) {
-		server, err = socket.New(h.logger, h.db, h.cache, ctx.ResponseWriter(), ctx.Request(), nil)
+		server, err = socket.New(h.logger, h.db, ctx.ResponseWriter(), ctx.Request(), nil)
 		if err != nil {
 			return
 		}

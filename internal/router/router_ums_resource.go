@@ -6,7 +6,7 @@ import (
 
 // 后台资源管理
 func setUmsResourceRouter(r *resource) {
-	resourceHandler := ums_resource.New(r.logger, r.db, r.cache)
+	resourceHandler := ums_resource.New(r.logger, r.db)
 	resources := r.mux.Group("/resource")
 	{
 		resources.POST("/create", resourceHandler.Create())     // 添加后台资源

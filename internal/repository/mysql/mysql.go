@@ -6,9 +6,11 @@ import (
 
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/pkg/errors"
+	"github.com/ChangSZ/mall-go/pkg/log"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 )
 
@@ -97,7 +99,7 @@ func dbConnect(user, pass, addr, dbName string) (*gorm.DB, error) {
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true,
 		},
-		//Logger: logger.Default.LogMode(logger.Info), // 日志配置
+		Logger: setLogger(),
 	})
 
 	if err != nil {
@@ -122,8 +124,17 @@ func dbConnect(user, pass, addr, dbName string) (*gorm.DB, error) {
 	// 设置最大连接超时
 	sqlDB.SetConnMaxLifetime(time.Minute * cfg.ConnMaxLifeTime)
 
-	// 使用插件
-	db.Use(&TracePlugin{})
+	// 使用插件(该插件意义不大)
+	// db.Use(&TracePlugin{})
 
 	return db, nil
+}
+
+func setLogger() logger.Interface {
+	return log.NewSQLLogger(logger.Config{
+		SlowThreshold:             time.Second, // 慢 SQL 阈值
+		LogLevel:                  logger.Info, // 日志级别
+		IgnoreRecordNotFoundError: true,        // 忽略ErrRecordNotFound（记录未找到）错误
+		Colorful:                  false,       // 禁用彩色打印
+	})
 }

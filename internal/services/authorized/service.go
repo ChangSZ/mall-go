@@ -5,7 +5,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized_api"
-	"github.com/ChangSZ/mall-go/internal/repository/redis"
 )
 
 var _ Service = (*service)(nil)
@@ -28,14 +27,12 @@ type Service interface {
 }
 
 type service struct {
-	db    mysql.Repo
-	cache redis.Repo
+	db mysql.Repo
 }
 
-func New(db mysql.Repo, cache redis.Repo) Service {
+func New(db mysql.Repo) Service {
 	return &service{
-		db:    db,
-		cache: cache,
+		db: db,
 	}
 }
 

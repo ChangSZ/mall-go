@@ -6,7 +6,7 @@ import (
 
 // 后台资源分类管理
 func setUmsResourceCateRouter(r *resource) {
-	resourceCateHandler := ums_resource_cate.New(r.logger, r.db, r.cache)
+	resourceCateHandler := ums_resource_cate.New(r.logger, r.db)
 	resourceCate := r.mux.Group("/resourceCategory")
 	{
 		resourceCate.POST("/listAll", resourceCateHandler.ListAll())   // 查询所有后台资源分类

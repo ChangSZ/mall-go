@@ -10,7 +10,7 @@ const (
 	ProjectVersion = "v1.2.8"
 
 	// ProjectName 项目名称
-	ProjectName = "go-gin-api"
+	ProjectName = "mall-go"
 
 	// ProjectDomain 项目域名
 	ProjectDomain = "http://127.0.0.1"

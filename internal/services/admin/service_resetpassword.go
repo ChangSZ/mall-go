@@ -22,6 +22,6 @@ func (s *service) ResetPassword(ctx core.Context, id int32) (err error) {
 		return err
 	}
 
-	s.cache.Del(configs.RedisKeyPrefixLoginUser+password.GenerateLoginToken(id), redis.WithTrace(ctx.Trace()))
+	redis.Cache().Del(configs.RedisKeyPrefixLoginUser+password.GenerateLoginToken(id), redis.WithTrace(ctx.Trace()))
 	return
 }

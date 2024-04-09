@@ -54,7 +54,7 @@ func (h *handler) Offline() core.HandlerFunc {
 
 		id := int32(ids[0])
 
-		b := h.cache.Del(configs.RedisKeyPrefixLoginUser+password.GenerateLoginToken(id), redis.WithTrace(c.Trace()))
+		b := redis.Cache().Del(configs.RedisKeyPrefixLoginUser+password.GenerateLoginToken(id), redis.WithTrace(c.Trace()))
 		if !b {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,

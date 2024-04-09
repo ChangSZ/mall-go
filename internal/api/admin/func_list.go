@@ -7,6 +7,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/pkg/password"
+	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/timeutil"
 
@@ -125,7 +126,7 @@ func (h *handler) List() core.HandlerFunc {
 			}
 
 			isOnline := -1
-			if h.cache.Exists(configs.RedisKeyPrefixLoginUser + password.GenerateLoginToken(v.Id)) {
+			if redis.Cache().Exists(configs.RedisKeyPrefixLoginUser + password.GenerateLoginToken(v.Id)) {
 				isOnline = 1
 			}
 

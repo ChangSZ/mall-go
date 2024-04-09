@@ -6,7 +6,7 @@ import (
 )
 
 func setSocketRouter(r *resource) {
-	systemMessage := sysmessage.New(r.logger, r.db, r.cache)
+	systemMessage := sysmessage.New(r.logger, r.db)
 
 	// 无需记录日志
 	socket := r.mux.Group("/socket", core.DisableTraceLog, core.DisableRecordMetrics)

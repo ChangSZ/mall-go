@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/router"
 	"github.com/ChangSZ/mall-go/pkg/env"
 	"github.com/ChangSZ/mall-go/pkg/logger"
@@ -105,8 +106,8 @@ func main() {
 
 		// 关闭 cache
 		func() {
-			if s.Cache != nil {
-				if err := s.Cache.Close(); err != nil {
+			if redis.Cache() != nil {
+				if err := redis.Cache().Close(); err != nil {
 					accessLogger.Error("cache close err", zap.Error(err))
 				}
 			}
