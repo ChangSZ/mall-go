@@ -1,11 +1,11 @@
 package authorized
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/hex"
 	"io"
 
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 )
@@ -16,7 +16,7 @@ type CreateAuthorizedData struct {
 	Remark            string `json:"remark"`             // 备注
 }
 
-func (s *service) Create(ctx core.Context, authorizedData *CreateAuthorizedData) (id int32, err error) {
+func (s *service) Create(ctx context.Context, authorizedData *CreateAuthorizedData) (id int32, err error) {
 	buf := make([]byte, 10)
 	io.ReadFull(rand.Reader, buf)
 	secret := hex.EncodeToString(buf)

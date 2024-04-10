@@ -2,9 +2,9 @@ package ums_role
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/menu"
 	"github.com/ChangSZ/mall-go/pkg/hash"
+	"github.com/gin-gonic/gin"
 
 	"go.uber.org/zap"
 )
@@ -17,52 +17,52 @@ type Handler interface {
 	// Create 添加角色
 	// @Tags UmsRoleController
 	// @Router /role/create [post]
-	Create() core.HandlerFunc
+	Create(*gin.Context)
 
 	// Update 修改角色
 	// @Tags UmsRoleController
 	// @Router /role/update/{id} [post]
-	Update() core.HandlerFunc
+	Update(*gin.Context)
 
 	// Delete 批量删除角色
 	// @Tags UmsRoleController
 	// @Router /role/delete [post]
-	Delete() core.HandlerFunc
+	Delete(*gin.Context)
 
 	// ListAll 获取所有角色
 	// @Tags UmsRoleController
 	// @Router /role/listAll [get]
-	ListAll() core.HandlerFunc
+	ListAll(*gin.Context)
 
 	// List 根据角色名称分页获取角色列表
 	// @Tags UmsRoleController
 	// @Router /role/list [get]
-	List() core.HandlerFunc
+	List(*gin.Context)
 
 	// UpdateStatus 修改角色状态
 	// @Tags UmsRoleController
 	// @Router /role/updateStatus/{id} [post]
-	UpdateStatus() core.HandlerFunc
+	UpdateStatus(*gin.Context)
 
 	// ListMenu 获取角色相关菜单
 	// @Tags UmsRoleController
 	// @Router /role/listMenu/{roleId} [get]
-	ListMenu() core.HandlerFunc
+	ListMenu(*gin.Context)
 
 	// ListResource 获取角色相关资源
 	// @Tags UmsRoleController
 	// @Router /role/listResource/{roleId} [get]
-	ListResource() core.HandlerFunc
+	ListResource(*gin.Context)
 
 	// AllocMenu 给角色分配菜单
 	// @Tags UmsRoleController
 	// @Router /role/allocMenu [post]
-	AllocMenu() core.HandlerFunc
+	AllocMenu(*gin.Context)
 
 	// AllocResource 给角色分配资源
 	// @Tags UmsRoleController
 	// @Router /role/allocResource [post]
-	AllocResource() core.HandlerFunc
+	AllocResource(*gin.Context)
 }
 
 type handler struct {

@@ -3,9 +3,11 @@ package tool
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type clearCacheRequest struct {
@@ -27,38 +29,25 @@ type clearCacheResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/tool/cache/clear [patch]
 // @Security LoginToken
-func (h *handler) ClearCache() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(clearCacheRequest)
-		res := new(clearCacheResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		if b := redis.Cache().Exists(req.RedisKey); !b {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CacheNotExist,
-				code.Text(code.CacheNotExist)),
-			)
-			return
-		}
-
-		if b := redis.Cache().Del(req.RedisKey, redis.WithTrace(c.Trace())); !b {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CacheDelError,
-				code.Text(code.CacheDelError)),
-			)
-			return
-		}
-
-		res.Bool = true
-		c.Payload(res)
+func (h *handler) ClearCache(ctx *gin.Context) {
+	req := new(clearCacheRequest)
+	res := new(clearCacheResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	if b := redis.Cache().Exists(ctx, req.RedisKey); !b {
+		api.Response(ctx, http.StatusBadRequest, code.CacheNotExist)
+		return
+	}
+
+	if b := redis.Cache().Del(ctx, req.RedisKey); !b {
+		api.Response(ctx, http.StatusBadRequest, code.CacheDelError)
+		return
+	}
+
+	res.Bool = true
+	api.ResponseOK(ctx, res)
 }

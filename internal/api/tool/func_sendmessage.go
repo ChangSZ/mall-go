@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/pkg/validation"
 	"github.com/ChangSZ/mall-go/internal/websocket/sysmessage"
+	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/timeutil"
+	"github.com/gin-gonic/gin"
 )
 
 type sendMessageRequest struct {
@@ -30,61 +31,46 @@ type sendMessageResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/tool/send_message [post]
 // @Security LoginToken
-func (h *handler) SendMessage() core.HandlerFunc {
+func (h *handler) SendMessage(ctx *gin.Context) {
 	type messageBody struct {
 		Username string `json:"username"`
 		Message  string `json:"message"`
 		Time     string `json:"time"`
 	}
-
-	return func(ctx core.Context) {
-		req := new(sendMessageRequest)
-		res := new(sendMessageResponse)
-		if err := ctx.ShouldBindForm(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				validation.Error(err)).WithError(err),
-			)
-			return
-		}
-
-		conn, err := sysmessage.GetConn()
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.SocketConnectError,
-				code.Text(code.SocketConnectError)).WithError(err),
-			)
-			return
-		}
-
-		messageData := new(messageBody)
-		messageData.Username = ctx.SessionUserInfo().UserName
-		messageData.Message = req.Message
-		messageData.Time = timeutil.CSTLayoutString()
-
-		messageJsonData, err := json.Marshal(messageData)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.SocketSendError,
-				code.Text(code.SocketSendError)).WithError(err),
-			)
-			return
-		}
-
-		err = conn.OnSend(messageJsonData)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.SocketSendError,
-				code.Text(code.SocketSendError)).WithError(err),
-			)
-			return
-		}
-
-		res.Status = "OK"
-		ctx.Payload(res)
+	req := new(sendMessageRequest)
+	res := new(sendMessageResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	conn, err := sysmessage.GetConn()
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.SocketConnectError, err)
+		return
+	}
+
+	messageData := new(messageBody)
+	messageData.Username = ctx.SessionUserInfo().UserName
+	messageData.Message = req.Message
+	messageData.Time = timeutil.CSTLayoutString()
+
+	messageJsonData, err := json.Marshal(messageData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.SocketSendError, err)
+		return
+	}
+
+	err = conn.OnSend(messageJsonData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.SocketSendError, err)
+		return
+	}
+
+	res.Status = "OK"
+	api.ResponseOK(ctx, res)
 }

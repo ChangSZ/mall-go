@@ -4,10 +4,11 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/pkg/validation"
 	"github.com/ChangSZ/mall-go/internal/services/ums_admin"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type registerRequest struct {
@@ -42,46 +43,38 @@ type registerResponse struct {
 // @Success 200 {object} registerResponse
 // @Failure 400 {object} code.Failure
 // @Router /admin/register [post]
-func (h *handler) Register() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(registerRequest)
-		res := new(registerResponse)
-		if err := c.ShouldBind(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				validation.Error(err)).WithError(err),
-			)
-			return
-		}
-
-		umsAdminParam := new(ums_admin.UmsAdminParam)
-		umsAdminParam.Username = req.Username
-		umsAdminParam.Password = req.Password
-		umsAdminParam.Icon = req.Icon
-		umsAdminParam.Email = req.Email
-		umsAdminParam.NickName = req.NickName
-		umsAdminParam.Note = req.Note
-
-		umsAdmin, err := h.umsAdminService.Register(c, umsAdminParam)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.UmsAdminRegisterError,
-				code.Text(code.UmsAdminRegisterError)).WithError(err),
-			)
-			return
-		}
-		res.Id = umsAdmin.Id
-		res.Username = umsAdmin.Username
-		res.Password = umsAdmin.Password
-		res.Icon = umsAdmin.Icon
-		res.Email = umsAdmin.Email
-		res.NickName = umsAdmin.NickName
-		res.Note = umsAdmin.Note
-		res.CreateTime = umsAdmin.CreateTime
-		res.LoginTime = umsAdmin.LoginTime
-		res.Status = umsAdmin.Status
-		c.Payload(res)
+func (h *handler) Register(ctx *gin.Context) {
+	req := new(registerRequest)
+	res := new(registerResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	umsAdminParam := new(ums_admin.UmsAdminParam)
+	umsAdminParam.Username = req.Username
+	umsAdminParam.Password = req.Password
+	umsAdminParam.Icon = req.Icon
+	umsAdminParam.Email = req.Email
+	umsAdminParam.NickName = req.NickName
+	umsAdminParam.Note = req.Note
+
+	umsAdmin, err := h.umsAdminService.Register(ctx, umsAdminParam)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.UmsAdminRegisterError, err)
+		return
+	}
+	res.Id = umsAdmin.Id
+	res.Username = umsAdmin.Username
+	res.Password = umsAdmin.Password
+	res.Icon = umsAdmin.Icon
+	res.Email = umsAdmin.Email
+	res.NickName = umsAdmin.NickName
+	res.Note = umsAdmin.Note
+	res.CreateTime = umsAdmin.CreateTime
+	res.LoginTime = umsAdmin.LoginTime
+	res.Status = umsAdmin.Status
+	api.ResponseOK(ctx, res)
 }

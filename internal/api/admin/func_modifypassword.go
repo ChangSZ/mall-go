@@ -3,10 +3,12 @@ package admin
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/pkg/password"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type modifyPasswordRequest struct {
@@ -30,44 +32,33 @@ type modifyPasswordResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/admin/modify_password [patch]
 // @Security LoginToken
-func (h *handler) ModifyPassword() core.HandlerFunc {
-	return func(ctx core.Context) {
-		req := new(modifyPasswordRequest)
-		res := new(modifyPasswordResponse)
-		if err := ctx.ShouldBindForm(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		searchOneData := new(admin.SearchOneData)
-		searchOneData.Id = ctx.SessionUserInfo().UserID
-		searchOneData.Password = password.GeneratePassword(req.OldPassword)
-		searchOneData.IsUsed = 1
-
-		info, err := h.adminService.Detail(ctx, searchOneData)
-		if err != nil || info == nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminModifyPasswordError,
-				code.Text(code.AdminModifyPasswordError)).WithError(err),
-			)
-			return
-		}
-
-		if err := h.adminService.ModifyPassword(ctx, ctx.SessionUserInfo().UserID, req.NewPassword); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminModifyPasswordError,
-				code.Text(code.AdminModifyPasswordError)).WithError(err),
-			)
-			return
-		}
-
-		res.Username = ctx.SessionUserInfo().UserName
-		ctx.Payload(res)
+func (h *handler) ModifyPassword(ctx *gin.Context) {
+	req := new(modifyPasswordRequest)
+	res := new(modifyPasswordResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	searchOneData := new(admin.SearchOneData)
+	searchOneData.Id = ctx.SessionUserInfo().UserID
+	searchOneData.Password = password.GeneratePassword(req.OldPassword)
+	searchOneData.IsUsed = 1
+
+	info, err := h.adminService.Detail(ctx, searchOneData)
+	if err != nil || info == nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminModifyPasswordError, err)
+		return
+	}
+
+	if err := h.adminService.ModifyPassword(ctx, ctx.SessionUserInfo().UserID, req.NewPassword); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminModifyPasswordError, err)
+		return
+	}
+
+	res.Username = ctx.SessionUserInfo().UserName
+	api.ResponseOK(ctx, res)
 }

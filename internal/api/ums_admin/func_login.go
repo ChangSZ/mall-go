@@ -4,9 +4,10 @@ import (
 	"net/http"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/pkg/validation"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type loginRequest struct {
@@ -29,38 +30,22 @@ type loginResponse struct {
 // @Success 200 {object} loginResponse
 // @Failure 400 {object} code.Failure
 // @Router /admin/login [post]
-func (h *handler) Login() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(loginRequest)
-		res := new(loginResponse)
-		if err := c.ShouldBind(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				validation.Error(err)).WithError(err),
-			)
-			return
-		}
-
-		token, err := h.umsAdminService.Login(c, req.Username, req.Password)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.UmsAdminAuthorizedError,
-				code.Text(code.UmsAdminAuthorizedError)).WithError(err),
-			)
-			return
-		}
-		res.Token = token
-		res.TokenHead = configs.Get().Jwt.TokenHead
-		c.Payload(res)
+func (h *handler) Login(ctx *gin.Context) {
+	req := new(loginRequest)
+	res := new(loginResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
-}
 
-// String token = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
-// if (token == null) {
-// 	return CommonResult.validateFailed("用户名或密码错误");
-// }
-// Map<String, String> tokenMap = new HashMap<>();
-// tokenMap.put("token", token);
-// tokenMap.put("tokenHead", tokenHead);
+	token, err := h.umsAdminService.Login(ctx, req.Username, req.Password)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.UmsAdminAuthorizedError, err)
+		return
+	}
+	res.Token = token
+	res.TokenHead = configs.Get().Jwt.TokenHead
+	api.ResponseOK(ctx, res)
+}

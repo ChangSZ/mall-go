@@ -1,7 +1,7 @@
 package ums_menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type updateHiddenRequest struct{}
@@ -18,8 +18,6 @@ type updateHiddenResponse struct{}
 // @Success 200 {object} updateHiddenResponse
 // @Failure 400 {object} code.Failure
 // @Router /menu/updateHidden/{id} [post]
-func (h *handler) UpdateHidden() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) UpdateHidden(ctx *gin.Context) {
 
-	}
 }

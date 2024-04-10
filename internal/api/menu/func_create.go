@@ -3,10 +3,11 @@ package menu
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/menu"
-
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 )
 
@@ -34,79 +35,65 @@ type createResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/menu [post]
 // @Security LoginToken
-func (h *handler) Create() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(createRequest)
-		res := new(createResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
+func (h *handler) Create(ctx *gin.Context) {
+	req := new(createRequest)
+	res := new(createResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
+	}
+
+	if req.Id != "" { // 编辑功能
+		ids, err := h.hashids.HashidsDecode(req.Id)
+		if err != nil {
+			log.WithTrace(ctx).Error(err)
+			api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
 			return
 		}
 
-		if req.Id != "" { // 编辑功能
-			ids, err := h.hashids.HashidsDecode(req.Id)
-			if err != nil {
-				c.AbortWithError(core.Error(
-					http.StatusBadRequest,
-					code.HashIdsDecodeError,
-					code.Text(code.HashIdsDecodeError)).WithError(err),
-				)
-				return
-			}
+		id := int32(ids[0])
 
-			id := int32(ids[0])
+		updateData := new(menu.UpdateMenuData)
+		updateData.Name = req.Name
+		updateData.Icon = req.Icon
+		updateData.Link = req.Link
 
-			updateData := new(menu.UpdateMenuData)
-			updateData.Name = req.Name
-			updateData.Icon = req.Icon
-			updateData.Link = req.Link
-
-			err = h.menuService.Modify(c, id, updateData)
-			if err != nil {
-				c.AbortWithError(core.Error(
-					http.StatusBadRequest,
-					code.MenuUpdateError,
-					code.Text(code.MenuUpdateError)).WithError(err),
-				)
-				return
-			}
-
-			res.Id = id
-			c.Payload(res)
-
-		} else { // 新增功能
-
-			pid := req.Level
-			level := 2
-
-			if req.Level == -1 {
-				pid = 0
-				level = 1
-			}
-
-			createData := new(menu.CreateMenuData)
-			createData.Pid = pid
-			createData.Name = req.Name
-			createData.Icon = req.Icon
-			createData.Link = req.Link
-			createData.Level = cast.ToInt32(level)
-
-			id, err := h.menuService.Create(c, createData)
-			if err != nil {
-				c.AbortWithError(core.Error(
-					http.StatusBadRequest,
-					code.MenuCreateError,
-					code.Text(code.MenuCreateError)).WithError(err),
-				)
-				return
-			}
-
-			res.Id = id
-			c.Payload(res)
+		err = h.menuService.Modify(ctx, id, updateData)
+		if err != nil {
+			log.WithTrace(ctx).Error(err)
+			api.Response(ctx, http.StatusBadRequest, code.MenuUpdateError, err)
+			return
 		}
+
+		res.Id = id
+		api.ResponseOK(ctx, res)
+
+	} else { // 新增功能
+
+		pid := req.Level
+		level := 2
+
+		if req.Level == -1 {
+			pid = 0
+			level = 1
+		}
+
+		createData := new(menu.CreateMenuData)
+		createData.Pid = pid
+		createData.Name = req.Name
+		createData.Icon = req.Icon
+		createData.Link = req.Link
+		createData.Level = cast.ToInt32(level)
+
+		id, err := h.menuService.Create(ctx, createData)
+		if err != nil {
+			log.WithTrace(ctx).Error(err)
+			api.Response(ctx, http.StatusBadRequest, code.MenuCreateError, err)
+			return
+		}
+
+		res.Id = id
+		api.ResponseOK(ctx, res)
 	}
 }

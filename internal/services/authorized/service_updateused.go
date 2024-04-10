@@ -1,8 +1,9 @@
 package authorized
 
 import (
+	"context"
+
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
@@ -10,7 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *service) UpdateUsed(ctx core.Context, id int32, used int32) (err error) {
+func (s *service) UpdateUsed(ctx context.Context, id int32, used int32) (err error) {
 	authorizedInfo, err := authorized.NewQueryBuilder().
 		WhereIsDeleted(mysql.EqualPredicate, -1).
 		WhereId(mysql.EqualPredicate, id).

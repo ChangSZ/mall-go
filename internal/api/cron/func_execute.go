@@ -3,10 +3,10 @@ package cron
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/pkg/validation"
-
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 )
 
@@ -29,40 +29,29 @@ type executeResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/cron/exec/{id} [patch]
 // @Security LoginToken
-func (h *handler) Execute() core.HandlerFunc {
-	return func(ctx core.Context) {
-		req := new(executeRequest)
-		res := new(executeResponse)
-		if err := ctx.ShouldBindURI(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				validation.Error(err)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		err = h.cronService.Execute(ctx, cast.ToInt32(ids[0]))
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CronExecuteError,
-				code.Text(code.CronExecuteError)).WithError(err),
-			)
-			return
-		}
-
-		res.Id = ids[0]
-		ctx.Payload(res)
+func (h *handler) Execute(ctx *gin.Context) {
+	req := new(executeRequest)
+	res := new(executeResponse)
+	if err := ctx.ShouldBindUri(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	err = h.cronService.Execute(ctx, cast.ToInt32(ids[0]))
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.CronExecuteError, err)
+		return
+	}
+
+	res.Id = ids[0]
+	api.ResponseOK(ctx, res)
 }

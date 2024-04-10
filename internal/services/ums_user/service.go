@@ -1,9 +1,9 @@
 package ums_user
 
 import (
+	"context"
 	"fmt"
 
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
@@ -18,7 +18,7 @@ func New() *service {
 	return &service{&umsUserCacheService{}}
 }
 
-func (s *service) GetResourceList(ctx core.Context, adminId int64) ([]*ums_resource.UmsResource, error) {
+func (s *service) GetResourceList(ctx context.Context, adminId int64) ([]*ums_resource.UmsResource, error) {
 	// 先从缓存中获取数据
 	resourceList := s.cacheService.GetResourceList(ctx, adminId)
 	if len(resourceList) != 0 {
@@ -47,7 +47,7 @@ func (s *service) GetResourceList(ctx core.Context, adminId int64) ([]*ums_resou
 	return ret, err
 }
 
-func (s *service) GetAdminByUsername(ctx core.Context, username string) (*ums_admin.UmsAdmin, error) {
+func (s *service) GetAdminByUsername(ctx context.Context, username string) (*ums_admin.UmsAdmin, error) {
 	// 先从缓存中获取数据
 	admin := s.cacheService.GetAdmin(ctx, username)
 	if admin != nil {
@@ -67,7 +67,7 @@ func (s *service) GetAdminByUsername(ctx core.Context, username string) (*ums_ad
 	return admin, nil
 }
 
-func (s *service) LoadUserByUsername(ctx core.Context, username string) (*AdminUserDetails, error) {
+func (s *service) LoadUserByUsername(ctx context.Context, username string) (*AdminUserDetails, error) {
 	// 获取用户信息
 	admin, err := s.GetAdminByUsername(ctx, username)
 	if err != nil {
@@ -83,7 +83,7 @@ func (s *service) LoadUserByUsername(ctx core.Context, username string) (*AdminU
 	return nil, fmt.Errorf("用户名或密码错误")
 }
 
-func (s *service) GetItem(ctx core.Context, id int64) (*ums_admin.UmsAdmin, error) {
+func (s *service) GetItem(ctx context.Context, id int64) (*ums_admin.UmsAdmin, error) {
 	queryBuilder := ums_admin.NewQueryBuilder()
 	queryBuilder = queryBuilder.WhereId(mysql.EqualPredicate, id)
 	return queryBuilder.First(mysql.DB().GetDbR())

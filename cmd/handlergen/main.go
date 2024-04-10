@@ -96,7 +96,7 @@ func main() {
 					funcContent += fmt.Sprintf("// @Failure 400 {object} code.Failure \n")
 					// Router
 					funcContent += fmt.Sprintf("%s \n", v.Decorations().Start.All()[2])
-					funcContent += fmt.Sprintf("func (h *handler) %s() core.HandlerFunc { \n return func(ctx core.Context) {\n\n}}", v.Names[0].String())
+					funcContent += fmt.Sprintf("func (h *handler) %s(ctx *gin.Context) { \n return func(ctx core.Context) {\n\n}}", v.Names[0].String())
 
 					funcFile.WriteString(funcContent)
 					funcFile.Close()

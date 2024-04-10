@@ -4,10 +4,12 @@ import (
 	"net/http"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/pkg/password"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type offlineRequest struct {
@@ -29,42 +31,32 @@ type offlineResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/admin/offline [patch]
 // @Security LoginToken
-func (h *handler) Offline() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(offlineRequest)
-		res := new(offlineResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		id := int32(ids[0])
-
-		b := redis.Cache().Del(configs.RedisKeyPrefixLoginUser+password.GenerateLoginToken(id), redis.WithTrace(c.Trace()))
-		if !b {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminOfflineError,
-				code.Text(code.AdminOfflineError)),
-			)
-			return
-		}
-
-		res.Id = id
-		c.Payload(res)
+func (h *handler) Offline(ctx *gin.Context) {
+	req := new(offlineRequest)
+	res := new(offlineResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	id := int32(ids[0])
+
+	b := redis.Cache().Del(ctx, configs.RedisKeyPrefixLoginUser+password.GenerateLoginToken(id))
+	if !b {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminOfflineError, err)
+		return
+	}
+
+	res.Id = id
+	api.ResponseOK(ctx, res)
+
 }

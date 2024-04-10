@@ -1,14 +1,15 @@
 package cron
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 
 	"github.com/spf13/cast"
 )
 
-func (s *service) UpdateUsed(ctx core.Context, id int32, used int32) (err error) {
+func (s *service) UpdateUsed(ctx context.Context, id int32, used int32) (err error) {
 	data := map[string]interface{}{
 		"is_used":      used,
 		"updated_user": ctx.SessionUserInfo().UserName,

@@ -11,11 +11,11 @@ import (
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/errors"
 	"github.com/ChangSZ/mall-go/pkg/urltable"
+	"github.com/gin-gonic/gin"
 )
 
-func (i *interceptor) CheckRBAC() core.HandlerFunc {
-	return func(c core.Context) {
-		token := c.GetHeader("Token")
+func (i *interceptor) CheckRBAC(ctx *gin.Context) {
+			token := c.GetHeader("Token")
 		if token == "" {
 			c.AbortWithError(core.Error(
 				http.StatusUnauthorized,

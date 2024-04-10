@@ -1,7 +1,7 @@
 package ums_admin
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type getRoleRequest struct{}
@@ -18,8 +18,6 @@ type getRoleResponse struct{}
 // @Success 200 {object} getRoleResponse
 // @Failure 400 {object} code.Failure
 // @Router /admin/role/{adminId} [get]
-func (h *handler) GetRole() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) GetRole(ctx *gin.Context) {
 
-	}
 }

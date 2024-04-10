@@ -7,7 +7,7 @@ const (
 	MinGoVersion = 1.16
 
 	// ProjectVersion 项目版本
-	ProjectVersion = "v1.2.8"
+	ProjectVersion = "v0.0.1"
 
 	// ProjectName 项目名称
 	ProjectName = "mall-go"
@@ -16,10 +16,12 @@ const (
 	ProjectDomain = "http://127.0.0.1"
 
 	// ProjectPort 项目端口
-	ProjectPort = ":9999"
+	ProjectPort = ":8080"
 
-	// ProjectAccessLogFile 项目访问日志存放文件
-	ProjectAccessLogFile = "./logs/" + ProjectName + "-access.log"
+	// ProjectLogFile 项目访问日志存放文件
+	ProjectLogFile          = "./logs/" + ProjectName
+	ProjectLogRotateMaxDays = 7
+	ProjectLogLevel         = "info"
 
 	// ProjectCronLogFile 项目后台任务日志存放文件
 	ProjectCronLogFile = "./logs/" + ProjectName + "-cron.log"

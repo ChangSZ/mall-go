@@ -1,6 +1,8 @@
 package code
 
 var enUSText = map[int]string{
+	OK: "OK",
+
 	ServerError:        "Internal server error",
 	TooManyRequests:    "Too many requests",
 	ParamBindError:     "Parameter error",

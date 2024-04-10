@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"net/http"
 	"time"
 
 	"github.com/ChangSZ/mall-go/configs"
@@ -11,9 +10,14 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/router"
 	"github.com/ChangSZ/mall-go/pkg/env"
+	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/logger"
 	"github.com/ChangSZ/mall-go/pkg/shutdown"
 	"github.com/ChangSZ/mall-go/pkg/timeutil"
+	"github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/gorilla/handlers"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/sdk/trace"
 
 	"go.uber.org/zap"
 )
@@ -40,7 +44,7 @@ func main() {
 		logger.WithDisableConsole(),
 		logger.WithField("domain", fmt.Sprintf("%s[%s]", configs.ProjectName, env.Active().Value())),
 		logger.WithTimeLayout(timeutil.CSTLayout),
-		logger.WithFileP(configs.ProjectAccessLogFile),
+		logger.WithFileP(configs.ProjectLogFile),
 	)
 	if err != nil {
 		panic(err)
@@ -57,6 +61,34 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	// 初始化logger
+	log.Init(configs.ProjectLogFile, configs.ProjectLogRotateMaxDays, configs.ProjectLogLevel)
+
+	tp := trace.NewTracerProvider()
+	otel.SetTracerProvider(tp)
+
+	var opts = []http.ServerOption{ // 这里的ServerOption很多只适用于grpc protobuf
+		http.Address(":8081"),
+		http.Filter(handlers.CORS(
+			handlers.AllowedOrigins([]string{"*"}),
+			handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS", "PUT", "DELETE", "UPDATE"}),
+			handlers.AllowedHeaders([]string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding",
+				"X-CSRF-Token", "Authorization", "X-Auth-Token", "X-Auth-UUID", "X-Auth-Openid",
+				"referrer", "Authorization", "x-client-id", "x-client-version", "x-client-type"}),
+			handlers.AllowCredentials(),
+			handlers.ExposedHeaders([]string{"Content-Length"}),
+		)),
+	}
+
+	// httpSrv := http.NewServer(opts...)
+	// httpSrv.HandlePrefix("/", r)
+
+	// app := kratos.New(kratos.Server(httpSrv))
+	// fmt.Println("开始运行")
+	// if err := app.Run(); err != nil {
+	// 	panic(err)
+	// }
 
 	defer func() {
 		_ = accessLogger.Sync()

@@ -1,7 +1,7 @@
 package ums_resource_cate
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type listAllRequest struct{}
@@ -18,8 +18,6 @@ type listAllResponse struct{}
 // @Success 200 {object} listAllResponse
 // @Failure 400 {object} code.Failure
 // @Router /resourceCategory/listAll [get]
-func (h *handler) ListAll() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) ListAll(ctx *gin.Context) {
 
-	}
 }

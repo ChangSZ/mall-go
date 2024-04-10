@@ -3,34 +3,30 @@ package config
 import (
 	"go/token"
 	"log"
+	"net/http"
 
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
 	"github.com/spf13/cast"
-	"go.uber.org/zap"
 )
 
 const minBusinessCode = 20000
 
-type handler struct {
-	logger *zap.Logger
+type handler struct{}
+
+func New() *handler {
+	return &handler{}
 }
 
-func New(logger *zap.Logger) *handler {
-	return &handler{logger: logger}
+func (h *handler) Email(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "config_email.html", configs.Get())
 }
 
-func (h *handler) Email() core.HandlerFunc {
-	return func(ctx core.Context) {
-		ctx.HTML("config_email", configs.Get())
-	}
-}
-
-func (h *handler) Code() core.HandlerFunc {
+func (h *handler) Code(ctx *gin.Context) {
 	type codes struct {
 		Code    int    `json:"code"`    // 错误码
 		Message string `json:"message"` // 错误码信息
@@ -83,11 +79,9 @@ func (h *handler) Code() core.HandlerFunc {
 		return true
 	})
 
-	return func(ctx core.Context) {
-		obj := new(codeViewResponse)
-		obj.BusinessCodes = businessCodes
-		obj.SystemCodes = systemCodes
+	obj := new(codeViewResponse)
+	obj.BusinessCodes = businessCodes
+	obj.SystemCodes = systemCodes
 
-		ctx.HTML("config_code", obj)
-	}
+	ctx.HTML(http.StatusOK, "config_code.html", obj)
 }

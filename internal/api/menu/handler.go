@@ -2,11 +2,9 @@ package menu
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/menu"
 	"github.com/ChangSZ/mall-go/pkg/hash"
-
-	"go.uber.org/zap"
+	"github.com/gin-gonic/gin"
 )
 
 var _ Handler = (*handler)(nil)
@@ -17,58 +15,56 @@ type Handler interface {
 	// Create 创建/编辑菜单
 	// @Tags API.menu
 	// @Router /api/menu [post]
-	Create() core.HandlerFunc
+	Create(*gin.Context)
 
 	// Detail 菜单详情
 	// @Tags API.menu
 	// @Router /api/menu/{id} [get]
-	Detail() core.HandlerFunc
+	Detail(*gin.Context)
 
 	// Delete 删除菜单
 	// @Tags API.menu
 	// @Router /api/menu/{id} [delete]
-	Delete() core.HandlerFunc
+	Delete(*gin.Context)
 
 	// UpdateUsed 更新菜单为启用/禁用
 	// @Tags API.menu
 	// @Router /api/menu/used [patch]
-	UpdateUsed() core.HandlerFunc
+	UpdateUsed(*gin.Context)
 
 	// UpdateSort 更新菜单排序
 	// @Tags API.menu
 	// @Router /api/menu/sort [patch]
-	UpdateSort() core.HandlerFunc
+	UpdateSort(*gin.Context)
 
 	// List 菜单列表
 	// @Tags API.menu
 	// @Router /api/menu [get]
-	List() core.HandlerFunc
+	List(*gin.Context)
 
 	// CreateAction 创建功能权限
 	// @Tags API.menu
 	// @Router /api/menu_action [post]
-	CreateAction() core.HandlerFunc
+	CreateAction(*gin.Context)
 
 	// ListAction 功能权限列表
 	// @Tags API.menu
 	// @Router /api/menu_action [get]
-	ListAction() core.HandlerFunc
+	ListAction(*gin.Context)
 
 	// DeleteAction 删除功能权限
 	// @Tags API.menu
 	// @Router /api/menu_action/{id} [delete]
-	DeleteAction() core.HandlerFunc
+	DeleteAction(*gin.Context)
 }
 
 type handler struct {
-	logger      *zap.Logger
 	hashids     hash.Hash
 	menuService menu.Service
 }
 
-func New(logger *zap.Logger) Handler {
+func New() Handler {
 	return &handler{
-		logger:      logger,
 		hashids:     hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
 		menuService: menu.New(),
 	}

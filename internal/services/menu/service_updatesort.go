@@ -1,12 +1,13 @@
 package menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu"
 )
 
-func (s *service) UpdateSort(ctx core.Context, id int32, sort int32) (err error) {
+func (s *service) UpdateSort(ctx context.Context, id int32, sort int32) (err error) {
 	data := map[string]interface{}{
 		"sort":         sort,
 		"updated_user": ctx.SessionUserInfo().UserName,

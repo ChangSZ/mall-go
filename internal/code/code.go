@@ -11,11 +11,14 @@ var ByteCodeFile []byte
 
 // Failure 错误时返回结构
 type Failure struct {
-	Code    int    `json:"code"`    // 业务码
-	Message string `json:"message"` // 描述信息
+	Code    int         `json:"code"`    // 业务码
+	Message string      `json:"message"` // 描述信息
+	Data    interface{} `json:"data"`    // 业务返回数据
 }
 
 const (
+	OK = 0
+
 	ServerError        = 10101
 	TooManyRequests    = 10102
 	ParamBindError     = 10103

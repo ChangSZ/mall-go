@@ -1,11 +1,9 @@
 package sysmessage
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/socket"
 	"github.com/ChangSZ/mall-go/pkg/errors"
-
-	"go.uber.org/zap"
+	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -13,14 +11,10 @@ var (
 	server socket.Server
 )
 
-type handler struct {
-	logger *zap.Logger
-}
+type handler struct{}
 
-func New(logger *zap.Logger) *handler {
-	return &handler{
-		logger: logger,
-	}
+func New() *handler {
+	return &handler{}
 }
 
 func GetConn() (socket.Server, error) {
@@ -31,13 +25,11 @@ func GetConn() (socket.Server, error) {
 	return nil, errors.New("conn is nil")
 }
 
-func (h *handler) Connect() core.HandlerFunc {
-	return func(ctx core.Context) {
-		server, err = socket.New(h.logger, ctx.ResponseWriter(), ctx.Request(), nil)
-		if err != nil {
-			return
-		}
-
-		go server.OnMessage()
+func (h *handler) Connect(ctx *gin.Context) {
+	server, err = socket.New(ctx.ResponseWriter(), ctx.Request(), nil)
+	if err != nil {
+		return
 	}
+
+	go server.OnMessage()
 }

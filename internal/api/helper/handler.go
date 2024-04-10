@@ -1,10 +1,8 @@
 package helper
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
-
-	"go.uber.org/zap"
+	"github.com/gin-gonic/gin"
 )
 
 var _ Handler = (*handler)(nil)
@@ -15,22 +13,20 @@ type Handler interface {
 	// Md5 加密
 	// @Tags Helper
 	// @Router /helper/md5/{str} [get]
-	Md5() core.HandlerFunc
+	Md5(*gin.Context)
 
 	// Sign 签名
 	// @Tags Helper
 	// @Router /helper/sign [post]
-	Sign() core.HandlerFunc
+	Sign(*gin.Context)
 }
 
 type handler struct {
-	logger            *zap.Logger
 	authorizedService authorized.Service
 }
 
-func New(logger *zap.Logger) Handler {
+func New() Handler {
 	return &handler{
-		logger:            logger,
 		authorizedService: authorized.New(),
 	}
 }

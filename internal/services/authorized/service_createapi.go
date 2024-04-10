@@ -1,8 +1,9 @@
 package authorized
 
 import (
+	"context"
+
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized_api"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
@@ -14,7 +15,7 @@ type CreateAuthorizedAPIData struct {
 	API         string `json:"api"`          // 请求地址
 }
 
-func (s *service) CreateAPI(ctx core.Context, authorizedAPIData *CreateAuthorizedAPIData) (id int32, err error) {
+func (s *service) CreateAPI(ctx context.Context, authorizedAPIData *CreateAuthorizedAPIData) (id int32, err error) {
 	model := authorized_api.NewModel()
 	model.BusinessKey = authorizedAPIData.BusinessKey
 	model.Method = authorizedAPIData.Method

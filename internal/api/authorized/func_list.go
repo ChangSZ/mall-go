@@ -3,10 +3,12 @@ package authorized
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
+	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/timeutil"
+	"github.com/gin-gonic/gin"
 
 	"github.com/spf13/cast"
 )
@@ -59,88 +61,74 @@ type listResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/authorized [get]
 // @Security LoginToken
-func (h *handler) List() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(listRequest)
-		res := new(listResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		page := req.Page
-		if page == 0 {
-			page = 1
-		}
-
-		pageSize := req.PageSize
-		if pageSize == 0 {
-			pageSize = 10
-		}
-
-		searchData := new(authorized.SearchData)
-		searchData.Page = page
-		searchData.PageSize = pageSize
-		searchData.BusinessKey = req.BusinessKey
-		searchData.BusinessSecret = req.BusinessSecret
-		searchData.Remark = req.Remark
-
-		resListData, err := h.authorizedService.PageList(c, searchData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizedListError,
-				code.Text(code.AuthorizedListError)).WithError(err),
-			)
-			return
-		}
-
-		resCountData, err := h.authorizedService.PageListCount(c, searchData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizedListError,
-				code.Text(code.AuthorizedListError)).WithError(err),
-			)
-			return
-		}
-		res.Pagination.Total = cast.ToInt(resCountData)
-		res.Pagination.PerPageCount = pageSize
-		res.Pagination.CurrentPage = page
-		res.List = make([]listData, len(resListData))
-
-		for k, v := range resListData {
-			hashId, err := h.hashids.HashidsEncode([]int{cast.ToInt(v.Id)})
-			if err != nil {
-				c.AbortWithError(core.Error(
-					http.StatusBadRequest,
-					code.HashIdsEncodeError,
-					code.Text(code.HashIdsEncodeError)).WithError(err),
-				)
-				return
-			}
-
-			data := listData{
-				Id:                cast.ToInt(v.Id),
-				HashID:            hashId,
-				BusinessKey:       v.BusinessKey,
-				BusinessSecret:    v.BusinessSecret,
-				BusinessDeveloper: v.BusinessDeveloper,
-				Remark:            v.Remark,
-				IsUsed:            cast.ToInt(v.IsUsed),
-				CreatedAt:         v.CreatedAt.Format(timeutil.CSTLayout),
-				CreatedUser:       v.CreatedUser,
-				UpdatedAt:         v.UpdatedAt.Format(timeutil.CSTLayout),
-				UpdatedUser:       v.UpdatedUser,
-			}
-
-			res.List[k] = data
-		}
-
-		c.Payload(res)
+func (h *handler) List(ctx *gin.Context) {
+	req := new(listRequest)
+	res := new(listResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	page := req.Page
+	if page == 0 {
+		page = 1
+	}
+
+	pageSize := req.PageSize
+	if pageSize == 0 {
+		pageSize = 10
+	}
+
+	searchData := new(authorized.SearchData)
+	searchData.Page = page
+	searchData.PageSize = pageSize
+	searchData.BusinessKey = req.BusinessKey
+	searchData.BusinessSecret = req.BusinessSecret
+	searchData.Remark = req.Remark
+
+	resListData, err := h.authorizedService.PageList(ctx, searchData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizedListError, err)
+		return
+	}
+
+	resCountData, err := h.authorizedService.PageListCount(ctx, searchData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizedListError, err)
+		return
+	}
+	res.Pagination.Total = cast.ToInt(resCountData)
+	res.Pagination.PerPageCount = pageSize
+	res.Pagination.CurrentPage = page
+	res.List = make([]listData, len(resListData))
+
+	for k, v := range resListData {
+		hashId, err := h.hashids.HashidsEncode([]int{cast.ToInt(v.Id)})
+		if err != nil {
+			log.WithTrace(ctx).Error(err)
+			api.Response(ctx, http.StatusBadRequest, code.HashIdsEncodeError, err)
+			return
+		}
+
+		data := listData{
+			Id:                cast.ToInt(v.Id),
+			HashID:            hashId,
+			BusinessKey:       v.BusinessKey,
+			BusinessSecret:    v.BusinessSecret,
+			BusinessDeveloper: v.BusinessDeveloper,
+			Remark:            v.Remark,
+			IsUsed:            cast.ToInt(v.IsUsed),
+			CreatedAt:         v.CreatedAt.Format(timeutil.CSTLayout),
+			CreatedUser:       v.CreatedUser,
+			UpdatedAt:         v.UpdatedAt.Format(timeutil.CSTLayout),
+			UpdatedUser:       v.UpdatedUser,
+		}
+
+		res.List[k] = data
+	}
+
+	api.ResponseOK(ctx, res)
 }

@@ -1,7 +1,8 @@
 package menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu"
 )
@@ -10,7 +11,7 @@ type SearchData struct {
 	Pid int32 // 父类ID
 }
 
-func (s *service) List(ctx core.Context, searchData *SearchData) (listData []*menu.Menu, err error) {
+func (s *service) List(ctx context.Context, searchData *SearchData) (listData []*menu.Menu, err error) {
 
 	qb := menu.NewQueryBuilder()
 	qb.WhereIsDeleted(mysql.EqualPredicate, -1)

@@ -1,7 +1,8 @@
 package cron
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 )
@@ -14,7 +15,7 @@ type SearchData struct {
 	IsUsed   int32  // 是否启用
 }
 
-func (s *service) PageList(ctx core.Context, searchData *SearchData) (listData []*cron_task.CronTask, err error) {
+func (s *service) PageList(ctx context.Context, searchData *SearchData) (listData []*cron_task.CronTask, err error) {
 	page := searchData.Page
 	if page == 0 {
 		page = 1

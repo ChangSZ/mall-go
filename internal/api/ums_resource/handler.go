@@ -2,9 +2,9 @@ package ums_resource
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/menu"
 	"github.com/ChangSZ/mall-go/pkg/hash"
+	"github.com/gin-gonic/gin"
 
 	"go.uber.org/zap"
 )
@@ -17,32 +17,32 @@ type Handler interface {
 	// Create 添加后台资源
 	// @Tags UmsResourceController
 	// @Router /resource/create [post]
-	Create() core.HandlerFunc
+	Create(*gin.Context)
 
 	// Update 修改后台资源
 	// @Tags UmsResourceController
 	// @Router /resource/update/{id} [post]
-	Update() core.HandlerFunc
+	Update(*gin.Context)
 
 	// Get 根据ID获取资源详情
 	// @Tags UmsResourceController
 	// @Router /resource/{id} [get]
-	Get() core.HandlerFunc
+	Get(*gin.Context)
 
 	// Delete 根据ID删除后台资源
 	// @Tags UmsResourceController
 	// @Router /resource/delete/{id} [post]
-	Delete() core.HandlerFunc
+	Delete(*gin.Context)
 
 	// List 分页模糊查询后台资源
 	// @Tags UmsResourceController
 	// @Router /resource/list [get]
-	List() core.HandlerFunc
+	List(*gin.Context)
 
 	// ListAll 查询所有后台资源
 	// @Tags UmsResourceController
 	// @Router /resource/listAll [get]
-	ListAll() core.HandlerFunc
+	ListAll(*gin.Context)
 }
 
 type handler struct {

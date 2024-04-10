@@ -4,8 +4,10 @@ import (
 	"net/http"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type refreshTokenRequest struct{}
@@ -25,22 +27,17 @@ type refreshTokenResponse struct {
 // @Success 200 {object} refreshTokenResponse
 // @Failure 400 {object} code.Failure
 // @Router /admin/refreshToken [get]
-func (h *handler) RefreshToken() core.HandlerFunc {
-	return func(c core.Context) {
-		res := new(refreshTokenResponse)
-		userInfo := c.GetUmsUserInfo()
+func (h *handler) RefreshToken(ctx *gin.Context) {
+	res := new(refreshTokenResponse)
+	userInfo := ctx.GetUmsUserInfo()
 
-		token, err := h.umsAdminService.RefreshToken(c, userInfo.Token)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.UmsAdminRefreshTokenError,
-				code.Text(code.UmsAdminRefreshTokenError)).WithError(err),
-			)
-			return
-		}
-		res.Token = token
-		res.TokenHead = configs.Get().Jwt.TokenHead
-		c.Payload(res)
+	token, err := h.umsAdminService.RefreshToken(ctx, userInfo.Token)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.UmsAdminRefreshTokenError, err)
+		return
 	}
+	res.Token = token
+	res.TokenHead = configs.Get().Jwt.TokenHead
+	api.ResponseOK(ctx, res)
 }

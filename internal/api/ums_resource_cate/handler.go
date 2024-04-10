@@ -2,9 +2,9 @@ package ums_resource_cate
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/menu"
 	"github.com/ChangSZ/mall-go/pkg/hash"
+	"github.com/gin-gonic/gin"
 
 	"go.uber.org/zap"
 )
@@ -17,22 +17,22 @@ type Handler interface {
 	// ListAll 查询所有后台资源分类
 	// @Tags UmsResourceController
 	// @Router /resourceCategory/listAll [get]
-	ListAll() core.HandlerFunc
+	ListAll(*gin.Context)
 
 	// Create 添加后台资源分类
 	// @Tags UmsResourceController
 	// @Router /resourceCategory/create [post]
-	Create() core.HandlerFunc
+	Create(*gin.Context)
 
 	// Update 修改后台资源分类
 	// @Tags UmsResourceController
 	// @Router /resourceCategory/update/{id} [post]
-	Update() core.HandlerFunc
+	Update(*gin.Context)
 
 	// Delete 根据ID删除后台资源分类
 	// @Tags UmsResourceController
 	// @Router /resourceCategory/delete/{id} [post]
-	Delete() core.HandlerFunc
+	Delete(*gin.Context)
 }
 
 type handler struct {

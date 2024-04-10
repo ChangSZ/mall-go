@@ -1,13 +1,16 @@
 package tool
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 
 	"github.com/spf13/cast"
 )
@@ -81,144 +84,130 @@ var filterListKeyword = []string{
 // @Failure 400 {object} code.Failure
 // @Router /api/tool/data/mysql [post]
 // @Security LoginToken
-func (h *handler) SearchMySQL() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(searchMySQLRequest)
-		res := new(searchMySQLResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		sql := strings.ToLower(strings.TrimSpace(req.SQL))
-		if sql == "" {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MySQLExecError,
-				"SQL 语句不能为空！"),
-			)
-			return
-		}
-
-		if preFilterList[string([]byte(sql)[:6])] {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MySQLExecError,
-				"SQL 语句不能以 "+string([]byte(sql)[:6])+" 开头！"),
-			)
-			return
-		}
-
-		for _, f := range filterListKeyword {
-			if find := strings.Contains(sql, f); find {
-
-				isWhiteList := false
-				for _, w := range whiteListKeyword {
-					if whiteFind := strings.Contains(sql, w); whiteFind {
-						isWhiteList = true
-						break
-					}
-				}
-
-				if !isWhiteList {
-					c.AbortWithError(core.Error(
-						http.StatusBadRequest,
-						code.MySQLExecError,
-						"SQL 语句存在敏感词： "+f+"！"),
-					)
-					return
-				}
-
-			}
-		}
-
-		if strings.ToLower(string([]byte(sql)[:6])) == "select" {
-			sql += " LIMIT 100"
-		}
-
-		// TODO 后期支持查询多个数据库
-		rows, err := mysql.DB().GetDbR().Raw(sql).Rows()
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MySQLExecError,
-				"MySQL "+err.Error()).WithError(err),
-			)
-			return
-		}
-
-		defer rows.Close()
-
-		cols, _ := rows.Columns()
-
-		var data []map[string]interface{}
-
-		for rows.Next() {
-			// Create a slice of interface{}'s to represent each column,
-			// and a second slice to contain pointers to each item in the columns slice.
-			columns := make([]interface{}, len(cols))
-			columnPointers := make([]interface{}, len(cols))
-			for i := range columns {
-				columnPointers[i] = &columns[i]
-			}
-
-			// Scan the result into the column pointers...
-			if err := rows.Scan(columnPointers...); err != nil {
-				fmt.Printf("query table scan error, detail is [%v]\n", err.Error())
-				continue
-			}
-
-			// Create our map, and retrieve the value for each column from the pointers slice,
-			// storing it in the map with the name of the column as the key.
-			m := make(map[string]interface{})
-			for i, colName := range cols {
-				val := columnPointers[i].(*interface{})
-				m[colName] = cast.ToString(*val)
-			}
-
-			data = append(data, m)
-
-		}
-
-		res.List = data
-		res.Cols = cols
-
-		sqlTableColumn := fmt.Sprintf("SELECT `COLUMN_NAME`, `COLUMN_COMMENT` FROM `information_schema`.`columns` WHERE `table_schema`= '%s' AND `table_name`= '%s' ORDER BY `ORDINAL_POSITION` ASC",
-			req.DbName, req.TableName)
-
-		rows, err = mysql.DB().GetDbR().Raw(sqlTableColumn).Rows()
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MySQLExecError,
-				"MySQL "+err.Error()).WithError(err),
-			)
-			return
-		}
-		defer rows.Close()
-
-		var tableColumns []tableColumn
-
-		for rows.Next() {
-			var column tableColumn
-			err = rows.Scan(
-				&column.ColumnName,
-				&column.ColumnComment)
-
-			if err != nil {
-				fmt.Printf("query table column scan error, detail is [%v]\n", err.Error())
-				continue
-			}
-
-			tableColumns = append(tableColumns, column)
-		}
-
-		res.ColsInfo = tableColumns
-
-		c.Payload(res)
+func (h *handler) SearchMySQL(ctx *gin.Context) {
+	req := new(searchMySQLRequest)
+	res := new(searchMySQLResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	sql := strings.ToLower(strings.TrimSpace(req.SQL))
+	if sql == "" {
+		err := errors.New("SQL 语句不能为空！")
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, err)
+		return
+	}
+
+	if preFilterList[string([]byte(sql)[:6])] {
+		err := errors.New("SQL 语句不能以 " + string([]byte(sql)[:6]) + " 开头！")
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, err)
+		return
+	}
+
+	for _, f := range filterListKeyword {
+		if find := strings.Contains(sql, f); find {
+
+			isWhiteList := false
+			for _, w := range whiteListKeyword {
+				if whiteFind := strings.Contains(sql, w); whiteFind {
+					isWhiteList = true
+					break
+				}
+			}
+
+			if !isWhiteList {
+				err := errors.New("SQL 语句存在敏感词： " + f + "!")
+				log.WithTrace(ctx).Error(err)
+				api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, err)
+				return
+			}
+
+		}
+	}
+
+	if strings.ToLower(string([]byte(sql)[:6])) == "select" {
+		sql += " LIMIT 100"
+	}
+
+	// TODO 后期支持查询多个数据库
+	rows, err := mysql.DB().GetDbR().Raw(sql).Rows()
+	if err != nil {
+		err := errors.New("MySQL " + err.Error())
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, err)
+		return
+	}
+
+	defer rows.Close()
+
+	cols, _ := rows.Columns()
+
+	var data []map[string]interface{}
+
+	for rows.Next() {
+		// Create a slice of interface{}'s to represent each column,
+		// and a second slice to contain pointers to each item in the columns slice.
+		columns := make([]interface{}, len(cols))
+		columnPointers := make([]interface{}, len(cols))
+		for i := range columns {
+			columnPointers[i] = &columns[i]
+		}
+
+		// Scan the result into the column pointers...
+		if err := rows.Scan(columnPointers...); err != nil {
+			fmt.Printf("query table scan error, detail is [%v]\n", err.Error())
+			continue
+		}
+
+		// Create our map, and retrieve the value for each column from the pointers slice,
+		// storing it in the map with the name of the column as the key.
+		m := make(map[string]interface{})
+		for i, colName := range cols {
+			val := columnPointers[i].(*interface{})
+			m[colName] = cast.ToString(*val)
+		}
+
+		data = append(data, m)
+
+	}
+
+	res.List = data
+	res.Cols = cols
+
+	sqlTableColumn := fmt.Sprintf(
+		"SELECT `COLUMN_NAME`, `COLUMN_COMMENT` FROM `information_schema`.`columns` WHERE `table_schema`= '%s' AND `table_name`= '%s' ORDER BY `ORDINAL_POSITION` ASC",
+		req.DbName, req.TableName)
+
+	rows, err = mysql.DB().GetDbR().Raw(sqlTableColumn).Rows()
+	if err != nil {
+		err := errors.New("MySQL " + err.Error())
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, err)
+		return
+	}
+	defer rows.Close()
+
+	var tableColumns []tableColumn
+
+	for rows.Next() {
+		var column tableColumn
+		err = rows.Scan(
+			&column.ColumnName,
+			&column.ColumnComment)
+
+		if err != nil {
+			fmt.Printf("query table column scan error, detail is [%v]\n", err.Error())
+			continue
+		}
+
+		tableColumns = append(tableColumns, column)
+	}
+
+	res.ColsInfo = tableColumns
+
+	api.ResponseOK(ctx, res)
 }

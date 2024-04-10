@@ -1,12 +1,13 @@
 package authorized
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 )
 
-func (s *service) List(ctx core.Context, searchData *SearchData) (listData []*authorized.Authorized, err error) {
+func (s *service) List(ctx context.Context, searchData *SearchData) (listData []*authorized.Authorized, err error) {
 
 	qb := authorized.NewQueryBuilder()
 	qb = qb.WhereIsDeleted(mysql.EqualPredicate, -1)

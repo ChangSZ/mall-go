@@ -3,11 +3,11 @@ package cron
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/pkg/validation"
 	"github.com/ChangSZ/mall-go/internal/services/cron"
-
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 )
 
@@ -43,57 +43,46 @@ type detailResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/cron/{id} [get]
 // @Security LoginToken
-func (h *handler) Detail() core.HandlerFunc {
-	return func(ctx core.Context) {
-		req := new(detailRequest)
-		res := new(detailResponse)
-		if err := ctx.ShouldBindURI(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				validation.Error(err)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		searchOneData := new(cron.SearchOneData)
-		searchOneData.Id = cast.ToInt32(ids[0])
-
-		info, err := h.cronService.Detail(ctx, searchOneData)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CronDetailError,
-				code.Text(code.CronDetailError)).WithError(err),
-			)
-			return
-		}
-
-		res.Name = info.Name
-		res.Spec = info.Spec
-		res.Command = info.Command
-		res.Protocol = info.Protocol
-		res.HttpMethod = info.HttpMethod
-		res.Timeout = info.Timeout
-		res.RetryTimes = info.RetryTimes
-		res.RetryInterval = info.RetryInterval
-		res.NotifyStatus = info.NotifyStatus
-		res.NotifyType = info.NotifyType
-		res.NotifyReceiverEmail = info.NotifyReceiverEmail
-		res.NotifyKeyword = info.NotifyKeyword
-		res.Remark = info.Remark
-		res.IsUsed = info.IsUsed
-
-		ctx.Payload(res)
+func (h *handler) Detail(ctx *gin.Context) {
+	req := new(detailRequest)
+	res := new(detailResponse)
+	if err := ctx.ShouldBindUri(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	searchOneData := new(cron.SearchOneData)
+	searchOneData.Id = cast.ToInt32(ids[0])
+
+	info, err := h.cronService.Detail(ctx, searchOneData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.CronDetailError, err)
+		return
+	}
+
+	res.Name = info.Name
+	res.Spec = info.Spec
+	res.Command = info.Command
+	res.Protocol = info.Protocol
+	res.HttpMethod = info.HttpMethod
+	res.Timeout = info.Timeout
+	res.RetryTimes = info.RetryTimes
+	res.RetryInterval = info.RetryInterval
+	res.NotifyStatus = info.NotifyStatus
+	res.NotifyType = info.NotifyType
+	res.NotifyReceiverEmail = info.NotifyReceiverEmail
+	res.NotifyKeyword = info.NotifyKeyword
+	res.Remark = info.Remark
+	res.IsUsed = info.IsUsed
+
+	api.ResponseOK(ctx, res)
 }

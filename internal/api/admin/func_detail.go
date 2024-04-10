@@ -5,11 +5,13 @@ import (
 	"net/http"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/pkg/password"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type detailResponse struct {
@@ -29,49 +31,38 @@ type detailResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/admin/info [get]
 // @Security LoginToken
-func (h *handler) Detail() core.HandlerFunc {
-	return func(ctx core.Context) {
-		res := new(detailResponse)
+func (h *handler) Detail(ctx *gin.Context) {
+	res := new(detailResponse)
 
-		searchOneData := new(admin.SearchOneData)
-		searchOneData.Id = ctx.SessionUserInfo().UserID
-		searchOneData.IsUsed = 1
+	searchOneData := new(admin.SearchOneData)
+	searchOneData.Id = ctx.SessionUserInfo().UserID
+	searchOneData.IsUsed = 1
 
-		info, err := h.adminService.Detail(ctx, searchOneData)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminDetailError,
-				code.Text(code.AdminDetailError)).WithError(err),
-			)
-			return
-		}
-
-		menuCacheData, err := redis.Cache().Get(configs.RedisKeyPrefixLoginUser+password.GenerateLoginToken(searchOneData.Id)+":menu", redis.WithTrace(ctx.Trace()))
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminDetailError,
-				code.Text(code.AdminDetailError)).WithError(err),
-			)
-			return
-		}
-
-		var menuData []admin.ListMyMenuData
-		err = json.Unmarshal([]byte(menuCacheData), &menuData)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminDetailError,
-				code.Text(code.AdminDetailError)).WithError(err),
-			)
-			return
-		}
-
-		res.Username = info.Username
-		res.Nickname = info.Nickname
-		res.Mobile = info.Mobile
-		res.Menu = menuData
-		ctx.Payload(res)
+	info, err := h.adminService.Detail(ctx, searchOneData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminDetailError, err)
+		return
 	}
+
+	menuCacheData, err := redis.Cache().Get(ctx, configs.RedisKeyPrefixLoginUser+password.GenerateLoginToken(searchOneData.Id)+":menu")
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminDetailError, err)
+		return
+	}
+
+	var menuData []admin.ListMyMenuData
+	err = json.Unmarshal([]byte(menuCacheData), &menuData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminDetailError, err)
+		return
+	}
+
+	res.Username = info.Username
+	res.Nickname = info.Nickname
+	res.Mobile = info.Mobile
+	res.Menu = menuData
+	api.ResponseOK(ctx, res)
 }

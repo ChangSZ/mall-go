@@ -3,8 +3,10 @@ package menu
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type deleteActionRequest struct {
@@ -26,42 +28,31 @@ type deleteActionResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/menu_action/{id} [delete]
 // @Security LoginToken
-func (h *handler) DeleteAction() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(deleteActionRequest)
-		res := new(deleteActionResponse)
-		if err := c.ShouldBindURI(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		id := int32(ids[0])
-
-		err = h.menuService.DeleteAction(c, id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MenuDeleteActionError,
-				code.Text(code.MenuDeleteActionError)).WithError(err),
-			)
-			return
-		}
-
-		res.Id = id
-		c.Payload(res)
+func (h *handler) DeleteAction(ctx *gin.Context) {
+	req := new(deleteActionRequest)
+	res := new(deleteActionResponse)
+	if err := ctx.ShouldBindUri(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	id := int32(ids[0])
+
+	err = h.menuService.DeleteAction(ctx, id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MenuDeleteActionError, err)
+		return
+	}
+
+	res.Id = id
+	api.ResponseOK(ctx, res)
 }

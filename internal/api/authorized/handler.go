@@ -2,11 +2,9 @@ package authorized
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
 	"github.com/ChangSZ/mall-go/pkg/hash"
-
-	"go.uber.org/zap"
+	"github.com/gin-gonic/gin"
 )
 
 var _ Handler = (*handler)(nil)
@@ -17,48 +15,46 @@ type Handler interface {
 	// Create 新增调用方
 	// @Tags API.authorized
 	// @Router /api/authorized [post]
-	Create() core.HandlerFunc
+	Create(*gin.Context)
 
 	// CreateAPI 授权调用方接口地址
 	// @Tags API.authorized
 	// @Router /api/authorized_api [post]
-	CreateAPI() core.HandlerFunc
+	CreateAPI(*gin.Context)
 
 	// List 调用方列表
 	// @Tags API.authorized
 	// @Router /api/authorized [get]
-	List() core.HandlerFunc
+	List(*gin.Context)
 
 	// ListAPI 调用方接口地址列表
 	// @Tags API.authorized
 	// @Router /api/authorized_api [get]
-	ListAPI() core.HandlerFunc
+	ListAPI(*gin.Context)
 
 	// Delete 删除调用方
 	// @Tags API.authorized
 	// @Router /api/authorized/{id} [delete]
-	Delete() core.HandlerFunc
+	Delete(*gin.Context)
 
 	// DeleteAPI 删除调用方接口地址
 	// @Tags API.authorized
 	// @Router /api/authorized_api/{id} [delete]
-	DeleteAPI() core.HandlerFunc
+	DeleteAPI(*gin.Context)
 
 	// UpdateUsed 更新调用方为启用/禁用
 	// @Tags API.authorized
 	// @Router /api/authorized/used [patch]
-	UpdateUsed() core.HandlerFunc
+	UpdateUsed(*gin.Context)
 }
 
 type handler struct {
-	logger            *zap.Logger
 	authorizedService authorized.Service
 	hashids           hash.Hash
 }
 
-func New(logger *zap.Logger) Handler {
+func New() Handler {
 	return &handler{
-		logger:            logger,
 		authorizedService: authorized.New(),
 		hashids:           hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
 	}

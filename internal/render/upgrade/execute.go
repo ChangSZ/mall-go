@@ -3,11 +3,12 @@ package upgrade
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal/tablesqls"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
-	"github.com/ChangSZ/mall-go/pkg/errors"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type upgradeExecuteRequest struct {
@@ -15,7 +16,7 @@ type upgradeExecuteRequest struct {
 	Op        string `form:"op"`         // 操作类型
 }
 
-func (h *handler) UpgradeExecute() core.HandlerFunc {
+func (h *handler) UpgradeExecute(ctx *gin.Context) {
 
 	upgradeTableList := map[string]map[string]string{
 		"authorized": {
@@ -53,62 +54,45 @@ func (h *handler) UpgradeExecute() core.HandlerFunc {
 		"table_data": true,
 	}
 
-	return func(ctx core.Context) {
-		req := new(upgradeExecuteRequest)
-		if err := ctx.ShouldBindForm(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		outPutString := ""
-		db := mysql.DB().GetDbW()
-
-		if upgradeTableList[req.TableName] == nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MySQLExecError,
-				code.Text(code.MySQLExecError)).WithError(errors.New("数据表不存在")),
-			)
-			return
-		}
-
-		if !upgradeTableOp[req.Op] {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MySQLExecError,
-				code.Text(code.MySQLExecError)).WithError(errors.New("非法操作")),
-			)
-			return
-		}
-
-		if req.Op == "table" {
-			if err := db.Exec(upgradeTableList[req.TableName]["table_sql"]).Error; err != nil {
-				ctx.AbortWithError(core.Error(
-					http.StatusBadRequest,
-					code.MySQLExecError,
-					code.Text(code.MySQLExecError)+" "+err.Error()).WithError(err),
-				)
-				return
-			}
-
-			outPutString = "初始化 MySQL 数据表：" + req.TableName + " 成功。"
-		} else if req.Op == "table_data" {
-			if err := db.Exec(upgradeTableList[req.TableName]["table_data_sql"]).Error; err != nil {
-				ctx.AbortWithError(core.Error(
-					http.StatusBadRequest,
-					code.MySQLExecError,
-					code.Text(code.MySQLExecError)+" "+err.Error()).WithError(err),
-				)
-				return
-			}
-
-			outPutString = "初始化 MySQL 数据表：" + req.TableName + " 默认数据成功。"
-		}
-
-		ctx.Payload(outPutString)
+	req := new(upgradeExecuteRequest)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	outPutString := ""
+	db := mysql.DB().GetDbW()
+
+	if upgradeTableList[req.TableName] == nil {
+		log.WithTrace(ctx).Error("数据表不存在")
+		api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, "数据表不存在")
+		return
+	}
+
+	if !upgradeTableOp[req.Op] {
+		log.WithTrace(ctx).Error("非法操作")
+		api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, "非法操作")
+		return
+	}
+
+	if req.Op == "table" {
+		if err := db.Exec(upgradeTableList[req.TableName]["table_sql"]).Error; err != nil {
+			log.WithTrace(ctx).Error(err)
+			api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, err)
+			return
+		}
+
+		outPutString = "初始化 MySQL 数据表：" + req.TableName + " 成功。"
+	} else if req.Op == "table_data" {
+		if err := db.Exec(upgradeTableList[req.TableName]["table_data_sql"]).Error; err != nil {
+			log.WithTrace(ctx).Error(err)
+			api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, err)
+			return
+		}
+
+		outPutString = "初始化 MySQL 数据表：" + req.TableName + " 默认数据成功。"
+	}
+
+	api.ResponseOK(ctx, outPutString)
 }

@@ -1,7 +1,8 @@
 package admin
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/admin"
 )
@@ -14,7 +15,7 @@ type SearchData struct {
 	Mobile   string // 手机号
 }
 
-func (s *service) PageList(ctx core.Context, searchData *SearchData) (listData []*admin.Admin, err error) {
+func (s *service) PageList(ctx context.Context, searchData *SearchData) (listData []*admin.Admin, err error) {
 
 	page := searchData.Page
 	if page == 0 {

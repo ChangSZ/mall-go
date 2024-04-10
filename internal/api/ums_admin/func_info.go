@@ -3,10 +3,12 @@ package ums_admin
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
 	"github.com/ChangSZ/mall-go/internal/services/ums_user"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type infoRequest struct{}
@@ -28,48 +30,37 @@ type infoResponse struct {
 // @Success 200 {object} infoResponse
 // @Failure 400 {object} code.Failure
 // @Router /admin/info [get]
-func (h *handler) Info() core.HandlerFunc {
-	return func(c core.Context) {
-		res := new(infoResponse)
-		userInfo := c.GetUmsUserInfo()
-		umsAdmin, err := ums_user.New().GetAdminByUsername(c, userInfo.UserName)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.UmsAdminGetUsernameError,
-				code.Text(code.UmsAdminGetUsernameError)).WithError(err),
-			)
-			return
-		}
-		res.Username = umsAdmin.Username
-		res.Icon = umsAdmin.Icon
-
-		menuList, err := h.umsRoleService.GetMenuList(c, umsAdmin.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.UmsAdminGetMenuListError,
-				code.Text(code.UmsAdminGetMenuListError)).WithError(err),
-			)
-			return
-		}
-		res.Menus = menuList
-
-		roleList, err := h.umsAdminService.GetRoleList(c, umsAdmin.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.UmsAdminGetRoleListError,
-				code.Text(code.UmsAdminGetRoleListError)).WithError(err),
-			)
-			return
-		}
-		if len(roleList) > 0 {
-			res.Roles = make([]string, 0, len(roleList))
-			for _, role := range roleList {
-				res.Roles = append(res.Roles, role.Name)
-			}
-		}
-		c.Payload(res)
+func (h *handler) Info(ctx *gin.Context) {
+	res := new(infoResponse)
+	userInfo := ctx.GetUmsUserInfo()
+	umsAdmin, err := ums_user.New().GetAdminByUsername(ctx, userInfo.UserName)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.UmsAdminGetUsernameError, err)
+		return
 	}
+	res.Username = umsAdmin.Username
+	res.Icon = umsAdmin.Icon
+
+	menuList, err := h.umsRoleService.GetMenuList(ctx, umsAdmin.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.UmsAdminGetMenuListError, err)
+		return
+	}
+	res.Menus = menuList
+
+	roleList, err := h.umsAdminService.GetRoleList(ctx, umsAdmin.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.UmsAdminGetRoleListError, err)
+		return
+	}
+	if len(roleList) > 0 {
+		res.Roles = make([]string, 0, len(roleList))
+		for _, role := range roleList {
+			res.Roles = append(res.Roles, role.Name)
+		}
+	}
+	api.ResponseOK(ctx, res)
 }

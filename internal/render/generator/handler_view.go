@@ -1,11 +1,11 @@
 package generator_handler
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func (h *handler) HandlerView() core.HandlerFunc {
-	return func(c core.Context) {
-		c.HTML("generator_handler", nil)
-	}
+func (h *handler) HandlerView(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "generator_handler.html", nil)
 }

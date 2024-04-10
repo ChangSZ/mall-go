@@ -1,7 +1,8 @@
 package menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu_action"
 )
@@ -12,7 +13,7 @@ type CreateMenuActionData struct {
 	API    string `json:"api"`     // 请求地址
 }
 
-func (s *service) CreateAction(ctx core.Context, menuActionData *CreateMenuActionData) (id int32, err error) {
+func (s *service) CreateAction(ctx context.Context, menuActionData *CreateMenuActionData) (id int32, err error) {
 	model := menu_action.NewModel()
 	model.MenuId = menuActionData.MenuId
 	model.Method = menuActionData.Method

@@ -1,7 +1,8 @@
 package cron
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 
@@ -25,7 +26,7 @@ type ModifyCronTaskData struct {
 	IsUsed              int32  // 是否启用 1:是  -1:否
 }
 
-func (s *service) Modify(ctx core.Context, id int32, modifyData *ModifyCronTaskData) (err error) {
+func (s *service) Modify(ctx context.Context, id int32, modifyData *ModifyCronTaskData) (err error) {
 	data := map[string]interface{}{
 		"name":                  modifyData.Name,
 		"spec":                  modifyData.Spec,

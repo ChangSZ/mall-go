@@ -2,9 +2,9 @@ package ums_menu
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/menu"
 	"github.com/ChangSZ/mall-go/pkg/hash"
+	"github.com/gin-gonic/gin"
 
 	"go.uber.org/zap"
 )
@@ -17,37 +17,37 @@ type Handler interface {
 	// Create 添加后台菜单
 	// @Tags UmsMenuController
 	// @Router /menu/create [post]
-	Create() core.HandlerFunc
+	Create(*gin.Context)
 
 	// Update 修改后台菜单
 	// @Tags UmsMenuController
 	// @Router /menu/update/{id} [post]
-	Update() core.HandlerFunc
+	Update(*gin.Context)
 
 	// Get 根据ID获取菜单详情
 	// @Tags UmsMenuController
 	// @Router /menu/{id} [get]
-	Get() core.HandlerFunc
+	Get(*gin.Context)
 
 	// Delete 根据ID删除后台菜单
 	// @Tags UmsMenuController
 	// @Router /menu/delete/{id} [post]
-	Delete() core.HandlerFunc
+	Delete(*gin.Context)
 
 	// List 分页查询后台菜单
 	// @Tags UmsMenuController
 	// @Router /menu/list/{parentId} [get]
-	List() core.HandlerFunc
+	List(*gin.Context)
 
 	// TreeList 树形结构返回所有菜单列表
 	// @Tags UmsMenuController
 	// @Router /menu/treeList [get]
-	TreeList() core.HandlerFunc
+	TreeList(*gin.Context)
 
 	// UpdateHidden 修改菜单显示状态
 	// @Tags UmsMenuController
 	// @Router /menu/updateHidden/{id} [post]
-	UpdateHidden() core.HandlerFunc
+	UpdateHidden(*gin.Context)
 }
 
 type handler struct {

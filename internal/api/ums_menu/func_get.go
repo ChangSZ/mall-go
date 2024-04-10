@@ -1,7 +1,7 @@
 package ums_menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type getRequest struct{}
@@ -18,8 +18,6 @@ type getResponse struct{}
 // @Success 200 {object} getResponse
 // @Failure 400 {object} code.Failure
 // @Router /menu/{id} [get]
-func (h *handler) Get() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) Get(ctx *gin.Context) {
 
-	}
 }

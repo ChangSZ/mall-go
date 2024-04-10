@@ -2,12 +2,15 @@ package log
 
 import (
 	"context"
-	"io"
-	"os"
+	"fmt"
+	"time"
 
 	"github.com/gin-gonic/gin"
+	kratoszap "github.com/go-kratos/kratos/contrib/log/zap/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/tracing"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 var myLogger log.Logger
@@ -36,7 +39,7 @@ func Log(level log.Level, keyvals ...interface{}) {
 }
 
 func WithTrace(ctx context.Context) *log.Helper {
-	if c, ok := ctx.(*gin.Context); ok {
+	if c, ok := ctx.(ctx *gin.Context); ok {
 		return log.NewHelper(log.WithContext(c.Request.Context(), log.With(log.GetLogger(), "trace.id", tracing.TraceID())))
 	}
 	return log.NewHelper(log.WithContext(ctx, log.With(log.GetLogger(), "trace.id", tracing.TraceID())))
@@ -117,14 +120,32 @@ func Fatalw(keyvals ...interface{}) {
 	log.Fatalw(keyvals...)
 }
 
-func Init(filePath string, maxDays int) {
+// timeEncoder 时间格式化函数
+func timeEncoder(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
+	enc.AppendString(t.Format("2006-01-02T15:04:05-07:00"))
+}
+
+func Init(filePath string, maxDays int, logLevel string) {
 	writer, err := RotateDailyLog(filePath, maxDays)
 	if err != nil {
 		panic("创建日志文件失败")
 	}
-	multiWriter := io.MultiWriter(os.Stdout, writer)
-	myLogger = log.With(log.NewStdLogger(multiWriter),
-		"ts", log.DefaultTimestamp,
+
+	writeSyncer := zapcore.AddSync(writer)
+	encoderConfig := zap.NewProductionEncoderConfig()
+	encoderConfig.EncodeTime = timeEncoder
+	encoder := zapcore.NewJSONEncoder(encoderConfig)
+
+	level, err := zapcore.ParseLevel(logLevel)
+	if err != nil {
+		level = zapcore.InfoLevel
+		fmt.Printf("日志level(%v)设置不正确: %v, 已自动设置为: %v", logLevel, err, zapcore.InfoLevel)
+	}
+	core := zapcore.NewCore(encoder, writeSyncer, level)
+	z := zap.New(core)
+	logger := kratoszap.NewLogger(z)
+
+	myLogger = log.With(logger,
 		"caller", log.Caller(5),
 	)
 	log.SetLogger(myLogger)

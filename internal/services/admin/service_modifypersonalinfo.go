@@ -1,7 +1,8 @@
 package admin
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/admin"
 )
@@ -11,7 +12,7 @@ type ModifyData struct {
 	Mobile   string // 手机号
 }
 
-func (s *service) ModifyPersonalInfo(ctx core.Context, id int32, modifyData *ModifyData) (err error) {
+func (s *service) ModifyPersonalInfo(ctx context.Context, id int32, modifyData *ModifyData) (err error) {
 	data := map[string]interface{}{
 		"nickname":     modifyData.Nickname,
 		"mobile":       modifyData.Mobile,

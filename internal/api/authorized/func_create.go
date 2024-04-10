@@ -3,9 +3,11 @@ package authorized
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type createRequest struct {
@@ -31,35 +33,27 @@ type createResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/authorized [post]
 // @Security LoginToken
-func (h *handler) Create() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(createRequest)
-		res := new(createResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		createData := new(authorized.CreateAuthorizedData)
-		createData.BusinessKey = req.BusinessKey
-		createData.BusinessDeveloper = req.BusinessDeveloper
-		createData.Remark = req.Remark
-
-		id, err := h.authorizedService.Create(c, createData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizedCreateError,
-				code.Text(code.AuthorizedCreateError)).WithError(err),
-			)
-			return
-		}
-
-		res.Id = id
-		c.Payload(res)
+func (h *handler) Create(ctx *gin.Context) {
+	req := new(createRequest)
+	res := new(createResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	createData := new(authorized.CreateAuthorizedData)
+	createData.BusinessKey = req.BusinessKey
+	createData.BusinessDeveloper = req.BusinessDeveloper
+	createData.Remark = req.Remark
+
+	id, err := h.authorizedService.Create(ctx, createData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizedCreateError, err)
+		return
+	}
+
+	res.Id = id
+	api.ResponseOK(ctx, res)
 }

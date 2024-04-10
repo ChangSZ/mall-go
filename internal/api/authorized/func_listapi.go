@@ -3,9 +3,11 @@ package authorized
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 
 	"github.com/spf13/cast"
 )
@@ -37,80 +39,63 @@ type listAPIResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/authorized_api [get]
 // @Security LoginToken
-func (h *handler) ListAPI() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(listAPIRequest)
-		res := new(listAPIResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		id := int32(ids[0])
-
-		// 通过 id 查询出 business_key
-		authorizedInfo, err := h.authorizedService.Detail(c, id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizedDetailError,
-				code.Text(code.AuthorizedDetailError)).WithError(err),
-			)
-			return
-		}
-
-		res.BusinessKey = authorizedInfo.BusinessKey
-
-		searchAPIData := new(authorized.SearchAPIData)
-		searchAPIData.BusinessKey = authorizedInfo.BusinessKey
-
-		resListData, err := h.authorizedService.ListAPI(c, searchAPIData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizedListAPIError,
-				code.Text(code.AuthorizedListAPIError)).WithError(err),
-			)
-			return
-		}
-
-		res.List = make([]listAPIData, len(resListData))
-
-		for k, v := range resListData {
-			hashId, err := h.hashids.HashidsEncode([]int{cast.ToInt(v.Id)})
-			if err != nil {
-				c.AbortWithError(core.Error(
-					http.StatusBadRequest,
-					code.HashIdsEncodeError,
-					code.Text(code.HashIdsEncodeError)).WithError(err),
-				)
-				return
-			}
-
-			data := listAPIData{
-				HashId:      hashId,
-				BusinessKey: v.BusinessKey,
-				Method:      v.Method,
-				API:         v.Api,
-			}
-
-			res.List[k] = data
-		}
-
-		c.Payload(res)
+func (h *handler) ListAPI(ctx *gin.Context) {
+	req := new(listAPIRequest)
+	res := new(listAPIResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	id := int32(ids[0])
+
+	// 通过 id 查询出 business_key
+	authorizedInfo, err := h.authorizedService.Detail(ctx, id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizedDetailError, err)
+		return
+	}
+
+	res.BusinessKey = authorizedInfo.BusinessKey
+
+	searchAPIData := new(authorized.SearchAPIData)
+	searchAPIData.BusinessKey = authorizedInfo.BusinessKey
+
+	resListData, err := h.authorizedService.ListAPI(ctx, searchAPIData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizedListAPIError, err)
+		return
+	}
+
+	res.List = make([]listAPIData, len(resListData))
+
+	for k, v := range resListData {
+		hashId, err := h.hashids.HashidsEncode([]int{cast.ToInt(v.Id)})
+		if err != nil {
+			log.WithTrace(ctx).Error(err)
+			api.Response(ctx, http.StatusBadRequest, code.HashIdsEncodeError, err)
+			return
+		}
+
+		data := listAPIData{
+			HashId:      hashId,
+			BusinessKey: v.BusinessKey,
+			Method:      v.Method,
+			API:         v.Api,
+		}
+
+		res.List[k] = data
+	}
+
+	api.ResponseOK(ctx, res)
 }

@@ -1,7 +1,8 @@
 package admin
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/admin_menu"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu"
@@ -18,7 +19,7 @@ type ListMenuData struct {
 	IsHave int32  `json:"is_have"` // 是否已拥有权限
 }
 
-func (s *service) ListMenu(ctx core.Context, searchData *SearchListMenuData) (menuData []ListMenuData, err error) {
+func (s *service) ListMenu(ctx context.Context, searchData *SearchListMenuData) (menuData []ListMenuData, err error) {
 	menuQb := menu.NewQueryBuilder()
 	menuQb.WhereIsDeleted(mysql.EqualPredicate, -1)
 	menuListData, err := menuQb.

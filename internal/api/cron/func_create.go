@@ -3,10 +3,11 @@ package cron
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/pkg/validation"
 	"github.com/ChangSZ/mall-go/internal/services/cron"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type createRequest struct {
@@ -54,46 +55,38 @@ type createResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/cron [post]
 // @Security LoginToken
-func (h *handler) Create() core.HandlerFunc {
-	return func(ctx core.Context) {
-		req := new(createRequest)
-		res := new(createResponse)
-		if err := ctx.ShouldBindForm(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				validation.Error(err)).WithError(err),
-			)
-			return
-		}
-
-		createData := new(cron.CreateCronTaskData)
-		createData.Name = req.Name
-		createData.Spec = req.Spec
-		createData.Command = req.Command
-		createData.Protocol = req.Protocol
-		createData.HttpMethod = req.HttpMethod
-		createData.Timeout = req.Timeout
-		createData.RetryTimes = req.RetryTimes
-		createData.RetryInterval = req.RetryInterval
-		createData.NotifyStatus = req.NotifyStatus
-		createData.NotifyType = req.NotifyType
-		createData.NotifyReceiverEmail = req.NotifyReceiverEmail
-		createData.NotifyKeyword = req.NotifyKeyword
-		createData.Remark = req.Remark
-		createData.IsUsed = req.IsUsed
-
-		id, err := h.cronService.Create(ctx, createData)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CronCreateError,
-				code.Text(code.CronCreateError)).WithError(err),
-			)
-			return
-		}
-
-		res.Id = id
-		ctx.Payload(res)
+func (h *handler) Create(ctx *gin.Context) {
+	req := new(createRequest)
+	res := new(createResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	createData := new(cron.CreateCronTaskData)
+	createData.Name = req.Name
+	createData.Spec = req.Spec
+	createData.Command = req.Command
+	createData.Protocol = req.Protocol
+	createData.HttpMethod = req.HttpMethod
+	createData.Timeout = req.Timeout
+	createData.RetryTimes = req.RetryTimes
+	createData.RetryInterval = req.RetryInterval
+	createData.NotifyStatus = req.NotifyStatus
+	createData.NotifyType = req.NotifyType
+	createData.NotifyReceiverEmail = req.NotifyReceiverEmail
+	createData.NotifyKeyword = req.NotifyKeyword
+	createData.Remark = req.Remark
+	createData.IsUsed = req.IsUsed
+
+	id, err := h.cronService.Create(ctx, createData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.CronCreateError, err)
+		return
+	}
+
+	res.Id = id
+	api.ResponseOK(ctx, res)
 }

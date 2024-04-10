@@ -1,7 +1,8 @@
 package admin
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/pkg/password"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/admin"
@@ -14,7 +15,7 @@ type CreateAdminData struct {
 	Password string // 密码
 }
 
-func (s *service) Create(ctx core.Context, adminData *CreateAdminData) (id int32, err error) {
+func (s *service) Create(ctx context.Context, adminData *CreateAdminData) (id int32, err error) {
 	model := admin.NewModel()
 	model.Username = adminData.Username
 	model.Password = password.GeneratePassword(adminData.Password)

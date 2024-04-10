@@ -3,9 +3,11 @@ package menu
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/menu"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type createActionRequest struct {
@@ -31,59 +33,45 @@ type createActionResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/menu_action [post]
 // @Security LoginToken
-func (h *handler) CreateAction() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(createActionRequest)
-		res := new(createActionResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		id := int32(ids[0])
-
-		searchOneData := new(menu.SearchOneData)
-		searchOneData.Id = id
-		menuInfo, err := h.menuService.Detail(c, searchOneData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MenuDetailError,
-				code.Text(code.MenuDetailError)).WithError(err),
-			)
-			return
-		}
-
-		createActionData := new(menu.CreateMenuActionData)
-		createActionData.MenuId = menuInfo.Id
-		createActionData.Method = req.Method
-		createActionData.API = req.API
-
-		createId, err := h.menuService.CreateAction(c, createActionData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MenuCreateActionError,
-				code.Text(code.MenuCreateActionError)).WithError(err),
-			)
-			return
-		}
-
-		res.Id = createId
-		c.Payload(res)
+func (h *handler) CreateAction(ctx *gin.Context) {
+	req := new(createActionRequest)
+	res := new(createActionResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	id := int32(ids[0])
+
+	searchOneData := new(menu.SearchOneData)
+	searchOneData.Id = id
+	menuInfo, err := h.menuService.Detail(ctx, searchOneData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MenuDetailError, err)
+		return
+	}
+
+	createActionData := new(menu.CreateMenuActionData)
+	createActionData.MenuId = menuInfo.Id
+	createActionData.Method = req.Method
+	createActionData.API = req.API
+
+	createId, err := h.menuService.CreateAction(ctx, createActionData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MenuCreateActionError, err)
+		return
+	}
+
+	res.Id = createId
+	api.ResponseOK(ctx, res)
 }

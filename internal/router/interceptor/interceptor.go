@@ -5,6 +5,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
+	"github.com/gin-gonic/gin"
 
 	"go.uber.org/zap"
 )
@@ -18,10 +19,10 @@ type Interceptor interface {
 	CheckToken(ctx core.Context) (info proposal.UmsUserInfo, err core.BusinessError)
 
 	// CheckRBAC 验证 RBAC 权限是否合法
-	CheckRBAC() core.HandlerFunc
+	CheckRBAC(*gin.Context)
 
 	// CheckSignature 验证签名是否合法，对用签名算法 pkg/signature
-	CheckSignature() core.HandlerFunc
+	CheckSignature(*gin.Context)
 
 	// i 为了避免被其他包实现
 	i()

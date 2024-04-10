@@ -3,8 +3,10 @@ package menu
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type updateSortRequest struct {
@@ -28,42 +30,31 @@ type updateSortResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/menu/sort [patch]
 // @Security LoginToken
-func (h *handler) UpdateSort() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(updateSortRequest)
-		res := new(updateSortResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		id := int32(ids[0])
-
-		err = h.menuService.UpdateSort(c, id, req.Sort)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MenuUpdateError,
-				code.Text(code.MenuUpdateError)).WithError(err),
-			)
-			return
-		}
-
-		res.Id = id
-		c.Payload(res)
+func (h *handler) UpdateSort(ctx *gin.Context) {
+	req := new(updateSortRequest)
+	res := new(updateSortResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	id := int32(ids[0])
+
+	err = h.menuService.UpdateSort(ctx, id, req.Sort)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MenuUpdateError, err)
+		return
+	}
+
+	res.Id = id
+	api.ResponseOK(ctx, res)
 }

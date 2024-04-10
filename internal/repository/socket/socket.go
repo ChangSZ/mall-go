@@ -7,13 +7,11 @@ import (
 	"github.com/ChangSZ/mall-go/pkg/errors"
 
 	"github.com/gorilla/websocket"
-	"go.uber.org/zap"
 )
 
 var _ Server = (*server)(nil)
 
 type server struct {
-	logger *zap.Logger
 	socket *websocket.Conn
 }
 
@@ -37,17 +35,13 @@ var upGrader = websocket.Upgrader{
 	},
 }
 
-func New(logger *zap.Logger, w http.ResponseWriter, r *http.Request, responseHeader http.Header) (Server, error) {
-	if logger == nil {
-		return nil, errors.New("logger required")
-	}
+func New(w http.ResponseWriter, r *http.Request, responseHeader http.Header) (Server, error) {
 	ws, err := upGrader.Upgrade(w, r, responseHeader)
 	if err != nil {
 		return nil, errors.Wrap(err, "ws error")
 	}
 
 	return &server{
-		logger: logger,
 		socket: ws,
 	}, nil
 }

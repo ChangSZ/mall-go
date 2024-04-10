@@ -1,17 +1,17 @@
 package router
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/websocket/sysmessage"
+	"github.com/gin-gonic/gin"
 )
 
-func setSocketRouter(r *resource) {
-	systemMessage := sysmessage.New(r.logger)
+func setSocketRouter(eng *gin.Engine) {
+	systemMessage := sysmessage.New()
 
 	// 无需记录日志
-	socket := r.mux.Group("/socket", core.DisableTraceLog, core.DisableRecordMetrics)
+	socket := eng.Group("/socket")
 	{
 		// 系统消息
-		socket.GET("/system/message", systemMessage.Connect())
+		socket.GET("/system/message", systemMessage.Connect)
 	}
 }

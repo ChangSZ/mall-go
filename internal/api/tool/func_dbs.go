@@ -2,7 +2,8 @@ package tool
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/gin-gonic/gin"
 )
 
 type dbsResponse struct {
@@ -23,16 +24,14 @@ type dbData struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/tool/data/dbs [get]
 // @Security LoginToken
-func (h *handler) Dbs() core.HandlerFunc {
-	return func(c core.Context) {
-		res := new(dbsResponse)
+func (h *handler) Dbs(ctx *gin.Context) {
+	res := new(dbsResponse)
 
-		// TODO 后期支持查询多个数据库
-		data := dbData{
-			DbName: configs.Get().MySQL.Read.Name,
-		}
-
-		res.List = append(res.List, data)
-		c.Payload(res)
+	// TODO 后期支持查询多个数据库
+	data := dbData{
+		DbName: configs.Get().MySQL.Read.Name,
 	}
+
+	res.List = append(res.List, data)
+	api.ResponseOK(ctx, res)
 }
