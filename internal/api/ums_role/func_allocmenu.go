@@ -1,7 +1,7 @@
 package ums_role
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type allocMenuRequest struct{}
@@ -18,8 +18,6 @@ type allocMenuResponse struct{}
 // @Success 200 {object} allocMenuResponse
 // @Failure 400 {object} code.Failure
 // @Router /role/allocMenu [post]
-func (h *handler) AllocMenu() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) AllocMenu(ctx *gin.Context) {
 
-	}
 }

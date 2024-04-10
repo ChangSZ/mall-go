@@ -3,9 +3,11 @@ package admin
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type listAdminMenuRequest struct {
@@ -28,59 +30,45 @@ type listAdminMenuResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/admin/menu/{id} [get]
 // @Security LoginToken
-func (h *handler) ListAdminMenu() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(listAdminMenuRequest)
-		res := new(listAdminMenuResponse)
-		if err := c.ShouldBindURI(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		searchOneData := new(admin.SearchOneData)
-		searchOneData.Id = int32(ids[0])
-		searchOneData.IsUsed = 1
-
-		info, err := h.adminService.Detail(c, searchOneData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminMenuListError,
-				code.Text(code.AdminMenuListError)).WithError(err),
-			)
-			return
-		}
-
-		res.UserName = info.Username
-
-		searchData := new(admin.SearchListMenuData)
-		searchData.AdminId = int32(ids[0])
-
-		listData, err := h.adminService.ListMenu(c, searchData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminMenuListError,
-				code.Text(code.AdminMenuListError)).WithError(err),
-			)
-			return
-		}
-
-		res.List = listData
-		c.Payload(res)
+func (h *handler) ListAdminMenu(ctx *gin.Context) {
+	req := new(listAdminMenuRequest)
+	res := new(listAdminMenuResponse)
+	if err := ctx.ShouldBindUri(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	searchOneData := new(admin.SearchOneData)
+	searchOneData.Id = int32(ids[0])
+	searchOneData.IsUsed = 1
+
+	info, err := h.adminService.Detail(ctx, searchOneData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminMenuListError, err)
+		return
+	}
+
+	res.UserName = info.Username
+
+	searchData := new(admin.SearchListMenuData)
+	searchData.AdminId = int32(ids[0])
+
+	listData, err := h.adminService.ListMenu(ctx, searchData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminMenuListError, err)
+		return
+	}
+
+	res.List = listData
+	api.ResponseOK(ctx, res)
 }

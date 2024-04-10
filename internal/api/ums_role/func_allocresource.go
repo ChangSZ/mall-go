@@ -1,7 +1,7 @@
 package ums_role
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type allocResourceRequest struct{}
@@ -18,8 +18,6 @@ type allocResourceResponse struct{}
 // @Success 200 {object} allocResourceResponse
 // @Failure 400 {object} code.Failure
 // @Router /role/allocResource [post]
-func (h *handler) AllocResource() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) AllocResource(ctx *gin.Context) {
 
-	}
 }

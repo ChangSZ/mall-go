@@ -1,7 +1,8 @@
 package admin
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/admin_menu"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu"
@@ -19,7 +20,7 @@ type ListMyMenuData struct {
 	Icon string `json:"icon"` // 图标
 }
 
-func (s *service) MyMenu(ctx core.Context, searchData *SearchMyMenuData) (menuData []ListMyMenuData, err error) {
+func (s *service) MyMenu(ctx context.Context, searchData *SearchMyMenuData) (menuData []ListMyMenuData, err error) {
 	adminMenuQb := admin_menu.NewQueryBuilder()
 	if searchData.AdminId != 0 {
 		adminMenuQb.WhereAdminId(mysql.EqualPredicate, searchData.AdminId)

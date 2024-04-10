@@ -2,12 +2,10 @@ package cron
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	cronRepo "github.com/ChangSZ/mall-go/internal/repository/cron"
 	"github.com/ChangSZ/mall-go/internal/services/cron"
 	"github.com/ChangSZ/mall-go/pkg/hash"
-
-	"go.uber.org/zap"
+	"github.com/gin-gonic/gin"
 )
 
 var _ Handler = (*handler)(nil)
@@ -18,43 +16,41 @@ type Handler interface {
 	// Create 创建任务
 	// @Tags API.cron
 	// @Router /api/cron [post]
-	Create() core.HandlerFunc
+	Create(*gin.Context)
 
 	// Modify 编辑任务
 	// @Tags API.cron
 	// @Router /api/cron/{id} [post]
-	Modify() core.HandlerFunc
+	Modify(*gin.Context)
 
 	// List 任务列表
 	// @Tags API.cron
 	// @Router /api/cron [get]
-	List() core.HandlerFunc
+	List(*gin.Context)
 
 	// UpdateUsed 更新任务为启用/禁用
 	// @Tags API.cron
 	// @Router /api/cron/used [patch]
-	UpdateUsed() core.HandlerFunc
+	UpdateUsed(*gin.Context)
 
 	// Detail 获取单条任务详情
 	// @Tags API.cron
 	// @Router /api/cron/{id} [get]
-	Detail() core.HandlerFunc
+	Detail(*gin.Context)
 
 	// Execute 手动执行任务
 	// @Tags API.cron
 	// @Router /api/cron/exec/{id} [patch]
-	Execute() core.HandlerFunc
+	Execute(*gin.Context)
 }
 
 type handler struct {
-	logger      *zap.Logger
 	hashids     hash.Hash
 	cronService cron.Service
 }
 
-func New(logger *zap.Logger, cronServer cronRepo.Server) Handler {
+func New(cronServer cronRepo.Server) Handler {
 	return &handler{
-		logger:      logger,
 		hashids:     hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
 		cronService: cron.New(cronServer),
 	}

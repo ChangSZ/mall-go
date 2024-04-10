@@ -3,9 +3,11 @@ package authorized
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type createAPIRequest struct {
@@ -31,58 +33,43 @@ type createAPIResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/authorized_api [post]
 // @Security LoginToken
-func (h *handler) CreateAPI() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(createAPIRequest)
-		res := new(createAPIResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		id := int32(ids[0])
-
-		// 通过 id 查询出 business_key
-		authorizedInfo, err := h.authorizedService.Detail(c, id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizedDetailError,
-				code.Text(code.AuthorizedDetailError)).WithError(err),
-			)
-			return
-		}
-
-		createAPIData := new(authorized.CreateAuthorizedAPIData)
-		createAPIData.BusinessKey = authorizedInfo.BusinessKey
-		createAPIData.Method = req.Method
-		createAPIData.API = req.API
-
-		createId, err := h.authorizedService.CreateAPI(c, createAPIData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizedCreateAPIError,
-				code.Text(code.AuthorizedCreateAPIError)).WithError(err),
-			)
-			return
-		}
-
-		res.Id = createId
-		c.Payload(res)
+func (h *handler) CreateAPI(ctx *gin.Context) {
+	req := new(createAPIRequest)
+	res := new(createAPIResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	id := int32(ids[0])
+	// 通过 id 查询出 business_key
+	authorizedInfo, err := h.authorizedService.Detail(ctx, id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizedDetailError, err)
+		return
+	}
+
+	createAPIData := new(authorized.CreateAuthorizedAPIData)
+	createAPIData.BusinessKey = authorizedInfo.BusinessKey
+	createAPIData.Method = req.Method
+	createAPIData.API = req.API
+
+	createId, err := h.authorizedService.CreateAPI(ctx, createAPIData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizedCreateAPIError, err)
+		return
+	}
+
+	res.Id = createId
+	api.ResponseOK(ctx, res)
 }

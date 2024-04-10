@@ -1,8 +1,9 @@
 package authorized
 
 import (
+	"context"
+
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized_api"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
@@ -10,7 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *service) DeleteAPI(ctx core.Context, id int32) (err error) {
+func (s *service) DeleteAPI(ctx context.Context, id int32) (err error) {
 	// 先查询 id 是否存在
 	authorizedApiInfo, err := authorized_api.NewQueryBuilder().
 		WhereIsDeleted(mysql.EqualPredicate, -1).

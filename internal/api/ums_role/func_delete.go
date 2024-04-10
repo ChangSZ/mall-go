@@ -1,7 +1,7 @@
 package ums_role
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type deleteRequest struct{}
@@ -18,8 +18,6 @@ type deleteResponse struct{}
 // @Success 200 {object} deleteResponse
 // @Failure 400 {object} code.Failure
 // @Router /role/delete [post]
-func (h *handler) Delete() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) Delete(ctx *gin.Context) {
 
-	}
 }

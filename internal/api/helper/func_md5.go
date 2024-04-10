@@ -5,8 +5,10 @@ import (
 	"encoding/hex"
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type md5Request struct {
@@ -27,23 +29,18 @@ type md5Response struct {
 // @Success 200 {object} md5Response
 // @Failure 400 {object} code.Failure
 // @Router /helper/md5/{str} [get]
-func (h *handler) Md5() core.HandlerFunc {
-	return func(ctx core.Context) {
-		req := new(md5Request)
-		res := new(md5Response)
+func (h *handler) Md5(ctx *gin.Context) {
+	req := new(md5Request)
+	res := new(md5Response)
 
-		if err := ctx.ShouldBindURI(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		m := md5.New()
-		m.Write([]byte(req.Str))
-		res.Md5Str = hex.EncodeToString(m.Sum(nil))
-		ctx.Payload(res)
+	if err := ctx.ShouldBindUri(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	m := md5.New()
+	m.Write([]byte(req.Str))
+	res.Md5Str = hex.EncodeToString(m.Sum(nil))
+	api.ResponseOK(ctx, res)
 }

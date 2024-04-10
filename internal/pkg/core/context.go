@@ -3,7 +3,7 @@ package core
 import (
 	"bytes"
 	stdctx "context"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -13,7 +13,6 @@ import (
 	"github.com/ChangSZ/mall-go/pkg/trace"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gin-gonic/gin/binding"
 	"go.uber.org/zap"
 )
 
@@ -150,7 +149,7 @@ type Context interface {
 }
 
 type context struct {
-	ctx *gin.Context
+	gin.Context
 }
 
 type StdContext struct {
@@ -160,57 +159,22 @@ type StdContext struct {
 }
 
 func (c *context) init() {
-	body, err := c.ctx.GetRawData()
+	body, err := c.GetRawData()
 	if err != nil {
 		panic(err)
 	}
 
-	c.ctx.Set(_BodyName, body)                                   // cache body是为了trace使用
-	c.ctx.Request.Body = ioutil.NopCloser(bytes.NewBuffer(body)) // re-construct req body
-}
-
-// ShouldBindQuery 反序列化querystring
-// tag: `form:"xxx"` (注：不要写成query)
-func (c *context) ShouldBindQuery(obj interface{}) error {
-	return c.ctx.ShouldBindWith(obj, binding.Query)
-}
-
-// ShouldBindPostForm 反序列化 postform (querystring 会被忽略)
-// tag: `form:"xxx"`
-func (c *context) ShouldBindPostForm(obj interface{}) error {
-	return c.ctx.ShouldBindWith(obj, binding.FormPost)
-}
-
-// ShouldBindForm 同时反序列化querystring和postform;
-// 当querystring和postform存在相同字段时，postform优先使用。
-// tag: `form:"xxx"`
-func (c *context) ShouldBindForm(obj interface{}) error {
-	return c.ctx.ShouldBindWith(obj, binding.Form)
-}
-
-func (c *context) ShouldBind(obj interface{}) error {
-	return c.ctx.ShouldBind(obj)
-}
-
-// ShouldBindJSON 反序列化postjson
-// tag: `json:"xxx"`
-func (c *context) ShouldBindJSON(obj interface{}) error {
-	return c.ctx.ShouldBindWith(obj, binding.JSON)
-}
-
-// ShouldBindURI 反序列化path参数(如路由路径为 /user/:name)
-// tag: `uri:"xxx"`
-func (c *context) ShouldBindURI(obj interface{}) error {
-	return c.ctx.ShouldBindUri(obj)
+	c.Set(_BodyName, body)                               // cache body是为了trace使用
+	c.Request.Body = io.NopCloser(bytes.NewBuffer(body)) // re-construct req body
 }
 
 // Redirect 重定向
-func (c *context) Redirect(code int, location string) {
-	c.ctx.Redirect(code, location)
+func (c *context) redirect(code int, location string) {
+	c.Redirect(code, location)
 }
 
 func (c *context) Trace() Trace {
-	t, ok := c.ctx.Get(_TraceName)
+	t, ok := c.Get(_TraceName)
 	if !ok || t == nil {
 		return nil
 	}
@@ -219,7 +183,7 @@ func (c *context) Trace() Trace {
 }
 
 func (c *context) setTrace(trace Trace) {
-	c.ctx.Set(_TraceName, trace)
+	c.Set(_TraceName, trace)
 }
 
 func (c *context) disableTrace() {
@@ -227,7 +191,7 @@ func (c *context) disableTrace() {
 }
 
 func (c *context) Logger() *zap.Logger {
-	logger, ok := c.ctx.Get(_LoggerName)
+	logger, ok := c.Get(_LoggerName)
 	if !ok {
 		return nil
 	}
@@ -236,26 +200,26 @@ func (c *context) Logger() *zap.Logger {
 }
 
 func (c *context) setLogger(logger *zap.Logger) {
-	c.ctx.Set(_LoggerName, logger)
+	c.Set(_LoggerName, logger)
 }
 
 func (c *context) getPayload() interface{} {
-	if payload, ok := c.ctx.Get(_PayloadName); ok {
+	if payload, ok := c.Get(_PayloadName); ok {
 		return payload
 	}
 	return nil
 }
 
 func (c *context) Payload(payload interface{}) {
-	c.ctx.Set(_PayloadName, payload)
+	c.Set(_PayloadName, payload)
 }
 
 func (c *context) HTML(name string, obj interface{}) {
-	c.ctx.HTML(200, name+".html", obj)
+	c.HTML(200, name+".html", obj)
 }
 
 func (c *context) Header() http.Header {
-	header := c.ctx.Request.Header
+	header := c.Request.Header
 
 	clone := make(http.Header, len(header))
 	for k, v := range header {
@@ -268,15 +232,15 @@ func (c *context) Header() http.Header {
 }
 
 func (c *context) GetHeader(key string) string {
-	return c.ctx.GetHeader(key)
+	return c.GetHeader(key)
 }
 
 func (c *context) SetHeader(key, value string) {
-	c.ctx.Header(key, value)
+	c.Header(key, value)
 }
 
 func (c *context) SessionUserInfo() proposal.SessionUserInfo {
-	val, ok := c.ctx.Get(_SessionUserInfo)
+	val, ok := c.Get(_SessionUserInfo)
 	if !ok {
 		return proposal.SessionUserInfo{}
 	}
@@ -285,11 +249,11 @@ func (c *context) SessionUserInfo() proposal.SessionUserInfo {
 }
 
 func (c *context) setSessionUserInfo(info proposal.SessionUserInfo) {
-	c.ctx.Set(_SessionUserInfo, info)
+	c.Set(_SessionUserInfo, info)
 }
 
 func (c *context) GetUmsUserInfo() proposal.UmsUserInfo {
-	val, ok := c.ctx.Get(_UmsUserInfo)
+	val, ok := c.Get(_UmsUserInfo)
 	if !ok {
 		return proposal.UmsUserInfo{}
 	}
@@ -297,7 +261,7 @@ func (c *context) GetUmsUserInfo() proposal.UmsUserInfo {
 }
 
 func (c *context) setUmsUserInfo(info proposal.UmsUserInfo) {
-	c.ctx.Set(_UmsUserInfo, info)
+	c.Set(_UmsUserInfo, info)
 }
 
 func (c *context) AbortWithError(err BusinessError) {
@@ -307,18 +271,18 @@ func (c *context) AbortWithError(err BusinessError) {
 			httpCode = http.StatusInternalServerError
 		}
 
-		c.ctx.AbortWithStatus(httpCode)
-		c.ctx.Set(_AbortErrorName, err)
+		c.AbortWithStatus(httpCode)
+		c.Set(_AbortErrorName, err)
 	}
 }
 
 func (c *context) abortError() BusinessError {
-	err, _ := c.ctx.Get(_AbortErrorName)
+	err, _ := c.Get(_AbortErrorName)
 	return err.(BusinessError)
 }
 
 func (c *context) Alias() string {
-	path, ok := c.ctx.Get(_Alias)
+	path, ok := c.Get(_Alias)
 	if !ok {
 		return ""
 	}
@@ -328,12 +292,12 @@ func (c *context) Alias() string {
 
 func (c *context) setAlias(path string) {
 	if path = strings.TrimSpace(path); path != "" {
-		c.ctx.Set(_Alias, path)
+		c.Set(_Alias, path)
 	}
 }
 
 func (c *context) isRecordMetrics() bool {
-	isRecordMetrics, ok := c.ctx.Get(_IsRecordMetrics)
+	isRecordMetrics, ok := c.Get(_IsRecordMetrics)
 	if !ok {
 		return false
 	}
@@ -342,32 +306,27 @@ func (c *context) isRecordMetrics() bool {
 }
 
 func (c *context) ableRecordMetrics() {
-	c.ctx.Set(_IsRecordMetrics, true)
+	c.Set(_IsRecordMetrics, true)
 }
 
 func (c *context) disableRecordMetrics() {
-	c.ctx.Set(_IsRecordMetrics, false)
+	c.Set(_IsRecordMetrics, false)
 }
 
 // RequestInputParams 获取所有参数
 func (c *context) RequestInputParams() url.Values {
-	_ = c.ctx.Request.ParseForm()
-	return c.ctx.Request.Form
+	_ = c.Request.ParseForm()
+	return c.Request.Form
 }
 
 // RequestPostFormParams 获取 PostForm 参数
 func (c *context) RequestPostFormParams() url.Values {
-	_ = c.ctx.Request.ParseForm()
-	return c.ctx.Request.PostForm
-}
-
-// Request 获取 Request
-func (c *context) Request() *http.Request {
-	return c.ctx.Request
+	_ = c.Request.ParseForm()
+	return c.Request.PostForm
 }
 
 func (c *context) RawData() []byte {
-	body, ok := c.ctx.Get(_BodyName)
+	body, ok := c.Get(_BodyName)
 	if !ok {
 		return nil
 	}
@@ -377,29 +336,29 @@ func (c *context) RawData() []byte {
 
 // Method 请求的method
 func (c *context) Method() string {
-	return c.ctx.Request.Method
+	return c.Request.Method
 }
 
 // Host 请求的host
 func (c *context) Host() string {
-	return c.ctx.Request.Host
+	return c.Request.Host
 }
 
 // Path 请求的路径(不附带querystring)
 func (c *context) Path() string {
-	return c.ctx.Request.URL.Path
+	return c.Request.URL.Path
 }
 
 // URI unescape后的uri
 func (c *context) URI() string {
-	uri, _ := url.QueryUnescape(c.ctx.Request.URL.RequestURI())
+	uri, _ := url.QueryUnescape(c.Request.URL.RequestURI())
 	return uri
 }
 
 // RequestContext (包装 Trace + Logger) 获取请求的 context (当client关闭后，会自动canceled)
 func (c *context) RequestContext() StdContext {
 	return StdContext{
-		//c.ctx.Request.Context(),
+		//c.Request.Context(),
 		stdctx.Background(),
 		c.Trace(),
 		c.Logger(),
@@ -408,5 +367,5 @@ func (c *context) RequestContext() StdContext {
 
 // ResponseWriter 获取 ResponseWriter
 func (c *context) ResponseWriter() gin.ResponseWriter {
-	return c.ctx.Writer
+	return c.Writer
 }

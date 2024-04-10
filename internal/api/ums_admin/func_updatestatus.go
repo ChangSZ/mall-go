@@ -1,7 +1,7 @@
 package ums_admin
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type updateStatusRequest struct{}
@@ -18,8 +18,6 @@ type updateStatusResponse struct{}
 // @Success 200 {object} updateStatusResponse
 // @Failure 400 {object} code.Failure
 // @Router /admin/updateStatus/{id} [post]
-func (h *handler) UpdateStatus() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) UpdateStatus(ctx *gin.Context) {
 
-	}
 }

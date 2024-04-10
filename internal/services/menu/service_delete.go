@@ -1,12 +1,13 @@
 package menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu"
 )
 
-func (s *service) Delete(ctx core.Context, id int32) (err error) {
+func (s *service) Delete(ctx context.Context, id int32) (err error) {
 	data := map[string]interface{}{
 		"is_deleted":   1,
 		"updated_user": ctx.SessionUserInfo().UserName,

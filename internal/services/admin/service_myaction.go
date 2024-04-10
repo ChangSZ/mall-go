@@ -1,7 +1,8 @@
 package admin
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/admin_menu"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu_action"
@@ -18,7 +19,7 @@ type MyActionData struct {
 	Api    string // 请求地址
 }
 
-func (s *service) MyAction(ctx core.Context, searchData *SearchMyActionData) (actionData []MyActionData, err error) {
+func (s *service) MyAction(ctx context.Context, searchData *SearchMyActionData) (actionData []MyActionData, err error) {
 	adminMenuQb := admin_menu.NewQueryBuilder()
 	if searchData.AdminId != 0 {
 		adminMenuQb.WhereAdminId(mysql.EqualPredicate, searchData.AdminId)

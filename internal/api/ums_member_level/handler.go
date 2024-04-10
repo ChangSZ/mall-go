@@ -2,9 +2,9 @@ package ums_member_level
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/menu"
 	"github.com/ChangSZ/mall-go/pkg/hash"
+	"github.com/gin-gonic/gin"
 
 	"go.uber.org/zap"
 )
@@ -17,7 +17,7 @@ type Handler interface {
 	// List 查询所有会员等级
 	// @Tags UmsMemberLevelController
 	// @Router /memberLevel/list [get]
-	List() core.HandlerFunc
+	List(*gin.Context)
 }
 
 type handler struct {

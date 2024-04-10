@@ -1,9 +1,9 @@
 package admin
 
 import (
+	"context"
 	"strings"
 
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/admin_menu"
 
@@ -15,7 +15,7 @@ type CreateMenuData struct {
 	Actions string `form:"actions"`  // 功能权限ID,多个用,分割
 }
 
-func (s *service) CreateMenu(ctx core.Context, menuData *CreateMenuData) (err error) {
+func (s *service) CreateMenu(ctx context.Context, menuData *CreateMenuData) (err error) {
 	qb := admin_menu.NewQueryBuilder()
 	qb.WhereAdminId(mysql.EqualPredicate, menuData.AdminId)
 	if err = qb.Delete(mysql.DB().GetDbW().WithContext(ctx.RequestContext())); err != nil {

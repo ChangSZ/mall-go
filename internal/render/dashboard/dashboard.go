@@ -9,24 +9,21 @@ import (
 	"time"
 
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/pkg/env"
+	"github.com/gin-gonic/gin"
 
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
 	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
-	"go.uber.org/zap"
 )
 
-type handler struct {
-	logger *zap.Logger
-}
+type handler struct{}
 
-func New(logger *zap.Logger) *handler {
-	return &handler{logger: logger}
+func New() *handler {
+	return &handler{}
 }
 
 const (
@@ -36,7 +33,7 @@ const (
 	GB = 1024 * MB
 )
 
-func (h *handler) View() core.HandlerFunc {
+func (h *handler) View(ctx *gin.Context) {
 	type mysqlVersion struct {
 		Ver string
 	}
@@ -76,47 +73,46 @@ func (h *handler) View() core.HandlerFunc {
 		RedisVersion   string
 	}
 
-	return func(ctx core.Context) {
-		memInfo, _ := mem.VirtualMemory()
-		diskInfo, _ := disk.Usage("/")
-		hostInfo, _ := host.Info()
-		cpuInfo, _ := cpu.Info()
-		cpuPercent, _ := cpu.Percent(time.Second, false)
+	memInfo, _ := mem.VirtualMemory()
+	diskInfo, _ := disk.Usage("/")
+	hostInfo, _ := host.Info()
+	cpuInfo, _ := cpu.Info()
+	cpuPercent, _ := cpu.Percent(time.Second, false)
 
-		obj := new(viewResponse)
-		obj.MemTotal = fmt.Sprintf("%d GB", memInfo.Total/GB)
-		obj.MemUsed = fmt.Sprintf("%d GB", memInfo.Used/GB)
-		obj.MemUsedPercent, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", memInfo.UsedPercent), 64)
+	obj := new(viewResponse)
+	obj.MemTotal = fmt.Sprintf("%d GB", memInfo.Total/GB)
+	obj.MemUsed = fmt.Sprintf("%d GB", memInfo.Used/GB)
+	obj.MemUsedPercent, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", memInfo.UsedPercent), 64)
 
-		obj.DiskTotal = fmt.Sprintf("%d GB", diskInfo.Total/GB)
-		obj.DiskUsed = fmt.Sprintf("%d GB", diskInfo.Used/GB)
-		obj.DiskUsedPercent, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", diskInfo.UsedPercent), 64)
+	obj.DiskTotal = fmt.Sprintf("%d GB", diskInfo.Total/GB)
+	obj.DiskUsed = fmt.Sprintf("%d GB", diskInfo.Used/GB)
+	obj.DiskUsedPercent, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", diskInfo.UsedPercent), 64)
 
-		obj.HostOS = fmt.Sprintf("%s(%s) %s", hostInfo.Platform, hostInfo.PlatformFamily, hostInfo.PlatformVersion)
-		obj.HostName = hostInfo.Hostname
+	obj.HostOS = fmt.Sprintf("%s(%s) %s", hostInfo.Platform, hostInfo.PlatformFamily, hostInfo.PlatformVersion)
+	obj.HostName = hostInfo.Hostname
 
-		if len(cpuInfo) > 0 {
-			obj.CpuName = cpuInfo[0].ModelName
-			obj.CpuCores = cpuInfo[0].Cores
-		}
-
-		if len(cpuPercent) > 0 {
-			obj.CpuUsedPercent, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", cpuPercent[0]), 64)
-		}
-
-		obj.GoPath = runtime.GOROOT()
-		obj.GoVersion = runtime.Version()
-		obj.Goroutine = runtime.NumGoroutine()
-		dir, _ := os.Getwd()
-		obj.ProjectPath = strings.Replace(dir, "\\", "/", -1)
-		obj.Host = ctx.Host()
-		obj.Env = env.Active().Value()
-		obj.GoOS = runtime.GOOS
-		obj.GoArch = runtime.GOARCH
-		obj.ProjectVersion = configs.ProjectVersion
-		obj.MySQLVersion = mysqlVer.Ver
-		obj.RedisVersion = redis.Cache().Version()
-
-		ctx.HTML("dashboard", obj)
+	if len(cpuInfo) > 0 {
+		obj.CpuName = cpuInfo[0].ModelName
+		obj.CpuCores = cpuInfo[0].Cores
 	}
+
+	if len(cpuPercent) > 0 {
+		obj.CpuUsedPercent, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", cpuPercent[0]), 64)
+	}
+
+	obj.GoPath = runtime.GOROOT()
+	obj.GoVersion = runtime.Version()
+	obj.Goroutine = runtime.NumGoroutine()
+	dir, _ := os.Getwd()
+	obj.ProjectPath = strings.Replace(dir, "\\", "/", -1)
+	obj.Host = ctx.Request.Host
+	obj.Env = env.Active().Value()
+	obj.GoOS = runtime.GOOS
+	obj.GoArch = runtime.GOARCH
+	obj.ProjectVersion = configs.ProjectVersion
+	obj.MySQLVersion = mysqlVer.Ver
+	obj.RedisVersion = redis.Cache().Version()
+
+	ctx.HTML(200, "dashboard.html", obj)
+
 }

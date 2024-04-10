@@ -12,15 +12,15 @@ import (
 	"github.com/ChangSZ/mall-go/pkg/errors"
 	"github.com/ChangSZ/mall-go/pkg/signature"
 	"github.com/ChangSZ/mall-go/pkg/urltable"
+	"github.com/gin-gonic/gin"
 )
 
 var whiteListPath = map[string]bool{
 	"/login/web": true,
 }
 
-func (i *interceptor) CheckSignature() core.HandlerFunc {
-	return func(c core.Context) {
-		if !env.Active().IsPro() {
+func (i *interceptor) CheckSignature(ctx *gin.Context) {
+			if !env.Active().IsPro() {
 			return
 		}
 
@@ -59,7 +59,7 @@ func (i *interceptor) CheckSignature() core.HandlerFunc {
 
 		key := authorizationSplit[0]
 
-		data, err := i.authorizedService.DetailByKey(c, key)
+		data, err := i.authorizedService.DetailByKey(ctx, key)
 		if err != nil {
 			c.AbortWithError(core.Error(
 				http.StatusBadRequest,

@@ -1,7 +1,7 @@
 package ums_member_level
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type listRequest struct{}
@@ -18,8 +18,6 @@ type listResponse struct{}
 // @Success 200 {object} listResponse
 // @Failure 400 {object} code.Failure
 // @Router /memberLevel/list [get]
-func (h *handler) List() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) List(ctx *gin.Context) {
 
-	}
 }

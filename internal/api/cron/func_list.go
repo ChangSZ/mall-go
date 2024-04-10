@@ -3,13 +3,13 @@ package cron
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/pkg/validation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 	"github.com/ChangSZ/mall-go/internal/services/cron"
+	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/timeutil"
-
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 )
 
@@ -68,98 +68,84 @@ type listResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/cron [get]
 // @Security LoginToken
-func (h *handler) List() core.HandlerFunc {
-	return func(ctx core.Context) {
-		req := new(listRequest)
-		res := new(listResponse)
-		if err := ctx.ShouldBindForm(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				validation.Error(err)).WithError(err),
-			)
-			return
-		}
-
-		page := req.Page
-		if page == 0 {
-			page = 1
-		}
-
-		pageSize := req.PageSize
-		if pageSize == 0 {
-			pageSize = 10
-		}
-
-		searchData := new(cron.SearchData)
-		searchData.Page = req.Page
-		searchData.PageSize = req.PageSize
-		searchData.Name = req.Name
-		searchData.Protocol = cast.ToInt32(req.Protocol)
-		searchData.IsUsed = cast.ToInt32(req.IsUsed)
-
-		resListData, err := h.cronService.PageList(ctx, searchData)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CronListError,
-				code.Text(code.CronListError)).WithError(err),
-			)
-			return
-		}
-
-		resCountData, err := h.cronService.PageListCount(ctx, searchData)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CronListError,
-				code.Text(code.CronListError)).WithError(err),
-			)
-			return
-		}
-
-		res.Pagination.Total = cast.ToInt(resCountData)
-		res.Pagination.PerPageCount = pageSize
-		res.Pagination.CurrentPage = page
-		res.List = make([]listData, len(resListData))
-
-		for k, v := range resListData {
-			hashId, err := h.hashids.HashidsEncode([]int{cast.ToInt(v.Id)})
-			if err != nil {
-				ctx.AbortWithError(core.Error(
-					http.StatusBadRequest,
-					code.HashIdsEncodeError,
-					code.Text(code.HashIdsEncodeError)).WithError(err),
-				)
-				return
-			}
-
-			data := listData{
-				Id:               cast.ToInt(v.Id),
-				HashID:           hashId,
-				Name:             v.Name,
-				Protocol:         cast.ToInt(v.Protocol),
-				ProtocolText:     cron_task.ProtocolText[v.Protocol],
-				Spec:             v.Spec,
-				Command:          v.Command,
-				HttpMethod:       cast.ToInt(v.HttpMethod),
-				HttpMethodText:   cron_task.HttpMethodText[v.HttpMethod],
-				Timeout:          cast.ToInt(v.Timeout),
-				RetryTimes:       cast.ToInt(v.RetryTimes),
-				RetryInterval:    cast.ToInt(v.RetryInterval),
-				NotifyStatus:     cast.ToInt(v.NotifyStatus),
-				NotifyStatusText: cron_task.NotifyStatusText[v.NotifyStatus],
-				IsUsed:           cast.ToInt(v.IsUsed),
-				IsUsedText:       cron_task.IsUsedText[v.IsUsed],
-				CreatedAt:        v.CreatedAt.Format(timeutil.CSTLayout),
-				CreatedUser:      v.CreatedUser,
-				UpdatedAt:        v.UpdatedAt.Format(timeutil.CSTLayout),
-				UpdatedUser:      v.UpdatedUser,
-			}
-
-			res.List[k] = data
-		}
-
-		ctx.Payload(res)
+func (h *handler) List(ctx *gin.Context) {
+	req := new(listRequest)
+	res := new(listResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	page := req.Page
+	if page == 0 {
+		page = 1
+	}
+
+	pageSize := req.PageSize
+	if pageSize == 0 {
+		pageSize = 10
+	}
+
+	searchData := new(cron.SearchData)
+	searchData.Page = req.Page
+	searchData.PageSize = req.PageSize
+	searchData.Name = req.Name
+	searchData.Protocol = cast.ToInt32(req.Protocol)
+	searchData.IsUsed = cast.ToInt32(req.IsUsed)
+
+	resListData, err := h.cronService.PageList(ctx, searchData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.CronListError, err)
+		return
+	}
+
+	resCountData, err := h.cronService.PageListCount(ctx, searchData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.CronListError, err)
+		return
+	}
+
+	res.Pagination.Total = cast.ToInt(resCountData)
+	res.Pagination.PerPageCount = pageSize
+	res.Pagination.CurrentPage = page
+	res.List = make([]listData, len(resListData))
+
+	for k, v := range resListData {
+		hashId, err := h.hashids.HashidsEncode([]int{cast.ToInt(v.Id)})
+		if err != nil {
+			log.WithTrace(ctx).Error(err)
+			api.Response(ctx, http.StatusBadRequest, code.HashIdsEncodeError, err)
+			return
+		}
+
+		data := listData{
+			Id:               cast.ToInt(v.Id),
+			HashID:           hashId,
+			Name:             v.Name,
+			Protocol:         cast.ToInt(v.Protocol),
+			ProtocolText:     cron_task.ProtocolText[v.Protocol],
+			Spec:             v.Spec,
+			Command:          v.Command,
+			HttpMethod:       cast.ToInt(v.HttpMethod),
+			HttpMethodText:   cron_task.HttpMethodText[v.HttpMethod],
+			Timeout:          cast.ToInt(v.Timeout),
+			RetryTimes:       cast.ToInt(v.RetryTimes),
+			RetryInterval:    cast.ToInt(v.RetryInterval),
+			NotifyStatus:     cast.ToInt(v.NotifyStatus),
+			NotifyStatusText: cron_task.NotifyStatusText[v.NotifyStatus],
+			IsUsed:           cast.ToInt(v.IsUsed),
+			IsUsedText:       cron_task.IsUsedText[v.IsUsed],
+			CreatedAt:        v.CreatedAt.Format(timeutil.CSTLayout),
+			CreatedUser:      v.CreatedUser,
+			UpdatedAt:        v.UpdatedAt.Format(timeutil.CSTLayout),
+			UpdatedUser:      v.UpdatedUser,
+		}
+
+		res.List[k] = data
+	}
+
+	api.ResponseOK(ctx, res)
 }

@@ -1,12 +1,13 @@
 package cron
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 )
 
-func (s *service) PageListCount(ctx core.Context, searchData *SearchData) (total int64, err error) {
+func (s *service) PageListCount(ctx context.Context, searchData *SearchData) (total int64, err error) {
 	qb := cron_task.NewQueryBuilder()
 
 	if searchData.Name != "" {

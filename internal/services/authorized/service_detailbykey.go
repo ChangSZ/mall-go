@@ -1,10 +1,10 @@
 package authorized
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized_api"
@@ -24,7 +24,7 @@ type cacheApiData struct {
 	Api    string `json:"api"`    // 请求地址
 }
 
-func (s *service) DetailByKey(ctx core.Context, key string) (cacheData *CacheAuthorizedData, err error) {
+func (s *service) DetailByKey(ctx context.Context, key string) (cacheData *CacheAuthorizedData, err error) {
 	// 查询缓存
 	cacheKey := configs.RedisKeyPrefixSignature + key
 

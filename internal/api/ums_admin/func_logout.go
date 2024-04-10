@@ -1,7 +1,7 @@
 package ums_admin
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type logoutRequest struct{}
@@ -18,8 +18,6 @@ type logoutResponse struct{}
 // @Success 200 {object} logoutResponse
 // @Failure 400 {object} code.Failure
 // @Router /admin/logout [post]
-func (h *handler) Logout() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) Logout(ctx *gin.Context) {
 
-	}
 }

@@ -3,9 +3,11 @@ package admin
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type createAdminMenuRequest struct {
@@ -29,44 +31,33 @@ type createAdminMenuResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/admin/menu [post]
 // @Security LoginToken
-func (h *handler) CreateAdminMenu() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(createAdminMenuRequest)
-		res := new(createAdminMenuResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		createData := new(admin.CreateMenuData)
-		createData.AdminId = int32(ids[0])
-		createData.Actions = req.Actions
-
-		err = h.adminService.CreateMenu(c, createData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminMenuCreateError,
-				code.Text(code.AdminMenuCreateError)).WithError(err),
-			)
-			return
-		}
-
-		res.Id = int32(ids[0])
-		c.Payload(res)
+func (h *handler) CreateAdminMenu(ctx *gin.Context) {
+	req := new(createAdminMenuRequest)
+	res := new(createAdminMenuResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	createData := new(admin.CreateMenuData)
+	createData.AdminId = int32(ids[0])
+	createData.Actions = req.Actions
+
+	err = h.adminService.CreateMenu(ctx, createData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminMenuCreateError, err)
+		return
+	}
+
+	res.Id = int32(ids[0])
+	api.ResponseOK(ctx, res)
 }

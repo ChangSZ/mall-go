@@ -1,7 +1,8 @@
 package cron
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 )
@@ -10,7 +11,7 @@ type SearchOneData struct {
 	Id int32 // 任务ID
 }
 
-func (s *service) Detail(ctx core.Context, searchOneData *SearchOneData) (info *cron_task.CronTask, err error) {
+func (s *service) Detail(ctx context.Context, searchOneData *SearchOneData) (info *cron_task.CronTask, err error) {
 	qb := cron_task.NewQueryBuilder()
 
 	if searchOneData.Id != 0 {

@@ -1,7 +1,7 @@
 package ums_admin
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type updatePasswordRequest struct{}
@@ -18,8 +18,6 @@ type updatePasswordResponse struct{}
 // @Success 200 {object} updatePasswordResponse
 // @Failure 400 {object} code.Failure
 // @Router /admin/updatePassword [post]
-func (h *handler) UpdatePassword() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) UpdatePassword(ctx *gin.Context) {
 
-	}
 }

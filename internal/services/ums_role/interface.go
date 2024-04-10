@@ -1,7 +1,8 @@
 package ums_role
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
 )
 
@@ -13,7 +14,7 @@ type Service interface {
 	/**
 	 * 根据管理员ID获取对应菜单
 	 */
-	GetMenuList(ctx core.Context, adminId int64) ([]ums_menu.UmsMenu, error)
+	GetMenuList(ctx context.Context, adminId int64) ([]ums_menu.UmsMenu, error)
 }
 
 // UmsAdminCacheService interface for the cache service

@@ -3,8 +3,10 @@ package admin
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type updateUsedRequest struct {
@@ -28,42 +30,30 @@ type updateUsedResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/admin/used [patch]
 // @Security LoginToken
-func (h *handler) UpdateUsed() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(updateUsedRequest)
-		res := new(updateUsedResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		id := int32(ids[0])
-
-		err = h.adminService.UpdateUsed(c, id, req.Used)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminUpdateError,
-				code.Text(code.AdminUpdateError)).WithError(err),
-			)
-			return
-		}
-
-		res.Id = id
-		c.Payload(res)
+func (h *handler) UpdateUsed(ctx *gin.Context) {
+	req := new(updateUsedRequest)
+	res := new(updateUsedResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	id := int32(ids[0])
+	err = h.adminService.UpdateUsed(ctx, id, req.Used)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminUpdateError, err)
+		return
+	}
+
+	res.Id = id
+	api.ResponseOK(ctx, res)
 }

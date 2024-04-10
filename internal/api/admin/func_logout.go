@@ -4,10 +4,11 @@ import (
 	"net/http"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
-	"github.com/ChangSZ/mall-go/pkg/errors"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type logoutResponse struct {
@@ -24,20 +25,15 @@ type logoutResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/admin/logout [post]
 // @Security LoginToken
-func (h *handler) Logout() core.HandlerFunc {
-	return func(c core.Context) {
-		res := new(logoutResponse)
-		res.Username = c.SessionUserInfo().UserName
+func (h *handler) Logout(ctx *gin.Context) {
+	res := new(logoutResponse)
+	res.Username = ctx.SessionUserInfo().UserName
 
-		if !redis.Cache().Del(configs.RedisKeyPrefixLoginUser+c.GetHeader(configs.HeaderLoginToken), redis.WithTrace(c.Trace())) {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminLogOutError,
-				code.Text(code.AdminLogOutError)).WithError(errors.New("cache del err")),
-			)
-			return
-		}
-
-		c.Payload(res)
+	if !redis.Cache().Del(ctx, configs.RedisKeyPrefixLoginUser+ctx.GetHeader(configs.HeaderLoginToken)) {
+		log.WithTrace(ctx).Error("cache del err")
+		api.Response(ctx, http.StatusBadRequest, code.AdminLogOutError, "cache del err")
+		return
 	}
+
+	api.ResponseOK(ctx, res)
 }

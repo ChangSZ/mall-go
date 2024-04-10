@@ -1,7 +1,7 @@
 package ums_role
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type listMenuRequest struct{}
@@ -18,8 +18,6 @@ type listMenuResponse struct{}
 // @Success 200 {object} listMenuResponse
 // @Failure 400 {object} code.Failure
 // @Router /role/listMenu/{roleId} [get]
-func (h *handler) ListMenu() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) ListMenu(ctx *gin.Context) {
 
-	}
 }

@@ -1,12 +1,12 @@
 package ums_admin
 
 import (
+	"context"
 	"fmt"
 	"time"
 
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/dao"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
@@ -37,7 +37,7 @@ type UmsAdminParam struct {
 	Note     string `json:"note"`
 }
 
-func (s *service) Register(ctx core.Context, umsAdminParam *UmsAdminParam) (*ums_admin.UmsAdmin, error) {
+func (s *service) Register(ctx context.Context, umsAdminParam *UmsAdminParam) (*ums_admin.UmsAdmin, error) {
 	umsAdmin := ums_admin.NewModel()
 	umsAdmin.Username = umsAdminParam.Username
 	encodePassword, err := password.Encoder.Encode(umsAdminParam.Password)
@@ -67,7 +67,7 @@ func (s *service) Register(ctx core.Context, umsAdminParam *UmsAdminParam) (*ums
 	return umsAdmin, err
 }
 
-func (s *service) Login(ctx core.Context, username, passwd string) (string, error) {
+func (s *service) Login(ctx context.Context, username, passwd string) (string, error) {
 	var token string
 	userDetails, err := ums_user.New().LoadUserByUsername(ctx, username)
 	if err != nil {
@@ -87,7 +87,7 @@ func (s *service) Login(ctx core.Context, username, passwd string) (string, erro
 	return token, nil
 }
 
-func (s *service) RefreshToken(ctx core.Context, oldToken string) (string, error) {
+func (s *service) RefreshToken(ctx context.Context, oldToken string) (string, error) {
 	return jwtTokenUtil.RefreshHeadToken(oldToken, 1800) // 30 minutes
 }
 
@@ -97,11 +97,11 @@ type UpdateAdminPasswordParam struct {
 	NewPassword string `json:"newPassword" binding:"required"`
 }
 
-func (s *service) UpdatePassword(ctx core.Context, updatePasswordParam *UpdateAdminPasswordParam) (int64, error) {
+func (s *service) UpdatePassword(ctx context.Context, updatePasswordParam *UpdateAdminPasswordParam) (int64, error) {
 	return 0, nil
 }
 
-func (s *service) GetRoleList(ctx core.Context, adminId int64) ([]ums_role.UmsRole, error) {
+func (s *service) GetRoleList(ctx context.Context, adminId int64) ([]ums_role.UmsRole, error) {
 	return dao.GetRoleList(mysql.DB().GetDbR(), adminId)
 }
 

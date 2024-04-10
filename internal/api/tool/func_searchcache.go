@@ -3,9 +3,11 @@ package tool
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type searchCacheRequest struct {
@@ -28,50 +30,35 @@ type searchCacheResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/tool/cache/search [post]
 // @Security LoginToken
-func (h *handler) SearchCache() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(searchCacheRequest)
-		res := new(searchCacheResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		if b := redis.Cache().Exists(req.RedisKey); !b {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CacheNotExist,
-				code.Text(code.CacheNotExist)),
-			)
-			return
-		}
-
-		val, err := redis.Cache().Get(req.RedisKey, redis.WithTrace(c.Trace()))
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CacheGetError,
-				code.Text(code.CacheGetError)).WithError(err),
-			)
-			return
-		}
-
-		ttl, err := redis.Cache().TTL(req.RedisKey)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CacheGetError,
-				code.Text(code.CacheGetError)).WithError(err),
-			)
-			return
-		}
-
-		res.Val = val
-		res.TTL = ttl.String()
-		c.Payload(res)
+func (h *handler) SearchCache(ctx *gin.Context) {
+	req := new(searchCacheRequest)
+	res := new(searchCacheResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	if b := redis.Cache().Exists(ctx, req.RedisKey); !b {
+		api.Response(ctx, http.StatusBadRequest, code.CacheNotExist)
+		return
+	}
+
+	val, err := redis.Cache().Get(ctx, req.RedisKey)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.CacheGetError, err)
+		return
+	}
+
+	ttl, err := redis.Cache().TTL(ctx, req.RedisKey)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.CacheGetError, err)
+		return
+	}
+
+	res.Val = val
+	res.TTL = ttl.String()
+	api.ResponseOK(ctx, res)
 }

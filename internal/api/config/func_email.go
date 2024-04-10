@@ -5,10 +5,12 @@ import (
 	"net/http"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/pkg/env"
+	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/mail"
+	"github.com/gin-gonic/gin"
 
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
@@ -41,54 +43,43 @@ type emailResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/config/email [patch]
 // @Security LoginToken
-func (h *handler) Email() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(emailRequest)
-		res := new(emailResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		options := &mail.Options{
-			MailHost: req.Host,
-			MailPort: cast.ToInt(req.Port),
-			MailUser: req.User,
-			MailPass: req.Pass,
-			MailTo:   req.To,
-			Subject:  fmt.Sprintf("%s[%s] 邮箱告警人调整通知。", configs.ProjectName, env.Active().Value()),
-			Body:     fmt.Sprintf("%s[%s] 已添加您为系统告警通知人。", configs.ProjectName, env.Active().Value()),
-		}
-		if err := mail.Send(options); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.SendEmailError,
-				code.Text(code.SendEmailError)+err.Error()).WithError(err),
-			)
-			return
-		}
-
-		viper.Set("mail.host", req.Host)
-		viper.Set("mail.port", cast.ToInt(req.Port))
-		viper.Set("mail.user", req.User)
-		viper.Set("mail.pass", req.Pass)
-		viper.Set("mail.to", req.To)
-
-		err := viper.WriteConfig()
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.WriteConfigError,
-				code.Text(code.WriteConfigError)).WithError(err),
-			)
-			return
-		}
-
-		res.Email = req.To
-		c.Payload(res)
+func (h *handler) Email(ctx *gin.Context) {
+	req := new(emailRequest)
+	res := new(emailResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	options := &mail.Options{
+		MailHost: req.Host,
+		MailPort: cast.ToInt(req.Port),
+		MailUser: req.User,
+		MailPass: req.Pass,
+		MailTo:   req.To,
+		Subject:  fmt.Sprintf("%s[%s] 邮箱告警人调整通知。", configs.ProjectName, env.Active().Value()),
+		Body:     fmt.Sprintf("%s[%s] 已添加您为系统告警通知人。", configs.ProjectName, env.Active().Value()),
+	}
+	if err := mail.Send(options); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.SendEmailError, err)
+		return
+	}
+
+	viper.Set("mail.host", req.Host)
+	viper.Set("mail.port", cast.ToInt(req.Port))
+	viper.Set("mail.user", req.User)
+	viper.Set("mail.pass", req.Pass)
+	viper.Set("mail.to", req.To)
+
+	err := viper.WriteConfig()
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.WriteConfigError, err)
+		return
+	}
+
+	res.Email = req.To
+	api.ResponseOK(ctx, res)
 }

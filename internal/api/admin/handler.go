@@ -2,11 +2,9 @@ package admin
 
 import (
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/hash"
-
-	"go.uber.org/zap"
+	"github.com/gin-gonic/gin"
 )
 
 var _ Handler = (*handler)(nil)
@@ -17,78 +15,76 @@ type Handler interface {
 	// Login 管理员登录
 	// @Tags API.admin
 	// @Router /api/login [post]
-	Login() core.HandlerFunc
+	Login(*gin.Context)
 
 	// Logout 管理员登出
 	// @Tags API.admin
 	// @Router /api/admin/logout [post]
-	Logout() core.HandlerFunc
+	Logout(*gin.Context)
 
 	// ModifyPassword 修改密码
 	// @Tags API.admin
 	// @Router /api/admin/modify_password [patch]
-	ModifyPassword() core.HandlerFunc
+	ModifyPassword(*gin.Context)
 
 	// Detail 个人信息
 	// @Tags API.admin
 	// @Router /api/admin/info [get]
-	Detail() core.HandlerFunc
+	Detail(*gin.Context)
 
 	// ModifyPersonalInfo 修改个人信息
 	// @Tags API.admin
 	// @Router /api/admin/modify_personal_info [patch]
-	ModifyPersonalInfo() core.HandlerFunc
+	ModifyPersonalInfo(*gin.Context)
 
 	// Create 新增管理员
 	// @Tags API.admin
 	// @Router /api/admin [post]
-	Create() core.HandlerFunc
+	Create(*gin.Context)
 
 	// List 管理员列表
 	// @Tags API.admin
 	// @Router /api/admin [get]
-	List() core.HandlerFunc
+	List(*gin.Context)
 
 	// Delete 删除管理员
 	// @Tags API.admin
 	// @Router /api/admin/{id} [delete]
-	Delete() core.HandlerFunc
+	Delete(*gin.Context)
 
 	// Offline 下线管理员
 	// @Tags API.admin
 	// @Router /api/admin/offline [patch]
-	Offline() core.HandlerFunc
+	Offline(*gin.Context)
 
 	// UpdateUsed 更新管理员为启用/禁用
 	// @Tags API.admin
 	// @Router /api/admin/used [patch]
-	UpdateUsed() core.HandlerFunc
+	UpdateUsed(*gin.Context)
 
 	// ResetPassword 重置密码
 	// @Tags API.admin
 	// @Router /api/admin/reset_password/{id} [patch]
-	ResetPassword() core.HandlerFunc
+	ResetPassword(*gin.Context)
 
 	// CreateAdminMenu 提交菜单授权
 	// @Tags API.admin
 	// @Router /api/admin/menu [post]
-	CreateAdminMenu() core.HandlerFunc
+	CreateAdminMenu(*gin.Context)
 
 	// ListAdminMenu 菜单授权列表
 	// @Tags API.admin
 	// @Router /api/admin/menu/{id} [get]
-	ListAdminMenu() core.HandlerFunc
+	ListAdminMenu(*gin.Context)
 }
 
 type handler struct {
-	logger       *zap.Logger
 	hashids      hash.Hash
 	adminService admin.Service
 }
 
-func New(logger *zap.Logger) Handler {
+func New() Handler {
 	return &handler{
-		logger:       logger,
 		hashids:      hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
 		adminService: admin.New(),
 	}

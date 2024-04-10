@@ -3,9 +3,11 @@ package menu
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/menu"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 
 	"github.com/spf13/cast"
 )
@@ -37,82 +39,65 @@ type listActionResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/menu_action [get]
 // @Security LoginToken
-func (h *handler) ListAction() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(listActionRequest)
-		res := new(listActionResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		id := int32(ids[0])
-
-		searchOneData := new(menu.SearchOneData)
-		searchOneData.Id = id
-
-		menuInfo, err := h.menuService.Detail(c, searchOneData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MenuDetailError,
-				code.Text(code.MenuDetailError)).WithError(err),
-			)
-			return
-		}
-
-		res.MenuName = menuInfo.Name
-
-		searchListData := new(menu.SearchListActionData)
-		searchListData.MenuId = menuInfo.Id
-
-		resListData, err := h.menuService.ListAction(c, searchListData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizedListAPIError,
-				code.Text(code.AuthorizedListAPIError)).WithError(err),
-			)
-			return
-		}
-
-		res.List = make([]listActionData, len(resListData))
-
-		for k, v := range resListData {
-			hashId, err := h.hashids.HashidsEncode([]int{cast.ToInt(v.Id)})
-			if err != nil {
-				c.AbortWithError(core.Error(
-					http.StatusBadRequest,
-					code.HashIdsEncodeError,
-					code.Text(code.HashIdsEncodeError)).WithError(err),
-				)
-				return
-			}
-
-			data := listActionData{
-				HashId: hashId,
-				MenuId: v.MenuId,
-				Method: v.Method,
-				API:    v.Api,
-			}
-
-			res.List[k] = data
-		}
-
-		c.Payload(res)
+func (h *handler) ListAction(ctx *gin.Context) {
+	req := new(listActionRequest)
+	res := new(listActionResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	id := int32(ids[0])
+
+	searchOneData := new(menu.SearchOneData)
+	searchOneData.Id = id
+
+	menuInfo, err := h.menuService.Detail(ctx, searchOneData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MenuDetailError, err)
+		return
+	}
+
+	res.MenuName = menuInfo.Name
+
+	searchListData := new(menu.SearchListActionData)
+	searchListData.MenuId = menuInfo.Id
+
+	resListData, err := h.menuService.ListAction(ctx, searchListData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizedListAPIError, err)
+		return
+	}
+
+	res.List = make([]listActionData, len(resListData))
+
+	for k, v := range resListData {
+		hashId, err := h.hashids.HashidsEncode([]int{cast.ToInt(v.Id)})
+		if err != nil {
+			log.WithTrace(ctx).Error(err)
+			api.Response(ctx, http.StatusBadRequest, code.HashIdsEncodeError, err)
+			return
+		}
+
+		data := listActionData{
+			HashId: hashId,
+			MenuId: v.MenuId,
+			Method: v.Method,
+			API:    v.Api,
+		}
+
+		res.List[k] = data
+	}
+
+	api.ResponseOK(ctx, res)
 }

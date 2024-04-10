@@ -6,10 +6,12 @@ import (
 	"net/url"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/pkg/errors"
+	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/signature"
+	"github.com/gin-gonic/gin"
 )
 
 type signRequest struct {
@@ -37,64 +39,48 @@ type signResponse struct {
 // @Success 200 {object} signResponse
 // @Failure 400 {object} code.Failure
 // @Router /helper/sign [post]
-func (h *handler) Sign() core.HandlerFunc {
-	return func(ctx core.Context) {
-		req := new(signRequest)
-		res := new(signResponse)
+func (h *handler) Sign(ctx *gin.Context) {
+	req := new(signRequest)
+	res := new(signResponse)
 
-		if err := ctx.ShouldBindForm(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		authorizedInfo, err := h.authorizedService.DetailByKey(ctx, req.Key)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizationError,
-				code.Text(code.AuthorizationError)).WithError(err),
-			)
-			return
-		}
-
-		if authorizedInfo.IsUsed == -1 {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizationError,
-				code.Text(code.AuthorizationError)).WithError(errors.New(req.Key + " 已被禁止调用")),
-			)
-			return
-		}
-
-		fmt.Println(req.Params)
-
-		params, err := url.ParseQuery(req.Params)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizationError,
-				"params 传递格式不正确"),
-			)
-			return
-		}
-
-		sign := signature.New(req.Key, authorizedInfo.Secret, configs.HeaderSignTokenTimeout)
-		authorized, date, err := sign.Generate(req.Path, req.Method, params)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AuthorizationError,
-				"sign 生成失败"),
-			)
-			return
-		}
-
-		res.Authorization = authorized
-		res.AuthorizationDate = date
-		ctx.Payload(res)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	authorizedInfo, err := h.authorizedService.DetailByKey(ctx, req.Key)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)
+		return
+	}
+
+	if authorizedInfo.IsUsed == -1 {
+		err := errors.New(req.Key + " 已被禁止调用")
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)
+		return
+	}
+
+	fmt.Println(req.Params)
+
+	params, err := url.ParseQuery(req.Params)
+	if err != nil {
+		log.WithTrace(ctx).Error("params 传递格式不正确")
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, "params 传递格式不正确")
+		return
+	}
+
+	sign := signature.New(req.Key, authorizedInfo.Secret, configs.HeaderSignTokenTimeout)
+	authorized, date, err := sign.Generate(req.Path, req.Method, params)
+	if err != nil {
+		log.WithTrace(ctx).Error("sign 生成失败")
+		api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, "sign 生成失败")
+		return
+	}
+
+	res.Authorization = authorized
+	res.AuthorizationDate = date
+	api.ResponseOK(ctx, res)
 }

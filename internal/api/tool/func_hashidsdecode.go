@@ -3,8 +3,10 @@ package tool
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type hashIdsDecodeRequest struct {
@@ -26,31 +28,23 @@ type hashIdsDecodeResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/tool/hashids/decode/{id} [get]
 // @Security LoginToken
-func (h *handler) HashIdsDecode() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(hashIdsDecodeRequest)
-		res := new(hashIdsDecodeResponse)
-		if err := c.ShouldBindURI(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		hashId, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		res.Val = hashId[0]
-
-		c.Payload(res)
+func (h *handler) HashIdsDecode(ctx *gin.Context) {
+	req := new(hashIdsDecodeRequest)
+	res := new(hashIdsDecodeResponse)
+	if err := ctx.ShouldBindUri(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	hashId, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	res.Val = hashId[0]
+
+	api.ResponseOK(ctx, res)
 }

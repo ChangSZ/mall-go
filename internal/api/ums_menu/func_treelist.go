@@ -1,7 +1,7 @@
 package ums_menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type treeListRequest struct{}
@@ -18,8 +18,6 @@ type treeListResponse struct{}
 // @Success 200 {object} treeListResponse
 // @Failure 400 {object} code.Failure
 // @Router /menu/treeList [get]
-func (h *handler) TreeList() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) TreeList(ctx *gin.Context) {
 
-	}
 }

@@ -3,10 +3,11 @@ package cron
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/pkg/validation"
 	"github.com/ChangSZ/mall-go/internal/services/cron"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type modifyRequest struct {
@@ -56,57 +57,46 @@ type modifyResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/cron/{id} [post]
 // @Security LoginToken
-func (h *handler) Modify() core.HandlerFunc {
-	return func(ctx core.Context) {
-		req := new(modifyRequest)
-		res := new(modifyResponse)
-		if err := ctx.ShouldBindForm(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				validation.Error(err)).WithError(err),
-			)
-			return
-		}
-
-		ids, err := h.hashids.HashidsDecode(req.Id)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsDecodeError,
-				code.Text(code.HashIdsDecodeError)).WithError(err),
-			)
-			return
-		}
-
-		id := int32(ids[0])
-
-		modifyData := new(cron.ModifyCronTaskData)
-		modifyData.Name = req.Name
-		modifyData.Spec = req.Spec
-		modifyData.Command = req.Command
-		modifyData.Protocol = req.Protocol
-		modifyData.HttpMethod = req.HttpMethod
-		modifyData.Timeout = req.Timeout
-		modifyData.RetryTimes = req.RetryTimes
-		modifyData.RetryInterval = req.RetryInterval
-		modifyData.NotifyStatus = req.NotifyStatus
-		modifyData.NotifyType = req.NotifyType
-		modifyData.NotifyReceiverEmail = req.NotifyReceiverEmail
-		modifyData.NotifyKeyword = req.NotifyKeyword
-		modifyData.Remark = req.Remark
-		modifyData.IsUsed = req.IsUsed
-
-		if err := h.cronService.Modify(ctx, id, modifyData); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.CronUpdateError,
-				code.Text(code.CronUpdateError)).WithError(err),
-			)
-			return
-		}
-
-		res.Id = id
-		ctx.Payload(res)
+func (h *handler) Modify(ctx *gin.Context) {
+	req := new(modifyRequest)
+	res := new(modifyResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	ids, err := h.hashids.HashidsDecode(req.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsDecodeError, err)
+		return
+	}
+
+	id := int32(ids[0])
+
+	modifyData := new(cron.ModifyCronTaskData)
+	modifyData.Name = req.Name
+	modifyData.Spec = req.Spec
+	modifyData.Command = req.Command
+	modifyData.Protocol = req.Protocol
+	modifyData.HttpMethod = req.HttpMethod
+	modifyData.Timeout = req.Timeout
+	modifyData.RetryTimes = req.RetryTimes
+	modifyData.RetryInterval = req.RetryInterval
+	modifyData.NotifyStatus = req.NotifyStatus
+	modifyData.NotifyType = req.NotifyType
+	modifyData.NotifyReceiverEmail = req.NotifyReceiverEmail
+	modifyData.NotifyKeyword = req.NotifyKeyword
+	modifyData.Remark = req.Remark
+	modifyData.IsUsed = req.IsUsed
+
+	if err := h.cronService.Modify(ctx, id, modifyData); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.CronUpdateError, err)
+		return
+	}
+
+	res.Id = id
+	api.ResponseOK(ctx, res)
 }

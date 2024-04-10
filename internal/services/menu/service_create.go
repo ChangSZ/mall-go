@@ -1,7 +1,8 @@
 package menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu"
 )
@@ -14,7 +15,7 @@ type CreateMenuData struct {
 	Level int32  // 菜单类型 1:一级菜单 2:二级菜单
 }
 
-func (s *service) Create(ctx core.Context, menuData *CreateMenuData) (id int32, err error) {
+func (s *service) Create(ctx context.Context, menuData *CreateMenuData) (id int32, err error) {
 	model := menu.NewModel()
 	model.Pid = menuData.Pid
 	model.Name = menuData.Name

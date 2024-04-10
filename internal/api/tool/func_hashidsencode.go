@@ -3,8 +3,10 @@ package tool
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 
 	"github.com/spf13/cast"
 )
@@ -28,31 +30,23 @@ type hashIdsEncodeResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/tool/hashids/encode/{id} [get]
 // @Security LoginToken
-func (h *handler) HashIdsEncode() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(hashIdsEncodeRequest)
-		res := new(hashIdsEncodeResponse)
-		if err := c.ShouldBindURI(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		hashId, err := h.hashids.HashidsEncode([]int{cast.ToInt(req.Id)})
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.HashIdsEncodeError,
-				code.Text(code.HashIdsEncodeError)).WithError(err),
-			)
-			return
-		}
-
-		res.Val = hashId
-
-		c.Payload(res)
+func (h *handler) HashIdsEncode(ctx *gin.Context) {
+	req := new(hashIdsEncodeRequest)
+	res := new(hashIdsEncodeResponse)
+	if err := ctx.ShouldBindUri(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	hashId, err := h.hashids.HashidsEncode([]int{cast.ToInt(req.Id)})
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.HashIdsEncodeError, err)
+		return
+	}
+
+	res.Val = hashId
+
+	api.ResponseOK(ctx, res)
 }

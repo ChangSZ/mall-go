@@ -7,9 +7,11 @@ import (
 	"runtime"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal/tablesqls"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 
 	"github.com/go-redis/redis/v7"
 	"github.com/spf13/cast"
@@ -31,7 +33,7 @@ type initExecuteRequest struct {
 	MySQLName string `form:"mysql_name"`
 }
 
-func (h *handler) Execute() core.HandlerFunc {
+func (h *handler) Execute(ctx *gin.Context) {
 
 	installTableList := map[string]map[string]string{
 		"authorized": {
@@ -64,165 +66,136 @@ func (h *handler) Execute() core.HandlerFunc {
 		},
 	}
 
-	return func(ctx core.Context) {
-		req := new(initExecuteRequest)
-		if err := ctx.ShouldBindForm(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
+	req := new(initExecuteRequest)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError)
+		return
+	}
 
-		// region 验证 version
-		versionStr := runtime.Version()
-		version := cast.ToFloat32(versionStr[2:6])
-		if version < configs.MinGoVersion {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.GoVersionError,
-				code.Text(code.GoVersionError)),
-			)
-			return
-		}
-		// endregion
+	// region 验证 version
+	versionStr := runtime.Version()
+	version := cast.ToFloat32(versionStr[2:6])
+	if version < configs.MinGoVersion {
+		api.Response(ctx, http.StatusBadRequest, code.GoVersionError)
+		return
+	}
+	// endregion
 
-		// region 验证 Redis 配置
-		cfg := configs.Get()
-		redisClient := redis.NewClient(&redis.Options{
-			Addr:         req.RedisAddr,
-			Password:     req.RedisPass,
-			DB:           cast.ToInt(req.RedisDb),
-			MaxRetries:   cfg.Redis.MaxRetries,
-			PoolSize:     cfg.Redis.PoolSize,
-			MinIdleConns: cfg.Redis.MinIdleConns,
-		})
+	// region 验证 Redis 配置
+	cfg := configs.Get()
+	redisClient := redis.NewClient(&redis.Options{
+		Addr:         req.RedisAddr,
+		Password:     req.RedisPass,
+		DB:           cast.ToInt(req.RedisDb),
+		MaxRetries:   cfg.Redis.MaxRetries,
+		PoolSize:     cfg.Redis.PoolSize,
+		MinIdleConns: cfg.Redis.MinIdleConns,
+	})
 
-		if err := redisClient.Ping().Err(); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.RedisConnectError,
-				code.Text(code.RedisConnectError)).WithError(err),
-			)
-			return
-		}
+	if err := redisClient.Ping().Err(); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.RedisConnectError)
+		return
+	}
 
-		defer redisClient.Close()
+	defer redisClient.Close()
 
-		outPutString := "已检测 Redis 配置可用。\n"
-		// endregion
+	outPutString := "已检测 Redis 配置可用。\n"
+	// endregion
 
-		// region 验证 MySQL 配置
-		dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=%t&loc=%s",
-			req.MySQLUser,
-			req.MySQLPass,
-			req.MySQLAddr,
-			req.MySQLName,
-			true,
-			"Local")
+	// region 验证 MySQL 配置
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=%t&loc=%s",
+		req.MySQLUser,
+		req.MySQLPass,
+		req.MySQLAddr,
+		req.MySQLName,
+		true,
+		"Local")
 
-		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-			NamingStrategy: schema.NamingStrategy{
-				SingularTable: true,
-			},
-			//Logger: logger.Default.LogMode(logger.Info), // 日志配置
-		})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		NamingStrategy: schema.NamingStrategy{
+			SingularTable: true,
+		},
+	})
 
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MySQLConnectError,
-				code.Text(code.MySQLConnectError)).WithError(err),
-			)
-			return
-		}
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MySQLConnectError)
+		return
+	}
 
-		db.Set("gorm:table_options", "CHARSET=utf8mb4")
+	db.Set("gorm:table_options", "CHARSET=utf8mb4")
 
-		dbClient, _ := db.DB()
-		defer dbClient.Close()
+	dbClient, _ := db.DB()
+	defer dbClient.Close()
 
-		outPutString += "已检测 MySQL 配置可用。\n"
-		// endregion
+	outPutString += "已检测 MySQL 配置可用。\n"
+	// endregion
 
-		// region 写入配置文件
-		viper.Set("language.local", req.Language)
+	// region 写入配置文件
+	viper.Set("language.local", req.Language)
 
-		viper.Set("redis.addr", req.RedisAddr)
-		viper.Set("redis.pass", req.RedisPass)
-		viper.Set("redis.db", req.RedisDb)
+	viper.Set("redis.addr", req.RedisAddr)
+	viper.Set("redis.pass", req.RedisPass)
+	viper.Set("redis.db", req.RedisDb)
 
-		viper.Set("mysql.read.addr", req.MySQLAddr)
-		viper.Set("mysql.read.user", req.MySQLUser)
-		viper.Set("mysql.read.pass", req.MySQLPass)
-		viper.Set("mysql.read.name", req.MySQLName)
+	viper.Set("mysql.read.addr", req.MySQLAddr)
+	viper.Set("mysql.read.user", req.MySQLUser)
+	viper.Set("mysql.read.pass", req.MySQLPass)
+	viper.Set("mysql.read.name", req.MySQLName)
 
-		viper.Set("mysql.write.addr", req.MySQLAddr)
-		viper.Set("mysql.write.user", req.MySQLUser)
-		viper.Set("mysql.write.pass", req.MySQLPass)
-		viper.Set("mysql.write.name", req.MySQLName)
+	viper.Set("mysql.write.addr", req.MySQLAddr)
+	viper.Set("mysql.write.user", req.MySQLUser)
+	viper.Set("mysql.write.pass", req.MySQLPass)
+	viper.Set("mysql.write.name", req.MySQLName)
 
-		if viper.WriteConfig() != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.WriteConfigError,
-				code.Text(code.WriteConfigError)).WithError(err),
-			)
-			return
-		}
+	if viper.WriteConfig() != nil {
+		api.Response(ctx, http.StatusBadRequest, code.WriteConfigError)
+		return
+	}
 
-		outPutString += "语言包 " + req.Language + " 配置成功。\n"
-		outPutString += "配置项 Redis、MySQL 配置成功。\n"
-		// endregion
+	outPutString += "语言包 " + req.Language + " 配置成功。\n"
+	outPutString += "配置项 Redis、MySQL 配置成功。\n"
+	// endregion
 
-		// region 初始化表结构 + 默认数据
-		for k, v := range installTableList {
-			if v["table_sql"] != "" {
-				// region 初始化表结构
-				if err = db.Exec(v["table_sql"]).Error; err != nil {
-					ctx.AbortWithError(core.Error(
-						http.StatusBadRequest,
-						code.MySQLExecError,
-						code.Text(code.MySQLExecError)+" "+err.Error()).WithError(err),
-					)
+	// region 初始化表结构 + 默认数据
+	for k, v := range installTableList {
+		if v["table_sql"] != "" {
+			// region 初始化表结构
+			if err = db.Exec(v["table_sql"]).Error; err != nil {
+				log.WithTrace(ctx).Error(err)
+				api.Response(ctx, http.StatusBadRequest, code.MySQLConnectError, err)
+				return
+			}
+
+			outPutString += "初始化 MySQL 数据表：" + k + " 成功。\n"
+			// endregion
+
+			// region 初始化默认数据
+			if v["table_data_sql"] != "" {
+				if err = db.Exec(v["table_data_sql"]).Error; err != nil {
+					log.WithTrace(ctx).Error(err)
+					api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, err)
 					return
 				}
 
-				outPutString += "初始化 MySQL 数据表：" + k + " 成功。\n"
-				// endregion
-
-				// region 初始化默认数据
-				if v["table_data_sql"] != "" {
-					if err = db.Exec(v["table_data_sql"]).Error; err != nil {
-						ctx.AbortWithError(core.Error(
-							http.StatusBadRequest,
-							code.MySQLExecError,
-							code.Text(code.MySQLExecError)+" "+err.Error()).WithError(err),
-						)
-						return
-					}
-
-					outPutString += "初始化 MySQL 数据表：" + k + " 默认数据成功。\n"
-				}
-				// endregion
+				outPutString += "初始化 MySQL 数据表：" + k + " 默认数据成功。\n"
 			}
+			// endregion
 		}
-		// endregion
-
-		// region 生成 install 完成标识
-		f, err := os.Create(configs.ProjectInstallMark)
-		if err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.MySQLExecError,
-				code.Text(code.MySQLExecError)+" "+err.Error()).WithError(err),
-			)
-			return
-		}
-		defer f.Close()
-		// endregion
-
-		ctx.Payload(outPutString)
 	}
+	// endregion
+
+	// region 生成 install 完成标识
+	f, err := os.Create(configs.ProjectInstallMark)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.MySQLExecError, err)
+		return
+	}
+	defer f.Close()
+	// endregion
+
+	api.ResponseOK(ctx, outPutString)
 }

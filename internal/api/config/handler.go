@@ -1,9 +1,7 @@
 package config
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
-
-	"go.uber.org/zap"
+	"github.com/gin-gonic/gin"
 )
 
 var _ Handler = (*handler)(nil)
@@ -14,15 +12,13 @@ type Handler interface {
 	// Email 修改邮件配置
 	// @Tags API.config
 	// @Router /api/config/email [patch]
-	Email() core.HandlerFunc
+	Email(*gin.Context)
 }
 
-type handler struct {
-	logger *zap.Logger
-}
+type handler struct{}
 
-func New(logger *zap.Logger) Handler {
-	return &handler{logger: logger}
+func New() Handler {
+	return &handler{}
 }
 
 func (h *handler) i() {}

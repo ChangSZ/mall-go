@@ -1,7 +1,8 @@
 package menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu"
 )
@@ -12,7 +13,7 @@ type UpdateMenuData struct {
 	Icon string // 图标
 }
 
-func (s *service) Modify(ctx core.Context, id int32, menuData *UpdateMenuData) (err error) {
+func (s *service) Modify(ctx context.Context, id int32, menuData *UpdateMenuData) (err error) {
 	data := map[string]interface{}{
 		"name":         menuData.Name,
 		"link":         menuData.Link,

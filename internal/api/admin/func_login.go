@@ -5,13 +5,14 @@ import (
 	"net/http"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/pkg/password"
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
-	"github.com/ChangSZ/mall-go/pkg/errors"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type loginRequest struct {
@@ -35,115 +36,89 @@ type loginResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/login [post]
 // @Security LoginToken
-func (h *handler) Login() core.HandlerFunc {
-	return func(c core.Context) {
-		req := new(loginRequest)
-		res := new(loginResponse)
-		if err := c.ShouldBindForm(req); err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		searchOneData := new(admin.SearchOneData)
-		searchOneData.Username = req.Username
-		searchOneData.Password = password.GeneratePassword(req.Password)
-		searchOneData.IsUsed = 1
-
-		info, err := h.adminService.Detail(c, searchOneData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminLoginError,
-				code.Text(code.AdminLoginError)).WithError(err),
-			)
-			return
-		}
-
-		if info == nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminLoginError,
-				code.Text(code.AdminLoginError)).WithError(errors.New("未查询出符合条件的用户")),
-			)
-			return
-		}
-
-		token := password.GenerateLoginToken(info.Id)
-
-		// 用户信息
-		sessionUserInfo := &proposal.SessionUserInfo{
-			UserID:   info.Id,
-			UserName: info.Username,
-		}
-
-		// 将用户信息记录到 Redis 中
-		err = redis.Cache().Set(configs.RedisKeyPrefixLoginUser+token, string(sessionUserInfo.Marshal()), configs.LoginSessionTTL, redis.WithTrace(c.Trace()))
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminLoginError,
-				code.Text(code.AdminLoginError)).WithError(err),
-			)
-			return
-		}
-
-		searchMenuData := new(admin.SearchMyMenuData)
-		searchMenuData.AdminId = info.Id
-		menu, err := h.adminService.MyMenu(c, searchMenuData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminLoginError,
-				code.Text(code.AdminLoginError)).WithError(err),
-			)
-			return
-		}
-
-		// 菜单栏信息
-		menuJsonInfo, _ := json.Marshal(menu)
-
-		// 将菜单栏信息记录到 Redis 中
-		err = redis.Cache().Set(configs.RedisKeyPrefixLoginUser+token+":menu", string(menuJsonInfo), configs.LoginSessionTTL, redis.WithTrace(c.Trace()))
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminLoginError,
-				code.Text(code.AdminLoginError)).WithError(err),
-			)
-			return
-		}
-
-		searchActionData := new(admin.SearchMyActionData)
-		searchActionData.AdminId = info.Id
-		action, err := h.adminService.MyAction(c, searchActionData)
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminLoginError,
-				code.Text(code.AdminLoginError)).WithError(err),
-			)
-			return
-		}
-
-		// 可访问接口信息
-		actionJsonInfo, _ := json.Marshal(action)
-
-		// 将可访问接口信息记录到 Redis 中
-		err = redis.Cache().Set(configs.RedisKeyPrefixLoginUser+token+":action", string(actionJsonInfo), configs.LoginSessionTTL, redis.WithTrace(c.Trace()))
-		if err != nil {
-			c.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminLoginError,
-				code.Text(code.AdminLoginError)).WithError(err),
-			)
-			return
-		}
-
-		res.Token = token
-		c.Payload(res)
+func (h *handler) Login(ctx *gin.Context) {
+	req := new(loginRequest)
+	res := new(loginResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	searchOneData := new(admin.SearchOneData)
+	searchOneData.Username = req.Username
+	searchOneData.Password = password.GeneratePassword(req.Password)
+	searchOneData.IsUsed = 1
+
+	info, err := h.adminService.Detail(ctx, searchOneData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminLoginError, err)
+		return
+	}
+
+	if info == nil {
+		log.WithTrace(ctx).Error("未查询出符合条件的用户")
+		api.Response(ctx, http.StatusBadRequest, code.AdminLoginError, "未查询出符合条件的用户")
+		return
+	}
+
+	token := password.GenerateLoginToken(info.Id)
+
+	// 用户信息
+	sessionUserInfo := &proposal.SessionUserInfo{
+		UserID:   info.Id,
+		UserName: info.Username,
+	}
+
+	// 将用户信息记录到 Redis 中
+	err = redis.Cache().Set(ctx, configs.RedisKeyPrefixLoginUser+token, string(sessionUserInfo.Marshal()), configs.LoginSessionTTL)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminLoginError, err)
+		return
+	}
+
+	searchMenuData := new(admin.SearchMyMenuData)
+	searchMenuData.AdminId = info.Id
+	menu, err := h.adminService.MyMenu(ctx, searchMenuData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminLoginError, err)
+		return
+	}
+
+	// 菜单栏信息
+	menuJsonInfo, _ := json.Marshal(menu)
+
+	// 将菜单栏信息记录到 Redis 中
+	err = redis.Cache().Set(ctx, configs.RedisKeyPrefixLoginUser+token+":menu", string(menuJsonInfo), configs.LoginSessionTTL)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminLoginError, err)
+		return
+	}
+
+	searchActionData := new(admin.SearchMyActionData)
+	searchActionData.AdminId = info.Id
+	action, err := h.adminService.MyAction(ctx, searchActionData)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminLoginError, err)
+		return
+	}
+
+	// 可访问接口信息
+	actionJsonInfo, _ := json.Marshal(action)
+
+	// 将可访问接口信息记录到 Redis 中
+	err = redis.Cache().Set(ctx, configs.RedisKeyPrefixLoginUser+token+":action", string(actionJsonInfo), configs.LoginSessionTTL)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminLoginError, err)
+		return
+	}
+
+	res.Token = token
+	api.ResponseOK(ctx, res)
 }

@@ -1,7 +1,8 @@
 package authorized
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"context"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 )
@@ -15,7 +16,7 @@ type SearchData struct {
 	Remark            string `json:"remark"`             // 备注
 }
 
-func (s *service) PageList(ctx core.Context, searchData *SearchData) (listData []*authorized.Authorized, err error) {
+func (s *service) PageList(ctx context.Context, searchData *SearchData) (listData []*authorized.Authorized, err error) {
 
 	page := searchData.Page
 	if page == 0 {

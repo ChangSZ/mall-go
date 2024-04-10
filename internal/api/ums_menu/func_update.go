@@ -1,7 +1,7 @@
 package ums_menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/gin-gonic/gin"
 )
 
 type updateRequest struct{}
@@ -18,8 +18,6 @@ type updateResponse struct{}
 // @Success 200 {object} updateResponse
 // @Failure 400 {object} code.Failure
 // @Router /menu/update/{id} [post]
-func (h *handler) Update() core.HandlerFunc {
-	return func(ctx core.Context) {
+func (h *handler) Update(ctx *gin.Context) {
 
-	}
 }

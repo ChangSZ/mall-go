@@ -3,9 +3,11 @@ package admin
 import (
 	"net/http"
 
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/gin-gonic/gin"
 )
 
 type modifyPersonalInfoRequest struct {
@@ -29,33 +31,25 @@ type modifyPersonalInfoResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /api/admin/modify_personal_info [patch]
 // @Security LoginToken
-func (h *handler) ModifyPersonalInfo() core.HandlerFunc {
-	return func(ctx core.Context) {
-		req := new(modifyPersonalInfoRequest)
-		res := new(modifyPersonalInfoResponse)
-		if err := ctx.ShouldBindForm(req); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.ParamBindError,
-				code.Text(code.ParamBindError)).WithError(err),
-			)
-			return
-		}
-
-		modifyData := new(admin.ModifyData)
-		modifyData.Nickname = req.Nickname
-		modifyData.Mobile = req.Mobile
-
-		if err := h.adminService.ModifyPersonalInfo(ctx, ctx.SessionUserInfo().UserID, modifyData); err != nil {
-			ctx.AbortWithError(core.Error(
-				http.StatusBadRequest,
-				code.AdminModifyPersonalInfoError,
-				code.Text(code.AdminModifyPersonalInfoError)).WithError(err),
-			)
-			return
-		}
-
-		res.Username = ctx.SessionUserInfo().UserName
-		ctx.Payload(res)
+func (h *handler) ModifyPersonalInfo(ctx *gin.Context) {
+	req := new(modifyPersonalInfoRequest)
+	res := new(modifyPersonalInfoResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		return
 	}
+
+	modifyData := new(admin.ModifyData)
+	modifyData.Nickname = req.Nickname
+	modifyData.Mobile = req.Mobile
+
+	if err := h.adminService.ModifyPersonalInfo(ctx, ctx.SessionUserInfo().UserID, modifyData); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.AdminModifyPersonalInfoError, err)
+		return
+	}
+
+	res.Username = ctx.SessionUserInfo().UserName
+	api.ResponseOK(ctx, res)
 }

@@ -33,4 +33,4 @@ EXPOSE 9999/tcp
 WORKDIR /opt
 
 # CMD 设置启动命令
-CMD ["./go-gin-api", "-env", "fat"]
+CMD ["./mall-go", "-env", "fat"]

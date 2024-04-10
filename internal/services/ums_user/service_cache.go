@@ -1,12 +1,12 @@
 package ums_user
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"time"
 
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
@@ -23,7 +23,7 @@ type umsUserCacheService struct {
 	service *service
 }
 
-func (s *umsUserCacheService) DelAdmin(ctx core.Context, adminId int64) {
+func (s *umsUserCacheService) DelAdmin(ctx context.Context, adminId int64) {
 	admin, _ := s.service.GetItem(ctx, adminId)
 	if admin != nil {
 		key := REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.Username
@@ -31,24 +31,24 @@ func (s *umsUserCacheService) DelAdmin(ctx core.Context, adminId int64) {
 	}
 }
 
-func (s *umsUserCacheService) DelResourceList(ctx core.Context, adminId int64) {
+func (s *umsUserCacheService) DelResourceList(ctx context.Context, adminId int64) {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
 	redis.Cache().Del(key)
 }
 
-func (s *umsUserCacheService) DelResourceListByRole(ctx core.Context, roleId int64) {
+func (s *umsUserCacheService) DelResourceListByRole(ctx context.Context, roleId int64) {
 
 }
 
-func (s *umsUserCacheService) DelResourceListByRoleIds(ctx core.Context, roleIds []int64) {
+func (s *umsUserCacheService) DelResourceListByRoleIds(ctx context.Context, roleIds []int64) {
 
 }
 
-func (s *umsUserCacheService) DelResourceListByResource(ctx core.Context, resourceId int64) {
+func (s *umsUserCacheService) DelResourceListByResource(ctx context.Context, resourceId int64) {
 
 }
 
-func (s *umsUserCacheService) GetAdmin(ctx core.Context, username string) *ums_admin.UmsAdmin {
+func (s *umsUserCacheService) GetAdmin(ctx context.Context, username string) *ums_admin.UmsAdmin {
 	key := REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + username
 	ret, err := redis.Cache().Get(key)
 	if err != nil {
@@ -61,13 +61,13 @@ func (s *umsUserCacheService) GetAdmin(ctx core.Context, username string) *ums_a
 	return data
 }
 
-func (s *umsUserCacheService) SetAdmin(ctx core.Context, admin *ums_admin.UmsAdmin) {
+func (s *umsUserCacheService) SetAdmin(ctx context.Context, admin *ums_admin.UmsAdmin) {
 	key := REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.Username
 	adminBytes, _ := json.Marshal(admin)
 	redis.Cache().Set(key, string(adminBytes), REDIS_EXPIRE)
 }
 
-func (s *umsUserCacheService) GetResourceList(ctx core.Context, adminId int64) []*ums_resource.UmsResource {
+func (s *umsUserCacheService) GetResourceList(ctx context.Context, adminId int64) []*ums_resource.UmsResource {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
 	ret, err := redis.Cache().Get(key)
 	if err != nil {
@@ -80,7 +80,7 @@ func (s *umsUserCacheService) GetResourceList(ctx core.Context, adminId int64) [
 	return data
 }
 
-func (s *umsUserCacheService) SetResourceList(ctx core.Context,
+func (s *umsUserCacheService) SetResourceList(ctx context.Context,
 	adminId int64, resourceList []*ums_resource.UmsResource) {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
 	resourceListBytes, _ := json.Marshal(resourceList)
