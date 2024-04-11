@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
-
+	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/jakecoffman/cron"
 )
 
@@ -17,6 +17,6 @@ func (s *server) AddJob(task *cron_task.CronTask) cron.FuncJob {
 		// 为了便于演示，不写入到 Kafka 中，仅记录日志
 
 		msg := fmt.Sprintf("执行任务：(%d)%s [%s]", task.Id, task.Name, task.Spec)
-		s.logger.Info(msg)
+		log.Info(msg)
 	}
 }

@@ -1,4 +1,4 @@
-#### go_gin_api.admin_menu 
+#### mall.admin_menu 
 管理员菜单栏表
 
 | 序号 | 名称 | 描述 | 类型 | 键 | 为空 | 额外 | 默认值 |

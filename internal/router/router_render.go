@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/ChangSZ/mall-go/internal/middleware"
 	"github.com/ChangSZ/mall-go/internal/render/admin"
 	"github.com/ChangSZ/mall-go/internal/render/authorized"
 	"github.com/ChangSZ/mall-go/internal/render/config"
@@ -46,8 +47,8 @@ func setRenderRouter(eng *gin.Engine) {
 		notRBAC.GET("/admin/modify_info", renderAdmin.ModifyInfo)
 	}
 
-	// 需要 RBAC 权限验证（目前看貌似没实现该功能）
-	render := eng.Group("")
+	// 需要 RBAC 权限验证
+	render := eng.Group("", middleware.CheckRBAC())
 	{
 		// 配置信息
 		render.GET("/config/email", renderConfig.Email)

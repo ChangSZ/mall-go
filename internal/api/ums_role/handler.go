@@ -5,8 +5,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/services/menu"
 	"github.com/ChangSZ/mall-go/pkg/hash"
 	"github.com/gin-gonic/gin"
-
-	"go.uber.org/zap"
 )
 
 var _ Handler = (*handler)(nil)
@@ -66,14 +64,12 @@ type Handler interface {
 }
 
 type handler struct {
-	logger      *zap.Logger
 	hashids     hash.Hash
 	menuService menu.Service
 }
 
-func New(logger *zap.Logger) Handler {
+func New() Handler {
 	return &handler{
-		logger:      logger,
 		hashids:     hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
 		menuService: menu.New(),
 	}

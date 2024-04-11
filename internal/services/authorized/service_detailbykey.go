@@ -28,12 +28,12 @@ func (s *service) DetailByKey(ctx context.Context, key string) (cacheData *Cache
 	// 查询缓存
 	cacheKey := configs.RedisKeyPrefixSignature + key
 
-	if !redis.Cache().Exists(cacheKey) {
+	if !redis.Cache().Exists(ctx, cacheKey) {
 		// 查询调用方信息
 		authorizedInfo, err := authorized.NewQueryBuilder().
 			WhereIsDeleted(mysql.EqualPredicate, -1).
 			WhereBusinessKey(mysql.EqualPredicate, key).
-			First(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
+			First(mysql.DB().GetDbR().WithContext(ctx))
 
 		if err != nil {
 			return nil, err
@@ -44,7 +44,7 @@ func (s *service) DetailByKey(ctx context.Context, key string) (cacheData *Cache
 			WhereIsDeleted(mysql.EqualPredicate, -1).
 			WhereBusinessKey(mysql.EqualPredicate, key).
 			OrderById(false).
-			QueryAll(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
+			QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 
 		if err != nil {
 			return nil, err
@@ -67,7 +67,7 @@ func (s *service) DetailByKey(ctx context.Context, key string) (cacheData *Cache
 
 		cacheDataByte, _ := json.Marshal(cacheData)
 
-		err = redis.Cache().Set(cacheKey, string(cacheDataByte), configs.LoginSessionTTL, redis.WithTrace(ctx.Trace()))
+		err = redis.Cache().Set(ctx, cacheKey, string(cacheDataByte), configs.LoginSessionTTL)
 		if err != nil {
 			return nil, err
 		}
@@ -75,7 +75,7 @@ func (s *service) DetailByKey(ctx context.Context, key string) (cacheData *Cache
 		return cacheData, nil
 	}
 
-	value, err := redis.Cache().Get(cacheKey, redis.WithTrace(ctx.RequestContext().Trace))
+	value, err := redis.Cache().Get(ctx, cacheKey)
 	if err != nil {
 		return nil, err
 	}

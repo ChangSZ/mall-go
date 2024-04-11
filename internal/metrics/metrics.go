@@ -2,16 +2,10 @@ package metrics
 
 import (
 	"github.com/ChangSZ/mall-go/internal/proposal"
-
-	"go.uber.org/zap"
 )
 
 // RecordHandler 指标处理
-func RecordHandler(logger *zap.Logger) func(msg *proposal.MetricsMessage) {
-	if logger == nil {
-		panic("logger required")
-	}
-
+func RecordHandler() func(msg *proposal.MetricsMessage) {
 	return func(msg *proposal.MetricsMessage) {
 		RecordMetrics(
 			msg.Method,

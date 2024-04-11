@@ -8,8 +8,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/gin-gonic/gin"
-
-	"go.uber.org/zap"
 )
 
 func (h *handler) GormView(ctx *gin.Context) {
@@ -31,7 +29,7 @@ func (h *handler) GormView(ctx *gin.Context) {
 
 	err = rows.Err()
 	if err != nil {
-		log.WithTrace(ctx).Error("rows err", zap.Error(err))
+		log.WithTrace(ctx).Error("rows err: ", err)
 		ctx.HTML(http.StatusOK, "generator_gorm.html", tableCollect)
 		return
 	}

@@ -22,7 +22,7 @@ func (s *service) ListAction(ctx context.Context, searchData *SearchListActionDa
 
 	listData, err = qb.
 		OrderById(false).
-		QueryAll(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
+		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}

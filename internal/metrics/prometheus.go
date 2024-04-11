@@ -7,7 +7,7 @@ import (
 
 const (
 	namespace = "ChangSZ"
-	subsystem = "go_gin_api"
+	subsystem = "mall"
 )
 
 // metricsRequestsTotal metrics for request total 计数器（Counter）

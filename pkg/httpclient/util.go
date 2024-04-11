@@ -4,15 +4,15 @@ import (
 	"bytes"
 	"context"
 	"crypto/tls"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"time"
 
+	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/trace"
 
 	"github.com/pkg/errors"
-	"go.uber.org/zap"
 )
 
 const (
@@ -69,14 +69,12 @@ func doHTTP(ctx context.Context, method, url string, payload []byte, opt *option
 			})
 		}
 
-		if opt.logger != nil {
-			opt.logger.Warn("doHTTP got err", zap.Error(err))
-		}
+		log.Warn("doHTTP got err: ", err)
 		return nil, _StatusDoReqErr, err
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		err = errors.Wrapf(err, "read resp body from [%s %s] err", method, url)
 		if opt.dialog != nil {
@@ -86,9 +84,7 @@ func doHTTP(ctx context.Context, method, url string, payload []byte, opt *option
 			})
 		}
 
-		if opt.logger != nil {
-			opt.logger.Warn("doHTTP got err", zap.Error(err))
-		}
+		log.Warn("doHTTP got err: ", err)
 		return nil, _StatusReadRespErr, err
 	}
 

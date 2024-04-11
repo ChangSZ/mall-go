@@ -6,6 +6,7 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/websocket/sysmessage"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/timeutil"
@@ -53,7 +54,7 @@ func (h *handler) SendMessage(ctx *gin.Context) {
 	}
 
 	messageData := new(messageBody)
-	messageData.Username = ctx.SessionUserInfo().UserName
+	messageData.Username = core.SessionUserInfo(ctx).UserName
 	messageData.Message = req.Message
 	messageData.Time = timeutil.CSTLayoutString()
 

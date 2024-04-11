@@ -3,6 +3,7 @@ package cron
 import (
 	"context"
 
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 )
@@ -40,9 +41,9 @@ func (s *service) Create(ctx context.Context, createData *CreateCronTaskData) (i
 	model.NotifyKeyword = createData.NotifyKeyword
 	model.Remark = createData.Remark
 	model.IsUsed = createData.IsUsed
-	model.CreatedUser = ctx.SessionUserInfo().UserName
+	model.CreatedUser = core.SessionUserInfo(ctx).UserName
 
-	id, err = model.Create(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
+	id, err = model.Create(mysql.DB().GetDbW().WithContext(ctx))
 	if err != nil {
 		return 0, err
 	}

@@ -22,7 +22,7 @@ func (s *service) PageListCount(ctx context.Context, searchData *SearchData) (to
 		qb.WhereIsUsed(mysql.EqualPredicate, searchData.IsUsed)
 	}
 
-	total, err = qb.Count(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
+	total, err = qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return 0, err
 	}

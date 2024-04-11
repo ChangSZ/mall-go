@@ -7,6 +7,7 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/pkg/password"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
@@ -35,7 +36,7 @@ func (h *handler) Detail(ctx *gin.Context) {
 	res := new(detailResponse)
 
 	searchOneData := new(admin.SearchOneData)
-	searchOneData.Id = ctx.SessionUserInfo().UserID
+	searchOneData.Id = core.SessionUserInfo(ctx).UserID
 	searchOneData.IsUsed = 1
 
 	info, err := h.adminService.Detail(ctx, searchOneData)

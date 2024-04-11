@@ -26,7 +26,7 @@ var stdlib = make(map[string]bool)
 func init() {
 	pkgs, err := packages.Load(nil, "std")
 	if err != nil {
-		log.Fatal("get go stdlib err", zap.Error(err))
+		log.Fatal("get go stdlib err: ", err)
 	}
 
 	for _, pkg := range pkgs {
@@ -136,7 +136,7 @@ func main() {
 		return nil
 	})
 	if err != nil {
-		log.Fatal("scan project err", zap.Error(err))
+		log.Fatal("scan project err: ", err)
 	}
 }
 

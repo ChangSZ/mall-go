@@ -5,6 +5,7 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
 	"github.com/ChangSZ/mall-go/internal/services/ums_user"
 	"github.com/ChangSZ/mall-go/pkg/log"
@@ -32,7 +33,7 @@ type infoResponse struct {
 // @Router /admin/info [get]
 func (h *handler) Info(ctx *gin.Context) {
 	res := new(infoResponse)
-	userInfo := ctx.GetUmsUserInfo()
+	userInfo := core.GetUmsUserInfo(ctx)
 	umsAdmin, err := ums_user.New().GetAdminByUsername(ctx, userInfo.UserName)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)

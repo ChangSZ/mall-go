@@ -4,21 +4,16 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/pkg/errors"
+	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/mail"
-
-	"go.uber.org/zap"
 )
 
 // NotifyHandler 告警通知
-func NotifyHandler(logger *zap.Logger) func(msg *proposal.AlertMessage) {
-	if logger == nil {
-		panic("logger required")
-	}
-
+func NotifyHandler() func(msg *proposal.AlertMessage) {
 	return func(msg *proposal.AlertMessage) {
 		cfg := configs.Get().Mail
 		if cfg.Host == "" || cfg.Port == 0 || cfg.User == "" || cfg.Pass == "" || cfg.To == "" {
-			logger.Error("Mail config error")
+			log.Error("Mail config error")
 			return
 		}
 
@@ -31,7 +26,7 @@ func NotifyHandler(logger *zap.Logger) func(msg *proposal.AlertMessage) {
 			msg.ErrorStack,
 		)
 		if err != nil {
-			logger.Error("email template error", zap.Error(err))
+			log.Error("email template error: ", err)
 			return
 		}
 
@@ -45,9 +40,8 @@ func NotifyHandler(logger *zap.Logger) func(msg *proposal.AlertMessage) {
 			Body:     body,
 		}
 		if err := mail.Send(options); err != nil {
-			logger.Error("发送告警通知邮件失败", zap.Error(errors.WithStack(err)))
+			log.Error("发送告警通知邮件失败: ", errors.WithStack(err))
 		}
-
 		return
 	}
 }

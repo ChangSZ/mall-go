@@ -3,6 +3,7 @@ package cron
 import (
 	"context"
 
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 
@@ -42,12 +43,12 @@ func (s *service) Modify(ctx context.Context, id int32, modifyData *ModifyCronTa
 		"notify_keyword":        modifyData.NotifyKeyword,
 		"remark":                modifyData.Remark,
 		"is_used":               modifyData.IsUsed,
-		"updated_user":          ctx.SessionUserInfo().UserName,
+		"updated_user":          core.SessionUserInfo(ctx).UserName,
 	}
 
 	qb := cron_task.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx.RequestContext()), data)
+	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
 	if err != nil {
 		return err
 	}
@@ -58,7 +59,7 @@ func (s *service) Modify(ctx context.Context, id int32, modifyData *ModifyCronTa
 	} else {
 		qb = cron_task.NewQueryBuilder()
 		qb.WhereId(mysql.EqualPredicate, id)
-		info, err := qb.QueryOne(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
+		info, err := qb.QueryOne(mysql.DB().GetDbW().WithContext(ctx))
 		if err != nil {
 			return err
 		}

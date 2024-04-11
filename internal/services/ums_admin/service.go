@@ -63,7 +63,7 @@ func (s *service) Register(ctx context.Context, umsAdminParam *UmsAdminParam) (*
 		return nil, fmt.Errorf("用户名已存在")
 	}
 
-	_, err = umsAdmin.Create(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
+	_, err = umsAdmin.Create(mysql.DB().GetDbW().WithContext(ctx))
 	return umsAdmin, err
 }
 

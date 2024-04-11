@@ -5,6 +5,7 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/pkg/password"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/log"
@@ -42,7 +43,7 @@ func (h *handler) ModifyPassword(ctx *gin.Context) {
 	}
 
 	searchOneData := new(admin.SearchOneData)
-	searchOneData.Id = ctx.SessionUserInfo().UserID
+	searchOneData.Id = core.SessionUserInfo(ctx).UserID
 	searchOneData.Password = password.GeneratePassword(req.OldPassword)
 	searchOneData.IsUsed = 1
 
@@ -53,12 +54,12 @@ func (h *handler) ModifyPassword(ctx *gin.Context) {
 		return
 	}
 
-	if err := h.adminService.ModifyPassword(ctx, ctx.SessionUserInfo().UserID, req.NewPassword); err != nil {
+	if err := h.adminService.ModifyPassword(ctx, core.SessionUserInfo(ctx).UserID, req.NewPassword); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminModifyPasswordError, err)
 		return
 	}
 
-	res.Username = ctx.SessionUserInfo().UserName
+	res.Username = core.SessionUserInfo(ctx).UserName
 	api.ResponseOK(ctx, res)
 }

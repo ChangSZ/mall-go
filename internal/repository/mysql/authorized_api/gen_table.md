@@ -1,4 +1,4 @@
-#### go_gin_api.authorized_api 
+#### mall.authorized_api 
 已授权接口地址表
 
 | 序号 | 名称 | 描述 | 类型 | 键 | 为空 | 额外 | 默认值 |

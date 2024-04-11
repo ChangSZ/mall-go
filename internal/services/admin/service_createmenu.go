@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/admin_menu"
 
@@ -18,7 +19,7 @@ type CreateMenuData struct {
 func (s *service) CreateMenu(ctx context.Context, menuData *CreateMenuData) (err error) {
 	qb := admin_menu.NewQueryBuilder()
 	qb.WhereAdminId(mysql.EqualPredicate, menuData.AdminId)
-	if err = qb.Delete(mysql.DB().GetDbW().WithContext(ctx.RequestContext())); err != nil {
+	if err = qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
 		return
 	}
 
@@ -27,9 +28,9 @@ func (s *service) CreateMenu(ctx context.Context, menuData *CreateMenuData) (err
 		createModel := admin_menu.NewModel()
 		createModel.AdminId = menuData.AdminId
 		createModel.MenuId = cast.ToInt32(v)
-		createModel.CreatedUser = ctx.SessionUserInfo().UserName
+		createModel.CreatedUser = core.SessionUserInfo(ctx).UserName
 
-		_, err = createModel.Create(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
+		_, err = createModel.Create(mysql.DB().GetDbW().WithContext(ctx))
 		if err != nil {
 			return
 		}
