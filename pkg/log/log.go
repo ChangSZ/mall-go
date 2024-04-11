@@ -39,7 +39,7 @@ func Log(level log.Level, keyvals ...interface{}) {
 }
 
 func WithTrace(ctx context.Context) *log.Helper {
-	if c, ok := ctx.(ctx *gin.Context); ok {
+	if c, ok := ctx.(*gin.Context); ok {
 		return log.NewHelper(log.WithContext(c.Request.Context(), log.With(log.GetLogger(), "trace.id", tracing.TraceID())))
 	}
 	return log.NewHelper(log.WithContext(ctx, log.With(log.GetLogger(), "trace.id", tracing.TraceID())))

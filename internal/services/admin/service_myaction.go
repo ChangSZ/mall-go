@@ -27,7 +27,7 @@ func (s *service) MyAction(ctx context.Context, searchData *SearchMyActionData) 
 
 	adminMenuListData, err := adminMenuQb.
 		OrderById(false).
-		QueryAll(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
+		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (s *service) MyAction(ctx context.Context, searchData *SearchMyActionData) 
 	actionQb := menu_action.NewQueryBuilder()
 	actionQb.WhereIsDeleted(mysql.EqualPredicate, -1)
 	actionQb.WhereMenuIdIn(menuIds)
-	actionListData, err := actionQb.QueryAll(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
+	actionListData, err := actionQb.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}

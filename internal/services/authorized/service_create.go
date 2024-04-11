@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"io"
 
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 )
@@ -26,11 +27,11 @@ func (s *service) Create(ctx context.Context, authorizedData *CreateAuthorizedDa
 	model.BusinessSecret = secret
 	model.BusinessDeveloper = authorizedData.BusinessDeveloper
 	model.Remark = authorizedData.Remark
-	model.CreatedUser = ctx.SessionUserInfo().UserName
+	model.CreatedUser = core.SessionUserInfo(ctx).UserName
 	model.IsUsed = 1
 	model.IsDeleted = -1
 
-	id, err = model.Create(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
+	id, err = model.Create(mysql.DB().GetDbW().WithContext(ctx))
 	if err != nil {
 		return 0, err
 	}

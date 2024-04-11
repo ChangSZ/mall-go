@@ -5,6 +5,7 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/gin-gonic/gin"
@@ -44,12 +45,12 @@ func (h *handler) ModifyPersonalInfo(ctx *gin.Context) {
 	modifyData.Nickname = req.Nickname
 	modifyData.Mobile = req.Mobile
 
-	if err := h.adminService.ModifyPersonalInfo(ctx, ctx.SessionUserInfo().UserID, modifyData); err != nil {
+	if err := h.adminService.ModifyPersonalInfo(ctx, core.SessionUserInfo(ctx).UserID, modifyData); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminModifyPersonalInfoError, err)
 		return
 	}
 
-	res.Username = ctx.SessionUserInfo().UserName
+	res.Username = core.SessionUserInfo(ctx).UserName
 	api.ResponseOK(ctx, res)
 }

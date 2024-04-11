@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"bytes"
 
-	"go.uber.org/zap"
+	"github.com/ChangSZ/mall-go/pkg/log"
 )
 
 // AlarmVerify Verify parse the body and verify that it is correct
@@ -14,7 +14,7 @@ type AlarmObject interface {
 	Send(subject, body string) error
 }
 
-func onFailedAlarm(title string, raw []byte, logger *zap.Logger, alarmObject AlarmObject) {
+func onFailedAlarm(title string, raw []byte, alarmObject AlarmObject) {
 	buf := bytes.NewBuffer(nil)
 
 	scanner := bufio.NewScanner(bytes.NewReader(raw))
@@ -23,7 +23,7 @@ func onFailedAlarm(title string, raw []byte, logger *zap.Logger, alarmObject Ala
 		buf.WriteString(" <br/>")
 	}
 
-	if err := alarmObject.Send(title, buf.String()); err != nil && logger != nil {
-		logger.Error("calls failed alarm err", zap.Error(err))
+	if err := alarmObject.Send(title, buf.String()); err != nil {
+		log.Error("calls failed alarm err: ", err)
 	}
 }

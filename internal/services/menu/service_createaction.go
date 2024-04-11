@@ -3,6 +3,7 @@ package menu
 import (
 	"context"
 
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu_action"
 )
@@ -18,10 +19,10 @@ func (s *service) CreateAction(ctx context.Context, menuActionData *CreateMenuAc
 	model.MenuId = menuActionData.MenuId
 	model.Method = menuActionData.Method
 	model.Api = menuActionData.API
-	model.CreatedUser = ctx.SessionUserInfo().UserName
+	model.CreatedUser = core.SessionUserInfo(ctx).UserName
 	model.IsDeleted = -1
 
-	id, err = model.Create(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
+	id, err = model.Create(mysql.DB().GetDbW().WithContext(ctx))
 	if err != nil {
 		return 0, err
 	}

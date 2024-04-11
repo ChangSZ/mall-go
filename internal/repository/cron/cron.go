@@ -4,10 +4,8 @@ import (
 	"sync"
 
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
-	"github.com/ChangSZ/mall-go/pkg/errors"
 
 	"github.com/jakecoffman/cron"
-	"go.uber.org/zap"
 )
 
 var _ Server = (*server)(nil)
@@ -39,7 +37,6 @@ func (tc *taskCount) Wait() {
 }
 
 type server struct {
-	logger    *zap.Logger
 	cron      *cron.Cron
 	taskCount *taskCount
 }
@@ -63,14 +60,9 @@ type Server interface {
 	AddJob(task *cron_task.CronTask) cron.FuncJob
 }
 
-func New(logger *zap.Logger) (Server, error) {
-	if logger == nil {
-		return nil, errors.New("logger required")
-	}
-
+func New() (Server, error) {
 	return &server{
-		logger: logger,
-		cron:   cron.New(),
+		cron: cron.New(),
 		taskCount: &taskCount{
 			wg:   sync.WaitGroup{},
 			exit: make(chan struct{}),

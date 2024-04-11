@@ -1,13 +1,11 @@
 package cron
 
 import (
-	"fmt"
 	"math"
 
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
-
-	"go.uber.org/zap"
+	"github.com/ChangSZ/mall-go/pkg/log"
 )
 
 func (s *server) Start() {
@@ -18,14 +16,14 @@ func (s *server) Start() {
 	qb.WhereIsUsed(mysql.EqualPredicate, cron_task.IsUsedYES)
 	totalNum, err := qb.Count(mysql.DB().GetDbR())
 	if err != nil {
-		s.logger.Fatal("cron initialize tasks count err", zap.Error(err))
+		log.Fatal("cron initialize tasks count err: ", err)
 	}
 
 	pageSize := 50
 	maxPage := int(math.Ceil(float64(totalNum) / float64(pageSize)))
 
 	taskNum := 0
-	s.logger.Info("开始初始化后台任务")
+	log.Info("开始初始化后台任务")
 
 	for page := 1; page <= maxPage; page++ {
 		qb = cron_task.NewQueryBuilder()
@@ -36,7 +34,7 @@ func (s *server) Start() {
 			OrderById(false).
 			QueryAll(mysql.DB().GetDbR())
 		if err != nil {
-			s.logger.Fatal("cron initialize tasks list err", zap.Error(err))
+			log.Fatal("cron initialize tasks list err: ", err)
 		}
 
 		for _, item := range listData {
@@ -45,5 +43,5 @@ func (s *server) Start() {
 		}
 	}
 
-	s.logger.Info(fmt.Sprintf("后台任务初始化完成，总数量：%d", taskNum))
+	log.Infof("后台任务初始化完成，总数量：%d", taskNum)
 }

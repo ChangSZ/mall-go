@@ -4,15 +4,17 @@ import (
 	"github.com/ChangSZ/mall-go/internal/api/admin"
 	"github.com/ChangSZ/mall-go/internal/api/authorized"
 	"github.com/ChangSZ/mall-go/internal/api/config"
-	"github.com/ChangSZ/mall-go/internal/api/cron"
+	apiCron "github.com/ChangSZ/mall-go/internal/api/cron"
 	"github.com/ChangSZ/mall-go/internal/api/helper"
 	"github.com/ChangSZ/mall-go/internal/api/menu"
 	"github.com/ChangSZ/mall-go/internal/api/tool"
+	"github.com/ChangSZ/mall-go/internal/middleware"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
+	"github.com/ChangSZ/mall-go/internal/repository/cron"
 	"github.com/gin-gonic/gin"
 )
 
-func setApiRouter(eng *gin.Engine) {
+func setApiRouter(eng *gin.Engine, cronServer cron.Server) {
 	// helper
 	helperHandler := helper.New()
 
@@ -26,13 +28,13 @@ func setApiRouter(eng *gin.Engine) {
 	adminHandler := admin.New()
 
 	// 需要签名验证，无需登录验证，无需 RBAC 权限验证
-	login := eng.Group("/api", r.interceptors.CheckSignature)
+	login := eng.Group("/api", middleware.CheckSignature())
 	{
 		login.POST("/login", adminHandler.Login)
 	}
 
 	// 需要签名验证、登录验证，无需 RBAC 权限验证
-	notRBAC := eng.Group("/api", core.WrapAuthHandler(r.interceptors.CheckLogin), r.interceptors.CheckSignature)
+	notRBAC := eng.Group("/api", middleware.CheckLogin(), middleware.CheckSignature())
 	{
 		notRBAC.POST("/admin/logout", adminHandler.Logout)
 		notRBAC.PATCH("/admin/modify_password", adminHandler.ModifyPassword)
@@ -41,7 +43,7 @@ func setApiRouter(eng *gin.Engine) {
 	}
 
 	// 需要签名验证、登录验证、RBAC 权限验证
-	api := eng.Group("/api", core.WrapAuthHandler(r.interceptors.CheckLogin), r.interceptors.CheckSignature(), r.interceptors.CheckRBAC)
+	api := eng.Group("/api", middleware.CheckLogin(), middleware.CheckSignature(), middleware.CheckRBAC())
 	{
 		// authorized
 		authorizedHandler := authorized.New()
@@ -92,7 +94,7 @@ func setApiRouter(eng *gin.Engine) {
 		api.PATCH("/config/email", configHandler.Email)
 
 		// cron
-		cronHandler := cron.New(r.cronServer)
+		cronHandler := apiCron.New(cronServer)
 		api.POST("/cron", cronHandler.Create)
 		api.GET("/cron", cronHandler.List)
 		api.GET("/cron/:id", core.AliasForRecordMetrics("/api/cron/detail"), cronHandler.Detail)

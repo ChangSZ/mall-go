@@ -1,12 +1,15 @@
 package router
 
-import "github.com/ChangSZ/mall-go/internal/api/ums_member_level"
+import (
+	"github.com/ChangSZ/mall-go/internal/api/ums_member_level"
+	"github.com/gin-gonic/gin"
+)
 
 // 会员等级管理
-func setUmsMemberLevelRouter(r *resource) {
-	memberLevelHandler := ums_member_level.New(r.logger)
-	memberLevel := r.mux.Group("/memberLevel")
+func setUmsMemberLevelRouter(eng *gin.Engine) {
+	memberLevelHandler := ums_member_level.New()
+	memberLevel := eng.Group("/memberLevel")
 	{
-		memberLevel.GET("/list", memberLevelHandler.List()) // 查询所有会员等级
+		memberLevel.GET("/list", memberLevelHandler.List) // 查询所有会员等级
 	}
 }

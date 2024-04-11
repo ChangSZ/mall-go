@@ -3,6 +3,7 @@ package menu
 import (
 	"context"
 
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu"
 )
@@ -22,11 +23,11 @@ func (s *service) Create(ctx context.Context, menuData *CreateMenuData) (id int3
 	model.Link = menuData.Link
 	model.Icon = menuData.Icon
 	model.Level = menuData.Level
-	model.CreatedUser = ctx.SessionUserInfo().UserName
+	model.CreatedUser = core.SessionUserInfo(ctx).UserName
 	model.IsUsed = 1
 	model.IsDeleted = -1
 
-	id, err = model.Create(mysql.DB().GetDbW().WithContext(ctx.RequestContext()))
+	id, err = model.Create(mysql.DB().GetDbW().WithContext(ctx))
 	if err != nil {
 		return 0, err
 	}

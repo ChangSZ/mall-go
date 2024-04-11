@@ -1,25 +1,20 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"time"
-
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/repository/cron"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/router"
-	"github.com/ChangSZ/mall-go/pkg/env"
+	"github.com/ChangSZ/mall-go/pkg/browser"
+	"github.com/ChangSZ/mall-go/pkg/file"
 	"github.com/ChangSZ/mall-go/pkg/log"
-	"github.com/ChangSZ/mall-go/pkg/logger"
 	"github.com/ChangSZ/mall-go/pkg/shutdown"
-	"github.com/ChangSZ/mall-go/pkg/timeutil"
+	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/gorilla/handlers"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/sdk/trace"
-
-	"go.uber.org/zap"
 )
 
 // @title swagger 接口文档
@@ -39,29 +34,6 @@ import (
 
 // @BasePath /
 func main() {
-	// 初始化 access logger
-	accessLogger, err := logger.NewJSONLogger(
-		logger.WithDisableConsole(),
-		logger.WithField("domain", fmt.Sprintf("%s[%s]", configs.ProjectName, env.Active().Value())),
-		logger.WithTimeLayout(timeutil.CSTLayout),
-		logger.WithFileP(configs.ProjectLogFile),
-	)
-	if err != nil {
-		panic(err)
-	}
-
-	// 初始化 cron logger
-	cronLogger, err := logger.NewJSONLogger(
-		logger.WithDisableConsole(),
-		logger.WithField("domain", fmt.Sprintf("%s[%s]", configs.ProjectName, env.Active().Value())),
-		logger.WithTimeLayout(timeutil.CSTLayout),
-		logger.WithFileP(configs.ProjectCronLogFile),
-	)
-
-	if err != nil {
-		panic(err)
-	}
-
 	// 初始化logger
 	log.Init(configs.ProjectLogFile, configs.ProjectLogRotateMaxDays, configs.ProjectLogLevel)
 
@@ -69,7 +41,7 @@ func main() {
 	otel.SetTracerProvider(tp)
 
 	var opts = []http.ServerOption{ // 这里的ServerOption很多只适用于grpc protobuf
-		http.Address(":8081"),
+		http.Address(configs.ProjectPort),
 		http.Filter(handlers.CORS(
 			handlers.AllowedOrigins([]string{"*"}),
 			handlers.AllowedMethods([]string{"GET", "POST", "OPTIONS", "PUT", "DELETE", "UPDATE"}),
@@ -81,46 +53,52 @@ func main() {
 		)),
 	}
 
-	// httpSrv := http.NewServer(opts...)
-	// httpSrv.HandlePrefix("/", r)
+	var cronServer cron.Server
+	var err error
+	openBrowserUri := configs.ProjectDomain + configs.ProjectPort
+	_, ok := file.IsExists(configs.ProjectInstallMark)
+	if !ok { // 未安装
+		openBrowserUri += "/install"
+	} else { // 已安装
+		// 初始化 DB
+		mysql.Init()
 
-	// app := kratos.New(kratos.Server(httpSrv))
-	// fmt.Println("开始运行")
-	// if err := app.Run(); err != nil {
-	// 	panic(err)
-	// }
+		// 初始化 Cache
+		redis.Init()
 
-	defer func() {
-		_ = accessLogger.Sync()
-		_ = cronLogger.Sync()
-	}()
-
-	// 初始化 HTTP 服务
-	s, err := router.NewHTTPServer(accessLogger, cronLogger)
-	if err != nil {
-		panic(err)
+		// 初始化 CRON Server
+		cronServer, err = cron.New()
+		if err != nil {
+			log.Fatal("new cron err: ", err)
+		}
+		cronServer.Start()
 	}
 
-	server := &http.Server{
-		Addr:    configs.ProjectPort,
-		Handler: s.Mux,
-	}
+	// 初始化路由
+	eng := router.RoutersInit(cronServer)
+	httpSrv := http.NewServer(opts...)
+	httpSrv.HandlePrefix("/", eng)
 
+	app := kratos.New(kratos.Server(httpSrv))
 	go func() {
-		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			accessLogger.Fatal("http server startup err", zap.Error(err))
+		log.Info("app Run...")
+		if err := app.Run(); err != nil {
+			panic(err)
 		}
 	}()
+
+	// 自动打开浏览器
+	if openBrowserUri != "" {
+		_ = browser.Open(openBrowserUri)
+	}
 
 	// 优雅关闭
 	shutdown.NewHook().Close(
 		// 关闭 http server
 		func() {
-			ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
-			defer cancel()
-
-			if err := server.Shutdown(ctx); err != nil {
-				accessLogger.Error("server shutdown err", zap.Error(err))
+			log.Info("app Stop...")
+			if err := app.Stop(); err != nil {
+				log.Error("app Stop err: ", err)
 			}
 		},
 
@@ -128,11 +106,11 @@ func main() {
 		func() {
 			if mysql.DB() != nil {
 				if err := mysql.DB().DbWClose(); err != nil {
-					accessLogger.Error("dbw close err", zap.Error(err))
+					log.Error("dbw close err: ", err)
 				}
 
 				if err := mysql.DB().DbRClose(); err != nil {
-					accessLogger.Error("dbr close err", zap.Error(err))
+					log.Error("dbr close err: ", err)
 				}
 			}
 		},
@@ -141,15 +119,15 @@ func main() {
 		func() {
 			if redis.Cache() != nil {
 				if err := redis.Cache().Close(); err != nil {
-					accessLogger.Error("cache close err", zap.Error(err))
+					log.Error("cache close err: ", err)
 				}
 			}
 		},
 
 		// 关闭 cron Server
 		func() {
-			if s.CronServer != nil {
-				s.CronServer.Stop()
+			if cronServer != nil {
+				cronServer.Stop()
 			}
 		},
 	)

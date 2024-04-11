@@ -6,6 +6,7 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/gin-gonic/gin"
@@ -27,7 +28,7 @@ type logoutResponse struct {
 // @Security LoginToken
 func (h *handler) Logout(ctx *gin.Context) {
 	res := new(logoutResponse)
-	res.Username = ctx.SessionUserInfo().UserName
+	res.Username = core.SessionUserInfo(ctx).UserName
 
 	if !redis.Cache().Del(ctx, configs.RedisKeyPrefixLoginUser+ctx.GetHeader(configs.HeaderLoginToken)) {
 		log.WithTrace(ctx).Error("cache del err")

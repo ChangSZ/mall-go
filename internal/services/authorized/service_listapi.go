@@ -22,7 +22,7 @@ func (s *service) ListAPI(ctx context.Context, searchAPIData *SearchAPIData) (li
 
 	listData, err = qb.
 		OrderById(false).
-		QueryAll(mysql.DB().GetDbR().WithContext(ctx.RequestContext()))
+		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}

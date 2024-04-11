@@ -124,7 +124,7 @@ func withoutBody(method, url string, form httpURL.Values, options ...Option) (bo
 		}
 
 		raw, _ := json.MarshalIndent(info, "", " ")
-		onFailedAlarm(opt.alarmTitle, raw, opt.logger, opt.alarmObject)
+		onFailedAlarm(opt.alarmTitle, raw, opt.alarmObject)
 
 	}()
 
@@ -266,7 +266,7 @@ func withFormBody(method, url string, form httpURL.Values, options ...Option) (b
 		}
 
 		raw, _ := json.MarshalIndent(info, "", " ")
-		onFailedAlarm(opt.alarmTitle, raw, opt.logger, opt.alarmObject)
+		onFailedAlarm(opt.alarmTitle, raw, opt.alarmObject)
 
 	}()
 
@@ -377,7 +377,7 @@ func withJSONBody(method, url string, raw json.RawMessage, options ...Option) (b
 		}
 
 		raw, _ := json.MarshalIndent(info, "", " ")
-		onFailedAlarm(opt.alarmTitle, raw, opt.logger, opt.alarmObject)
+		onFailedAlarm(opt.alarmTitle, raw, opt.alarmObject)
 
 	}()
 

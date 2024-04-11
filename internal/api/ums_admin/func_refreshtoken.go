@@ -6,6 +6,7 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/gin-gonic/gin"
 )
@@ -29,7 +30,7 @@ type refreshTokenResponse struct {
 // @Router /admin/refreshToken [get]
 func (h *handler) RefreshToken(ctx *gin.Context) {
 	res := new(refreshTokenResponse)
-	userInfo := ctx.GetUmsUserInfo()
+	userInfo := core.GetUmsUserInfo(ctx)
 
 	token, err := h.umsAdminService.RefreshToken(ctx, userInfo.Token)
 	if err != nil {

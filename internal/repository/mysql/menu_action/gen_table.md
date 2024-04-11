@@ -1,4 +1,4 @@
-#### go_gin_api.menu_action 
+#### mall.menu_action 
 功能权限表
 
 | 序号 | 名称 | 描述 | 类型 | 键 | 为空 | 额外 | 默认值 |

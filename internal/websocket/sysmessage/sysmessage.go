@@ -26,7 +26,7 @@ func GetConn() (socket.Server, error) {
 }
 
 func (h *handler) Connect(ctx *gin.Context) {
-	server, err = socket.New(ctx.ResponseWriter(), ctx.Request(), nil)
+	server, err = socket.New(ctx.Writer, ctx.Request, nil)
 	if err != nil {
 		return
 	}
