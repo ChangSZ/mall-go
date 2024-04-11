@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"errors"
 	"net/http"
 	"strings"
 
@@ -10,7 +11,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 	authorizedService "github.com/ChangSZ/mall-go/internal/services/authorized"
 	"github.com/ChangSZ/mall-go/pkg/env"
-	"github.com/ChangSZ/mall-go/pkg/errors"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/signature"
 	"github.com/ChangSZ/mall-go/pkg/urltable"

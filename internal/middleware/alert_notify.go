@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"net/http"
 	"runtime/debug"
 	"time"
@@ -14,7 +13,6 @@ import (
 	"github.com/ChangSZ/mall-go/pkg/env"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/gin-gonic/gin"
-	"go.uber.org/multierr"
 )
 
 func AlertNotify() gin.HandlerFunc {
@@ -23,14 +21,6 @@ func AlertNotify() gin.HandlerFunc {
 			return
 		}
 		defer func() {
-			var (
-				response        interface{}
-				businessCode    int
-				businessCodeMsg string
-				abortErr        error
-				traceId         string
-			)
-
 			// region 发生 Panic 异常发送告警提醒
 			if err := recover(); err != nil {
 				stackInfo := string(debug.Stack())
@@ -43,7 +33,7 @@ func AlertNotify() gin.HandlerFunc {
 				alert.NotifyHandler()(&proposal.AlertMessage{
 					ProjectName:  configs.ProjectName,
 					Env:          env.Active().Value(),
-					TraceID:      traceId,
+					TraceID:      core.TraceID(ctx),
 					HOST:         ctx.Request.Host,
 					URI:          ctx.Request.URL.Path,
 					Method:       ctx.Request.Method,
@@ -55,37 +45,30 @@ func AlertNotify() gin.HandlerFunc {
 			// endregion
 
 			// region 发生错误，进行返回
-			if ctx.IsAborted() {
-				for i := range ctx.Errors {
-					multierr.AppendInto(&abortErr, ctx.Errors[i])
-				}
+			// if ctx.IsAborted() {
+			// 	if err := core.AbortError(ctx); err != nil { // customer err
+			// 		// 判断是否需要发送告警通知
+			// 		if err.IsAlert() {
+			// 			alert.NotifyHandler()(&proposal.AlertMessage{
+			// 				ProjectName:  configs.ProjectName,
+			// 				Env:          env.Active().Value(),
+			// 				TraceID:      core.TraceID(ctx),
+			// 				HOST:         ctx.Request.Host,
+			// 				URI:          ctx.Request.URL.Path,
+			// 				Method:       ctx.Request.Method,
+			// 				ErrorMessage: err.Message(),
+			// 				ErrorStack:   fmt.Sprintf("%+v", err.StackError()),
+			// 				Timestamp:    time.Now(),
+			// 			})
+			// 		}
 
-				if err := core.AbortError(ctx); err != nil { // customer err
-					// 判断是否需要发送告警通知
-					if err.IsAlert() {
-						alert.NotifyHandler()(&proposal.AlertMessage{
-							ProjectName:  configs.ProjectName,
-							Env:          env.Active().Value(),
-							TraceID:      traceId,
-							HOST:         ctx.Request.Host,
-							URI:          ctx.Request.URL.Path,
-							Method:       ctx.Request.Method,
-							ErrorMessage: err.Message(),
-							ErrorStack:   fmt.Sprintf("%+v", err.StackError()),
-							Timestamp:    time.Now(),
-						})
-					}
-
-					multierr.AppendInto(&abortErr, err.StackError())
-					businessCode = err.BusinessCode()
-					businessCodeMsg = err.Message()
-					response = &code.Failure{
-						Code:    businessCode,
-						Message: businessCodeMsg,
-					}
-					ctx.JSON(err.HTTPCode(), response)
-				}
-			}
+			// 		response := &code.Failure{
+			// 			Code:    err.BusinessCode(),
+			// 			Message: err.Message(),
+			// 		}
+			// 		ctx.JSON(err.HTTPCode(), response)
+			// 	}
+			// }
 			// endregion
 		}()
 

@@ -114,5 +114,4 @@ func (h *handler) View(ctx *gin.Context) {
 	obj.RedisVersion = redis.Cache().Version()
 
 	ctx.HTML(200, "dashboard.html", obj)
-
 }

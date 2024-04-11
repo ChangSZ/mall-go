@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 
 	"github.com/ChangSZ/mall-go/configs"
@@ -9,7 +10,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
-	"github.com/ChangSZ/mall-go/pkg/errors"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/urltable"
 	"github.com/gin-gonic/gin"
@@ -22,7 +22,7 @@ func CheckRBAC() gin.HandlerFunc {
 		if token == "" {
 			err := errors.New("Header 中缺少 Token 参数")
 			log.WithTrace(ctx).Error(err)
-			api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)
+			api.Response(ctx, http.StatusUnauthorized, code.AuthorizationError, err)
 			ctx.Abort()
 			return
 		}
@@ -30,7 +30,7 @@ func CheckRBAC() gin.HandlerFunc {
 		if !redis.Cache().Exists(ctx, configs.RedisKeyPrefixLoginUser+token) {
 			err := errors.New("请先登录")
 			log.WithTrace(ctx).Error(err)
-			api.Response(ctx, http.StatusBadRequest, code.CacheGetError, err)
+			api.Response(ctx, http.StatusUnauthorized, code.CacheGetError, err)
 			ctx.Abort()
 			return
 		}
@@ -38,7 +38,7 @@ func CheckRBAC() gin.HandlerFunc {
 		if !redis.Cache().Exists(ctx, configs.RedisKeyPrefixLoginUser+token+":action") {
 			err := errors.New("当前账号未配置 RBAC 权限")
 			log.WithTrace(ctx).Error(err)
-			api.Response(ctx, http.StatusBadRequest, code.CacheGetError, err)
+			api.Response(ctx, http.StatusUnauthorized, code.CacheGetError, err)
 			ctx.Abort()
 			return
 		}
@@ -46,7 +46,7 @@ func CheckRBAC() gin.HandlerFunc {
 		actionData, err := redis.Cache().Get(ctx, configs.RedisKeyPrefixLoginUser+token+":action")
 		if err != nil {
 			log.WithTrace(ctx).Error(err)
-			api.Response(ctx, http.StatusBadRequest, code.CacheGetError, err)
+			api.Response(ctx, http.StatusUnauthorized, code.CacheGetError, err)
 			ctx.Abort()
 			return
 		}
@@ -55,7 +55,7 @@ func CheckRBAC() gin.HandlerFunc {
 		err = json.Unmarshal([]byte(actionData), &actions)
 		if err != nil {
 			log.WithTrace(ctx).Error(err)
-			api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)
+			api.Response(ctx, http.StatusUnauthorized, code.AuthorizationError, err)
 			ctx.Abort()
 			return
 		}
