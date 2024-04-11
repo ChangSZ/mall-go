@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 
 	"github.com/ChangSZ/mall-go/configs"
@@ -10,7 +11,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
-	"github.com/ChangSZ/mall-go/pkg/errors"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +22,7 @@ func CheckLogin() gin.HandlerFunc {
 		if token == "" {
 			err := errors.New("Header 中缺少 Token 参数")
 			log.WithTrace(ctx).Error(err)
-			api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)
+			api.Response(ctx, http.StatusUnauthorized, code.AuthorizationError, err)
 			ctx.Abort()
 			return
 		}
@@ -30,7 +30,7 @@ func CheckLogin() gin.HandlerFunc {
 		if !redis.Cache().Exists(ctx, configs.RedisKeyPrefixLoginUser+token) {
 			err := errors.New("请先登录")
 			log.WithTrace(ctx).Error(err)
-			api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)
+			api.Response(ctx, http.StatusUnauthorized, code.AuthorizationError, err)
 			ctx.Abort()
 			return
 		}
@@ -39,7 +39,7 @@ func CheckLogin() gin.HandlerFunc {
 		if cacheErr != nil {
 			err := errors.New("Header 中缺少 Token 参数")
 			log.WithTrace(ctx).Error(err)
-			api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, cacheErr)
+			api.Response(ctx, http.StatusUnauthorized, code.AuthorizationError, cacheErr)
 			ctx.Abort()
 			return
 		}
@@ -48,7 +48,7 @@ func CheckLogin() gin.HandlerFunc {
 		jsonErr := json.Unmarshal([]byte(cacheData), &sessionUserInfo)
 		if jsonErr != nil {
 			log.WithTrace(ctx).Error(jsonErr)
-			api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, jsonErr)
+			api.Response(ctx, http.StatusUnauthorized, code.AuthorizationError, jsonErr)
 			ctx.Abort()
 			return
 		}

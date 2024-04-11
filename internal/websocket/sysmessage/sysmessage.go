@@ -1,8 +1,9 @@
 package sysmessage
 
 import (
+	"errors"
+
 	"github.com/ChangSZ/mall-go/internal/repository/socket"
-	"github.com/ChangSZ/mall-go/pkg/errors"
 	"github.com/gin-gonic/gin"
 )
 

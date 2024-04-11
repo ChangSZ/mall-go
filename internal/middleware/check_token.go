@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -11,7 +12,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/internal/services/ums_user"
-	"github.com/ChangSZ/mall-go/pkg/errors"
 	"github.com/ChangSZ/mall-go/pkg/jwt"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/gin-gonic/gin"

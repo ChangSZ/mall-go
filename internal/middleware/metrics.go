@@ -10,7 +10,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/pkg/env"
 	"github.com/gin-gonic/gin"
-	"go.opentelemetry.io/otel/trace"
 )
 
 // Metrics 统计
@@ -29,14 +28,11 @@ func Metrics() gin.HandlerFunc {
 			if alias := core.Alias(ctx); alias != "" {
 				path = alias
 			}
-			var traceId string
-			if span := trace.SpanContextFromContext(ctx); span.HasTraceID() {
-				traceId = span.TraceID().String()
-			}
+
 			metrics.RecordHandler()(&proposal.MetricsMessage{
 				ProjectName:  configs.ProjectName,
 				Env:          env.Active().Value(),
-				TraceID:      traceId,
+				TraceID:      core.TraceID(ctx),
 				HOST:         ctx.Request.Host,
 				Path:         path,
 				Method:       ctx.Request.Method,

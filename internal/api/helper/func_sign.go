@@ -1,6 +1,7 @@
 package helper
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -8,7 +9,6 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/pkg/errors"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/signature"
 	"github.com/gin-gonic/gin"

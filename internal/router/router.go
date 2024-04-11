@@ -1,11 +1,16 @@
 package router
 
 import (
+	"fmt"
+	"html/template"
+	"net/http"
 	"time"
 
+	"github.com/ChangSZ/mall-go/assets"
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/middleware"
 	"github.com/ChangSZ/mall-go/internal/repository/cron"
+	"github.com/ChangSZ/mall-go/pkg/color"
 	"github.com/ChangSZ/mall-go/pkg/env"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/gin-contrib/pprof"
@@ -18,7 +23,21 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+const _UI = `
+███    ███  █████  ██      ██             ██████   ██████  
+████  ████ ██   ██ ██      ██            ██       ██    ██ 
+██ ████ ██ ███████ ██      ██      █████ ██   ███ ██    ██ 
+██  ██  ██ ██   ██ ██      ██            ██    ██ ██    ██ 
+██      ██ ██   ██ ███████ ███████        ██████   ██████ 
+`
+
 func RoutersInit(cronServer cron.Server) *gin.Engine {
+	if env.Active().IsPro() {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		gin.SetMode(gin.DebugMode)
+	}
+
 	eng := gin.New()
 	eng.Use(
 		middleware.Rate(),
@@ -26,6 +45,14 @@ func RoutersInit(cronServer cron.Server) *gin.Engine {
 		// middleware.AlertNotify(),
 		kgin.Middlewares(tracing.Server(), logging.Server(log.GetLoggerWithTrace()), middleware.AddTraceCtx),
 	)
+
+	gin.SetMode(gin.ReleaseMode)
+
+	fmt.Println(color.Blue(_UI))
+
+	eng.StaticFS("assets", http.FS(assets.Bootstrap))
+	eng.SetHTMLTemplate(template.Must(template.New("").ParseFS(assets.Templates, "templates/**/*")))
+
 	// 设置 Render 路由
 	setRenderRouter(eng)
 

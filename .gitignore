@@ -16,4 +16,5 @@
 # vendor/
 
 # Project runtime log
-logs/*.log
+!.gitkeep
+/logs/*
