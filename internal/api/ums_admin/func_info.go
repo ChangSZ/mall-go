@@ -29,7 +29,7 @@ type infoResponse struct {
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body infoRequest true "请求信息"
-// @Success 200 {object} infoResponse
+// @Success 200 {object} code.Success{data=infoResponse}
 // @Failure 400 {object} code.Failure
 // @Router /admin/info [get]
 func (h *handler) Info(ctx *gin.Context) {

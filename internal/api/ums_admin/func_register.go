@@ -41,7 +41,7 @@ type registerResponse struct {
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body registerRequest true "请求信息"
-// @Success 200 {object} registerResponse
+// @Success 200 {object} code.Success{data=registerResponse}
 // @Failure 400 {object} code.Failure
 // @Router /admin/register [post]
 func (h *handler) Register(ctx *gin.Context) {

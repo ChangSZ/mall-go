@@ -15,7 +15,7 @@ type updateResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body updateRequest true "请求信息"
-// @Success 200 {object} updateResponse
+// @Success 200 {object} code.Success{data=updateResponse}
 // @Failure 400 {object} code.Failure
 // @Router /resource/update/{id} [post]
 func (h *handler) Update(ctx *gin.Context) {

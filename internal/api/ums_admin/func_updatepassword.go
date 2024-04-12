@@ -15,7 +15,7 @@ type updatePasswordResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body updatePasswordRequest true "请求信息"
-// @Success 200 {object} updatePasswordResponse
+// @Success 200 {object} code.Success{data=updatePasswordResponse}
 // @Failure 400 {object} code.Failure
 // @Router /admin/updatePassword [post]
 func (h *handler) UpdatePassword(ctx *gin.Context) {

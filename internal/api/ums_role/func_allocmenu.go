@@ -15,7 +15,7 @@ type allocMenuResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body allocMenuRequest true "请求信息"
-// @Success 200 {object} allocMenuResponse
+// @Success 200 {object} code.Success{data=allocMenuResponse}
 // @Failure 400 {object} code.Failure
 // @Router /role/allocMenu [post]
 func (h *handler) AllocMenu(ctx *gin.Context) {

@@ -15,7 +15,7 @@ type listResourceResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body listResourceRequest true "请求信息"
-// @Success 200 {object} listResourceResponse
+// @Success 200 {object} code.Success{data=listResourceResponse}
 // @Failure 400 {object} code.Failure
 // @Router /role/listResource/{roleId} [get]
 func (h *handler) ListResource(ctx *gin.Context) {

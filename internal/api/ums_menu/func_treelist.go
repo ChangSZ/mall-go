@@ -15,7 +15,7 @@ type treeListResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body treeListRequest true "请求信息"
-// @Success 200 {object} treeListResponse
+// @Success 200 {object} code.Success{data=treeListResponse}
 // @Failure 400 {object} code.Failure
 // @Router /menu/treeList [get]
 func (h *handler) TreeList(ctx *gin.Context) {

@@ -91,7 +91,7 @@ func main() {
 					funcContent += "// @Accept application/x-www-form-urlencoded \n"
 					funcContent += "// @Produce json \n"
 					funcContent += fmt.Sprintf("// @Param Request body %sRequest true \"请求信息\" \n", Lcfirst(v.Names[0].String()))
-					funcContent += fmt.Sprintf("// @Success 200 {object} %sResponse \n", Lcfirst(v.Names[0].String()))
+					funcContent += fmt.Sprintf("// @Success 200 {object} code.Success{data=%sResponse} \n", Lcfirst(v.Names[0].String()))
 					funcContent += "// @Failure 400 {object} code.Failure \n"
 					// Router
 					funcContent += fmt.Sprintf("%s \n", v.Decorations().Start.All()[2])
