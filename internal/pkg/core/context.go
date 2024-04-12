@@ -6,9 +6,9 @@ import (
 	"strings"
 
 	"github.com/ChangSZ/mall-go/internal/proposal"
-	"go.opentelemetry.io/otel/trace"
 
 	"github.com/gin-gonic/gin"
+	"go.opentelemetry.io/otel/trace"
 )
 
 const (

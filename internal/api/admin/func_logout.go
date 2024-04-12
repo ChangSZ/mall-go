@@ -9,6 +9,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/pkg/log"
+
 	"github.com/gin-gonic/gin"
 )
 

@@ -11,6 +11,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/signature"
+
 	"github.com/gin-gonic/gin"
 )
 

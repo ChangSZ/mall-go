@@ -4,6 +4,7 @@ import (
 	"errors"
 
 	"github.com/ChangSZ/mall-go/internal/repository/socket"
+
 	"github.com/gin-gonic/gin"
 )
 

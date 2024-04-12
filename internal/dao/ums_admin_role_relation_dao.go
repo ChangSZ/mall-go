@@ -4,6 +4,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_role_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
+
 	"gorm.io/gorm"
 )
 

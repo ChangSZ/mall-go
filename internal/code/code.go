@@ -16,9 +16,14 @@ type Failure struct {
 	Data    interface{} `json:"data"`    // 业务返回数据
 }
 
-const (
-	OK = 0
+// Success 成功时返回结构
+type Success struct {
+	Code    int         `json:"code"`    // 业务码
+	Message string      `json:"message"` // 描述信息
+	Data    interface{} `json:"data"`    // 业务返回数据
+}
 
+const (
 	ServerError        = 10101
 	TooManyRequests    = 10102
 	ParamBindError     = 10103

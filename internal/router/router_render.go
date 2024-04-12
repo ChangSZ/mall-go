@@ -1,7 +1,6 @@
 package router
 
 import (
-	"github.com/ChangSZ/mall-go/internal/middleware"
 	"github.com/ChangSZ/mall-go/internal/render/admin"
 	"github.com/ChangSZ/mall-go/internal/render/authorized"
 	"github.com/ChangSZ/mall-go/internal/render/config"
@@ -12,6 +11,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/render/install"
 	"github.com/ChangSZ/mall-go/internal/render/tool"
 	"github.com/ChangSZ/mall-go/internal/render/upgrade"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,27 +29,23 @@ func setRenderRouter(eng *gin.Engine) {
 	renderCron := cron.New()
 
 	// 无需 RBAC 权限验证
-	notRBAC := eng.Group("")
+	render := eng.Group("")
 	{
 		// 首页
-		notRBAC.GET("", renderIndex.Index)
+		render.GET("", renderIndex.Index)
 
 		// 仪表盘
-		notRBAC.GET("/dashboard", renderDashboard.View)
+		render.GET("/dashboard", renderDashboard.View)
 
 		// 安装
-		notRBAC.GET("/install", renderInstall.View)
-		notRBAC.POST("/install/execute", renderInstall.Execute)
+		render.GET("/install", renderInstall.View)
+		render.POST("/install/execute", renderInstall.Execute)
 
 		// 管理员
-		notRBAC.GET("/login", renderAdmin.Login)
-		notRBAC.GET("/admin/modify_password", renderAdmin.ModifyPassword)
-		notRBAC.GET("/admin/modify_info", renderAdmin.ModifyInfo)
-	}
+		render.GET("/login", renderAdmin.Login)
+		render.GET("/admin/modify_password", renderAdmin.ModifyPassword)
+		render.GET("/admin/modify_info", renderAdmin.ModifyInfo)
 
-	// 需要 RBAC 权限验证
-	render := eng.Group("", middleware.CheckRBAC())
-	{
 		// 配置信息
 		render.GET("/config/email", renderConfig.Email)
 		render.GET("/config/code", renderConfig.Code)

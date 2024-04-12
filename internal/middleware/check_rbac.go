@@ -12,6 +12,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/urltable"
+
 	"github.com/gin-gonic/gin"
 )
 

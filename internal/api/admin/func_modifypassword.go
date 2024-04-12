@@ -9,6 +9,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/pkg/password"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/log"
+
 	"github.com/gin-gonic/gin"
 )
 

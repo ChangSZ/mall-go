@@ -1,8 +1,6 @@
 package code
 
 var zhCNText = map[int]string{
-	OK: "成功",
-
 	ServerError:        "内部服务器错误",
 	TooManyRequests:    "请求过多",
 	ParamBindError:     "参数信息错误",

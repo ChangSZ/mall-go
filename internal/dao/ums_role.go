@@ -3,6 +3,7 @@ package dao
 import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
+
 	"gorm.io/gorm"
 )
 

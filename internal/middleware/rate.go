@@ -7,6 +7,7 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
+
 	"github.com/gin-gonic/gin"
 	"golang.org/x/time/rate"
 )

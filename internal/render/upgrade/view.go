@@ -6,6 +6,7 @@ import (
 
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
+
 	"github.com/gin-gonic/gin"
 )
 

@@ -14,6 +14,7 @@ import (
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/signature"
 	"github.com/ChangSZ/mall-go/pkg/urltable"
+
 	"github.com/gin-gonic/gin"
 )
 

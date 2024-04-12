@@ -5,6 +5,7 @@ import (
 	cronRepo "github.com/ChangSZ/mall-go/internal/repository/cron"
 	"github.com/ChangSZ/mall-go/internal/services/cron"
 	"github.com/ChangSZ/mall-go/pkg/hash"
+
 	"github.com/gin-gonic/gin"
 )
 

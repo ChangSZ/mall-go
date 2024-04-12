@@ -11,8 +11,8 @@ import (
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/proposal/tablesqls"
 	"github.com/ChangSZ/mall-go/pkg/log"
-	"github.com/gin-gonic/gin"
 
+	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v7"
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"

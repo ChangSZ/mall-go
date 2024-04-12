@@ -82,7 +82,7 @@
 <script type="text/javascript" src="/assets/bootstrap/js/bootstrap-notify/notify.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        const ws = new WebSocket("ws://127.0.0.1:9999/socket/system/message");
+        const ws = new WebSocket("ws://127.0.0.1:8080/socket/system/message");
 
         //连接打开时触发
         ws.onopen = function (evt) {

@@ -3,6 +3,7 @@ package tool
 import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
+
 	"github.com/gin-gonic/gin"
 )
 

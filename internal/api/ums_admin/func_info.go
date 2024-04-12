@@ -9,6 +9,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
 	"github.com/ChangSZ/mall-go/internal/services/ums_user"
 	"github.com/ChangSZ/mall-go/pkg/log"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -63,5 +64,5 @@ func (h *handler) Info(ctx *gin.Context) {
 			res.Roles = append(res.Roles, role.Name)
 		}
 	}
-	api.ResponseOK(ctx, res)
+	api.Success(ctx, res)
 }

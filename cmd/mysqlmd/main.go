@@ -39,7 +39,7 @@ var (
 )
 
 func init() {
-	addr := flag.String("addr", "", "请输入 db 地址，例如：127.0.0.1:3306\n")
+	addr := flag.String("addr", "", "请输入 db 地址, 例如: 127.0.0.1:3306\n")
 	user := flag.String("user", "", "请输入 db 用户名\n")
 	pass := flag.String("pass", "", "请输入 db 密码\n")
 	name := flag.String("name", "", "请输入 db 名称\n")
