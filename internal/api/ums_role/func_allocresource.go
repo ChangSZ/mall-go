@@ -15,7 +15,7 @@ type allocResourceResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body allocResourceRequest true "请求信息"
-// @Success 200 {object} allocResourceResponse
+// @Success 200 {object} code.Success{data=allocResourceResponse}
 // @Failure 400 {object} code.Failure
 // @Router /role/allocResource [post]
 func (h *handler) AllocResource(ctx *gin.Context) {

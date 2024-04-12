@@ -28,7 +28,7 @@ type loginResponse struct {
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body loginRequest true "请求信息"
-// @Success 200 {object} loginResponse
+// @Success 200 {object} code.Success{data=loginResponse}
 // @Failure 400 {object} code.Failure
 // @Router /admin/login [post]
 func (h *handler) Login(ctx *gin.Context) {

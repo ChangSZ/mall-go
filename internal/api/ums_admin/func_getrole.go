@@ -15,7 +15,7 @@ type getRoleResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body getRoleRequest true "请求信息"
-// @Success 200 {object} getRoleResponse
+// @Success 200 {object} code.Success{data=getRoleResponse}
 // @Failure 400 {object} code.Failure
 // @Router /admin/role/{adminId} [get]
 func (h *handler) GetRole(ctx *gin.Context) {

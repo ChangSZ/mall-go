@@ -277,6 +277,19 @@ definitions:
       code:
         description: 业务码
         type: integer
+      data:
+        description: 业务返回数据
+      message:
+        description: 描述信息
+        type: string
+    type: object
+  code.Success:
+    properties:
+      code:
+        description: 业务码
+        type: integer
+      data:
+        description: 业务返回数据
       message:
         description: 描述信息
         type: string
@@ -663,6 +676,270 @@ definitions:
           $ref: '#/definitions/tool.tableData'
         type: array
     type: object
+  ums_admin.deleteRequest:
+    type: object
+  ums_admin.deleteResponse:
+    type: object
+  ums_admin.getRequest:
+    type: object
+  ums_admin.getResponse:
+    type: object
+  ums_admin.getRoleRequest:
+    type: object
+  ums_admin.getRoleResponse:
+    type: object
+  ums_admin.infoRequest:
+    type: object
+  ums_admin.infoResponse:
+    properties:
+      icon:
+        type: string
+      menus:
+        items:
+          $ref: '#/definitions/ums_menu.UmsMenu'
+        type: array
+      roles:
+        items:
+          type: string
+        type: array
+      username:
+        type: string
+    type: object
+  ums_admin.loginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  ums_admin.loginResponse:
+    properties:
+      token:
+        type: string
+      tokenHead:
+        type: string
+    type: object
+  ums_admin.logoutRequest:
+    type: object
+  ums_admin.logoutResponse:
+    type: object
+  ums_admin.refreshTokenRequest:
+    type: object
+  ums_admin.refreshTokenResponse:
+    properties:
+      token:
+        type: string
+      tokenHead:
+        type: string
+    type: object
+  ums_admin.registerRequest:
+    properties:
+      email:
+        type: string
+      icon:
+        type: string
+      nickName:
+        type: string
+      note:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  ums_admin.registerResponse:
+    properties:
+      createTime:
+        description: 创建时间
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      icon:
+        description: 头像
+        type: string
+      id:
+        type: integer
+      loginTime:
+        description: 最后登录时间
+        type: string
+      nickName:
+        description: 昵称
+        type: string
+      note:
+        description: 备注信息
+        type: string
+      password:
+        type: string
+      status:
+        description: 帐号启用状态：0->禁用；1->启用
+        type: integer
+      username:
+        type: string
+    type: object
+  ums_admin.updatePasswordRequest:
+    type: object
+  ums_admin.updatePasswordResponse:
+    type: object
+  ums_admin.updateRequest:
+    type: object
+  ums_admin.updateResponse:
+    type: object
+  ums_admin.updateRoleRequest:
+    type: object
+  ums_admin.updateRoleResponse:
+    type: object
+  ums_admin.updateStatusRequest:
+    type: object
+  ums_admin.updateStatusResponse:
+    type: object
+  ums_member_level.listRequest:
+    type: object
+  ums_member_level.listResponse:
+    type: object
+  ums_menu.UmsMenu:
+    properties:
+      createTime:
+        description: 创建时间
+        type: string
+      hidden:
+        description: 前端隐藏
+        type: integer
+      icon:
+        description: 前端图标
+        type: string
+      id:
+        type: integer
+      level:
+        description: 菜单级数
+        type: integer
+      name:
+        description: 前端名称
+        type: string
+      parentId:
+        description: 父级ID
+        type: integer
+      sort:
+        description: 菜单排序
+        type: integer
+      title:
+        description: 菜单名称
+        type: string
+    type: object
+  ums_menu.createRequest:
+    type: object
+  ums_menu.createResponse:
+    type: object
+  ums_menu.deleteRequest:
+    type: object
+  ums_menu.deleteResponse:
+    type: object
+  ums_menu.getRequest:
+    type: object
+  ums_menu.getResponse:
+    type: object
+  ums_menu.listRequest:
+    type: object
+  ums_menu.listResponse:
+    type: object
+  ums_menu.treeListRequest:
+    type: object
+  ums_menu.treeListResponse:
+    type: object
+  ums_menu.updateHiddenRequest:
+    type: object
+  ums_menu.updateHiddenResponse:
+    type: object
+  ums_menu.updateRequest:
+    type: object
+  ums_menu.updateResponse:
+    type: object
+  ums_resource.createRequest:
+    type: object
+  ums_resource.createResponse:
+    type: object
+  ums_resource.deleteRequest:
+    type: object
+  ums_resource.deleteResponse:
+    type: object
+  ums_resource.getRequest:
+    type: object
+  ums_resource.getResponse:
+    type: object
+  ums_resource.listAllRequest:
+    type: object
+  ums_resource.listAllResponse:
+    type: object
+  ums_resource.listRequest:
+    type: object
+  ums_resource.listResponse:
+    type: object
+  ums_resource.updateRequest:
+    type: object
+  ums_resource.updateResponse:
+    type: object
+  ums_resource_cate.createRequest:
+    type: object
+  ums_resource_cate.createResponse:
+    type: object
+  ums_resource_cate.deleteRequest:
+    type: object
+  ums_resource_cate.deleteResponse:
+    type: object
+  ums_resource_cate.listAllRequest:
+    type: object
+  ums_resource_cate.listAllResponse:
+    type: object
+  ums_resource_cate.updateRequest:
+    type: object
+  ums_resource_cate.updateResponse:
+    type: object
+  ums_role.allocMenuRequest:
+    type: object
+  ums_role.allocMenuResponse:
+    type: object
+  ums_role.allocResourceRequest:
+    type: object
+  ums_role.allocResourceResponse:
+    type: object
+  ums_role.createRequest:
+    type: object
+  ums_role.createResponse:
+    type: object
+  ums_role.deleteRequest:
+    type: object
+  ums_role.deleteResponse:
+    type: object
+  ums_role.listAllRequest:
+    type: object
+  ums_role.listAllResponse:
+    type: object
+  ums_role.listMenuRequest:
+    type: object
+  ums_role.listMenuResponse:
+    type: object
+  ums_role.listRequest:
+    type: object
+  ums_role.listResourceRequest:
+    type: object
+  ums_role.listResourceResponse:
+    type: object
+  ums_role.listResponse:
+    type: object
+  ums_role.updateRequest:
+    type: object
+  ums_role.updateResponse:
+    type: object
+  ums_role.updateStatusRequest:
+    type: object
+  ums_role.updateStatusResponse:
+    type: object
 info:
   contact: {}
   license:
@@ -671,6 +948,378 @@ info:
   title: swagger 接口文档
   version: "2.0"
 paths:
+  /admin/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取指定用户信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.getRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.getResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取指定用户信息
+      tags:
+      - UmsAdminController
+  /admin/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除指定用户信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.deleteResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除指定用户信息
+      tags:
+      - UmsAdminController
+  /admin/info:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取当前登录用户信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.infoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.infoResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取当前登录用户信息
+      tags:
+      - UmsAdminController
+  /admin/login:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 登录以后返回token
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.loginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.loginResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 登录以后返回token
+      tags:
+      - UmsAdminController
+  /admin/logout:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 登出功能
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.logoutRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.logoutResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 登出功能
+      tags:
+      - UmsAdminController
+  /admin/refreshToken:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 刷新token
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.refreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.refreshTokenResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 刷新token
+      tags:
+      - UmsAdminController
+  /admin/register:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 用户注册
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.registerRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.registerResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 用户注册
+      tags:
+      - UmsAdminController
+  /admin/role/{adminId}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取指定用户的角色
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.getRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.getRoleResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取指定用户的角色
+      tags:
+      - UmsAdminController
+  /admin/role/update:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 给用户分配角色
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.updateRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.updateRoleResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 给用户分配角色
+      tags:
+      - UmsAdminController
+  /admin/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改指定用户信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.updateResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改指定用户信息
+      tags:
+      - UmsAdminController
+  /admin/updatePassword:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改指定用户密码
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.updatePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.updatePasswordResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改指定用户密码
+      tags:
+      - UmsAdminController
+  /admin/updateStatus/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改帐号状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.updateStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.updateStatusResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改帐号状态
+      tags:
+      - UmsAdminController
   /api/admin:
     get:
       consumes:
@@ -2199,6 +2848,874 @@ paths:
       summary: 签名
       tags:
       - Helper
+  /memberLevel/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 查询所有会员等级
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_member_level.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_member_level.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 查询所有会员等级
+      tags:
+      - UmsMemberLevelController
+  /menu/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据ID获取菜单详情
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_menu.getRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_menu.getResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据ID获取菜单详情
+      tags:
+      - UmsMenuController
+  /menu/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加后台菜单
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_menu.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_menu.createResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加后台菜单
+      tags:
+      - UmsMenuController
+  /menu/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据ID删除后台菜单
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_menu.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_menu.deleteResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据ID删除后台菜单
+      tags:
+      - UmsMenuController
+  /menu/list/{parentId}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询后台菜单
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_menu.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_menu.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询后台菜单
+      tags:
+      - UmsMenuController
+  /menu/treeList:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 树形结构返回所有菜单列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_menu.treeListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_menu.treeListResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 树形结构返回所有菜单列表
+      tags:
+      - UmsMenuController
+  /menu/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改后台菜单
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_menu.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_menu.updateResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改后台菜单
+      tags:
+      - UmsMenuController
+  /menu/updateHidden/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改菜单显示状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_menu.updateHiddenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_menu.updateHiddenResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改菜单显示状态
+      tags:
+      - UmsMenuController
+  /resource/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据ID获取资源详情
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_resource.getRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_resource.getResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据ID获取资源详情
+      tags:
+      - UmsResourceController
+  /resource/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加后台资源
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_resource.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_resource.createResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加后台资源
+      tags:
+      - UmsResourceController
+  /resource/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据ID删除后台资源
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_resource.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_resource.deleteResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据ID删除后台资源
+      tags:
+      - UmsResourceController
+  /resource/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页模糊查询后台资源
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_resource.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_resource.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页模糊查询后台资源
+      tags:
+      - UmsResourceController
+  /resource/listAll:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 查询所有后台资源
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_resource.listAllRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_resource.listAllResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 查询所有后台资源
+      tags:
+      - UmsResourceController
+  /resource/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改后台资源
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_resource.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_resource.updateResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改后台资源
+      tags:
+      - UmsResourceController
+  /resourceCategory/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加后台资源分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_resource_cate.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_resource_cate.createResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加后台资源分类
+      tags:
+      - UmsResourceController
+  /resourceCategory/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据ID删除后台资源分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_resource_cate.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_resource_cate.deleteResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据ID删除后台资源分类
+      tags:
+      - UmsResourceController
+  /resourceCategory/listAll:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 查询所有后台资源分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_resource_cate.listAllRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_resource_cate.listAllResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 查询所有后台资源分类
+      tags:
+      - UmsResourceController
+  /resourceCategory/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改后台资源分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_resource_cate.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_resource_cate.updateResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改后台资源分类
+      tags:
+      - UmsResourceController
+  /role/allocMenu:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 给角色分配菜单
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_role.allocMenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_role.allocMenuResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 给角色分配菜单
+      tags:
+      - UmsRoleController
+  /role/allocResource:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 给角色分配资源
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_role.allocResourceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_role.allocResourceResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 给角色分配资源
+      tags:
+      - UmsRoleController
+  /role/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加角色
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_role.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_role.createResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加角色
+      tags:
+      - UmsRoleController
+  /role/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量删除角色
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_role.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_role.deleteResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量删除角色
+      tags:
+      - UmsRoleController
+  /role/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据角色名称分页获取角色列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_role.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_role.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据角色名称分页获取角色列表
+      tags:
+      - UmsRoleController
+  /role/listAll:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取所有角色
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_role.listAllRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_role.listAllResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取所有角色
+      tags:
+      - UmsRoleController
+  /role/listMenu/{roleId}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取角色相关菜单
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_role.listMenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_role.listMenuResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取角色相关菜单
+      tags:
+      - UmsRoleController
+  /role/listResource/{roleId}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取角色相关资源
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_role.listResourceRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_role.listResourceResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取角色相关资源
+      tags:
+      - UmsRoleController
+  /role/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改角色
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_role.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_role.updateResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改角色
+      tags:
+      - UmsRoleController
+  /role/updateStatus/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改角色状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_role.updateStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_role.updateStatusResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改角色状态
+      tags:
+      - UmsRoleController
 securityDefinitions:
   LoginToken:
     in: header

@@ -26,7 +26,7 @@ type refreshTokenResponse struct {
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body refreshTokenRequest true "请求信息"
-// @Success 200 {object} refreshTokenResponse
+// @Success 200 {object} code.Success{data=refreshTokenResponse}
 // @Failure 400 {object} code.Failure
 // @Router /admin/refreshToken [get]
 func (h *handler) RefreshToken(ctx *gin.Context) {
