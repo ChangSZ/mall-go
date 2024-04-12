@@ -4,6 +4,7 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/services/menu"
 	"github.com/ChangSZ/mall-go/pkg/hash"
+
 	"github.com/gin-gonic/gin"
 )
 

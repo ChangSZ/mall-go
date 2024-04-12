@@ -12,6 +12,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/pkg/env"
 	"github.com/ChangSZ/mall-go/pkg/log"
+
 	"github.com/gin-gonic/gin"
 )
 

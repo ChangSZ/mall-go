@@ -1,6 +1,6 @@
 ## 关于
 
-`go-mall` 是基于 [go-gin-api](https://github.com/xinliangnote/go-gin-api) 框架实现的一套电商系统的后台管理系统，包含商品管理、订单管理、会员管理、促销管理、运营管理、内容管理、统计报表、财务管理、权限管理、设置等模块。
+`go-mall` 是基于 [go-gin-api](https://github.com/xinliangnote/go-gin-api) 框架(基本已经改得面目全非了)实现的一套电商系统的后台管理系统，包含商品管理、订单管理、会员管理、促销管理、运营管理、内容管理、统计报表、财务管理、权限管理、设置等模块。
 
 供参考学习，线上使用请谨慎！
 
@@ -34,12 +34,16 @@ $ go run main.go -env fat
 ```
 
 ### 安装界面
-首次启动程序之后，会在浏览器中自动打开安装界面，链接地址：http://127.0.0.1:9999/install
-重新启动程序，会在浏览器中自动打开登录界面，链接地址：http://127.0.0.1:9999/login
+首次启动程序之后，会在浏览器中自动打开安装界面，链接地址：http://127.0.0.1:8080/install
+重新启动程序，会在浏览器中自动打开登录界面，链接地址：http://127.0.0.1:8080
 输入默认账号 admin，密码 admin 即可登录成功
 
 如果想重新安装，删除INSTALL.lock文件即可。该文件存在即认为无需安装。
 
+# 格式化代码
+```bash
+  go run cmd/mfmt/main.go
+```
 
 ## 框架使用
-参见[go-gin-api语雀](https://www.yuque.com/xinliangnote/go-gin-api)
+参见[go-gin-api语雀](https://www.yuque.com/xinliangnote/go-gin-api), 前端几乎没动, 可以参考使用

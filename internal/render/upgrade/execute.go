@@ -8,6 +8,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/proposal/tablesqls"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/pkg/log"
+
 	"github.com/gin-gonic/gin"
 )
 

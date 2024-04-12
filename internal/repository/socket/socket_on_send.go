@@ -2,6 +2,7 @@ package socket
 
 import (
 	"github.com/ChangSZ/mall-go/pkg/log"
+
 	"github.com/gorilla/websocket"
 )
 

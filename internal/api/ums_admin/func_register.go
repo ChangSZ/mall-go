@@ -8,6 +8,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/services/ums_admin"
 	"github.com/ChangSZ/mall-go/pkg/log"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -76,5 +77,5 @@ func (h *handler) Register(ctx *gin.Context) {
 	res.CreateTime = umsAdmin.CreateTime
 	res.LoginTime = umsAdmin.LoginTime
 	res.Status = umsAdmin.Status
-	api.ResponseOK(ctx, res)
+	api.Success(ctx, res)
 }

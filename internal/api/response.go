@@ -4,32 +4,34 @@ import (
 	"net/http"
 
 	"github.com/ChangSZ/mall-go/internal/code"
+
 	"github.com/gin-gonic/gin"
 )
 
+// 框架失败或者mall请使用这个函数
 func Response(ctx *gin.Context, httpCode, errCode int, data ...interface{}) {
-	if len(data) > 0 {
-		ctx.JSON(httpCode, gin.H{
-			"code":    errCode,
-			"message": code.Text(errCode),
-			"data":    data[0],
-		})
-		return
+	res := code.Failure{
+		Code:    errCode,
+		Message: code.Text(errCode),
+		Data:    data,
 	}
-
-	ctx.JSON(httpCode, gin.H{
-		"code":    errCode,
-		"message": code.Text(errCode),
-	})
+	ctx.JSON(httpCode, res)
 }
 
+// 这个函数是给框架来使用的
 func ResponseOK(ctx *gin.Context, data ...interface{}) {
 	if len(data) > 0 {
-		ctx.JSON(http.StatusOK, gin.H{
-			"data": data[0],
-		})
+		ctx.JSON(http.StatusOK, data[0])
 		return
 	}
+	ctx.JSON(http.StatusOK, nil)
+}
 
-	ctx.JSON(http.StatusOK, gin.H{})
+func Success(ctx *gin.Context, data ...interface{}) {
+	res := code.Success{
+		Code:    http.StatusOK,
+		Message: "操作成功",
+		Data:    data,
+	}
+	ctx.JSON(http.StatusOK, res)
 }

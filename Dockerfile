@@ -27,7 +27,7 @@ RUN apk --no-cache add tzdata  && \
 COPY --from=builder /opt/repo/src/github.com/ChangSZ/mall-go /opt
 
 # EXPOSE 设置端口映射
-EXPOSE 9999/tcp
+EXPOSE 8080/tcp
 
 # WORKDIR 设置工作目录
 WORKDIR /opt

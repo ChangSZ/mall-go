@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/ChangSZ/mall-go/internal/api/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/middleware"
+
 	"github.com/gin-gonic/gin"
 )
 

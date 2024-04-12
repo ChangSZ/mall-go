@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/ChangSZ/mall-go/internal/websocket/sysmessage"
+
 	"github.com/gin-gonic/gin"
 )
 

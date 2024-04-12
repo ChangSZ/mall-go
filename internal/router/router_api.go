@@ -11,6 +11,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/middleware"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/cron"
+
 	"github.com/gin-gonic/gin"
 )
 

@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"go/token"
-	"io/ioutil"
 	"log"
 	"os"
 	"strings"
@@ -31,7 +30,7 @@ func main() {
 		log.Fatalf("parsing package: %s: %s\n", filePath, err)
 	}
 
-	files, _ := ioutil.ReadDir(filePath)
+	files, _ := os.ReadDir(filePath)
 	if len(files) > 1 {
 		log.Fatalf("请先确保 %s 目录中，有且仅有 handler.go 一个文件。", filePath)
 	}
@@ -75,8 +74,8 @@ func main() {
 					fmt.Println("  └── file : ", filename)
 
 					funcContent := fmt.Sprintf("package %s\n\n", handlerName)
-					funcContent += "import (\n"
-					funcContent += `"github.com/ChangSZ/mall-go/internal/pkg/core"`
+					funcContent += "import (\n\"github.com/ChangSZ/mall-go/internal/api\"\n\n"
+					funcContent += `"github.com/gin-gonic/gin"`
 					funcContent += "\n)\n\n"
 					funcContent += fmt.Sprintf("\n\ntype %sRequest struct {}\n\n", Lcfirst(v.Names[0].String()))
 					funcContent += fmt.Sprintf("type %sResponse struct {}\n\n", Lcfirst(v.Names[0].String()))
@@ -89,14 +88,14 @@ func main() {
 					funcContent += fmt.Sprintf("// @Description%s \n", nameArr[1])
 					// Tags
 					funcContent += fmt.Sprintf("%s \n", v.Decorations().Start.All()[1])
-					funcContent += fmt.Sprintf("// @Accept application/x-www-form-urlencoded \n")
-					funcContent += fmt.Sprintf("// @Produce json \n")
+					funcContent += "// @Accept application/x-www-form-urlencoded \n"
+					funcContent += "// @Produce json \n"
 					funcContent += fmt.Sprintf("// @Param Request body %sRequest true \"请求信息\" \n", Lcfirst(v.Names[0].String()))
 					funcContent += fmt.Sprintf("// @Success 200 {object} %sResponse \n", Lcfirst(v.Names[0].String()))
-					funcContent += fmt.Sprintf("// @Failure 400 {object} code.Failure \n")
+					funcContent += "// @Failure 400 {object} code.Failure \n"
 					// Router
 					funcContent += fmt.Sprintf("%s \n", v.Decorations().Start.All()[2])
-					funcContent += fmt.Sprintf("func (h *handler) %s(ctx *gin.Context) { \n return func(ctx core.Context) {\n\n}}", v.Names[0].String())
+					funcContent += fmt.Sprintf("func (h *handler) %s(ctx *gin.Context) { \n api.Success(ctx, nil) \n }", v.Names[0].String())
 
 					funcFile.WriteString(funcContent)
 					funcFile.Close()
