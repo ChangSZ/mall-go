@@ -17,7 +17,6 @@ import (
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	kgin "github.com/go-kratos/gin"
-	"github.com/go-kratos/kratos/v2/middleware/logging"
 	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	swaggerfiles "github.com/swaggo/files"
@@ -44,7 +43,7 @@ func RoutersInit(cronServer cron.Server) *gin.Engine {
 		middleware.Rate(),
 		middleware.Metrics(),
 		// middleware.AlertNotify(),
-		kgin.Middlewares(tracing.Server(), logging.Server(log.GetLoggerWithTrace()), middleware.AddTraceCtx),
+		kgin.Middlewares(tracing.Server(), middleware.Logging(log.GetLoggerWithTrace()), middleware.AddTraceCtx),
 	)
 
 	gin.SetMode(gin.ReleaseMode)

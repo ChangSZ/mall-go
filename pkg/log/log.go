@@ -40,9 +40,44 @@ func Log(level log.Level, keyvals ...interface{}) {
 
 func WithTrace(ctx context.Context) *log.Helper {
 	if c, ok := ctx.(*gin.Context); ok {
-		return log.NewHelper(log.WithContext(c.Request.Context(), log.With(log.GetLogger(), "trace.id", tracing.TraceID())))
+		return log.NewHelper(
+			log.WithContext(
+				c.Request.Context(),
+				log.With(log.GetLogger(),
+					"caller", log.Caller(5),
+					"trace.id", tracing.TraceID(),
+				),
+			),
+		)
 	}
-	return log.NewHelper(log.WithContext(ctx, log.With(log.GetLogger(), "trace.id", tracing.TraceID())))
+	return log.NewHelper(
+		log.WithContext(ctx,
+			log.With(log.GetLogger(),
+				"caller", log.Caller(5),
+				"trace.id", tracing.TraceID(),
+			),
+		),
+	)
+}
+
+func SQLWithTrace(ctx context.Context) *log.Helper {
+	if c, ok := ctx.(*gin.Context); ok {
+		return log.NewHelper(
+			log.WithContext(
+				c.Request.Context(),
+				log.With(log.GetLogger(),
+					"trace.id", tracing.TraceID(),
+				),
+			),
+		)
+	}
+	return log.NewHelper(
+		log.WithContext(ctx,
+			log.With(log.GetLogger(),
+				"trace.id", tracing.TraceID(),
+			),
+		),
+	)
 }
 
 // Debug logs a message at debug level.
@@ -143,10 +178,6 @@ func Init(filePath string, maxDays int, logLevel string) {
 	}
 	core := zapcore.NewCore(encoder, writeSyncer, level)
 	z := zap.New(core)
-	logger := kratoszap.NewLogger(z)
-
-	myLogger = log.With(logger,
-		"caller", log.Caller(5),
-	)
+	myLogger = kratoszap.NewLogger(z)
 	log.SetLogger(myLogger)
 }

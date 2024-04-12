@@ -43,5 +43,5 @@ func (s *server) Start() {
 		}
 	}
 
-	log.Infof("后台任务初始化完成，总数量：%d", taskNum)
+	log.Infof("后台任务初始化完成, 总数量: %d", taskNum)
 }
