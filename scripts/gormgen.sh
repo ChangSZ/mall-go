@@ -23,7 +23,7 @@ fi
 mv gormgen $GOPATH/bin
 shellExit $?
 
-go generate ./...
+go generate internal/repository/mysql/$5/gen_model.go
 shellExit $?
 
 printf "\nFormatting code\n\n"

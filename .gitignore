@@ -18,3 +18,4 @@
 # Project runtime log
 !.gitkeep
 /logs/*
+__debug_bin*

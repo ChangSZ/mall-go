@@ -2,6 +2,7 @@ package ums_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+
 	"github.com/gin-gonic/gin"
 )
 
