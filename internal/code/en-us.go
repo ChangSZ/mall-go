@@ -67,4 +67,5 @@ var enUSText = map[int]string{
 	UmsAdminGetUsernameError:  "Failed to get username",
 	UmsAdminGetMenuListError:  "Failed to get menu list",
 	UmsAdminGetRoleListError:  "Failed to get role list",
+	UmsAdminGetListError:      "Failed to get admin list",
 }

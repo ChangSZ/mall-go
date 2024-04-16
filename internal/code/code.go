@@ -90,6 +90,7 @@ const (
 	UmsAdminGetUsernameError  = 30104
 	UmsAdminGetMenuListError  = 30105
 	UmsAdminGetRoleListError  = 30106
+	UmsAdminGetListError      = 30107
 )
 
 func Text(code int) string {

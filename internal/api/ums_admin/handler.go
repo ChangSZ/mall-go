@@ -37,6 +37,11 @@ type Handler interface {
 	// @Router /admin/logout [post]
 	Logout(*gin.Context)
 
+	// List 根据用户名或姓名分页获取用户列表
+	// @Tags UmsAdminController
+	// @Router /admin/list [get]
+	List(*gin.Context)
+
 	// Get 获取指定用户信息
 	// @Tags UmsAdminController
 	// @Router /admin/{id} [get]

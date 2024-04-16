@@ -105,6 +105,6 @@ func (s *service) GetRoleList(ctx context.Context, adminId int64) ([]ums_role.Um
 	return dao.GetRoleList(mysql.DB().GetDbR(), adminId)
 }
 
-// func (s *service) GetCacheService() *umsAdminCacheService {
-// 	return redis.Cache()
-// }
+func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum int) ([]ums_admin.UmsAdmin, int64, error) {
+	return dao.AdminPageList(ctx, mysql.DB().GetDbR(), keyword, pageSize, pageNum)
+}

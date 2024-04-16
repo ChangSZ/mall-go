@@ -676,6 +676,29 @@ definitions:
           $ref: '#/definitions/tool.tableData'
         type: array
     type: object
+  ums_admin.UmsAdmin:
+    properties:
+      createTime:
+        type: string
+      email:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      loginTime:
+        type: string
+      nickName:
+        type: string
+      note:
+        type: string
+      password:
+        type: string
+      status:
+        type: integer
+      username:
+        type: string
+    type: object
   ums_admin.deleteRequest:
     type: object
   ums_admin.deleteResponse:
@@ -704,6 +727,30 @@ definitions:
         type: array
       username:
         type: string
+    type: object
+  ums_admin.listRequest:
+    properties:
+      keyword:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  ums_admin.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/ums_admin.UmsAdmin'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
     type: object
   ums_admin.loginRequest:
     properties:
@@ -1039,6 +1086,37 @@ paths:
           schema:
             $ref: '#/definitions/code.Failure'
       summary: 获取当前登录用户信息
+      tags:
+      - UmsAdminController
+  /admin/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据用户名或姓名分页获取用户列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/ums_admin.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/ums_admin.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据用户名或姓名分页获取用户列表
       tags:
       - UmsAdminController
   /admin/login:

@@ -13,7 +13,11 @@ func Response(ctx *gin.Context, httpCode, errCode int, data ...interface{}) {
 	res := code.Failure{
 		Code:    errCode,
 		Message: code.Text(errCode),
-		Data:    data,
+	}
+	if len(data) > 0 {
+		res.Data = data[0]
+		ctx.JSON(httpCode, res)
+		return
 	}
 	ctx.JSON(httpCode, res)
 }
@@ -31,7 +35,12 @@ func Success(ctx *gin.Context, data ...interface{}) {
 	res := code.Success{
 		Code:    http.StatusOK,
 		Message: "操作成功",
-		Data:    data,
+		Data:    nil,
+	}
+	if len(data) > 0 {
+		res.Data = data[0]
+		ctx.JSON(http.StatusOK, res)
+		return
 	}
 	ctx.JSON(http.StatusOK, res)
 }

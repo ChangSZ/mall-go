@@ -29,7 +29,7 @@ func setRenderRouter(eng *gin.Engine) {
 	renderCron := cron.New()
 
 	// 无需 RBAC 权限验证
-	render := eng.Group("")
+	render := eng.Group("/render")
 	{
 		// 首页
 		render.GET("", renderIndex.Index)
