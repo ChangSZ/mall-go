@@ -10,6 +10,8 @@ import (
 	"strings"
 
 	"github.com/jinzhu/gorm"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 // fieldConfig
@@ -66,7 +68,7 @@ func (g *Generator) ParserAST(p *Parser, structs []string) (ret *Generator) {
 	g.structConfigs = p.Parse()
 	g.config.PkgName = p.pkg.Name
 	g.config.Helpers = structHelpers{
-		Titelize: strings.Title,
+		Titelize: cases.Title(language.Und, cases.NoLower).String,
 	}
 	g.config.QueryBuilderName = SQLColumnToHumpStyle(p.pkg.Name) + "QueryBuilder"
 	return g

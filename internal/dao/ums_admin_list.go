@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
+
 	"gorm.io/gorm"
 )
 

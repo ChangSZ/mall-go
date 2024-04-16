@@ -13,7 +13,7 @@ type UmsMember struct {
 	Nickname              string    // 昵称
 	Phone                 string    // 手机号码
 	Status                int32     // 帐号启用状态:0->禁用；1->启用
-	CreateTime            time.Time `gorm:"time"` // 注册时间
+	CreateTime            time.Time `gorm:"autoCreateTime"` // 注册时间
 	Icon                  string    // 头像
 	Gender                int32     // 性别：0->未知；1->男；2->女
 	Birthday              string    // 生日

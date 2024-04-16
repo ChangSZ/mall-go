@@ -31,8 +31,12 @@ func main() {
 	}
 
 	files, _ := os.ReadDir(filePath)
-	if len(files) > 1 {
-		log.Fatalf("请先确保 %s 目录中，有且仅有 handler.go 一个文件。", filePath)
+	if len(files) == 0 {
+		log.Fatalf("请先确保 %s 目录中，至少含有 handler.go 文件。", filePath)
+	}
+	existFilesMap := make(map[string]bool) // 已存在的文件将会跳过
+	for _, v := range files {
+		existFilesMap[v.Name()] = true
 	}
 
 	dst.Inspect(parsedFile, func(n dst.Node) bool {
@@ -59,7 +63,11 @@ func main() {
 					}
 
 					filepath := "./internal/api/" + handlerName
-					filename := fmt.Sprintf("%s/func_%s.go", filepath, strings.ToLower(v.Names[0].String()))
+					name := fmt.Sprintf("func_%s.go", strings.ToLower(v.Names[0].String()))
+					filename := fmt.Sprintf("%s/%s", filepath, name)
+					if _, ok := existFilesMap[name]; ok { // func文件已存在，直接跳过即可
+						continue
+					}
 					funcFile, err := os.OpenFile(filename, os.O_CREATE|os.O_TRUNC|os.O_RDWR, 0766)
 					if err != nil {
 						fmt.Printf("create and open func file error %v\n", err.Error())
@@ -76,7 +84,7 @@ func main() {
 					funcContent := fmt.Sprintf("package %s\n\n", handlerName)
 					funcContent += "import (\n\"github.com/ChangSZ/mall-go/internal/api\"\n\n"
 					funcContent += `"github.com/gin-gonic/gin"`
-					funcContent += "\n)\n\n"
+					funcContent += "\n)\n"
 					funcContent += fmt.Sprintf("\n\ntype %sRequest struct {}\n\n", Lcfirst(v.Names[0].String()))
 					funcContent += fmt.Sprintf("type %sResponse struct {}\n\n", Lcfirst(v.Names[0].String()))
 
