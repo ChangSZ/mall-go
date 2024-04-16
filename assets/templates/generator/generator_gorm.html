@@ -75,7 +75,7 @@
         tables.push(options.eq(i).val()); // 将所有的值赋给数组
       }
 
-      $.post("/generator/gorm/execute",{tables:tables.join(',')},function (data) {
+      $.post("/render/generator/gorm/execute",{tables:tables.join(',')},function (data) {
         $("#resultDiv").text(data);
         $("#btnLoading").hide();
         $("#btnOk").show();

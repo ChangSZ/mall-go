@@ -47,9 +47,9 @@ function AjaxError(response) {
     if (errCode === 401) {
         // 跳转到登录页
         if (window.frames.length !== parent.frames.length) {
-            parent.window.open("/login",'_self');
+            parent.window.open("/render/login",'_self');
         }else{
-            window.open("/login",'_self');
+            window.open("/render/login",'_self');
         }
         return;
     }

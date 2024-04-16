@@ -67,4 +67,5 @@ var zhCNText = map[int]string{
 	UmsAdminGetUsernameError:  "获取用户信息时失败",
 	UmsAdminGetMenuListError:  "获取菜单列表失败",
 	UmsAdminGetRoleListError:  "获取角色列表失败",
+	UmsAdminGetListError:      "获取管理员列表失败",
 }

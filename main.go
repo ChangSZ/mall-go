@@ -56,7 +56,7 @@ func main() {
 
 	var cronServer cron.Server
 	var err error
-	openBrowserUri := configs.ProjectDomain + configs.ProjectPort
+	openBrowserUri := configs.ProjectDomain + configs.ProjectPort + "/render"
 	_, ok := file.IsExists(configs.ProjectInstallMark)
 	if !ok { // 未安装
 		openBrowserUri += "/install"
