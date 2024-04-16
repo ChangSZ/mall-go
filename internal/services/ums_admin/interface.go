@@ -31,10 +31,10 @@ type Service interface {
 	 */
 	RefreshToken(ctx context.Context, oldToken string) (string, error)
 
-	// /**
-	//  * 根据用户名或昵称分页查询用户
-	//  */
-	// List(ctx context.Context, keyword string, pageSize, pageNum int64) ([]ums_admin.UmsAdmin, error)
+	/**
+	 * 根据用户名或昵称分页查询用户
+	 */
+	List(ctx context.Context, keyword string, pageSize, pageNum int) ([]ums_admin.UmsAdmin, int64, error)
 
 	// /**
 	//  * 修改指定用户信息

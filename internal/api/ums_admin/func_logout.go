@@ -1,6 +1,7 @@
 package ums_admin
 
 import (
+	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,5 +20,6 @@ type logoutResponse struct{}
 // @Failure 400 {object} code.Failure
 // @Router /admin/logout [post]
 func (h *handler) Logout(ctx *gin.Context) {
-
+	// 实际上毛都没实现, mall就是这么写的
+	api.Success(ctx, nil)
 }

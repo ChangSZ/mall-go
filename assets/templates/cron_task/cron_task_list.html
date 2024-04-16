@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="card-toolbar d-flex flex-column flex-md-row">
                     <div class="toolbar-btn-action">
-                        <a class="btn btn-primary m-r-5" href="/cron/add"><i class="mdi mdi-plus"></i> 新增</a>
+                        <a class="btn btn-primary m-r-5" href="/render/cron/add"><i class="mdi mdi-plus"></i> 新增</a>
                     </div>
                 </div>
 
@@ -256,7 +256,7 @@
 
         // 编辑
         $(document).on('click', '.btn-edit', function () {
-            location.href = "/cron/edit/" + $(this).attr('data-id');
+            location.href = "/render/cron/edit/" + $(this).attr('data-id');
         });
 
         // 日志

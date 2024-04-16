@@ -175,12 +175,12 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li>
-                        <a class="multitabs dropdown-item" data-url="/admin/modify_info" href="javascript:void(0)">
+                        <a class="multitabs dropdown-item" data-url="/render/admin/modify_info" href="javascript:void(0)">
                             <i class="mdi mdi-account"></i> 个人信息
                         </a>
                     </li>
                     <li>
-                        <a class="multitabs dropdown-item" data-url="/admin/modify_password" href="javascript:void(0)">
+                        <a class="multitabs dropdown-item" data-url="/render/admin/modify_password" href="javascript:void(0)">
                             <i class="mdi mdi-lock-outline"></i> 修改密码
                         </a>
                     </li>
@@ -229,7 +229,7 @@
             function (data) {
                 $("#nickname").html(data.nickname);
                 $(".nav-drawer").html("");
-                let li = '<li class="nav-item active"><a class="multitabs" href="/dashboard"><i class="mdi mdi-home"></i> <span>仪表盘</span></a></li>';
+                let li = '<li class="nav-item active"><a class="multitabs" href="/render/dashboard"><i class="mdi mdi-home"></i> <span>仪表盘</span></a></li>';
 
                 if (data.menu.length > 0) {
                     let newArr = [];
@@ -282,9 +282,9 @@
                     $.cookie('_login_token_', '');
 
                     if (window.frames.length !== parent.frames.length) {
-                        parent.window.open("/login",'_self');
+                        parent.window.open("/render/login",'_self');
                     }else{
-                        window.open("/login",'_self');
+                        window.open("/render/login",'_self');
                     }
                 },
                 function (response) {
