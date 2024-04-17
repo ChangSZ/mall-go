@@ -61,11 +61,12 @@ var zhCNText = map[int]string{
 	CronDetailError:  "获取定时任务详情失败",
 	CronExecuteError: "手动执行定时任务失败",
 
-	UmsAdminRegisterError:     "注册管理员失败",
-	UmsAdminAuthorizedError:   "认证管理员失败",
+	UmsAdminRegisterError:     "注册用户失败",
+	UmsAdminAuthorizedError:   "认证用户失败",
 	UmsAdminRefreshTokenError: "刷新Token失败",
 	UmsAdminGetUsernameError:  "获取用户信息时失败",
 	UmsAdminGetMenuListError:  "获取菜单列表失败",
 	UmsAdminGetRoleListError:  "获取角色列表失败",
-	UmsAdminGetListError:      "获取管理员列表失败",
+	UmsAdminGetListError:      "获取用户列表失败",
+	UmsAdminGetItemError:      "获取用户信息失败",
 }

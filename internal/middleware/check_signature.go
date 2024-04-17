@@ -33,7 +33,7 @@ func CheckSignature() gin.HandlerFunc {
 		// 签名信息
 		authorization := ctx.GetHeader(configs.HeaderSignToken)
 		if authorization == "" {
-			err := errors.New("Header 中缺少 Authorization 参数")
+			err := errors.New("header 中缺少 Authorization 参数")
 			log.WithTrace(ctx).Error(err)
 			api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)
 			ctx.Abort()
@@ -43,7 +43,7 @@ func CheckSignature() gin.HandlerFunc {
 		// 时间信息
 		date := ctx.GetHeader(configs.HeaderSignTokenDate)
 		if date == "" {
-			err := errors.New("Header 中缺少 Date 参数")
+			err := errors.New("header 中缺少 Date 参数")
 			log.WithTrace(ctx).Error(err)
 			api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)
 			ctx.Abort()
@@ -53,7 +53,7 @@ func CheckSignature() gin.HandlerFunc {
 		// 通过签名信息获取 key
 		authorizationSplit := strings.Split(authorization, " ")
 		if len(authorizationSplit) < 2 {
-			err := errors.New("Header 中 Authorization 格式错误")
+			err := errors.New("header 中 Authorization 格式错误")
 			log.WithTrace(ctx).Error(err)
 			api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)
 			ctx.Abort()
@@ -113,7 +113,7 @@ func CheckSignature() gin.HandlerFunc {
 		}
 
 		if !ok {
-			err := errors.New("Header 中 Authorization 信息错误")
+			err := errors.New("header 中 Authorization 信息错误")
 			log.WithTrace(ctx).Error(err)
 			api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)
 			ctx.Abort()

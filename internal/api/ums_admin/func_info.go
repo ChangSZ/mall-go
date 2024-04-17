@@ -7,7 +7,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
-	"github.com/ChangSZ/mall-go/internal/services/ums_user"
 	"github.com/ChangSZ/mall-go/pkg/log"
 
 	"github.com/gin-gonic/gin"
@@ -33,9 +32,10 @@ type infoResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /admin/info [get]
 func (h *handler) Info(ctx *gin.Context) {
+	_ = new(infoRequest)
 	res := new(infoResponse)
 	userInfo := core.GetUmsUserInfo(ctx)
-	umsAdmin, err := ums_user.New().GetAdminByUsername(ctx, userInfo.UserName)
+	umsAdmin, err := h.umsAdminService.GetAdminByUsername(ctx, userInfo.UserName)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.UmsAdminGetUsernameError, err)

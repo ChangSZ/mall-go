@@ -2,32 +2,19 @@ package ums_admin
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
 
 type listRequest struct {
-	Keyword  string `json:"keyword" binding:"omitempty"`
-	PageSize int    `json:"pageSize" binding:"omitempty"`
-	PageNum  int    `json:"pageNum" binding:"omitempty"`
-}
-
-type UmsAdmin struct {
-	ID         int64     `json:"id"`
-	Username   string    `json:"username"`
-	Password   string    `json:"password"`
-	Icon       string    `json:"icon"`
-	Email      string    `json:"email"`
-	NickName   string    `json:"nickName"`
-	Note       string    `json:"note"`
-	CreateTime time.Time `json:"createTime"`
-	LoginTime  time.Time `json:"loginTime"`
-	Status     int32     `json:"status"`
+	Keyword  string `form:"keyword" binding:"required"`
+	PageSize int    `form:"pageSize" binding:"omitempty"`
+	PageNum  int    `form:"pageNum" binding:"omitempty"`
 }
 
 type listResponse struct {
@@ -53,7 +40,7 @@ func (h *handler) List(ctx *gin.Context) {
 	res := new(listResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
 		return
 	}
 	if req.PageSize == 0 {

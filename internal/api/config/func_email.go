@@ -10,6 +10,7 @@ import (
 	"github.com/ChangSZ/mall-go/pkg/env"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/mail"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
@@ -48,7 +49,7 @@ func (h *handler) Email(ctx *gin.Context) {
 	res := new(emailResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
 		return
 	}
 
