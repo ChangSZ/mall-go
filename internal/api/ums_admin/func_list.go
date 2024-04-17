@@ -2,7 +2,6 @@ package ums_admin
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
@@ -15,19 +14,6 @@ type listRequest struct {
 	Keyword  string `json:"keyword" binding:"omitempty"`
 	PageSize int    `json:"pageSize" binding:"omitempty"`
 	PageNum  int    `json:"pageNum" binding:"omitempty"`
-}
-
-type UmsAdmin struct {
-	ID         int64     `json:"id"`
-	Username   string    `json:"username"`
-	Password   string    `json:"password"`
-	Icon       string    `json:"icon"`
-	Email      string    `json:"email"`
-	NickName   string    `json:"nickName"`
-	Note       string    `json:"note"`
-	CreateTime time.Time `json:"createTime"`
-	LoginTime  time.Time `json:"loginTime"`
-	Status     int32     `json:"status"`
 }
 
 type listResponse struct {
