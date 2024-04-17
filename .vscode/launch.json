@@ -11,6 +11,10 @@
             "mode": "auto",
             "program": "${workspaceFolder}/main.go",
             "cwd": "${workspaceFolder}",
+            "args" :[
+                "--env",
+                "dev"
+            ]
         },
         {
             "name": "handlergen",

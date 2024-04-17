@@ -1,0 +1,57 @@
+[hashids]
+length = 12
+secret = '6ab6122836cfef95f8db'
+
+[language]
+local = 'zh-cn'
+
+[mail]
+host = 'smtp.163.com'
+pass = ''
+port = 465
+to = ''
+user = ''
+
+[mysql]
+[mysql.base]
+connMaxLifeTime = 60
+maxidleconn = 60
+maxopenconn = 10
+
+[mysql.read]
+addr = '127.0.0.1:3306'
+name = 'mall'
+pass = 'root'
+user = 'root'
+
+[mysql.write]
+addr = '127.0.0.1:3306'
+name = 'mall'
+pass = 'root'
+user = 'root'
+
+[redis]
+addr = '127.0.0.1:6379'
+db = '0'
+maxretries = 3
+minidleconns = 5
+pass = ''
+poolsize = 10
+database = "mall"
+
+[redis.key]
+admin = "ums:admin"
+resourceList = "ums:resourceList"
+
+[redis.expire]
+common = 86400
+
+[jwt]
+# JWT存储的请求头
+tokenHeader = 'Authorization'
+# JWT加解密使用的密钥
+secret = 'mall-admin-secret'
+# JWT的超期限时间(60*60*24*7)
+expiration = 604800
+# JWT负载中拿到开头
+tokenHead = 'Bearer '
