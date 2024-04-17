@@ -5,8 +5,8 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/services/ums_user"
 	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,11 +35,11 @@ func (h *handler) Get(ctx *gin.Context) {
 
 	if err := ctx.ShouldBindUri(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
 		return
 	}
 
-	admin, err := ums_user.New().GetItem(ctx, req.Id)
+	admin, err := h.umsAdminService.GetItem(ctx, req.Id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.UmsAdminGetItemError, err)

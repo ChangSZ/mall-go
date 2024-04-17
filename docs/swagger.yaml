@@ -704,8 +704,35 @@ definitions:
   ums_admin.deleteResponse:
     type: object
   ums_admin.getRequest:
+    properties:
+      id:
+        description: 用户ID
+        type: integer
+    required:
+    - id
     type: object
   ums_admin.getResponse:
+    properties:
+      createTime:
+        type: string
+      email:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      loginTime:
+        type: string
+      nickName:
+        type: string
+      note:
+        type: string
+      password:
+        type: string
+      status:
+        type: integer
+      username:
+        type: string
     type: object
   ums_admin.getRoleRequest:
     type: object
@@ -736,6 +763,8 @@ definitions:
         type: integer
       pageSize:
         type: integer
+    required:
+    - keyword
     type: object
   ums_admin.listResponse:
     properties:

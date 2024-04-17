@@ -8,6 +8,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/proposal/tablesqls"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -58,7 +59,7 @@ func (h *handler) UpgradeExecute(ctx *gin.Context) {
 	req := new(upgradeExecuteRequest)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
 		return
 	}
 

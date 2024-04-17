@@ -5548,10 +5548,51 @@ var doc = `{
             "type": "object"
         },
         "ums_admin.getRequest": {
-            "type": "object"
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "description": "用户ID",
+                    "type": "integer"
+                }
+            }
         },
         "ums_admin.getResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "loginTime": {
+                    "type": "string"
+                },
+                "nickName": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
         },
         "ums_admin.getRoleRequest": {
             "type": "object"
@@ -5587,6 +5628,9 @@ var doc = `{
         },
         "ums_admin.listRequest": {
             "type": "object",
+            "required": [
+                "keyword"
+            ],
             "properties": {
                 "keyword": {
                     "type": "string"
