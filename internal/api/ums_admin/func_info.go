@@ -33,6 +33,7 @@ type infoResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /admin/info [get]
 func (h *handler) Info(ctx *gin.Context) {
+	_ = new(infoRequest)
 	res := new(infoResponse)
 	userInfo := core.GetUmsUserInfo(ctx)
 	umsAdmin, err := ums_user.New().GetAdminByUsername(ctx, userInfo.UserName)
