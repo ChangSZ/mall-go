@@ -31,7 +31,7 @@ echo failed!!!
 exit 1
 )
 
-go generate .\...
+go generate internal\repository\mysql\%5\gen_model.go
 if %errorlevel% == 1 (
 echo.
 echo failed!!!

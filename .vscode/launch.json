@@ -12,5 +12,31 @@
             "program": "${workspaceFolder}/main.go",
             "cwd": "${workspaceFolder}",
         },
+        {
+            "name": "handlergen",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd/handlergen/main.go",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "--handler",
+                "tool"
+            ]
+        },
+        {
+            "name": "gormgen",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd/gormgen/main.go",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "--structs",
+                "UmsMemberLoginLog",
+                "--input",
+                "internal/repository/mysql/ums_member_login_log"
+            ]
+        },
     ]
 }
