@@ -6,7 +6,7 @@ import "time"
 //
 //go:generate gormgen -structs Authorized -input .
 type Authorized struct {
-	Id                int32     // 主键
+	Id                int64     // 主键
 	BusinessKey       string    // 调用方key
 	BusinessSecret    string    // 调用方secret
 	BusinessDeveloper string    // 调用方对接人

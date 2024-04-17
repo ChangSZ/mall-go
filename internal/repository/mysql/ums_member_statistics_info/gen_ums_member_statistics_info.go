@@ -68,6 +68,21 @@ func (qb *umsMemberStatisticsInfoQueryBuilder) Updates(db *gorm.DB, m map[string
 	return nil
 }
 
+func (qb *umsMemberStatisticsInfoQueryBuilder) Update(db *gorm.DB, data *UmsMemberStatisticsInfo) (cnt int64, err error) {
+	db = db.Model(&UmsMemberStatisticsInfo{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
+}
+
 func (qb *umsMemberStatisticsInfoQueryBuilder) Delete(db *gorm.DB) (err error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)

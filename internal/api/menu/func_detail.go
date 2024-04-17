@@ -17,8 +17,8 @@ type detailRequest struct {
 }
 
 type detailResponse struct {
-	Id   int32  `json:"id"`   // 主键ID
-	Pid  int32  `json:"pid"`  // 父类ID
+	Id   int64  `json:"id"`   // 主键ID
+	Pid  int64  `json:"pid"`  // 父类ID
 	Name string `json:"name"` // 菜单名称
 	Link string `json:"link"` // 链接地址
 	Icon string `json:"icon"` // 图标
@@ -51,7 +51,7 @@ func (h *handler) Detail(ctx *gin.Context) {
 		return
 	}
 
-	id := int32(ids[0])
+	id := int64(ids[0])
 
 	searchOneData := new(menu.SearchOneData)
 	searchOneData.Id = id

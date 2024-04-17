@@ -180,3 +180,9 @@ func (s *service) GetItem(ctx context.Context, id int64) (*ums_admin.UmsAdmin, e
 	queryBuilder = queryBuilder.WhereId(mysql.EqualPredicate, id)
 	return queryBuilder.First(mysql.DB().GetDbR())
 }
+
+func (s *service) Update(ctx context.Context, id int64, admin *ums_admin.UmsAdmin) (int64, error) {
+	queryBuilder := ums_admin.NewQueryBuilder()
+	queryBuilder = queryBuilder.WhereId(mysql.EqualPredicate, id)
+	return queryBuilder.Update(mysql.DB().GetDbW().WithContext(ctx), admin)
+}

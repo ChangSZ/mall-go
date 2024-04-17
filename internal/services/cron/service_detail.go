@@ -8,7 +8,7 @@ import (
 )
 
 type SearchOneData struct {
-	Id int32 // 任务ID
+	Id int64 // 任务ID
 }
 
 func (s *service) Detail(ctx context.Context, searchOneData *SearchOneData) (info *cron_task.CronTask, err error) {

@@ -23,7 +23,7 @@ func NewQueryBuilder() *adminMenuQueryBuilder {
 	return new(adminMenuQueryBuilder)
 }
 
-func (t *AdminMenu) Create(db *gorm.DB) (id int32, err error) {
+func (t *AdminMenu) Create(db *gorm.DB) (id int64, err error) {
 	if err = db.Create(t).Error; err != nil {
 		return 0, errors.Wrap(err, "create err")
 	}
@@ -66,6 +66,21 @@ func (qb *adminMenuQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) 
 		return errors.Wrap(err, "updates err")
 	}
 	return nil
+}
+
+func (qb *adminMenuQueryBuilder) Update(db *gorm.DB, data *AdminMenu) (cnt int64, err error) {
+	db = db.Model(&AdminMenu{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
 }
 
 func (qb *adminMenuQueryBuilder) Delete(db *gorm.DB) (err error) {
@@ -122,7 +137,7 @@ func (qb *adminMenuQueryBuilder) Offset(offset int) *adminMenuQueryBuilder {
 	return qb
 }
 
-func (qb *adminMenuQueryBuilder) WhereId(p mysql.Predicate, value int32) *adminMenuQueryBuilder {
+func (qb *adminMenuQueryBuilder) WhereId(p mysql.Predicate, value int64) *adminMenuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -133,7 +148,7 @@ func (qb *adminMenuQueryBuilder) WhereId(p mysql.Predicate, value int32) *adminM
 	return qb
 }
 
-func (qb *adminMenuQueryBuilder) WhereIdIn(value []int32) *adminMenuQueryBuilder {
+func (qb *adminMenuQueryBuilder) WhereIdIn(value []int64) *adminMenuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -144,7 +159,7 @@ func (qb *adminMenuQueryBuilder) WhereIdIn(value []int32) *adminMenuQueryBuilder
 	return qb
 }
 
-func (qb *adminMenuQueryBuilder) WhereIdNotIn(value []int32) *adminMenuQueryBuilder {
+func (qb *adminMenuQueryBuilder) WhereIdNotIn(value []int64) *adminMenuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -165,7 +180,7 @@ func (qb *adminMenuQueryBuilder) OrderById(asc bool) *adminMenuQueryBuilder {
 	return qb
 }
 
-func (qb *adminMenuQueryBuilder) WhereAdminId(p mysql.Predicate, value int32) *adminMenuQueryBuilder {
+func (qb *adminMenuQueryBuilder) WhereAdminId(p mysql.Predicate, value int64) *adminMenuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -176,7 +191,7 @@ func (qb *adminMenuQueryBuilder) WhereAdminId(p mysql.Predicate, value int32) *a
 	return qb
 }
 
-func (qb *adminMenuQueryBuilder) WhereAdminIdIn(value []int32) *adminMenuQueryBuilder {
+func (qb *adminMenuQueryBuilder) WhereAdminIdIn(value []int64) *adminMenuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -187,7 +202,7 @@ func (qb *adminMenuQueryBuilder) WhereAdminIdIn(value []int32) *adminMenuQueryBu
 	return qb
 }
 
-func (qb *adminMenuQueryBuilder) WhereAdminIdNotIn(value []int32) *adminMenuQueryBuilder {
+func (qb *adminMenuQueryBuilder) WhereAdminIdNotIn(value []int64) *adminMenuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -208,7 +223,7 @@ func (qb *adminMenuQueryBuilder) OrderByAdminId(asc bool) *adminMenuQueryBuilder
 	return qb
 }
 
-func (qb *adminMenuQueryBuilder) WhereMenuId(p mysql.Predicate, value int32) *adminMenuQueryBuilder {
+func (qb *adminMenuQueryBuilder) WhereMenuId(p mysql.Predicate, value int64) *adminMenuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -219,7 +234,7 @@ func (qb *adminMenuQueryBuilder) WhereMenuId(p mysql.Predicate, value int32) *ad
 	return qb
 }
 
-func (qb *adminMenuQueryBuilder) WhereMenuIdIn(value []int32) *adminMenuQueryBuilder {
+func (qb *adminMenuQueryBuilder) WhereMenuIdIn(value []int64) *adminMenuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -230,7 +245,7 @@ func (qb *adminMenuQueryBuilder) WhereMenuIdIn(value []int32) *adminMenuQueryBui
 	return qb
 }
 
-func (qb *adminMenuQueryBuilder) WhereMenuIdNotIn(value []int32) *adminMenuQueryBuilder {
+func (qb *adminMenuQueryBuilder) WhereMenuIdNotIn(value []int64) *adminMenuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

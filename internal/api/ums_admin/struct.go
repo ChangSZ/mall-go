@@ -14,3 +14,7 @@ type UmsAdmin struct {
 	LoginTime  time.Time `json:"loginTime"`
 	Status     int32     `json:"status"`
 }
+
+type UmsAdminUri struct {
+	Id int64 `uri:"id" binding:"required"` // 用户ID
+}

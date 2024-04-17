@@ -69,4 +69,5 @@ var enUSText = map[int]string{
 	UmsAdminGetRoleListError:  "Failed to get role list",
 	UmsAdminGetListError:      "Failed to get user list",
 	UmsAdminGetItemError:      "Failed to get user item",
+	UmsAdminUpdateError:       "Failed to update admin",
 }

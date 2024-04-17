@@ -23,11 +23,12 @@ fi
 mv gormgen $GOPATH/bin
 shellExit $?
 
-go generate internal/repository/mysql/$5/gen_model.go
+go generate ./...
 shellExit $?
 
 printf "\nFormatting code\n\n"
 time go run -v ./cmd/mfmt/main.go
 shellExit $?
 
+goimports -w ./
 printf "\nDone.\n\n"

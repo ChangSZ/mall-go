@@ -12,7 +12,7 @@ import (
 )
 
 type CreateMenuData struct {
-	AdminId int32  `form:"admin_id"` // AdminID
+	AdminId int64  `form:"admin_id"` // AdminID
 	Actions string `form:"actions"`  // 功能权限ID,多个用,分割
 }
 
@@ -27,7 +27,7 @@ func (s *service) CreateMenu(ctx context.Context, menuData *CreateMenuData) (err
 	for _, v := range ActionArr {
 		createModel := admin_menu.NewModel()
 		createModel.AdminId = menuData.AdminId
-		createModel.MenuId = cast.ToInt32(v)
+		createModel.MenuId = cast.ToInt64(v)
 		createModel.CreatedUser = core.SessionUserInfo(ctx).UserName
 
 		_, err = createModel.Create(mysql.DB().GetDbW().WithContext(ctx))

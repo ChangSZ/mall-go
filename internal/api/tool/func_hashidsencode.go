@@ -13,7 +13,7 @@ import (
 )
 
 type hashIdsEncodeRequest struct {
-	Id int32 `uri:"id"` // 需加密的数字
+	Id int64 `uri:"id"` // 需加密的数字
 }
 
 type hashIdsEncodeResponse struct {

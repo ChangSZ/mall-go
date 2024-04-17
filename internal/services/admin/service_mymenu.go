@@ -9,12 +9,12 @@ import (
 )
 
 type SearchMyMenuData struct {
-	AdminId int32 `json:"admin_id"` // 管理员ID
+	AdminId int64 `json:"admin_id"` // 管理员ID
 }
 
 type ListMyMenuData struct {
-	Id   int32  `json:"id"`   // ID
-	Pid  int32  `json:"pid"`  // 父类ID
+	Id   int64  `json:"id"`   // ID
+	Pid  int64  `json:"pid"`  // 父类ID
 	Name string `json:"name"` // 菜单名称
 	Link string `json:"link"` // 链接地址
 	Icon string `json:"icon"` // 图标

@@ -23,7 +23,7 @@ func NewQueryBuilder() *adminQueryBuilder {
 	return new(adminQueryBuilder)
 }
 
-func (t *Admin) Create(db *gorm.DB) (id int32, err error) {
+func (t *Admin) Create(db *gorm.DB) (id int64, err error) {
 	if err = db.Create(t).Error; err != nil {
 		return 0, errors.Wrap(err, "create err")
 	}
@@ -66,6 +66,21 @@ func (qb *adminQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (err
 		return errors.Wrap(err, "updates err")
 	}
 	return nil
+}
+
+func (qb *adminQueryBuilder) Update(db *gorm.DB, data *Admin) (cnt int64, err error) {
+	db = db.Model(&Admin{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
 }
 
 func (qb *adminQueryBuilder) Delete(db *gorm.DB) (err error) {
@@ -122,7 +137,7 @@ func (qb *adminQueryBuilder) Offset(offset int) *adminQueryBuilder {
 	return qb
 }
 
-func (qb *adminQueryBuilder) WhereId(p mysql.Predicate, value int32) *adminQueryBuilder {
+func (qb *adminQueryBuilder) WhereId(p mysql.Predicate, value int64) *adminQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -133,7 +148,7 @@ func (qb *adminQueryBuilder) WhereId(p mysql.Predicate, value int32) *adminQuery
 	return qb
 }
 
-func (qb *adminQueryBuilder) WhereIdIn(value []int32) *adminQueryBuilder {
+func (qb *adminQueryBuilder) WhereIdIn(value []int64) *adminQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -144,7 +159,7 @@ func (qb *adminQueryBuilder) WhereIdIn(value []int32) *adminQueryBuilder {
 	return qb
 }
 
-func (qb *adminQueryBuilder) WhereIdNotIn(value []int32) *adminQueryBuilder {
+func (qb *adminQueryBuilder) WhereIdNotIn(value []int64) *adminQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

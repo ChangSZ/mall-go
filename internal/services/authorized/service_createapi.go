@@ -16,7 +16,7 @@ type CreateAuthorizedAPIData struct {
 	API         string `json:"api"`          // 请求地址
 }
 
-func (s *service) CreateAPI(ctx context.Context, authorizedAPIData *CreateAuthorizedAPIData) (id int32, err error) {
+func (s *service) CreateAPI(ctx context.Context, authorizedAPIData *CreateAuthorizedAPIData) (id int64, err error) {
 	model := authorized_api.NewModel()
 	model.BusinessKey = authorizedAPIData.BusinessKey
 	model.Method = authorizedAPIData.Method

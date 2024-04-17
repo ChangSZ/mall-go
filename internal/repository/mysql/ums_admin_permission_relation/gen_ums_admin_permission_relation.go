@@ -67,6 +67,21 @@ func (qb *umsAdminPermissionRelationQueryBuilder) Updates(db *gorm.DB, m map[str
 	return nil
 }
 
+func (qb *umsAdminPermissionRelationQueryBuilder) Update(db *gorm.DB, data *UmsAdminPermissionRelation) (cnt int64, err error) {
+	db = db.Model(&UmsAdminPermissionRelation{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
+}
+
 func (qb *umsAdminPermissionRelationQueryBuilder) Delete(db *gorm.DB) (err error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)

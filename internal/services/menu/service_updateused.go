@@ -8,7 +8,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu"
 )
 
-func (s *service) UpdateUsed(ctx context.Context, id int32, used int32) (err error) {
+func (s *service) UpdateUsed(ctx context.Context, id int64, used int32) (err error) {
 	data := map[string]interface{}{
 		"is_used":      used,
 		"updated_user": core.SessionUserInfo(ctx).UserName,

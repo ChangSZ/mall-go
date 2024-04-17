@@ -1,7 +1,7 @@
 package tablesqls
 
 //CREATE TABLE `admin_menu` (
-//`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+//`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
 //`admin_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '管理员ID',
 //`menu_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '菜单栏ID',
 //`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -12,9 +12,9 @@ package tablesqls
 
 func CreateAdminMenuTableSql() (sql string) {
 	sql = "CREATE TABLE `admin_menu` ("
-	sql += "`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
-	sql += "`admin_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '管理员ID',"
-	sql += "`menu_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '菜单栏ID',"
+	sql += "`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
+	sql += "`admin_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '管理员ID',"
+	sql += "`menu_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '菜单栏ID',"
 	sql += "`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',"
 	sql += "`created_user` varchar(60) NOT NULL DEFAULT '' COMMENT '创建人',"
 	sql += "PRIMARY KEY (`id`),"

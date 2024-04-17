@@ -47,7 +47,7 @@ func (h *handler) Execute(ctx *gin.Context) {
 		return
 	}
 
-	err = h.cronService.Execute(ctx, cast.ToInt32(ids[0]))
+	err = h.cronService.Execute(ctx, cast.ToInt64(ids[0]))
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.CronExecuteError, err)

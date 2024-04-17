@@ -3,8 +3,8 @@
 
 | 序号 | 名称 | 描述 | 类型 | 键 | 为空 | 额外 | 默认值 |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | id | 主键 | int unsigned | PRI | NO | auto_increment |  |
-| 2 | pid | 父类ID | int unsigned |  | NO |  | 0 |
+| 1 | id | 主键 | bigint unsigned | PRI | NO | auto_increment |  |
+| 2 | pid | 父类ID | bigint unsigned |  | NO |  | 0 |
 | 3 | name | 菜单名称 | varchar(32) |  | NO |  |  |
 | 4 | link | 链接地址 | varchar(100) |  | NO |  |  |
 | 5 | icon | 图标 | varchar(60) |  | NO |  |  |

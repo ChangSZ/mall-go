@@ -62,7 +62,7 @@ func (h *handler) Detail(ctx *gin.Context) {
 	}
 
 	searchOneData := new(cron.SearchOneData)
-	searchOneData.Id = cast.ToInt32(ids[0])
+	searchOneData.Id = cast.ToInt64(ids[0])
 
 	info, err := h.cronService.Detail(ctx, searchOneData)
 	if err != nil {

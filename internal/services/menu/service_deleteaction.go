@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *service) DeleteAction(ctx context.Context, id int32) (err error) {
+func (s *service) DeleteAction(ctx context.Context, id int64) (err error) {
 	// 先查询 id 是否存在
 	_, err = menu_action.NewQueryBuilder().
 		WhereIsDeleted(mysql.EqualPredicate, -1).

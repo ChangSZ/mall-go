@@ -6,7 +6,7 @@ import "time"
 //
 //go:generate gormgen -structs CronTask -input .
 type CronTask struct {
-	Id                  int32     // 主键
+	Id                  int64     // 主键
 	Name                string    // 任务名称
 	Spec                string    // crontab 表达式
 	Command             string    // 执行命令

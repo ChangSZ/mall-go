@@ -15,7 +15,7 @@ import (
 
 type createRequest struct {
 	Id    string `form:"id"`    // ID
-	Pid   int32  `form:"pid"`   // 父类ID
+	Pid   int64  `form:"pid"`   // 父类ID
 	Name  string `form:"name"`  // 菜单名称
 	Link  string `form:"link"`  // 链接地址
 	Icon  string `form:"icon"`  // 图标
@@ -23,7 +23,7 @@ type createRequest struct {
 }
 
 type createResponse struct {
-	Id int32 `json:"id"` // 主键ID
+	Id int64 `json:"id"` // 主键ID
 }
 
 // Create 创建/编辑菜单
@@ -54,7 +54,7 @@ func (h *handler) Create(ctx *gin.Context) {
 			return
 		}
 
-		id := int32(ids[0])
+		id := int64(ids[0])
 
 		updateData := new(menu.UpdateMenuData)
 		updateData.Name = req.Name
@@ -73,7 +73,7 @@ func (h *handler) Create(ctx *gin.Context) {
 
 	} else { // 新增功能
 
-		pid := req.Level
+		pid := int64(req.Level)
 		level := 2
 
 		if req.Level == -1 {

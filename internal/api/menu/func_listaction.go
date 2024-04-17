@@ -19,7 +19,7 @@ type listActionRequest struct {
 
 type listActionData struct {
 	HashId string `json:"hash_id"` // hashID
-	MenuId int32  `json:"menu_id"` // 菜单栏ID
+	MenuId int64  `json:"menu_id"` // 菜单栏ID
 	Method string `json:"method"`  // 调用方secret
 	API    string `json:"api"`     // 调用方对接人
 }
@@ -56,7 +56,7 @@ func (h *handler) ListAction(ctx *gin.Context) {
 		return
 	}
 
-	id := int32(ids[0])
+	id := int64(ids[0])
 
 	searchOneData := new(menu.SearchOneData)
 	searchOneData.Id = id

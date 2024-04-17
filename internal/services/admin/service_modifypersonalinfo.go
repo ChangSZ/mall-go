@@ -13,7 +13,7 @@ type ModifyData struct {
 	Mobile   string // 手机号
 }
 
-func (s *service) ModifyPersonalInfo(ctx context.Context, id int32, modifyData *ModifyData) (err error) {
+func (s *service) ModifyPersonalInfo(ctx context.Context, id int64, modifyData *ModifyData) (err error) {
 	data := map[string]interface{}{
 		"nickname":     modifyData.Nickname,
 		"mobile":       modifyData.Mobile,

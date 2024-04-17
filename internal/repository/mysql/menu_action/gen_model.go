@@ -6,8 +6,8 @@ import "time"
 //
 //go:generate gormgen -structs MenuAction -input .
 type MenuAction struct {
-	Id          int32     // 主键
-	MenuId      int32     // 菜单栏ID
+	Id          int64     // 主键
+	MenuId      int64     // 菜单栏ID
 	Method      string    // 请求方式
 	Api         string    // 请求地址
 	IsDeleted   int32     // 是否删除 1:是  -1:否

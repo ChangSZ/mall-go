@@ -19,7 +19,7 @@ type createActionRequest struct {
 }
 
 type createActionResponse struct {
-	Id int32 `json:"id"` // 主键ID
+	Id int64 `json:"id"` // 主键ID
 }
 
 // CreateAction 创建功能权限
@@ -51,7 +51,7 @@ func (h *handler) CreateAction(ctx *gin.Context) {
 		return
 	}
 
-	id := int32(ids[0])
+	id := int64(ids[0])
 
 	searchOneData := new(menu.SearchOneData)
 	searchOneData.Id = id

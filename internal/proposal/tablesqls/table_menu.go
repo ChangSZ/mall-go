@@ -1,7 +1,7 @@
 package tablesqls
 
 //CREATE TABLE `menu` (
-//`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+//`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
 //`pid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父类ID',
 //`name` varchar(32) NOT NULL DEFAULT '' COMMENT '菜单名称',
 //`link` varchar(100) NOT NULL DEFAULT '' COMMENT '链接地址',
@@ -19,8 +19,8 @@ package tablesqls
 
 func CreateMenuTableSql() (sql string) {
 	sql = "CREATE TABLE `menu` ("
-	sql += "`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
-	sql += "`pid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '父类ID',"
+	sql += "`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
+	sql += "`pid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '父类ID',"
 	sql += "`name` varchar(32) NOT NULL DEFAULT '' COMMENT '菜单名称',"
 	sql += "`link` varchar(100) NOT NULL DEFAULT '' COMMENT '链接地址',"
 	sql += "`icon` varchar(60) NOT NULL DEFAULT '' COMMENT '图标',"

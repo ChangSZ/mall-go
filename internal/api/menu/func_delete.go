@@ -16,7 +16,7 @@ type deleteRequest struct {
 }
 
 type deleteResponse struct {
-	Id int32 `json:"id"` // 主键ID
+	Id int64 `json:"id"` // 主键ID
 }
 
 // Delete 删除菜单
@@ -46,7 +46,7 @@ func (h *handler) Delete(ctx *gin.Context) {
 		return
 	}
 
-	id := int32(ids[0])
+	id := int64(ids[0])
 
 	err = h.menuService.Delete(ctx, id)
 	if err != nil {

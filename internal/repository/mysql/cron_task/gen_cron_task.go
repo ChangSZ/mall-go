@@ -23,7 +23,7 @@ func NewQueryBuilder() *cronTaskQueryBuilder {
 	return new(cronTaskQueryBuilder)
 }
 
-func (t *CronTask) Create(db *gorm.DB) (id int32, err error) {
+func (t *CronTask) Create(db *gorm.DB) (id int64, err error) {
 	if err = db.Create(t).Error; err != nil {
 		return 0, errors.Wrap(err, "create err")
 	}
@@ -66,6 +66,21 @@ func (qb *cronTaskQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (
 		return errors.Wrap(err, "updates err")
 	}
 	return nil
+}
+
+func (qb *cronTaskQueryBuilder) Update(db *gorm.DB, data *CronTask) (cnt int64, err error) {
+	db = db.Model(&CronTask{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
 }
 
 func (qb *cronTaskQueryBuilder) Delete(db *gorm.DB) (err error) {
@@ -122,7 +137,7 @@ func (qb *cronTaskQueryBuilder) Offset(offset int) *cronTaskQueryBuilder {
 	return qb
 }
 
-func (qb *cronTaskQueryBuilder) WhereId(p mysql.Predicate, value int32) *cronTaskQueryBuilder {
+func (qb *cronTaskQueryBuilder) WhereId(p mysql.Predicate, value int64) *cronTaskQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -133,7 +148,7 @@ func (qb *cronTaskQueryBuilder) WhereId(p mysql.Predicate, value int32) *cronTas
 	return qb
 }
 
-func (qb *cronTaskQueryBuilder) WhereIdIn(value []int32) *cronTaskQueryBuilder {
+func (qb *cronTaskQueryBuilder) WhereIdIn(value []int64) *cronTaskQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -144,7 +159,7 @@ func (qb *cronTaskQueryBuilder) WhereIdIn(value []int32) *cronTaskQueryBuilder {
 	return qb
 }
 
-func (qb *cronTaskQueryBuilder) WhereIdNotIn(value []int32) *cronTaskQueryBuilder {
+func (qb *cronTaskQueryBuilder) WhereIdNotIn(value []int64) *cronTaskQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

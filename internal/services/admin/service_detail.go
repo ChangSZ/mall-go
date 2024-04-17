@@ -8,7 +8,7 @@ import (
 )
 
 type SearchOneData struct {
-	Id       int32  // 用户ID
+	Id       int64  // 用户ID
 	Username string // 用户名
 	Nickname string // 昵称
 	Mobile   string // 手机号

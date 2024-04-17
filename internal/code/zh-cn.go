@@ -69,4 +69,5 @@ var zhCNText = map[int]string{
 	UmsAdminGetRoleListError:  "获取角色列表失败",
 	UmsAdminGetListError:      "获取用户列表失败",
 	UmsAdminGetItemError:      "获取用户信息失败",
+	UmsAdminUpdateError:       "更新用户信息失败",
 }

@@ -67,6 +67,21 @@ func (qb *umsMemberProductCategoryRelationQueryBuilder) Updates(db *gorm.DB, m m
 	return nil
 }
 
+func (qb *umsMemberProductCategoryRelationQueryBuilder) Update(db *gorm.DB, data *UmsMemberProductCategoryRelation) (cnt int64, err error) {
+	db = db.Model(&UmsMemberProductCategoryRelation{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
+}
+
 func (qb *umsMemberProductCategoryRelationQueryBuilder) Delete(db *gorm.DB) (err error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)

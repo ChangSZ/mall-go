@@ -31,7 +31,7 @@ type modifyRequest struct {
 }
 
 type modifyResponse struct {
-	Id int32 `json:"id"` // 主键ID
+	Id int64 `json:"id"` // 主键ID
 }
 
 // Modify 编辑任务
@@ -75,7 +75,7 @@ func (h *handler) Modify(ctx *gin.Context) {
 		return
 	}
 
-	id := int32(ids[0])
+	id := int64(ids[0])
 
 	modifyData := new(cron.ModifyCronTaskData)
 	modifyData.Name = req.Name

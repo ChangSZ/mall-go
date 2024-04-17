@@ -56,7 +56,7 @@ func (h *handler) ListAPI(ctx *gin.Context) {
 		return
 	}
 
-	id := int32(ids[0])
+	id := int64(ids[0])
 
 	// 通过 id 查询出 business_key
 	authorizedInfo, err := h.authorizedService.Detail(ctx, id)

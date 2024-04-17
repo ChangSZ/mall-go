@@ -6,8 +6,8 @@ import "time"
 //
 //go:generate gormgen -structs Menu -input .
 type Menu struct {
-	Id          int32     // 主键
-	Pid         int32     // 父类ID
+	Id          int64     // 主键
+	Pid         int64     // 父类ID
 	Name        string    // 菜单名称
 	Link        string    // 链接地址
 	Icon        string    // 图标

@@ -17,7 +17,7 @@ type updateSortRequest struct {
 }
 
 type updateSortResponse struct {
-	Id int32 `json:"id"` // 主键ID
+	Id int64 `json:"id"` // 主键ID
 }
 
 // UpdateSort 更新菜单排序
@@ -48,7 +48,7 @@ func (h *handler) UpdateSort(ctx *gin.Context) {
 		return
 	}
 
-	id := int32(ids[0])
+	id := int64(ids[0])
 
 	err = h.menuService.UpdateSort(ctx, id, req.Sort)
 	if err != nil {

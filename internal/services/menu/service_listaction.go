@@ -8,7 +8,7 @@ import (
 )
 
 type SearchListActionData struct {
-	MenuId int32 `json:"menu_id"` // 菜单栏ID
+	MenuId int64 `json:"menu_id"` // 菜单栏ID
 }
 
 func (s *service) ListAction(ctx context.Context, searchData *SearchListActionData) (listData []*menu_action.MenuAction, err error) {

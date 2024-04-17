@@ -3,7 +3,7 @@
 
 | 序号 | 名称 | 描述 | 类型 | 键 | 为空 | 额外 | 默认值 |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | id | 主键 | int unsigned | PRI | NO | auto_increment |  |
+| 1 | id | 主键 | bigint unsigned | PRI | NO | auto_increment |  |
 | 2 | name | 任务名称 | varchar(64) | MUL | NO |  |  |
 | 3 | spec | crontab 表达式 | varchar(64) |  | NO |  |  |
 | 4 | command | 执行命令 | varchar(255) |  | NO |  |  |

@@ -1,7 +1,7 @@
 package tablesqls
 
 //CREATE TABLE `cron_task` (
-//`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+//`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
 //`name` varchar(64) NOT NULL DEFAULT '' COMMENT '任务名称',
 //`spec` varchar(64) NOT NULL DEFAULT '' COMMENT 'crontab 表达式',
 //`command` varchar(255) NOT NULL DEFAULT '' COMMENT '执行命令',
@@ -26,7 +26,7 @@ package tablesqls
 
 func CreateCronTaskTableSql() (sql string) {
 	sql = "CREATE TABLE `cron_task` ("
-	sql += "`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
+	sql += "`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
 	sql += "`name` varchar(64) NOT NULL DEFAULT '' COMMENT '任务名称',"
 	sql += "`spec` varchar(64) NOT NULL DEFAULT '' COMMENT 'crontab 表达式',"
 	sql += "`command` varchar(255) NOT NULL DEFAULT '' COMMENT '执行命令',"

@@ -31,7 +31,7 @@ echo failed!!!
 exit 1
 )
 
-go generate internal\repository\mysql\%5\gen_model.go
+go generate ./...
 if %errorlevel% == 1 (
 echo.
 echo failed!!!
@@ -46,5 +46,6 @@ echo.
 echo failed!!!
 exit 1
 )
+goimports -w ./
 echo.
 echo Done.

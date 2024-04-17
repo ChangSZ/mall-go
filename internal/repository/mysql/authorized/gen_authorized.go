@@ -23,7 +23,7 @@ func NewQueryBuilder() *authorizedQueryBuilder {
 	return new(authorizedQueryBuilder)
 }
 
-func (t *Authorized) Create(db *gorm.DB) (id int32, err error) {
+func (t *Authorized) Create(db *gorm.DB) (id int64, err error) {
 	if err = db.Create(t).Error; err != nil {
 		return 0, errors.Wrap(err, "create err")
 	}
@@ -66,6 +66,21 @@ func (qb *authorizedQueryBuilder) Updates(db *gorm.DB, m map[string]interface{})
 		return errors.Wrap(err, "updates err")
 	}
 	return nil
+}
+
+func (qb *authorizedQueryBuilder) Update(db *gorm.DB, data *Authorized) (cnt int64, err error) {
+	db = db.Model(&Authorized{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
 }
 
 func (qb *authorizedQueryBuilder) Delete(db *gorm.DB) (err error) {
@@ -122,7 +137,7 @@ func (qb *authorizedQueryBuilder) Offset(offset int) *authorizedQueryBuilder {
 	return qb
 }
 
-func (qb *authorizedQueryBuilder) WhereId(p mysql.Predicate, value int32) *authorizedQueryBuilder {
+func (qb *authorizedQueryBuilder) WhereId(p mysql.Predicate, value int64) *authorizedQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -133,7 +148,7 @@ func (qb *authorizedQueryBuilder) WhereId(p mysql.Predicate, value int32) *autho
 	return qb
 }
 
-func (qb *authorizedQueryBuilder) WhereIdIn(value []int32) *authorizedQueryBuilder {
+func (qb *authorizedQueryBuilder) WhereIdIn(value []int64) *authorizedQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -144,7 +159,7 @@ func (qb *authorizedQueryBuilder) WhereIdIn(value []int32) *authorizedQueryBuild
 	return qb
 }
 
-func (qb *authorizedQueryBuilder) WhereIdNotIn(value []int32) *authorizedQueryBuilder {
+func (qb *authorizedQueryBuilder) WhereIdNotIn(value []int64) *authorizedQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

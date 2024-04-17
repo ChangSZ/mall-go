@@ -82,6 +82,21 @@ func (qb *{{.QueryBuilderName}}) Updates(db *gorm.DB, m map[string]interface{}) 
 	return nil
 }
 
+func (qb *{{.QueryBuilderName}}) Update(db *gorm.DB, data *{{.StructName}}) (cnt int64, err error) {
+	db = db.Model(&{{.StructName}}{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
+}
+
 func (qb *{{.QueryBuilderName}}) Delete(db *gorm.DB) (err error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)

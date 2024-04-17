@@ -12,12 +12,12 @@ var _ Service = (*service)(nil)
 type Service interface {
 	i()
 
-	Create(ctx context.Context, createData *CreateCronTaskData) (id int32, err error)
-	Modify(ctx context.Context, id int32, modifyData *ModifyCronTaskData) (err error)
+	Create(ctx context.Context, createData *CreateCronTaskData) (id int64, err error)
+	Modify(ctx context.Context, id int64, modifyData *ModifyCronTaskData) (err error)
 	PageList(ctx context.Context, searchData *SearchData) (listData []*cron_task.CronTask, err error)
 	PageListCount(ctx context.Context, searchData *SearchData) (total int64, err error)
-	UpdateUsed(ctx context.Context, id int32, used int32) (err error)
-	Execute(ctx context.Context, id int32) (err error)
+	UpdateUsed(ctx context.Context, id int64, used int32) (err error)
+	Execute(ctx context.Context, id int64) (err error)
 	Detail(ctx context.Context, searchOneData *SearchOneData) (info *cron_task.CronTask, err error)
 }
 

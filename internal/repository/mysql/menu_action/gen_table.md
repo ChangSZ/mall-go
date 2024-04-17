@@ -3,8 +3,8 @@
 
 | 序号 | 名称 | 描述 | 类型 | 键 | 为空 | 额外 | 默认值 |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | id | 主键 | int unsigned | PRI | NO | auto_increment |  |
-| 2 | menu_id | 菜单栏ID | int unsigned | MUL | NO |  | 0 |
+| 1 | id | 主键 | bigint unsigned | PRI | NO | auto_increment |  |
+| 2 | menu_id | 菜单栏ID | bigint unsigned | MUL | NO |  | 0 |
 | 3 | method | 请求方式 | varchar(30) |  | NO |  |  |
 | 4 | api | 请求地址 | varchar(100) |  | NO |  |  |
 | 5 | is_deleted | 是否删除 1:是  -1:否 | tinyint(1) |  | NO |  | -1 |

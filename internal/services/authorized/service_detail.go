@@ -7,7 +7,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized"
 )
 
-func (s *service) Detail(ctx context.Context, id int32) (info *authorized.Authorized, err error) {
+func (s *service) Detail(ctx context.Context, id int64) (info *authorized.Authorized, err error) {
 	qb := authorized.NewQueryBuilder()
 	qb.WhereIsDeleted(mysql.EqualPredicate, -1)
 	qb.WhereId(mysql.EqualPredicate, id)

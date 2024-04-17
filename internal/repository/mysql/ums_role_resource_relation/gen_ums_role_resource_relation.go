@@ -67,6 +67,21 @@ func (qb *umsRoleResourceRelationQueryBuilder) Updates(db *gorm.DB, m map[string
 	return nil
 }
 
+func (qb *umsRoleResourceRelationQueryBuilder) Update(db *gorm.DB, data *UmsRoleResourceRelation) (cnt int64, err error) {
+	db = db.Model(&UmsRoleResourceRelation{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
+}
+
 func (qb *umsRoleResourceRelationQueryBuilder) Delete(db *gorm.DB) (err error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)

@@ -23,7 +23,7 @@ func NewQueryBuilder() *menuQueryBuilder {
 	return new(menuQueryBuilder)
 }
 
-func (t *Menu) Create(db *gorm.DB) (id int32, err error) {
+func (t *Menu) Create(db *gorm.DB) (id int64, err error) {
 	if err = db.Create(t).Error; err != nil {
 		return 0, errors.Wrap(err, "create err")
 	}
@@ -66,6 +66,21 @@ func (qb *menuQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (err 
 		return errors.Wrap(err, "updates err")
 	}
 	return nil
+}
+
+func (qb *menuQueryBuilder) Update(db *gorm.DB, data *Menu) (cnt int64, err error) {
+	db = db.Model(&Menu{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
 }
 
 func (qb *menuQueryBuilder) Delete(db *gorm.DB) (err error) {
@@ -122,7 +137,7 @@ func (qb *menuQueryBuilder) Offset(offset int) *menuQueryBuilder {
 	return qb
 }
 
-func (qb *menuQueryBuilder) WhereId(p mysql.Predicate, value int32) *menuQueryBuilder {
+func (qb *menuQueryBuilder) WhereId(p mysql.Predicate, value int64) *menuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -133,7 +148,7 @@ func (qb *menuQueryBuilder) WhereId(p mysql.Predicate, value int32) *menuQueryBu
 	return qb
 }
 
-func (qb *menuQueryBuilder) WhereIdIn(value []int32) *menuQueryBuilder {
+func (qb *menuQueryBuilder) WhereIdIn(value []int64) *menuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -144,7 +159,7 @@ func (qb *menuQueryBuilder) WhereIdIn(value []int32) *menuQueryBuilder {
 	return qb
 }
 
-func (qb *menuQueryBuilder) WhereIdNotIn(value []int32) *menuQueryBuilder {
+func (qb *menuQueryBuilder) WhereIdNotIn(value []int64) *menuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -165,7 +180,7 @@ func (qb *menuQueryBuilder) OrderById(asc bool) *menuQueryBuilder {
 	return qb
 }
 
-func (qb *menuQueryBuilder) WherePid(p mysql.Predicate, value int32) *menuQueryBuilder {
+func (qb *menuQueryBuilder) WherePid(p mysql.Predicate, value int64) *menuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -176,7 +191,7 @@ func (qb *menuQueryBuilder) WherePid(p mysql.Predicate, value int32) *menuQueryB
 	return qb
 }
 
-func (qb *menuQueryBuilder) WherePidIn(value []int32) *menuQueryBuilder {
+func (qb *menuQueryBuilder) WherePidIn(value []int64) *menuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -187,7 +202,7 @@ func (qb *menuQueryBuilder) WherePidIn(value []int32) *menuQueryBuilder {
 	return qb
 }
 
-func (qb *menuQueryBuilder) WherePidNotIn(value []int32) *menuQueryBuilder {
+func (qb *menuQueryBuilder) WherePidNotIn(value []int64) *menuQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

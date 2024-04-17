@@ -3,7 +3,7 @@
 
 | 序号 | 名称 | 描述 | 类型 | 键 | 为空 | 额外 | 默认值 |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | id | 主键 | int unsigned | PRI | NO | auto_increment |  |
+| 1 | id | 主键 | bigint unsigned | PRI | NO | auto_increment |  |
 | 2 | username | 用户名 | varchar(32) | UNI | NO |  |  |
 | 3 | password | 密码 | varchar(100) |  | NO |  |  |
 | 4 | nickname | 昵称 | varchar(60) |  | NO |  |  |

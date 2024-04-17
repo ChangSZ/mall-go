@@ -1,7 +1,7 @@
 package tablesqls
 
 //CREATE TABLE `authorized_api` (
-//`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+//`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
 //`business_key` varchar(32) NOT NULL DEFAULT '' COMMENT '调用方key',
 //`method` varchar(30) NOT NULL DEFAULT '' COMMENT '请求方式',
 //`api` varchar(100) NOT NULL DEFAULT '' COMMENT '请求地址',
@@ -15,7 +15,7 @@ package tablesqls
 
 func CreateAuthorizedAPITableSql() (sql string) {
 	sql = "CREATE TABLE `authorized_api` ("
-	sql += "`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
+	sql += "`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
 	sql += "`business_key` varchar(32) NOT NULL DEFAULT '' COMMENT '调用方key',"
 	sql += "`method` varchar(30) NOT NULL DEFAULT '' COMMENT '请求方式',"
 	sql += "`api` varchar(100) NOT NULL DEFAULT '' COMMENT '请求地址',"

@@ -9,12 +9,12 @@ import (
 )
 
 type SearchMyActionData struct {
-	AdminId int32 `json:"admin_id"` // 管理员ID
+	AdminId int64 `json:"admin_id"` // 管理员ID
 }
 
 type MyActionData struct {
-	Id     int32  // 主键
-	MenuId int32  // 菜单栏ID
+	Id     int64  // 主键
+	MenuId int64  // 菜单栏ID
 	Method string // 请求方式
 	Api    string // 请求地址
 }
@@ -36,7 +36,7 @@ func (s *service) MyAction(ctx context.Context, searchData *SearchMyActionData) 
 		return
 	}
 
-	var menuIds []int32
+	var menuIds []int64
 	for _, v := range adminMenuListData {
 		menuIds = append(menuIds, v.MenuId)
 	}

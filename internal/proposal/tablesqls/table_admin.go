@@ -1,7 +1,7 @@
 package tablesqls
 
 //CREATE TABLE `admin` (
-//`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+//`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
 //`username` varchar(32) NOT NULL DEFAULT '' COMMENT '用户名',
 //`password` varchar(100) NOT NULL DEFAULT '' COMMENT '密码',
 //`nickname` varchar(60) NOT NULL DEFAULT '' COMMENT '昵称',
@@ -18,7 +18,7 @@ package tablesqls
 
 func CreateAdminTableSql() (sql string) {
 	sql = "CREATE TABLE `admin` ("
-	sql += "`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
+	sql += "`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
 	sql += "`username` varchar(32) NOT NULL DEFAULT '' COMMENT '用户名',"
 	sql += "`password` varchar(100) NOT NULL DEFAULT '' COMMENT '密码',"
 	sql += "`nickname` varchar(60) NOT NULL DEFAULT '' COMMENT '昵称',"

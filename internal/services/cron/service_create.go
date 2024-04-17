@@ -25,7 +25,7 @@ type CreateCronTaskData struct {
 	IsUsed              int32  // 是否启用 1:是  -1:否
 }
 
-func (s *service) Create(ctx context.Context, createData *CreateCronTaskData) (id int32, err error) {
+func (s *service) Create(ctx context.Context, createData *CreateCronTaskData) (id int64, err error) {
 	model := cron_task.NewModel()
 	model.Name = createData.Name
 	model.Spec = createData.Spec

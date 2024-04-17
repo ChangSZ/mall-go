@@ -1,7 +1,7 @@
 package tablesqls
 
 //CREATE TABLE `menu_action` (
-//`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+//`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
 //`menu_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '菜单栏ID',
 //`method` varchar(30) NOT NULL DEFAULT '' COMMENT '请求方式',
 //`api` varchar(100) NOT NULL DEFAULT '' COMMENT '请求地址',
@@ -16,8 +16,8 @@ package tablesqls
 
 func CreateMenuActionTableSql() (sql string) {
 	sql = "CREATE TABLE `menu_action` ("
-	sql += "`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
-	sql += "`menu_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '菜单栏ID',"
+	sql += "`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
+	sql += "`menu_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '菜单栏ID',"
 	sql += "`method` varchar(30) NOT NULL DEFAULT '' COMMENT '请求方式',"
 	sql += "`api` varchar(100) NOT NULL DEFAULT '' COMMENT '请求地址',"
 	sql += "`is_deleted` tinyint(1) NOT NULL DEFAULT '-1' COMMENT '是否删除 1:是  -1:否',"

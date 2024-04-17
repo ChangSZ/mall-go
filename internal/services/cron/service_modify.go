@@ -27,7 +27,7 @@ type ModifyCronTaskData struct {
 	IsUsed              int32  // 是否启用 1:是  -1:否
 }
 
-func (s *service) Modify(ctx context.Context, id int32, modifyData *ModifyCronTaskData) (err error) {
+func (s *service) Modify(ctx context.Context, id int64, modifyData *ModifyCronTaskData) (err error) {
 	data := map[string]interface{}{
 		"name":                  modifyData.Name,
 		"spec":                  modifyData.Spec,

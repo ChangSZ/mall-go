@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *service) DeleteAPI(ctx context.Context, id int32) (err error) {
+func (s *service) DeleteAPI(ctx context.Context, id int64) (err error) {
 	// 先查询 id 是否存在
 	authorizedApiInfo, err := authorized_api.NewQueryBuilder().
 		WhereIsDeleted(mysql.EqualPredicate, -1).

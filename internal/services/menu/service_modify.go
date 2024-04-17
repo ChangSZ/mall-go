@@ -14,7 +14,7 @@ type UpdateMenuData struct {
 	Icon string // 图标
 }
 
-func (s *service) Modify(ctx context.Context, id int32, menuData *UpdateMenuData) (err error) {
+func (s *service) Modify(ctx context.Context, id int64, menuData *UpdateMenuData) (err error) {
 	data := map[string]interface{}{
 		"name":         menuData.Name,
 		"link":         menuData.Link,

@@ -68,6 +68,21 @@ func (qb *umsAdminLoginLogQueryBuilder) Updates(db *gorm.DB, m map[string]interf
 	return nil
 }
 
+func (qb *umsAdminLoginLogQueryBuilder) Update(db *gorm.DB, data *UmsAdminLoginLog) (cnt int64, err error) {
+	db = db.Model(&UmsAdminLoginLog{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
+}
+
 func (qb *umsAdminLoginLogQueryBuilder) Delete(db *gorm.DB) (err error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)

@@ -9,12 +9,12 @@ import (
 )
 
 type CreateMenuActionData struct {
-	MenuId int32  `json:"menu_id"` // 菜单栏ID
+	MenuId int64  `json:"menu_id"` // 菜单栏ID
 	Method string `json:"method"`  // 请求方法
 	API    string `json:"api"`     // 请求地址
 }
 
-func (s *service) CreateAction(ctx context.Context, menuActionData *CreateMenuActionData) (id int32, err error) {
+func (s *service) CreateAction(ctx context.Context, menuActionData *CreateMenuActionData) (id int64, err error) {
 	model := menu_action.NewModel()
 	model.MenuId = menuActionData.MenuId
 	model.Method = menuActionData.Method

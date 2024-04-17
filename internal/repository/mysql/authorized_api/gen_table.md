@@ -3,7 +3,7 @@
 
 | 序号 | 名称 | 描述 | 类型 | 键 | 为空 | 额外 | 默认值 |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | id | 主键 | int unsigned | PRI | NO | auto_increment |  |
+| 1 | id | 主键 | bigint unsigned | PRI | NO | auto_increment |  |
 | 2 | business_key | 调用方key | varchar(32) |  | NO |  |  |
 | 3 | method | 请求方式 | varchar(30) |  | NO |  |  |
 | 4 | api | 请求地址 | varchar(100) |  | NO |  |  |

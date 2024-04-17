@@ -19,7 +19,7 @@ type offlineRequest struct {
 }
 
 type offlineResponse struct {
-	Id int32 `json:"id"` // 主键ID
+	Id int64 `json:"id"` // 主键ID
 }
 
 // Offline 下线管理员
@@ -49,7 +49,7 @@ func (h *handler) Offline(ctx *gin.Context) {
 		return
 	}
 
-	id := int32(ids[0])
+	id := int64(ids[0])
 
 	b := redis.Cache().Del(ctx, configs.RedisKeyPrefixLoginUser+password.GenerateLoginToken(id))
 	if !b {

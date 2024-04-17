@@ -11,9 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type getRequest struct {
-	Id int64 `uri:"id" binding:"required"` // 用户ID
-}
+type getRequest struct{}
 
 type getResponse struct {
 	UmsAdmin `json:",inline"`
@@ -30,16 +28,16 @@ type getResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /admin/{id} [get]
 func (h *handler) Get(ctx *gin.Context) {
-	req := new(getRequest)
+	_ = new(getRequest)
 	res := new(getResponse)
-
-	if err := ctx.ShouldBindUri(req); err != nil {
+	uri := new(UmsAdminUri)
+	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
 		return
 	}
 
-	admin, err := h.umsAdminService.GetItem(ctx, req.Id)
+	admin, err := h.umsAdminService.GetItem(ctx, uri.Id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.UmsAdminGetItemError, err)

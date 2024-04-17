@@ -17,7 +17,7 @@ type updateUsedRequest struct {
 }
 
 type updateUsedResponse struct {
-	Id int32 `json:"id"` // 主键ID
+	Id int64 `json:"id"` // 主键ID
 }
 
 // UpdateUsed 更新管理员为启用/禁用
@@ -48,7 +48,7 @@ func (h *handler) UpdateUsed(ctx *gin.Context) {
 		return
 	}
 
-	id := int32(ids[0])
+	id := int64(ids[0])
 	err = h.adminService.UpdateUsed(ctx, id, req.Used)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)

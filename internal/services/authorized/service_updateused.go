@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *service) UpdateUsed(ctx context.Context, id int32, used int32) (err error) {
+func (s *service) UpdateUsed(ctx context.Context, id int64, used int32) (err error) {
 	authorizedInfo, err := authorized.NewQueryBuilder().
 		WhereIsDeleted(mysql.EqualPredicate, -1).
 		WhereId(mysql.EqualPredicate, id).

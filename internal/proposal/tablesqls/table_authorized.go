@@ -1,7 +1,7 @@
 package tablesqls
 
 //CREATE TABLE `authorized` (
-//`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+//`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
 //`business_key` varchar(32) NOT NULL DEFAULT '' COMMENT '调用方key',
 //`business_secret` varchar(60) NOT NULL DEFAULT '' COMMENT '调用方secret',
 //`business_developer` varchar(60) NOT NULL DEFAULT '' COMMENT '调用方对接人',
@@ -18,7 +18,7 @@ package tablesqls
 
 func CreateAuthorizedTableSql() (sql string) {
 	sql = "CREATE TABLE `authorized` ("
-	sql += "`id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
+	sql += "`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',"
 	sql += "`business_key` varchar(32) NOT NULL DEFAULT '' COMMENT '调用方key',"
 	sql += "`business_secret` varchar(60) NOT NULL DEFAULT '' COMMENT '调用方secret',"
 	sql += "`business_developer` varchar(60) NOT NULL DEFAULT '' COMMENT '调用方对接人',"

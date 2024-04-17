@@ -6,7 +6,7 @@ import "time"
 //
 //go:generate gormgen -structs Admin -input .
 type Admin struct {
-	Id          int32     // 主键
+	Id          int64     // 主键
 	Username    string    // 用户名
 	Password    string    // 密码
 	Nickname    string    // 昵称

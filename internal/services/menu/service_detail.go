@@ -8,7 +8,7 @@ import (
 )
 
 type SearchOneData struct {
-	Id     int32 // 用户ID
+	Id     int64 // 用户ID
 	IsUsed int32 // 是否启用 1:是  -1:否
 }
 

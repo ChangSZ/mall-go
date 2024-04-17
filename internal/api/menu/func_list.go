@@ -13,9 +13,9 @@ import (
 )
 
 type listData struct {
-	Id     int32  `json:"id"`      // ID
+	Id     int64  `json:"id"`      // ID
 	HashID string `json:"hashid"`  // hashid
-	Pid    int32  `json:"pid"`     // 父类ID
+	Pid    int64  `json:"pid"`     // 父类ID
 	Name   string `json:"name"`    // 菜单名称
 	Link   string `json:"link"`    // 链接地址
 	Icon   string `json:"icon"`    // 图标

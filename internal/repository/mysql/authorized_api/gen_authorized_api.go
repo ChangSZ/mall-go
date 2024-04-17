@@ -23,7 +23,7 @@ func NewQueryBuilder() *authorizedApiQueryBuilder {
 	return new(authorizedApiQueryBuilder)
 }
 
-func (t *AuthorizedApi) Create(db *gorm.DB) (id int32, err error) {
+func (t *AuthorizedApi) Create(db *gorm.DB) (id int64, err error) {
 	if err = db.Create(t).Error; err != nil {
 		return 0, errors.Wrap(err, "create err")
 	}
@@ -66,6 +66,21 @@ func (qb *authorizedApiQueryBuilder) Updates(db *gorm.DB, m map[string]interface
 		return errors.Wrap(err, "updates err")
 	}
 	return nil
+}
+
+func (qb *authorizedApiQueryBuilder) Update(db *gorm.DB, data *AuthorizedApi) (cnt int64, err error) {
+	db = db.Model(&AuthorizedApi{})
+
+	for _, where := range qb.where {
+		db.Where(where.prefix, where.value)
+	}
+
+	ret := db.Updates(data)
+	err = ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "update err")
+	}
+	return ret.RowsAffected, nil
 }
 
 func (qb *authorizedApiQueryBuilder) Delete(db *gorm.DB) (err error) {
@@ -122,7 +137,7 @@ func (qb *authorizedApiQueryBuilder) Offset(offset int) *authorizedApiQueryBuild
 	return qb
 }
 
-func (qb *authorizedApiQueryBuilder) WhereId(p mysql.Predicate, value int32) *authorizedApiQueryBuilder {
+func (qb *authorizedApiQueryBuilder) WhereId(p mysql.Predicate, value int64) *authorizedApiQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -133,7 +148,7 @@ func (qb *authorizedApiQueryBuilder) WhereId(p mysql.Predicate, value int32) *au
 	return qb
 }
 
-func (qb *authorizedApiQueryBuilder) WhereIdIn(value []int32) *authorizedApiQueryBuilder {
+func (qb *authorizedApiQueryBuilder) WhereIdIn(value []int64) *authorizedApiQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -144,7 +159,7 @@ func (qb *authorizedApiQueryBuilder) WhereIdIn(value []int32) *authorizedApiQuer
 	return qb
 }
 
-func (qb *authorizedApiQueryBuilder) WhereIdNotIn(value []int32) *authorizedApiQueryBuilder {
+func (qb *authorizedApiQueryBuilder) WhereIdNotIn(value []int64) *authorizedApiQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

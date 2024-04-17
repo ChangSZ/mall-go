@@ -3,7 +3,7 @@
 
 | 序号 | 名称 | 描述 | 类型 | 键 | 为空 | 额外 | 默认值 |
 | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-| 1 | id | 主键 | int unsigned | PRI | NO | auto_increment |  |
+| 1 | id | 主键 | bigint unsigned | PRI | NO | auto_increment |  |
 | 2 | business_key | 调用方key | varchar(32) | UNI | NO |  |  |
 | 3 | business_secret | 调用方secret | varchar(60) |  | NO |  |  |
 | 4 | business_developer | 调用方对接人 | varchar(60) |  | NO |  |  |

@@ -18,7 +18,7 @@ type createAdminMenuRequest struct {
 }
 
 type createAdminMenuResponse struct {
-	Id int32 `json:"id"` // 主键ID
+	Id int64 `json:"id"` // 主键ID
 }
 
 // CreateAdminMenu 提交菜单授权
@@ -50,7 +50,7 @@ func (h *handler) CreateAdminMenu(ctx *gin.Context) {
 	}
 
 	createData := new(admin.CreateMenuData)
-	createData.AdminId = int32(ids[0])
+	createData.AdminId = int64(ids[0])
 	createData.Actions = req.Actions
 
 	err = h.adminService.CreateMenu(ctx, createData)
@@ -60,6 +60,6 @@ func (h *handler) CreateAdminMenu(ctx *gin.Context) {
 		return
 	}
 
-	res.Id = int32(ids[0])
+	res.Id = int64(ids[0])
 	api.ResponseOK(ctx, res)
 }

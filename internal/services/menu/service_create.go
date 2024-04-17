@@ -9,14 +9,14 @@ import (
 )
 
 type CreateMenuData struct {
-	Pid   int32  // 父类ID
+	Pid   int64  // 父类ID
 	Name  string // 菜单名称
 	Link  string // 链接地址
 	Icon  string // 图标
 	Level int32  // 菜单类型 1:一级菜单 2:二级菜单
 }
 
-func (s *service) Create(ctx context.Context, menuData *CreateMenuData) (id int32, err error) {
+func (s *service) Create(ctx context.Context, menuData *CreateMenuData) (id int64, err error) {
 	model := menu.NewModel()
 	model.Pid = menuData.Pid
 	model.Name = menuData.Name

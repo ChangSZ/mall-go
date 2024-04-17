@@ -8,7 +8,7 @@ import (
 )
 
 type SearchData struct {
-	Pid int32 // 父类ID
+	Pid int64 // 父类ID
 }
 
 func (s *service) List(ctx context.Context, searchData *SearchData) (listData []*menu.Menu, err error) {

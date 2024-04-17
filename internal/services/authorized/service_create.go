@@ -17,7 +17,7 @@ type CreateAuthorizedData struct {
 	Remark            string `json:"remark"`             // 备注
 }
 
-func (s *service) Create(ctx context.Context, authorizedData *CreateAuthorizedData) (id int32, err error) {
+func (s *service) Create(ctx context.Context, authorizedData *CreateAuthorizedData) (id int64, err error) {
 	buf := make([]byte, 10)
 	io.ReadFull(rand.Reader, buf)
 	secret := hex.EncodeToString(buf)

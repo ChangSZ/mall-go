@@ -12,7 +12,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (s *service) Delete(ctx context.Context, id int32) (err error) {
+func (s *service) Delete(ctx context.Context, id int64) (err error) {
 	// 先查询 id 是否存在
 	authorizedInfo, err := authorized.NewQueryBuilder().
 		WhereIsDeleted(mysql.EqualPredicate, -1).

@@ -11,7 +11,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 )
 
-func (s *service) ModifyPassword(ctx context.Context, id int32, newPassword string) (err error) {
+func (s *service) ModifyPassword(ctx context.Context, id int64, newPassword string) (err error) {
 	data := map[string]interface{}{
 		"password":     password.GeneratePassword(newPassword),
 		"updated_user": core.SessionUserInfo(ctx).UserName,

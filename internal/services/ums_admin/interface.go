@@ -37,10 +37,10 @@ type Service interface {
 	 */
 	List(ctx context.Context, keyword string, pageSize, pageNum int) ([]ums_admin.UmsAdmin, int64, error)
 
-	// /**
-	//  * 修改指定用户信息
-	//  */
-	// Update(ctx context.Context, id int64, admin ums_admin.UmsAdmin) (int64 error)
+	/**
+	 * 修改指定用户信息
+	 */
+	Update(ctx context.Context, id int64, admin *ums_admin.UmsAdmin) (int64, error)
 
 	// /**
 	// * 删除指定用户
