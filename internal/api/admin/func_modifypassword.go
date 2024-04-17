@@ -9,6 +9,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/pkg/password"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,7 +40,7 @@ func (h *handler) ModifyPassword(ctx *gin.Context) {
 	res := new(modifyPasswordResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
 		return
 	}
 

@@ -7,6 +7,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/services/cron"
 	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
@@ -63,7 +64,7 @@ func (h *handler) Modify(ctx *gin.Context) {
 	res := new(modifyResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
 		return
 	}
 

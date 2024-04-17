@@ -21,7 +21,7 @@ func CheckRBAC() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.GetHeader("Token")
 		if token == "" {
-			err := errors.New("Header 中缺少 Token 参数")
+			err := errors.New("header 中缺少 Token 参数")
 			log.WithTrace(ctx).Error(err)
 			api.Response(ctx, http.StatusUnauthorized, code.AuthorizationError, err)
 			ctx.Abort()

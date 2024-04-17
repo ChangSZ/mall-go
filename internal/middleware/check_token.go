@@ -11,7 +11,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal"
-	"github.com/ChangSZ/mall-go/internal/services/ums_user"
+	"github.com/ChangSZ/mall-go/internal/services/ums_admin"
 	"github.com/ChangSZ/mall-go/pkg/jwt"
 	"github.com/ChangSZ/mall-go/pkg/log"
 
@@ -35,7 +35,7 @@ func CheckToken() gin.HandlerFunc {
 		}
 		token = strings.TrimPrefix(token, jwtConfig.TokenHead)
 		username := jwtTokenUtil.GetUserNameFromToken(token)
-		userDetails, loadErr := ums_user.New().LoadUserByUsername(ctx, username)
+		userDetails, loadErr := ums_admin.New().LoadUserByUsername(ctx, username)
 		if loadErr != nil {
 			err := fmt.Errorf("未找到用户: %v, %w", username, loadErr)
 			log.WithTrace(ctx).Error(err)

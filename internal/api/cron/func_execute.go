@@ -6,6 +6,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
@@ -35,7 +36,7 @@ func (h *handler) Execute(ctx *gin.Context) {
 	res := new(executeResponse)
 	if err := ctx.ShouldBindUri(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, err)
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
 		return
 	}
 
