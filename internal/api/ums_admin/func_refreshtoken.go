@@ -1,11 +1,8 @@
 package ums_admin
 
 import (
-	"net/http"
-
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/pkg/log"
 
@@ -30,13 +27,14 @@ type refreshTokenResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /admin/refreshToken [get]
 func (h *handler) RefreshToken(ctx *gin.Context) {
+	_ = new(refreshTokenRequest)
 	res := new(refreshTokenResponse)
 	userInfo := core.GetUmsUserInfo(ctx)
 
 	token, err := h.umsAdminService.RefreshToken(ctx, userInfo.Token)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.UmsAdminRefreshTokenError, err)
+		api.Failed(ctx, err.Error())
 		return
 	}
 	res.Token = token

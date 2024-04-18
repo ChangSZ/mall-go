@@ -61,11 +61,12 @@ func (h *handler) Update(ctx *gin.Context) {
 	cnt, err := h.umsAdminService.Update(ctx, uri.Id, data)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.UmsAdminUpdateError, err)
+		api.Failed(ctx, err.Error())
 		return
 	}
 	if cnt == 0 {
-		api.Response(ctx, http.StatusBadRequest, code.UmsAdminUpdateError, "更新数量为0")
+		api.Failed(ctx, "更新数量为0")
+		return
 	}
 	res.Count = cnt
 	api.Success(ctx, res.Count)

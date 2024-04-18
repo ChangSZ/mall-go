@@ -84,15 +84,11 @@ const (
 	CronDetailError  = 20404
 	CronExecuteError = 20405
 
-	UmsAdminRegisterError     = 30101
-	UmsAdminAuthorizedError   = 30102
-	UmsAdminRefreshTokenError = 30103
-	UmsAdminGetUsernameError  = 30104
-	UmsAdminGetMenuListError  = 30105
-	UmsAdminGetRoleListError  = 30106
-	UmsAdminGetListError      = 30107
-	UmsAdminGetItemError      = 30108
-	UmsAdminUpdateError       = 30109
+	SUCCESS         = 200
+	FAILED          = 500
+	VALIDATE_FAILED = 404
+	UNAUTHORIZED    = 401
+	FORBIDDEN       = 403
 )
 
 func Text(code int) string {

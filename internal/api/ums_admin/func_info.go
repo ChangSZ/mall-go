@@ -1,10 +1,7 @@
 package ums_admin
 
 import (
-	"net/http"
-
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
 	"github.com/ChangSZ/mall-go/pkg/log"
@@ -38,7 +35,7 @@ func (h *handler) Info(ctx *gin.Context) {
 	umsAdmin, err := h.umsAdminService.GetAdminByUsername(ctx, userInfo.UserName)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.UmsAdminGetUsernameError, err)
+		api.Failed(ctx, err.Error())
 		return
 	}
 	res.Username = umsAdmin.Username
@@ -47,7 +44,7 @@ func (h *handler) Info(ctx *gin.Context) {
 	menuList, err := h.umsRoleService.GetMenuList(ctx, umsAdmin.Id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.UmsAdminGetMenuListError, err)
+		api.Failed(ctx, err.Error())
 		return
 	}
 	res.Menus = menuList
@@ -55,7 +52,7 @@ func (h *handler) Info(ctx *gin.Context) {
 	roleList, err := h.umsAdminService.GetRoleList(ctx, umsAdmin.Id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.UmsAdminGetRoleListError, err)
+		api.Failed(ctx, err.Error())
 		return
 	}
 	if len(roleList) > 0 {

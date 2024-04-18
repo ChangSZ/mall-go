@@ -1,11 +1,9 @@
 package ums_admin
 
 import (
-	"net/http"
 	"time"
 
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/services/ums_admin"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
@@ -50,7 +48,7 @@ func (h *handler) Register(ctx *gin.Context) {
 	res := new(registerResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
 
@@ -65,7 +63,7 @@ func (h *handler) Register(ctx *gin.Context) {
 	umsAdmin, err := h.umsAdminService.Register(ctx, umsAdminParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.UmsAdminRegisterError, err)
+		api.Failed(ctx, err.Error())
 		return
 	}
 	res.Id = umsAdmin.Id

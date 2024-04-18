@@ -43,7 +43,7 @@ func (s *service) Register(ctx context.Context, umsAdminParam *UmsAdminParam) (*
 	umsAdmin.Username = umsAdminParam.Username
 	encodePassword, err := password.Encoder.Encode(umsAdminParam.Password)
 	if err != nil {
-		return nil, fmt.Errorf("failed to encode password: %w", err)
+		return nil, fmt.Errorf("failed to encode password: %v", err)
 	}
 	umsAdmin.Password = encodePassword
 	umsAdmin.Icon = umsAdminParam.Icon
@@ -83,7 +83,7 @@ func (s *service) Login(ctx context.Context, username, passwd string) (string, e
 
 	token, err = jwtTokenUtil.GenerateToken(username)
 	if err != nil {
-		return "", fmt.Errorf("生成token失败: %w", err)
+		return "", fmt.Errorf("生成token失败: %v", err)
 	}
 	return token, nil
 }

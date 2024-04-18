@@ -1,10 +1,7 @@
 package ums_admin
 
 import (
-	"net/http"
-
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -40,7 +37,7 @@ func (h *handler) List(ctx *gin.Context) {
 	res := new(listResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
 	if req.PageSize == 0 {
@@ -52,7 +49,7 @@ func (h *handler) List(ctx *gin.Context) {
 	list, total, err := h.umsAdminService.List(ctx, req.Keyword, req.PageSize, req.PageNum)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.UmsAdminGetListError, err)
+		api.Failed(ctx, err.Error())
 		return
 	}
 	res.PageNum = req.PageNum

@@ -1,11 +1,8 @@
 package ums_admin
 
 import (
-	"net/http"
-
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -37,14 +34,14 @@ func (h *handler) Login(ctx *gin.Context) {
 	res := new(loginResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
 
 	token, err := h.umsAdminService.Login(ctx, req.Username, req.Password)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.UmsAdminAuthorizedError, err)
+		api.Failed(ctx, err.Error())
 		return
 	}
 	res.Token = token

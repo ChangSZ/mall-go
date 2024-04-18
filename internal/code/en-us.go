@@ -61,13 +61,9 @@ var enUSText = map[int]string{
 	CronDetailError:  "Failed to get cron detail",
 	CronExecuteError: "Failed to execute cron",
 
-	UmsAdminRegisterError:     "Failed to register user",
-	UmsAdminAuthorizedError:   "Failed to authorized user",
-	UmsAdminRefreshTokenError: "Failed to refresh token",
-	UmsAdminGetUsernameError:  "Failed to get username",
-	UmsAdminGetMenuListError:  "Failed to get menu list",
-	UmsAdminGetRoleListError:  "Failed to get role list",
-	UmsAdminGetListError:      "Failed to get user list",
-	UmsAdminGetItemError:      "Failed to get user item",
-	UmsAdminUpdateError:       "Failed to update admin",
+	SUCCESS:         "operation success",
+	FAILED:          "operation failed",
+	VALIDATE_FAILED: "parameter verification failed",
+	UNAUTHORIZED:    "not logged in yet or the token has expired",
+	FORBIDDEN:       "permission denied",
 }
