@@ -42,10 +42,10 @@ type Service interface {
 	 */
 	Update(ctx context.Context, id int64, admin *ums_admin.UmsAdmin) (int64, error)
 
-	// /**
-	// * 删除指定用户
-	//  */
-	// Delete(ctx context.Context, id int64) (int64, error)
+	/**
+	* 删除指定用户
+	 */
+	Delete(ctx context.Context, id int64) (int64, error)
 
 	// /**
 	// * 修改用户角色关系

@@ -186,3 +186,16 @@ func (s *service) Update(ctx context.Context, id int64, admin *ums_admin.UmsAdmi
 	queryBuilder = queryBuilder.WhereId(mysql.EqualPredicate, id)
 	return queryBuilder.Update(mysql.DB().GetDbW().WithContext(ctx), admin)
 }
+
+func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
+	queryBuilder := ums_admin.NewQueryBuilder()
+	queryBuilder = queryBuilder.WhereId(mysql.EqualPredicate, id)
+	cnt, err := queryBuilder.Count(mysql.DB().GetDbR().WithContext(ctx))
+	if err != nil {
+		return 0, err
+	}
+	if cnt == 0 {
+		return 0, nil
+	}
+	return cnt, queryBuilder.Delete(mysql.DB().GetDbW().WithContext(ctx))
+}
