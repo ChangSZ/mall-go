@@ -47,10 +47,10 @@ type Service interface {
 	 */
 	Delete(ctx context.Context, id int64) (int64, error)
 
-	// /**
-	// * 修改用户角色关系
-	//  */
-	// UpdateRole(ctx context.Context, adminId int64, roleIds []int64) (int64, error)
+	/**
+	* 修改用户角色关系
+	 */
+	UpdateRole(ctx context.Context, adminId int64, roleIds []int64) (int64, error)
 
 	/**
 	* 获取用户对应角色

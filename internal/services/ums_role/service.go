@@ -17,5 +17,5 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) GetMenuList(ctx context.Context, adminId int64) ([]ums_menu.UmsMenu, error) {
-	return dao.GetMenuList(mysql.DB().GetDbR(), adminId)
+	return new(dao.UmsRoleDao).GetMenuList(mysql.DB().GetDbR(), adminId)
 }

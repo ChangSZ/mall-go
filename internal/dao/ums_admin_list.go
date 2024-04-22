@@ -8,8 +8,10 @@ import (
 	"gorm.io/gorm"
 )
 
+type UmsAdminDao struct{}
+
 // 分页获取admin列表
-func AdminPageList(ctx context.Context, tx *gorm.DB, keyword string, pageSize, pageNum int) (
+func (t *UmsAdminDao) AdminPageList(ctx context.Context, tx *gorm.DB, keyword string, pageSize, pageNum int) (
 	[]ums_admin.UmsAdmin, int64, error) {
 	res := make([]ums_admin.UmsAdmin, 0)
 	var total int64

@@ -7,10 +7,12 @@ import (
 	"gorm.io/gorm"
 )
 
+type UmsRoleDao struct{}
+
 /**
  * 根据后台用户ID获取菜单
  */
-func GetMenuList(tx *gorm.DB, adminId int64) ([]ums_menu.UmsMenu, error) {
+func (t *UmsRoleDao) GetMenuList(tx *gorm.DB, adminId int64) ([]ums_menu.UmsMenu, error) {
 	res := make([]ums_menu.UmsMenu, 0)
 	sql := `
 SELECT

@@ -9,6 +9,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_role_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_resource_relation"
@@ -131,11 +132,12 @@ func (s *service) UpdatePassword(ctx context.Context, username, oldPassword, new
 }
 
 func (s *service) GetRoleList(ctx context.Context, adminId int64) ([]ums_role.UmsRole, error) {
-	return dao.GetRoleList(mysql.DB().GetDbR(), adminId)
+	roleRelationDao := new(dao.UmsAdminRoleRelationDao)
+	return roleRelationDao.GetRoleList(mysql.DB().GetDbR(), adminId)
 }
 
 func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum int) ([]ums_admin.UmsAdmin, int64, error) {
-	return dao.AdminPageList(ctx, mysql.DB().GetDbR(), keyword, pageSize, pageNum)
+	return new(dao.UmsAdminDao).AdminPageList(ctx, mysql.DB().GetDbR(), keyword, pageSize, pageNum)
 }
 
 func (s *service) GetResourceList(ctx context.Context, adminId int64) ([]*ums_resource.UmsResource, error) {
@@ -226,4 +228,34 @@ func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
 		return 0, nil
 	}
 	return cnt, queryBuilder.Delete(mysql.DB().GetDbW().WithContext(ctx))
+}
+
+func (s *service) UpdateRole(ctx context.Context, adminId int64, roleIds []int64) (int64, error) {
+	if len(roleIds) == 0 {
+		return 0, nil
+	}
+	var count = int64(len(roleIds))
+
+	// 先删除原来的关系
+	queryBuilder := ums_admin_role_relation.NewQueryBuilder()
+	queryBuilder = queryBuilder.WhereAdminId(mysql.EqualPredicate, adminId)
+	if err := queryBuilder.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
+		return 0, err
+	}
+
+	// 建立新关系
+	list := make([]*ums_admin_role_relation.UmsAdminRoleRelation, 0, count)
+	for _, roleId := range roleIds {
+		roleRelation := ums_admin_role_relation.NewModel()
+		roleRelation.AdminId = adminId
+		roleRelation.RoleId = roleId
+		list = append(list, roleRelation)
+	}
+	roleRelationDao := new(dao.UmsAdminRoleRelationDao)
+	err := roleRelationDao.InsertList(mysql.DB().GetDbW().WithContext(ctx), list)
+	if err != nil {
+		return 0, err
+	}
+	s.cacheService.DelResourceList(ctx, adminId)
+	return count, nil
 }
