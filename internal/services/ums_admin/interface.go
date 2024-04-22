@@ -57,10 +57,10 @@ type Service interface {
 	 */
 	GetRoleList(ctx context.Context, adminId int64) ([]ums_role.UmsRole, error)
 
-	// /**
-	// * 修改密码
-	//  */
-	// UpdatePassword(ctx context.Context, updatePasswordParam dto.UpdateAdminPasswordParam) (int64, error)
+	/**
+	* 修改密码
+	 */
+	UpdatePassword(ctx context.Context, username, oldPassword, newPassword string) (int64, error)
 
 	/**
 	* 获取缓存服务

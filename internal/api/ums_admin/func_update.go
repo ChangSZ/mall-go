@@ -1,10 +1,7 @@
 package ums_admin
 
 import (
-	"net/http"
-
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
@@ -36,13 +33,13 @@ func (h *handler) Update(ctx *gin.Context) {
 	uri := new(UmsAdminUri)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
 
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
 

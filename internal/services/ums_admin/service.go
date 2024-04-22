@@ -98,8 +98,36 @@ type UpdateAdminPasswordParam struct {
 	NewPassword string `json:"newPassword" binding:"required"`
 }
 
-func (s *service) UpdatePassword(ctx context.Context, updatePasswordParam *UpdateAdminPasswordParam) (int64, error) {
-	return 0, nil
+func (s *service) UpdatePassword(ctx context.Context, username, oldPassword, newPassword string) (int64, error) {
+	queryBuilder := ums_admin.NewQueryBuilder()
+	queryBuilder = queryBuilder.WhereUsername(mysql.EqualPredicate, username)
+	adminList, err := queryBuilder.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
+	if err != nil {
+		return 0, err
+	}
+	if len(adminList) == 0 {
+		return 0, fmt.Errorf("找不到该用户")
+	}
+	umsAdmin := adminList[0] // 理论上username应该是唯一的
+
+	if !password.Encoder.Matches(oldPassword, umsAdmin.Password) {
+		return 0, fmt.Errorf("旧密码错误")
+	}
+
+	newPasswd, err := password.Encoder.Encode(newPassword)
+	if err != nil {
+		return 0, err
+	}
+	data := ums_admin.NewModel()
+	data.Password = newPasswd
+	queryBuilder = ums_admin.NewQueryBuilder()
+	queryBuilder = queryBuilder.WhereId(mysql.EqualPredicate, umsAdmin.Id)
+	cnt, err := queryBuilder.Update(mysql.DB().GetDbW().WithContext(ctx), data)
+	if err != nil {
+		return 0, err
+	}
+	s.cacheService.DelAdmin(ctx, umsAdmin.Id)
+	return cnt, nil
 }
 
 func (s *service) GetRoleList(ctx context.Context, adminId int64) ([]ums_role.UmsRole, error) {
