@@ -18,3 +18,17 @@ type UmsAdmin struct {
 type UmsAdminUri struct {
 	Id int64 `uri:"id" binding:"required"` // 用户ID
 }
+
+type UmsAdminIdUri struct {
+	AdminId int64 `uri:"adminId" binding:"required"`
+}
+
+type UmsRole struct {
+	Id          int64     `json:"id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	AdminCount  int32     `json:"adminCount"`
+	CreateTime  time.Time `json:"createTime"`
+	Status      int32     `json:"status"`
+	Sort        int32     `json:"sort"`
+}

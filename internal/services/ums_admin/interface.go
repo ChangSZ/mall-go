@@ -63,11 +63,6 @@ type Service interface {
 	UpdatePassword(ctx context.Context, username, oldPassword, newPassword string) (int64, error)
 
 	/**
-	* 获取缓存服务
-	 */
-	// UmsAdminCacheService getCacheService();
-
-	/**
 	 * 根据用户名获取后台管理员
 	 */
 	GetAdminByUsername(ctx context.Context, username string) (*ums_admin.UmsAdmin, error)
