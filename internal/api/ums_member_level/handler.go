@@ -1,9 +1,7 @@
 package ums_member_level
 
 import (
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/services/menu"
-	"github.com/ChangSZ/mall-go/pkg/hash"
+	"github.com/ChangSZ/mall-go/internal/services/ums_member_level"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,14 +18,12 @@ type Handler interface {
 }
 
 type handler struct {
-	hashids     hash.Hash
-	menuService menu.Service
+	umsMemberLevelService ums_member_level.Service
 }
 
 func New() Handler {
 	return &handler{
-		hashids:     hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
-		menuService: menu.New(),
+		umsMemberLevelService: ums_member_level.New(),
 	}
 }
 
