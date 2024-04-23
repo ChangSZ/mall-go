@@ -21,6 +21,8 @@ type logoutResponse struct{}
 // @Failure 400 {object} code.Failure
 // @Router /admin/logout [post]
 func (h *handler) Logout(ctx *gin.Context) {
+	_ = new(logoutRequest)
+	_ = new(logoutResponse)
 	// 实际上毛都没实现, mall就是这么写的
 	api.Success(ctx, nil)
 }

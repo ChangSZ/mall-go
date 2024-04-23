@@ -9,8 +9,8 @@ import (
 )
 
 type listRequest struct {
-	PageSize int `form:"pageSize" binding:"omitempty"`
-	PageNum  int `form:"pageNum" binding:"omitempty"`
+	PageSize int `form:"pageSize,default=5" binding:"omitempty"`
+	PageNum  int `form:"pageNum,default=1" binding:"omitempty"`
 }
 
 type listResponse struct {
@@ -45,12 +45,7 @@ func (h *handler) List(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	if req.PageSize == 0 {
-		req.PageSize = 5
-	}
-	if req.PageNum == 0 {
-		req.PageNum = 1
-	}
+
 	list, total, err := h.umsMenuService.List(ctx, uri.ParentId, req.PageSize, req.PageNum)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)

@@ -33,6 +33,16 @@ func (t *UmsAdminRoleRelationDao) GetResourceList(tx *gorm.DB,
 
 // 获取资源相关用户ID列表
 func (t *UmsAdminRoleRelationDao) GetAdminIdList(tx *gorm.DB,
-	resourceId int64) []int64 {
-	return nil
+	resourceId int64) ([]int64, error) {
+	res := make([]int64, 0)
+	sql := `
+SELECT
+DISTINCT ar.admin_id
+FROM
+ums_role_resource_relation rr
+	LEFT JOIN ums_admin_role_relation ar ON rr.role_id = ar.role_id
+WHERE rr.resource_id=?
+`
+	err := tx.Raw(sql, resourceId).Scan(&res).Error
+	return res, err
 }

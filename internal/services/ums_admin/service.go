@@ -22,10 +22,10 @@ var (
 	jwtTokenUtil = jwt.NewJwtTokenUtil(jwtConfig.Secret, jwtConfig.Expiration, jwtConfig.TokenHead)
 )
 
-type service struct{ cacheService *umsAdminCacheService }
+type service struct{ cacheService *UmsAdminCacheService }
 
 func New() Service {
-	return &service{&umsAdminCacheService{}}
+	return &service{NewCacheService()}
 }
 
 func (s *service) i() {}
@@ -221,11 +221,8 @@ func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
 	qb := ums_admin.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
 	cnt, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
-	if err != nil {
+	if err != nil || cnt == 0 {
 		return 0, err
-	}
-	if cnt == 0 {
-		return 0, nil
 	}
 	return cnt, qb.Delete(mysql.DB().GetDbW().WithContext(ctx))
 }

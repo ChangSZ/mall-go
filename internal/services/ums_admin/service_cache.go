@@ -7,9 +7,12 @@ import (
 	"time"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/dao"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
+	"github.com/ChangSZ/mall-go/pkg/log"
 )
 
 var (
@@ -19,36 +22,49 @@ var (
 	REDIS_EXPIRE            = time.Duration(configs.Get().Redis.Expire.Common) * time.Second
 )
 
-type umsAdminCacheService struct {
-	service *service
+type UmsAdminCacheService struct{}
+
+func NewCacheService() *UmsAdminCacheService {
+	return &UmsAdminCacheService{}
 }
 
-func (s *umsAdminCacheService) DelAdmin(ctx context.Context, adminId int64) {
-	admin, _ := s.service.GetItem(ctx, adminId)
+func (s *UmsAdminCacheService) DelAdmin(ctx context.Context, adminId int64) {
+	admin, _ := New().GetItem(ctx, adminId)
 	if admin != nil {
 		key := REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.Username
 		redis.Cache().Del(ctx, key)
 	}
 }
 
-func (s *umsAdminCacheService) DelResourceList(ctx context.Context, adminId int64) {
+func (s *UmsAdminCacheService) DelResourceList(ctx context.Context, adminId int64) {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
 	redis.Cache().Del(ctx, key)
 }
 
-func (s *umsAdminCacheService) DelResourceListByRole(ctx context.Context, roleId int64) {
+func (s *UmsAdminCacheService) DelResourceListByRole(ctx context.Context, roleId int64) {
 
 }
 
-func (s *umsAdminCacheService) DelResourceListByRoleIds(ctx context.Context, roleIds []int64) {
+func (s *UmsAdminCacheService) DelResourceListByRoleIds(ctx context.Context, roleIds []int64) {
 
 }
 
-func (s *umsAdminCacheService) DelResourceListByResource(ctx context.Context, resourceId int64) {
-
+func (s *UmsAdminCacheService) DelResourceListByResource(ctx context.Context, resourceId int64) {
+	adminIdList, err := new(dao.UmsAdminRoleRelationDao).GetAdminIdList(mysql.DB().GetDbW().WithContext(ctx), resourceId)
+	if err != nil {
+		log.WithTrace(ctx).Errorf("获取AdminIdList失败, resourceId: %v", resourceId)
+		return
+	}
+	if len(adminIdList) != 0 {
+		keyPrefix := REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":"
+		for _, v := range adminIdList {
+			key := fmt.Sprintf("%s%d", keyPrefix, v)
+			redis.Cache().Del(ctx, key)
+		}
+	}
 }
 
-func (s *umsAdminCacheService) GetAdmin(ctx context.Context, username string) *ums_admin.UmsAdmin {
+func (s *UmsAdminCacheService) GetAdmin(ctx context.Context, username string) *ums_admin.UmsAdmin {
 	key := REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + username
 	ret, err := redis.Cache().Get(ctx, key)
 	if err != nil {
@@ -61,13 +77,13 @@ func (s *umsAdminCacheService) GetAdmin(ctx context.Context, username string) *u
 	return data
 }
 
-func (s *umsAdminCacheService) SetAdmin(ctx context.Context, admin *ums_admin.UmsAdmin) {
+func (s *UmsAdminCacheService) SetAdmin(ctx context.Context, admin *ums_admin.UmsAdmin) {
 	key := REDIS_DATABASE + ":" + REDIS_KEY_ADMIN + ":" + admin.Username
 	adminBytes, _ := json.Marshal(admin)
 	redis.Cache().Set(ctx, key, string(adminBytes), REDIS_EXPIRE)
 }
 
-func (s *umsAdminCacheService) GetResourceList(ctx context.Context, adminId int64) []*ums_resource.UmsResource {
+func (s *UmsAdminCacheService) GetResourceList(ctx context.Context, adminId int64) []*ums_resource.UmsResource {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
 	ret, err := redis.Cache().Get(ctx, key)
 	if err != nil {
@@ -80,7 +96,7 @@ func (s *umsAdminCacheService) GetResourceList(ctx context.Context, adminId int6
 	return data
 }
 
-func (s *umsAdminCacheService) SetResourceList(ctx context.Context,
+func (s *UmsAdminCacheService) SetResourceList(ctx context.Context,
 	adminId int64, resourceList []*ums_resource.UmsResource) {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
 	resourceListBytes, _ := json.Marshal(resourceList)

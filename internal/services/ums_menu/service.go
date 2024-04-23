@@ -76,11 +76,8 @@ func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
 	qb := ums_menu.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
 	cnt, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
-	if err != nil {
+	if err != nil || cnt == 0 {
 		return 0, err
-	}
-	if cnt == 0 {
-		return 0, nil
 	}
 	return cnt, qb.Delete(mysql.DB().GetDbW().WithContext(ctx))
 }

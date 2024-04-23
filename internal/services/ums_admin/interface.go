@@ -83,15 +83,50 @@ type Service interface {
 	GetResourceList(ctx context.Context, adminId int64) ([]*ums_resource.UmsResource, error)
 }
 
-// UmsAdminCacheService interface for the cache service
-type UmsAdminCacheService interface {
+// 后台用户缓存管理Service
+type UmsAdminCacheServiceI interface {
+	/**
+	 * 删除后台用户缓存
+	 */
 	DelAdmin(ctx context.Context, adminId int64)
+
+	/**
+	 * 删除后台用户资源列表缓存
+	 */
 	DelResourceList(ctx context.Context, adminId int64)
+
+	/**
+	 * 当角色相关资源信息改变时删除相关后台用户缓存
+	 */
 	DelResourceListByRole(ctx context.Context, roleId int64)
+
+	/**
+	 * 当角色相关资源信息改变时删除相关后台用户缓存
+	 */
 	DelResourceListByRoleIds(ctx context.Context, roleIds []int64)
+
+	/**
+	 * 当资源信息改变时，删除资源项目后台用户缓存
+	 */
 	DelResourceListByResource(ctx context.Context, resourceId int64)
+
+	/**
+	 * 获取缓存后台用户信息
+	 */
 	GetAdmin(ctx context.Context, username string) *ums_admin.UmsAdmin
+
+	/**
+	 * 设置缓存后台用户信息
+	 */
 	SetAdmin(ctx context.Context, admin *ums_admin.UmsAdmin)
+
+	/**
+	 * 获取缓存后台用户资源列表
+	 */
 	GetResourceList(ctx context.Context, adminId int64) []ums_resource.UmsResource
+
+	/**
+	 * 设置缓存后台用户资源列表
+	 */
 	SetResourceList(ctx context.Context, adminId int64, resourceList []ums_resource.UmsResource)
 }
