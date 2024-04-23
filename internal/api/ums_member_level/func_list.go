@@ -22,8 +22,8 @@ type listResponse struct {
 // @Tags UmsMemberLevelController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
-// @Param Request body listRequest true "请求信息"
-// @Success 200 {object} code.Success{data=listResponse.List}
+// @Param Request formData listRequest true "请求信息"
+// @Success 200 {object} code.Success{data=[]UmsMemberLevel}
 // @Failure 400 {object} code.Failure
 // @Router /memberLevel/list [get]
 func (h *handler) List(ctx *gin.Context) {

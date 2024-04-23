@@ -16,7 +16,7 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) List(ctx context.Context, defaultStatus int32) ([]*ums_member_level.UmsMemberLevel, error) {
-	queryBuilder := ums_member_level.NewQueryBuilder()
-	queryBuilder = queryBuilder.WhereDefaultStatus(mysql.EqualPredicate, int32(defaultStatus))
-	return queryBuilder.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
+	qb := ums_member_level.NewQueryBuilder()
+	qb = qb.WhereDefaultStatus(mysql.EqualPredicate, int32(defaultStatus))
+	return qb.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 }

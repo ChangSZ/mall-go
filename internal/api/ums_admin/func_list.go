@@ -28,7 +28,7 @@ type listResponse struct {
 // @Tags UmsAdminController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
-// @Param Request body listRequest true "请求信息"
+// @Param Request formData listRequest true "请求信息"
 // @Success 200 {object} code.Success{data=listResponse}
 // @Failure 400 {object} code.Failure
 // @Router /admin/list [get]

@@ -11,7 +11,7 @@ import (
 type deleteRequest struct{}
 
 type deleteResponse struct {
-	Count int64
+	Count int64 `json:",inline"`
 }
 
 // Delete 删除指定用户信息
@@ -21,7 +21,7 @@ type deleteResponse struct {
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body deleteRequest true "请求信息"
-// @Success 200 {object} code.Success{data=deleteResponse.Count}
+// @Success 200 {object} code.Success{data=int64}
 // @Failure 400 {object} code.Failure
 // @Router /admin/delete/{id} [post]
 func (h *handler) Delete(ctx *gin.Context) {

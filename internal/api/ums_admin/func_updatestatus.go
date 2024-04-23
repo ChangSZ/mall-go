@@ -24,7 +24,7 @@ type updateStatusResponse struct {
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body updateStatusRequest true "请求信息"
-// @Success 200 {object} code.Success{data=updateStatusResponse.Count}
+// @Success 200 {object} code.Success{data=int64}
 // @Failure 400 {object} code.Failure
 // @Router /admin/updateStatus/{id} [post]
 func (h *handler) UpdateStatus(ctx *gin.Context) {

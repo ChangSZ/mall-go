@@ -63,7 +63,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_admin.deleteResponse"
+                                            "type": "integer"
                                         }
                                     }
                                 }
@@ -146,13 +146,20 @@ var doc = `{
                 "summary": "根据用户名或姓名分页获取用户列表",
                 "parameters": [
                     {
-                        "description": "请求信息",
-                        "name": "Request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ums_admin.listRequest"
-                        }
+                        "type": "string",
+                        "name": "keyword",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "pageNum",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "pageSize",
+                        "in": "formData"
                     }
                 ],
                 "responses": {
@@ -427,7 +434,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_admin.updateRoleResponse"
+                                            "type": "integer"
                                         }
                                     }
                                 }
@@ -479,7 +486,10 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_admin.getRoleResponse"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ums_admin.UmsRole"
+                                            }
                                         }
                                     }
                                 }
@@ -531,7 +541,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_admin.updateResponse"
+                                            "type": "integer"
                                         }
                                     }
                                 }
@@ -583,7 +593,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_admin.updatePasswordResponse"
+                                            "type": "integer"
                                         }
                                     }
                                 }
@@ -635,7 +645,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_admin.updateStatusResponse"
+                                            "type": "integer"
                                         }
                                     }
                                 }
@@ -3091,13 +3101,9 @@ var doc = `{
                 "summary": "查询所有会员等级",
                 "parameters": [
                     {
-                        "description": "请求信息",
-                        "name": "Request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ums_member_level.listRequest"
-                        }
+                        "type": "integer",
+                        "name": "defaultStatus",
+                        "in": "formData"
                     }
                 ],
                 "responses": {
@@ -3112,7 +3118,10 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_member_level.listResponse"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ums_member_level.UmsMemberLevel"
+                                            }
                                         }
                                     }
                                 }
@@ -3164,7 +3173,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_menu.createResponse"
+                                            "type": "integer"
                                         }
                                     }
                                 }
@@ -3216,7 +3225,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_menu.deleteResponse"
+                                            "type": "integer"
                                         }
                                     }
                                 }
@@ -3247,13 +3256,14 @@ var doc = `{
                 "summary": "分页查询后台菜单",
                 "parameters": [
                     {
-                        "description": "请求信息",
-                        "name": "Request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/ums_menu.listRequest"
-                        }
+                        "type": "integer",
+                        "name": "pageNum",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "pageSize",
+                        "in": "formData"
                     }
                 ],
                 "responses": {
@@ -3320,7 +3330,10 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_menu.treeListResponse"
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/ums_menu.UmsMenuNode"
+                                            }
                                         }
                                     }
                                 }
@@ -3372,7 +3385,7 @@ var doc = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/ums_menu.updateResponse"
+                                            "type": "integer"
                                         }
                                     }
                                 }
@@ -5167,6 +5180,78 @@ var doc = `{
                 }
             }
         },
+        "github.com_ChangSZ_mall-go_internal_api_ums_menu.UmsMenu": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "string"
+                },
+                "hidden": {
+                    "type": "integer"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_ChangSZ_mall-go_internal_repository_mysql_ums_menu.UmsMenu": {
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "hidden": {
+                    "description": "前端隐藏",
+                    "type": "integer"
+                },
+                "icon": {
+                    "description": "前端图标",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "level": {
+                    "description": "菜单级数",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "前端名称",
+                    "type": "string"
+                },
+                "parentId": {
+                    "description": "父级ID",
+                    "type": "integer"
+                },
+                "sort": {
+                    "description": "菜单排序",
+                    "type": "integer"
+                },
+                "title": {
+                    "description": "菜单名称",
+                    "type": "string"
+                }
+            }
+        },
         "helper.md5Response": {
             "type": "object",
             "properties": {
@@ -5541,23 +5626,37 @@ var doc = `{
                 }
             }
         },
-        "ums_admin.deleteRequest": {
-            "type": "object"
-        },
-        "ums_admin.deleteResponse": {
-            "type": "object"
-        },
-        "ums_admin.getRequest": {
+        "ums_admin.UmsRole": {
             "type": "object",
-            "required": [
-                "id"
-            ],
             "properties": {
+                "adminCount": {
+                    "type": "integer"
+                },
+                "createTime": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
                 "id": {
-                    "description": "用户ID",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "status": {
                     "type": "integer"
                 }
             }
+        },
+        "ums_admin.deleteRequest": {
+            "type": "object"
+        },
+        "ums_admin.getRequest": {
+            "type": "object"
         },
         "ums_admin.getResponse": {
             "type": "object",
@@ -5597,9 +5696,6 @@ var doc = `{
         "ums_admin.getRoleRequest": {
             "type": "object"
         },
-        "ums_admin.getRoleResponse": {
-            "type": "object"
-        },
         "ums_admin.infoRequest": {
             "type": "object"
         },
@@ -5612,7 +5708,7 @@ var doc = `{
                 "menus": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/ums_menu.UmsMenu"
+                        "$ref": "#/definitions/github.com_ChangSZ_mall-go_internal_repository_mysql_ums_menu.UmsMenu"
                     }
                 },
                 "roles": {
@@ -5623,23 +5719,6 @@ var doc = `{
                 },
                 "username": {
                     "type": "string"
-                }
-            }
-        },
-        "ums_admin.listRequest": {
-            "type": "object",
-            "required": [
-                "keyword"
-            ],
-            "properties": {
-                "keyword": {
-                    "type": "string"
-                },
-                "pageNum": {
-                    "type": "integer"
-                },
-                "pageSize": {
-                    "type": "integer"
                 }
             }
         },
@@ -5782,116 +5861,294 @@ var doc = `{
             }
         },
         "ums_admin.updatePasswordRequest": {
-            "type": "object"
-        },
-        "ums_admin.updatePasswordResponse": {
-            "type": "object"
+            "type": "object",
+            "required": [
+                "newPassword",
+                "oldPassword",
+                "username"
+            ],
+            "properties": {
+                "newPassword": {
+                    "type": "string"
+                },
+                "oldPassword": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
         },
         "ums_admin.updateRequest": {
-            "type": "object"
-        },
-        "ums_admin.updateResponse": {
-            "type": "object"
-        },
-        "ums_admin.updateRoleRequest": {
-            "type": "object"
-        },
-        "ums_admin.updateRoleResponse": {
-            "type": "object"
-        },
-        "ums_admin.updateStatusRequest": {
-            "type": "object"
-        },
-        "ums_admin.updateStatusResponse": {
-            "type": "object"
-        },
-        "ums_member_level.listRequest": {
-            "type": "object"
-        },
-        "ums_member_level.listResponse": {
-            "type": "object"
-        },
-        "ums_menu.UmsMenu": {
             "type": "object",
             "properties": {
                 "createTime": {
-                    "description": "创建时间",
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "loginTime": {
+                    "type": "string"
+                },
+                "nickName": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "ums_admin.updateRoleRequest": {
+            "type": "object",
+            "properties": {
+                "adminId": {
+                    "type": "integer"
+                },
+                "roleIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "ums_admin.updateStatusRequest": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ums_member_level.UmsMemberLevel": {
+            "type": "object",
+            "properties": {
+                "commentGrowthPoint": {
+                    "type": "integer"
+                },
+                "defaultStatus": {
+                    "type": "integer"
+                },
+                "freeFreightPoint": {
+                    "type": "number"
+                },
+                "growthPoint": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "priviledgeBirthday": {
+                    "type": "integer"
+                },
+                "priviledgeComment": {
+                    "type": "integer"
+                },
+                "priviledgeFreeFreight": {
+                    "type": "integer"
+                },
+                "priviledgeMemberPrice": {
+                    "type": "integer"
+                },
+                "priviledgePromotion": {
+                    "type": "integer"
+                },
+                "priviledgeSignIn": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ums_menu.UmsMenuNode": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ums_menu.UmsMenuNode"
+                    }
+                },
+                "createTime": {
                     "type": "string"
                 },
                 "hidden": {
-                    "description": "前端隐藏",
                     "type": "integer"
                 },
                 "icon": {
-                    "description": "前端图标",
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
                 "level": {
-                    "description": "菜单级数",
                     "type": "integer"
                 },
                 "name": {
-                    "description": "前端名称",
                     "type": "string"
                 },
                 "parentId": {
-                    "description": "父级ID",
                     "type": "integer"
                 },
                 "sort": {
-                    "description": "菜单排序",
                     "type": "integer"
                 },
                 "title": {
-                    "description": "菜单名称",
                     "type": "string"
                 }
             }
         },
         "ums_menu.createRequest": {
-            "type": "object"
-        },
-        "ums_menu.createResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "hidden": {
+                    "type": "integer"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
         },
         "ums_menu.deleteRequest": {
-            "type": "object"
-        },
-        "ums_menu.deleteResponse": {
             "type": "object"
         },
         "ums_menu.getRequest": {
             "type": "object"
         },
         "ums_menu.getResponse": {
-            "type": "object"
-        },
-        "ums_menu.listRequest": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "createTime": {
+                    "type": "string"
+                },
+                "hidden": {
+                    "type": "integer"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
         },
         "ums_menu.listResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github.com_ChangSZ_mall-go_internal_api_ums_menu.UmsMenu"
+                    }
+                },
+                "pageNum": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "totalPage": {
+                    "type": "integer"
+                }
+            }
         },
         "ums_menu.treeListRequest": {
             "type": "object"
         },
-        "ums_menu.treeListResponse": {
-            "type": "object"
-        },
         "ums_menu.updateHiddenRequest": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "hidden": {
+                    "type": "integer"
+                }
+            }
         },
         "ums_menu.updateHiddenResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                }
+            }
         },
         "ums_menu.updateRequest": {
-            "type": "object"
-        },
-        "ums_menu.updateResponse": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "hidden": {
+                    "type": "integer"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "level": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
         },
         "ums_resource.createRequest": {
             "type": "object"

@@ -55,9 +55,9 @@ func (s *service) Register(ctx context.Context, umsAdminParam *UmsAdminParam) (*
 	umsAdmin.Status = 1
 
 	// 查询是否有相同用户名的用户
-	queryBuilder := ums_admin.NewQueryBuilder()
-	queryBuilder.WhereUsername(mysql.EqualPredicate, umsAdmin.Username)
-	umsAdminList, err := queryBuilder.QueryAll(mysql.DB().GetDbR())
+	qb := ums_admin.NewQueryBuilder()
+	qb.WhereUsername(mysql.EqualPredicate, umsAdmin.Username)
+	umsAdminList, err := qb.QueryAll(mysql.DB().GetDbR())
 	if err != nil {
 		return nil, err
 	}
@@ -100,9 +100,9 @@ type UpdateAdminPasswordParam struct {
 }
 
 func (s *service) UpdatePassword(ctx context.Context, username, oldPassword, newPassword string) (int64, error) {
-	queryBuilder := ums_admin.NewQueryBuilder()
-	queryBuilder = queryBuilder.WhereUsername(mysql.EqualPredicate, username)
-	adminList, err := queryBuilder.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
+	qb := ums_admin.NewQueryBuilder()
+	qb = qb.WhereUsername(mysql.EqualPredicate, username)
+	adminList, err := qb.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return 0, err
 	}
@@ -121,9 +121,9 @@ func (s *service) UpdatePassword(ctx context.Context, username, oldPassword, new
 	}
 	data := ums_admin.NewModel()
 	data.Password = newPasswd
-	queryBuilder = ums_admin.NewQueryBuilder()
-	queryBuilder = queryBuilder.WhereId(mysql.EqualPredicate, umsAdmin.Id)
-	cnt, err := queryBuilder.Update(mysql.DB().GetDbW().WithContext(ctx), data)
+	qb = ums_admin.NewQueryBuilder()
+	qb = qb.WhereId(mysql.EqualPredicate, umsAdmin.Id)
+	cnt, err := qb.Update(mysql.DB().GetDbW().WithContext(ctx), data)
 	if err != nil {
 		return 0, err
 	}
@@ -148,9 +148,9 @@ func (s *service) GetResourceList(ctx context.Context, adminId int64) ([]*ums_re
 	}
 
 	// 缓存中没有从数据库中获取
-	queryBuilder := ums_role_resource_relation.NewQueryBuilder()
-	queryBuilder = queryBuilder.WhereRoleId(mysql.EqualPredicate, adminId)
-	roleResourceRelations, err := queryBuilder.QueryAll(mysql.DB().GetDbR())
+	qb := ums_role_resource_relation.NewQueryBuilder()
+	qb = qb.WhereRoleId(mysql.EqualPredicate, adminId)
+	roleResourceRelations, err := qb.QueryAll(mysql.DB().GetDbR())
 	if err != nil {
 		return nil, err
 	}
@@ -177,9 +177,9 @@ func (s *service) GetAdminByUsername(ctx context.Context, username string) (*ums
 	}
 
 	// 缓存中没有从数据库中获取
-	queryBuilder := ums_admin.NewQueryBuilder()
-	queryBuilder.WhereUsername(mysql.EqualPredicate, username)
-	admin, err := queryBuilder.First(mysql.DB().GetDbR())
+	qb := ums_admin.NewQueryBuilder()
+	qb.WhereUsername(mysql.EqualPredicate, username)
+	admin, err := qb.First(mysql.DB().GetDbR())
 	if err != nil {
 		return nil, err
 	}
@@ -206,28 +206,28 @@ func (s *service) LoadUserByUsername(ctx context.Context, username string) (*Adm
 }
 
 func (s *service) GetItem(ctx context.Context, id int64) (*ums_admin.UmsAdmin, error) {
-	queryBuilder := ums_admin.NewQueryBuilder()
-	queryBuilder = queryBuilder.WhereId(mysql.EqualPredicate, id)
-	return queryBuilder.First(mysql.DB().GetDbR())
+	qb := ums_admin.NewQueryBuilder()
+	qb = qb.WhereId(mysql.EqualPredicate, id)
+	return qb.First(mysql.DB().GetDbR())
 }
 
 func (s *service) Update(ctx context.Context, id int64, admin *ums_admin.UmsAdmin) (int64, error) {
-	queryBuilder := ums_admin.NewQueryBuilder()
-	queryBuilder = queryBuilder.WhereId(mysql.EqualPredicate, id)
-	return queryBuilder.Update(mysql.DB().GetDbW().WithContext(ctx), admin)
+	qb := ums_admin.NewQueryBuilder()
+	qb = qb.WhereId(mysql.EqualPredicate, id)
+	return qb.Update(mysql.DB().GetDbW().WithContext(ctx), admin)
 }
 
 func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
-	queryBuilder := ums_admin.NewQueryBuilder()
-	queryBuilder = queryBuilder.WhereId(mysql.EqualPredicate, id)
-	cnt, err := queryBuilder.Count(mysql.DB().GetDbR().WithContext(ctx))
+	qb := ums_admin.NewQueryBuilder()
+	qb = qb.WhereId(mysql.EqualPredicate, id)
+	cnt, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return 0, err
 	}
 	if cnt == 0 {
 		return 0, nil
 	}
-	return cnt, queryBuilder.Delete(mysql.DB().GetDbW().WithContext(ctx))
+	return cnt, qb.Delete(mysql.DB().GetDbW().WithContext(ctx))
 }
 
 func (s *service) UpdateRole(ctx context.Context, adminId int64, roleIds []int64) (int64, error) {
@@ -237,9 +237,9 @@ func (s *service) UpdateRole(ctx context.Context, adminId int64, roleIds []int64
 	var count = int64(len(roleIds))
 
 	// 先删除原来的关系
-	queryBuilder := ums_admin_role_relation.NewQueryBuilder()
-	queryBuilder = queryBuilder.WhereAdminId(mysql.EqualPredicate, adminId)
-	if err := queryBuilder.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
+	qb := ums_admin_role_relation.NewQueryBuilder()
+	qb = qb.WhereAdminId(mysql.EqualPredicate, adminId)
+	if err := qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
 		return 0, err
 	}
 

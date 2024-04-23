@@ -442,6 +442,56 @@ definitions:
         description: 主键ID
         type: integer
     type: object
+  github.com_ChangSZ_mall-go_internal_api_ums_menu.UmsMenu:
+    properties:
+      createTime:
+        type: string
+      hidden:
+        type: integer
+      icon:
+        type: string
+      id:
+        type: integer
+      level:
+        type: integer
+      name:
+        type: string
+      parentId:
+        type: integer
+      sort:
+        type: integer
+      title:
+        type: string
+    type: object
+  github.com_ChangSZ_mall-go_internal_repository_mysql_ums_menu.UmsMenu:
+    properties:
+      createTime:
+        description: 创建时间
+        type: string
+      hidden:
+        description: 前端隐藏
+        type: integer
+      icon:
+        description: 前端图标
+        type: string
+      id:
+        type: integer
+      level:
+        description: 菜单级数
+        type: integer
+      name:
+        description: 前端名称
+        type: string
+      parentId:
+        description: 父级ID
+        type: integer
+      sort:
+        description: 菜单排序
+        type: integer
+      title:
+        description: 菜单名称
+        type: string
+    type: object
   helper.md5Response:
     properties:
       md5_str:
@@ -699,17 +749,26 @@ definitions:
       username:
         type: string
     type: object
+  ums_admin.UmsRole:
+    properties:
+      adminCount:
+        type: integer
+      createTime:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      sort:
+        type: integer
+      status:
+        type: integer
+    type: object
   ums_admin.deleteRequest:
     type: object
-  ums_admin.deleteResponse:
-    type: object
   ums_admin.getRequest:
-    properties:
-      id:
-        description: 用户ID
-        type: integer
-    required:
-    - id
     type: object
   ums_admin.getResponse:
     properties:
@@ -736,8 +795,6 @@ definitions:
     type: object
   ums_admin.getRoleRequest:
     type: object
-  ums_admin.getRoleResponse:
-    type: object
   ums_admin.infoRequest:
     type: object
   ums_admin.infoResponse:
@@ -746,7 +803,7 @@ definitions:
         type: string
       menus:
         items:
-          $ref: '#/definitions/ums_menu.UmsMenu'
+          $ref: '#/definitions/github.com_ChangSZ_mall-go_internal_repository_mysql_ums_menu.UmsMenu'
         type: array
       roles:
         items:
@@ -754,17 +811,6 @@ definitions:
         type: array
       username:
         type: string
-    type: object
-  ums_admin.listRequest:
-    properties:
-      keyword:
-        type: string
-      pageNum:
-        type: integer
-      pageSize:
-        type: integer
-    required:
-    - keyword
     type: object
   ums_admin.listResponse:
     properties:
@@ -860,81 +906,194 @@ definitions:
         type: string
     type: object
   ums_admin.updatePasswordRequest:
-    type: object
-  ums_admin.updatePasswordResponse:
+    properties:
+      newPassword:
+        type: string
+      oldPassword:
+        type: string
+      username:
+        type: string
+    required:
+    - newPassword
+    - oldPassword
+    - username
     type: object
   ums_admin.updateRequest:
-    type: object
-  ums_admin.updateResponse:
-    type: object
-  ums_admin.updateRoleRequest:
-    type: object
-  ums_admin.updateRoleResponse:
-    type: object
-  ums_admin.updateStatusRequest:
-    type: object
-  ums_admin.updateStatusResponse:
-    type: object
-  ums_member_level.listRequest:
-    type: object
-  ums_member_level.listResponse:
-    type: object
-  ums_menu.UmsMenu:
     properties:
       createTime:
-        description: 创建时间
+        type: string
+      email:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      loginTime:
+        type: string
+      nickName:
+        type: string
+      note:
+        type: string
+      password:
+        type: string
+      status:
+        type: integer
+      username:
+        type: string
+    type: object
+  ums_admin.updateRoleRequest:
+    properties:
+      adminId:
+        type: integer
+      roleIds:
+        items:
+          type: integer
+        type: array
+    type: object
+  ums_admin.updateStatusRequest:
+    properties:
+      status:
+        type: integer
+    type: object
+  ums_member_level.UmsMemberLevel:
+    properties:
+      commentGrowthPoint:
+        type: integer
+      defaultStatus:
+        type: integer
+      freeFreightPoint:
+        type: number
+      growthPoint:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      priviledgeBirthday:
+        type: integer
+      priviledgeComment:
+        type: integer
+      priviledgeFreeFreight:
+        type: integer
+      priviledgeMemberPrice:
+        type: integer
+      priviledgePromotion:
+        type: integer
+      priviledgeSignIn:
+        type: integer
+    type: object
+  ums_menu.UmsMenuNode:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/ums_menu.UmsMenuNode'
+        type: array
+      createTime:
         type: string
       hidden:
-        description: 前端隐藏
         type: integer
       icon:
-        description: 前端图标
         type: string
       id:
         type: integer
       level:
-        description: 菜单级数
         type: integer
       name:
-        description: 前端名称
         type: string
       parentId:
-        description: 父级ID
         type: integer
       sort:
-        description: 菜单排序
         type: integer
       title:
-        description: 菜单名称
         type: string
     type: object
   ums_menu.createRequest:
-    type: object
-  ums_menu.createResponse:
+    properties:
+      hidden:
+        type: integer
+      icon:
+        type: string
+      level:
+        type: integer
+      name:
+        type: string
+      parentId:
+        type: integer
+      sort:
+        type: integer
+      title:
+        type: string
     type: object
   ums_menu.deleteRequest:
-    type: object
-  ums_menu.deleteResponse:
     type: object
   ums_menu.getRequest:
     type: object
   ums_menu.getResponse:
-    type: object
-  ums_menu.listRequest:
+    properties:
+      createTime:
+        type: string
+      hidden:
+        type: integer
+      icon:
+        type: string
+      id:
+        type: integer
+      level:
+        type: integer
+      name:
+        type: string
+      parentId:
+        type: integer
+      sort:
+        type: integer
+      title:
+        type: string
     type: object
   ums_menu.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/github.com_ChangSZ_mall-go_internal_api_ums_menu.UmsMenu'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
     type: object
   ums_menu.treeListRequest:
     type: object
-  ums_menu.treeListResponse:
-    type: object
   ums_menu.updateHiddenRequest:
+    properties:
+      hidden:
+        type: integer
     type: object
   ums_menu.updateHiddenResponse:
+    properties:
+      count:
+        type: integer
     type: object
   ums_menu.updateRequest:
-    type: object
-  ums_menu.updateResponse:
+    properties:
+      hidden:
+        type: integer
+      icon:
+        type: string
+      level:
+        type: integer
+      name:
+        type: string
+      parentId:
+        type: integer
+      sort:
+        type: integer
+      title:
+        type: string
     type: object
   ums_resource.createRequest:
     type: object
@@ -1077,7 +1236,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_admin.deleteResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -1123,12 +1282,16 @@ paths:
       - application/x-www-form-urlencoded
       description: 根据用户名或姓名分页获取用户列表
       parameters:
-      - description: 请求信息
-        in: body
-        name: Request
+      - in: formData
+        name: keyword
         required: true
-        schema:
-          $ref: '#/definitions/ums_admin.listRequest'
+        type: string
+      - in: formData
+        name: pageNum
+        type: integer
+      - in: formData
+        name: pageSize
+        type: integer
       produces:
       - application/json
       responses:
@@ -1294,7 +1457,9 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_admin.getRoleResponse'
+                  items:
+                    $ref: '#/definitions/ums_admin.UmsRole'
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -1325,7 +1490,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_admin.updateRoleResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -1356,7 +1521,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_admin.updateResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -1387,7 +1552,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_admin.updatePasswordResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -1418,7 +1583,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_admin.updateStatusResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -2961,12 +3126,9 @@ paths:
       - application/x-www-form-urlencoded
       description: 查询所有会员等级
       parameters:
-      - description: 请求信息
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/ums_member_level.listRequest'
+      - in: formData
+        name: defaultStatus
+        type: integer
       produces:
       - application/json
       responses:
@@ -2977,7 +3139,9 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_member_level.listResponse'
+                  items:
+                    $ref: '#/definitions/ums_member_level.UmsMemberLevel'
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -3039,7 +3203,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_menu.createResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3070,7 +3234,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_menu.deleteResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3085,12 +3249,12 @@ paths:
       - application/x-www-form-urlencoded
       description: 分页查询后台菜单
       parameters:
-      - description: 请求信息
-        in: body
-        name: Request
-        required: true
-        schema:
-          $ref: '#/definitions/ums_menu.listRequest'
+      - in: formData
+        name: pageNum
+        type: integer
+      - in: formData
+        name: pageSize
+        type: integer
       produces:
       - application/json
       responses:
@@ -3132,7 +3296,9 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_menu.treeListResponse'
+                  items:
+                    $ref: '#/definitions/ums_menu.UmsMenuNode'
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -3163,7 +3329,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_menu.updateResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
