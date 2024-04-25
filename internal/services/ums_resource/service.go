@@ -10,7 +10,7 @@ import (
 )
 
 type service struct {
-	cacheService *ums_admin.UmsAdminCacheService
+	adminCacheService *ums_admin.UmsAdminCacheService
 }
 
 func New() Service {
@@ -31,7 +31,7 @@ func (s *service) Update(ctx context.Context, id int64, umsResource *ums_resourc
 	if err != nil {
 		return 0, err
 	}
-	s.cacheService.DelResourceListByResource(ctx, id)
+	s.adminCacheService.DelResourceListByResource(ctx, id)
 	return cnt, nil
 }
 
@@ -52,7 +52,7 @@ func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
-	s.cacheService.DelResourceListByResource(ctx, id)
+	s.adminCacheService.DelResourceListByResource(ctx, id)
 	return cnt, nil
 }
 

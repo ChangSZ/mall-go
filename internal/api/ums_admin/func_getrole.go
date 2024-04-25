@@ -40,9 +40,9 @@ func (h *handler) GetRole(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.List = make([]UmsRole, 0, len(roleList))
+	listData := make([]UmsRole, 0, len(roleList))
 	for _, v := range roleList {
-		res.List = append(res.List, UmsRole{
+		listData = append(listData, UmsRole{
 			Id:          v.Id,
 			Name:        v.Name,
 			Description: v.Description,
@@ -52,6 +52,6 @@ func (h *handler) GetRole(ctx *gin.Context) {
 			Sort:        v.Sort,
 		})
 	}
-
+	res.List = listData
 	api.Success(ctx, res.List)
 }

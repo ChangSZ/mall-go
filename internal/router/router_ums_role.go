@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api/ums_role"
+	"github.com/ChangSZ/mall-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,7 +10,7 @@ import (
 // 后台用户角色管理
 func setUmsRoleRouter(eng *gin.Engine) {
 	roleHandler := ums_role.New()
-	roles := eng.Group("/role")
+	roles := eng.Group("/role", middleware.CheckToken())
 	{
 		roles.POST("/create", roleHandler.Create)                    // 添加角色
 		roles.POST("/update/:id", roleHandler.Update)                // 修改角色

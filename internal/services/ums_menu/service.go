@@ -18,16 +18,8 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) Create(ctx context.Context, umsMenu *ums_menu.UmsMenu) (int64, error) {
-	data := ums_menu.NewModel()
-	data.ParentId = umsMenu.ParentId
-	data.Title = umsMenu.Title
-	data.Level = umsMenu.Level
-	data.Sort = umsMenu.Sort
-	data.Name = umsMenu.Name
-	data.Icon = umsMenu.Icon
-	data.Hidden = umsMenu.Hidden
-	s.updateLevel(ctx, data)
-	return data.Create(mysql.DB().GetDbW().WithContext(ctx))
+	s.updateLevel(ctx, umsMenu)
+	return umsMenu.Create(mysql.DB().GetDbW().WithContext(ctx))
 }
 
 func (s *service) updateLevel(ctx context.Context, umsMenu *ums_menu.UmsMenu) {
@@ -49,21 +41,12 @@ func (s *service) updateLevel(ctx context.Context, umsMenu *ums_menu.UmsMenu) {
 }
 
 func (s *service) Update(ctx context.Context, id int64, umsMenu *ums_menu.UmsMenu) (int64, error) {
-	data := ums_menu.NewModel()
-	data.Id = id
-	data.ParentId = umsMenu.ParentId
-	data.Title = umsMenu.Title
-	data.Level = umsMenu.Level
-	data.Sort = umsMenu.Sort
-	data.Name = umsMenu.Name
-	data.Icon = umsMenu.Icon
-	data.Hidden = umsMenu.Hidden
-
-	s.updateLevel(ctx, data)
+	umsMenu.Id = id
+	s.updateLevel(ctx, umsMenu)
 
 	qb := ums_menu.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	return qb.Update(mysql.DB().GetDbW().WithContext(ctx), data)
+	return qb.Update(mysql.DB().GetDbW().WithContext(ctx), umsMenu)
 }
 
 func (s *service) GetItem(ctx context.Context, id int64) (*ums_menu.UmsMenu, error) {

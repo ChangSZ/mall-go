@@ -1,6 +1,8 @@
 package router
 
 import (
+	"net/http"
+
 	"github.com/ChangSZ/mall-go/internal/render/admin"
 	"github.com/ChangSZ/mall-go/internal/render/authorized"
 	"github.com/ChangSZ/mall-go/internal/render/config"
@@ -28,6 +30,9 @@ func setRenderRouter(eng *gin.Engine) {
 	renderUpgrade := upgrade.New()
 	renderCron := cron.New()
 
+	eng.GET("/", func(c *gin.Context) {
+		c.Redirect(http.StatusTemporaryRedirect, "/render")
+	})
 	// 无需 RBAC 权限验证
 	render := eng.Group("/render")
 	{

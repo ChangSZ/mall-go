@@ -10,6 +10,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_role_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/pkg/log"
@@ -42,17 +43,30 @@ func (s *UmsAdminCacheService) DelResourceList(ctx context.Context, adminId int6
 }
 
 func (s *UmsAdminCacheService) DelResourceListByRole(ctx context.Context, roleId int64) {
-
+	s.DelResourceListByRoleIds(ctx, []int64{roleId})
 }
 
 func (s *UmsAdminCacheService) DelResourceListByRoleIds(ctx context.Context, roleIds []int64) {
-
+	qb := ums_admin_role_relation.NewQueryBuilder()
+	qb = qb.WhereRoleIdIn(roleIds)
+	relationList, err := qb.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
+	if err != nil {
+		log.WithTrace(ctx).Errorf("获取UmsAdminRoleRelationList失败, roleIds: %v, err: %v", roleIds, err)
+		return
+	}
+	if len(relationList) != 0 {
+		keyPrefix := REDIS_DATABASE + ":" + REDIS_KEY_RESOURCE_LIST + ":"
+		for _, v := range relationList {
+			key := fmt.Sprintf("%s%d", keyPrefix, v.AdminId)
+			redis.Cache().Del(ctx, key)
+		}
+	}
 }
 
 func (s *UmsAdminCacheService) DelResourceListByResource(ctx context.Context, resourceId int64) {
 	adminIdList, err := new(dao.UmsAdminRoleRelationDao).GetAdminIdList(mysql.DB().GetDbW().WithContext(ctx), resourceId)
 	if err != nil {
-		log.WithTrace(ctx).Errorf("获取AdminIdList失败, resourceId: %v", resourceId)
+		log.WithTrace(ctx).Errorf("获取AdminIdList失败, resourceId: %v, err: %v", resourceId, err)
 		return
 	}
 	if len(adminIdList) != 0 {

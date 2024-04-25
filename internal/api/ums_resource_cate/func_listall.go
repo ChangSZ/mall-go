@@ -32,14 +32,15 @@ func (h *handler) ListAll(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.List = make([]UmsResourceCate, 0, len(list))
+	listData := make([]UmsResourceCate, 0, len(list))
 	for _, v := range list {
-		res.List = append(res.List, UmsResourceCate{
+		listData = append(listData, UmsResourceCate{
 			Id:         v.Id,
 			CreateTime: v.CreateTime,
 			Name:       v.Name,
 			Sort:       v.Sort,
 		})
 	}
+	res.List = listData
 	api.Success(ctx, res.List)
 }

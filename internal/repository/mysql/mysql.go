@@ -38,8 +38,8 @@ type Repo interface {
 }
 
 type dbRepo struct {
-	DbR *gorm.DB
-	DbW *gorm.DB
+	dbR *gorm.DB
+	dbW *gorm.DB
 }
 
 var db *dbRepo
@@ -55,7 +55,7 @@ func Init() {
 	if err != nil {
 		panic(fmt.Sprintf("mysql写库连接失败: %v", err))
 	}
-	db = &dbRepo{DbR: dbr, DbW: dbw}
+	db = &dbRepo{dbR: dbr, dbW: dbw}
 }
 
 func DB() *dbRepo {
@@ -65,15 +65,15 @@ func DB() *dbRepo {
 func (d *dbRepo) i() {}
 
 func (d *dbRepo) GetDbR() *gorm.DB {
-	return d.DbR
+	return d.dbR
 }
 
 func (d *dbRepo) GetDbW() *gorm.DB {
-	return d.DbW
+	return d.dbW
 }
 
 func (d *dbRepo) DbRClose() error {
-	sqlDB, err := d.DbR.DB()
+	sqlDB, err := d.dbR.DB()
 	if err != nil {
 		return err
 	}
@@ -81,7 +81,7 @@ func (d *dbRepo) DbRClose() error {
 }
 
 func (d *dbRepo) DbWClose() error {
-	sqlDB, err := d.DbW.DB()
+	sqlDB, err := d.dbW.DB()
 	if err != nil {
 		return err
 	}

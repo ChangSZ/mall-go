@@ -1,9 +1,7 @@
 package ums_role
 
 import (
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/services/menu"
-	"github.com/ChangSZ/mall-go/pkg/hash"
+	"github.com/ChangSZ/mall-go/internal/services/ums_role"
 
 	"github.com/gin-gonic/gin"
 )
@@ -65,14 +63,12 @@ type Handler interface {
 }
 
 type handler struct {
-	hashids     hash.Hash
-	menuService menu.Service
+	umsRoleService ums_role.Service
 }
 
 func New() Handler {
 	return &handler{
-		hashids:     hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
-		menuService: menu.New(),
+		umsRoleService: ums_role.New(),
 	}
 }
 

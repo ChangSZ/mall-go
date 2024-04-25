@@ -40,9 +40,9 @@ func (h *handler) List(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.List = make([]UmsMemberLevel, 0, len(list))
+	listData := make([]UmsMemberLevel, 0, len(list))
 	for _, v := range list {
-		res.List = append(res.List, UmsMemberLevel{
+		listData = append(listData, UmsMemberLevel{
 			Id:                    v.Id,
 			Name:                  v.Name,
 			GrowthPoint:           v.GrowthPoint,
@@ -58,5 +58,6 @@ func (h *handler) List(ctx *gin.Context) {
 			Note:                  v.Note,
 		})
 	}
+	res.List = listData
 	api.Success(ctx, res.List)
 }
