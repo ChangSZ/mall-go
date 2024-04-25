@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api/ums_menu"
+	"github.com/ChangSZ/mall-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,7 +10,7 @@ import (
 // 后台菜单管理
 func setUmsMenuRouter(eng *gin.Engine) {
 	menuHandler := ums_menu.New()
-	menus := eng.Group("/menu")
+	menus := eng.Group("/menu", middleware.CheckToken())
 	{
 		menus.POST("/create", menuHandler.Create)                 // 添加后台菜单
 		menus.POST("/update/:id", menuHandler.Update)             // 修改后台菜单

@@ -1,9 +1,7 @@
 package ums_resource_cate
 
 import (
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/services/menu"
-	"github.com/ChangSZ/mall-go/pkg/hash"
+	"github.com/ChangSZ/mall-go/internal/services/ums_resource_cate"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,14 +33,12 @@ type Handler interface {
 }
 
 type handler struct {
-	hashids     hash.Hash
-	menuService menu.Service
+	umsResourceCateService ums_resource_cate.Service
 }
 
 func New() Handler {
 	return &handler{
-		hashids:     hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
-		menuService: menu.New(),
+		umsResourceCateService: ums_resource_cate.New(),
 	}
 }
 

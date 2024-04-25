@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api/ums_resource"
+	"github.com/ChangSZ/mall-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,7 +10,7 @@ import (
 // 后台资源管理
 func setUmsResourceRouter(eng *gin.Engine) {
 	resourceHandler := ums_resource.New()
-	resources := eng.Group("/resource")
+	resources := eng.Group("/resource", middleware.CheckToken())
 	{
 		resources.POST("/create", resourceHandler.Create)     // 添加后台资源
 		resources.POST("/update/:id", resourceHandler.Update) // 修改后台资源

@@ -46,8 +46,6 @@ func RoutersInit(cronServer cron.Server) *gin.Engine {
 		kgin.Middlewares(tracing.Server(), middleware.Logging(log.GetLoggerWithTrace()), middleware.AddTraceCtx),
 	)
 
-	gin.SetMode(gin.ReleaseMode)
-
 	fmt.Println(color.Blue(_UI))
 
 	eng.StaticFS("assets", http.FS(assets.Bootstrap))

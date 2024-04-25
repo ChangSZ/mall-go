@@ -16,5 +16,3 @@ type Service interface {
 	 */
 	GetMenuList(ctx context.Context, adminId int64) ([]ums_menu.UmsMenu, error)
 }
-
-// UmsAdminCacheService interface for the cache service
