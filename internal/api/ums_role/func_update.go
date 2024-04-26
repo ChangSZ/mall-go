@@ -2,7 +2,7 @@ package ums_role
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -10,7 +10,7 @@ import (
 )
 
 type updateRequest struct {
-	UmsRoleParam `json:",inline"`
+	dto.UmsRoleParam `json:",inline"`
 }
 
 type updateResponse struct {
@@ -30,7 +30,7 @@ type updateResponse struct {
 func (h *handler) Update(ctx *gin.Context) {
 	req := new(updateRequest)
 	res := new(updateResponse)
-	uri := new(UmsRoleUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -43,14 +43,7 @@ func (h *handler) Update(ctx *gin.Context) {
 		return
 	}
 
-	data := &ums_role.UmsRole{
-		Name:        req.Name,
-		Description: req.Description,
-		AdminCount:  req.AdminCount,
-		Status:      req.Status,
-		Sort:        req.Sort,
-	}
-	cnt, err := h.umsRoleService.Update(ctx, uri.Id, data)
+	cnt, err := h.umsRoleService.Update(ctx, uri.Id, req.UmsRoleParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

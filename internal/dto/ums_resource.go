@@ -1,4 +1,4 @@
-package ums_resource
+package dto
 
 import "time"
 
@@ -16,8 +16,4 @@ type UmsResource struct {
 	Url         string    `json:"url"`
 	Description string    `json:"description"`
 	CategoryId  int64     `json:"categoryId"`
-}
-
-type UmsResourceUri struct {
-	Id int64 `uri:"id" binding:"required"`
 }

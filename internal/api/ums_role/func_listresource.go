@@ -2,7 +2,7 @@ package ums_role
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/api/ums_resource"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -12,7 +12,7 @@ import (
 type listResourceRequest struct{}
 
 type listResourceResponse struct {
-	List []ums_resource.UmsResource
+	List []dto.UmsResource
 }
 
 // ListResource 获取角色相关资源
@@ -28,7 +28,7 @@ type listResourceResponse struct {
 func (h *handler) ListResource(ctx *gin.Context) {
 	_ = new(listResourceRequest)
 	res := new(listResourceResponse)
-	uri := new(UmsRoleIdUri)
+	uri := new(dto.UmsRoleIdUri)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -41,17 +41,6 @@ func (h *handler) ListResource(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	listData := make([]ums_resource.UmsResource, 0, len(list))
-	for _, v := range list {
-		listData = append(listData, ums_resource.UmsResource{
-			Id:          v.Id,
-			CreateTime:  v.CreateTime,
-			Name:        v.Name,
-			Url:         v.Url,
-			Description: v.Description,
-			CategoryId:  v.CategoryId,
-		})
-	}
-	res.List = listData
+	res.List = list
 	api.Success(ctx, res.List)
 }

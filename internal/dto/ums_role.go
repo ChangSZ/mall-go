@@ -1,4 +1,4 @@
-package ums_role
+package dto
 
 import "time"
 
@@ -18,10 +18,6 @@ type UmsRole struct {
 	CreateTime  time.Time `json:"createTime"`
 	Status      int32     `json:"status"`
 	Sort        int32     `json:"sort"`
-}
-
-type UmsRoleUri struct {
-	Id int64 `uri:"id" binding:"required"`
 }
 
 type UmsRoleIdUri struct {

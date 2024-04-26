@@ -54,43 +54,32 @@ func (qb *pmsBrandQueryBuilder) buildQuery(db *gorm.DB) *gorm.DB {
 	return ret
 }
 
-func (qb *pmsBrandQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (err error) {
+func (qb *pmsBrandQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (int64, error) {
 	db = db.Model(&PmsBrand{})
 
 	for _, where := range qb.where {
 		db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Updates(m).Error; err != nil {
-		return errors.Wrap(err, "updates err")
-	}
-	return nil
-}
-
-func (qb *pmsBrandQueryBuilder) Update(db *gorm.DB, data *PmsBrand) (cnt int64, err error) {
-	db = db.Model(&PmsBrand{})
-
-	for _, where := range qb.where {
-		db.Where(where.prefix, where.value)
-	}
-
-	ret := db.Updates(data)
-	err = ret.Error
+	ret := db.Updates(m)
+	err := ret.Error
 	if err != nil {
-		return 0, errors.Wrap(err, "update err")
+		return 0, errors.Wrap(err, "updates err")
 	}
 	return ret.RowsAffected, nil
 }
 
-func (qb *pmsBrandQueryBuilder) Delete(db *gorm.DB) (err error) {
+func (qb *pmsBrandQueryBuilder) Delete(db *gorm.DB) (int64, error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Delete(&PmsBrand{}).Error; err != nil {
-		return errors.Wrap(err, "delete err")
+	ret := db.Delete(&PmsBrand{})
+	err := ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "delete err")
 	}
-	return nil
+	return ret.RowsAffected, nil
 }
 
 func (qb *pmsBrandQueryBuilder) Count(db *gorm.DB) (int64, error) {

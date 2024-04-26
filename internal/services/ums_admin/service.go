@@ -7,11 +7,11 @@ import (
 
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/dao"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_role_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_resource_relation"
 	"github.com/ChangSZ/mall-go/pkg/jwt"
 	"github.com/ChangSZ/mall-go/pkg/password"
@@ -30,27 +30,18 @@ func New() Service {
 
 func (s *service) i() {}
 
-type UmsAdminParam struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
-	Icon     string `json:"icon"`
-	Email    string `json:"email" binding:"email"`
-	NickName string `json:"nickName"`
-	Note     string `json:"note"`
-}
-
-func (s *service) Register(ctx context.Context, umsAdminParam *UmsAdminParam) (*ums_admin.UmsAdmin, error) {
+func (s *service) Register(ctx context.Context, param dto.UmsAdminParam) (*dto.UmsAdmin, error) {
 	umsAdmin := ums_admin.NewModel()
-	umsAdmin.Username = umsAdminParam.Username
-	encodePassword, err := password.Encoder.Encode(umsAdminParam.Password)
+	umsAdmin.Username = param.Username
+	encodePassword, err := password.Encoder.Encode(param.Password)
 	if err != nil {
 		return nil, fmt.Errorf("failed to encode password: %v", err)
 	}
 	umsAdmin.Password = encodePassword
-	umsAdmin.Icon = umsAdminParam.Icon
-	umsAdmin.Email = umsAdminParam.Email
-	umsAdmin.NickName = umsAdminParam.NickName
-	umsAdmin.Note = umsAdminParam.Note
+	umsAdmin.Icon = param.Icon
+	umsAdmin.Email = param.Email
+	umsAdmin.NickName = param.NickName
+	umsAdmin.Note = param.Note
 	umsAdmin.LoginTime = time.Now()
 	umsAdmin.Status = 1
 
@@ -66,7 +57,18 @@ func (s *service) Register(ctx context.Context, umsAdminParam *UmsAdminParam) (*
 	}
 
 	_, err = umsAdmin.Create(mysql.DB().GetDbW().WithContext(ctx))
-	return umsAdmin, err
+	return &dto.UmsAdmin{
+		ID:         umsAdmin.Id,
+		Username:   umsAdmin.Username,
+		Password:   umsAdmin.Password,
+		Icon:       umsAdmin.Icon,
+		Email:      umsAdmin.Email,
+		NickName:   umsAdmin.NickName,
+		Note:       umsAdmin.Note,
+		CreateTime: umsAdmin.CreateTime,
+		LoginTime:  umsAdmin.LoginTime,
+		Status:     umsAdmin.Status,
+	}, err
 }
 
 func (s *service) Login(ctx context.Context, username, passwd string) (string, error) {
@@ -93,12 +95,6 @@ func (s *service) RefreshToken(ctx context.Context, oldToken string) (string, er
 	return jwtTokenUtil.RefreshHeadToken(oldToken, 1800) // 30 minutes
 }
 
-type UpdateAdminPasswordParam struct {
-	Username    string `json:"username" binding:"required"`
-	OldPassword string `json:"oldPassword" binding:"required"`
-	NewPassword string `json:"newPassword" binding:"required"`
-}
-
 func (s *service) UpdatePassword(ctx context.Context, username, oldPassword, newPassword string) (int64, error) {
 	qb := ums_admin.NewQueryBuilder()
 	qb = qb.WhereUsername(mysql.EqualPredicate, username)
@@ -119,11 +115,10 @@ func (s *service) UpdatePassword(ctx context.Context, username, oldPassword, new
 	if err != nil {
 		return 0, err
 	}
-	data := ums_admin.NewModel()
-	data.Password = newPasswd
+	data := map[string]interface{}{"password": newPasswd}
 	qb = ums_admin.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, umsAdmin.Id)
-	cnt, err := qb.Update(mysql.DB().GetDbW().WithContext(ctx), data)
+	cnt, err := qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
 	if err != nil {
 		return 0, err
 	}
@@ -131,13 +126,48 @@ func (s *service) UpdatePassword(ctx context.Context, username, oldPassword, new
 	return cnt, nil
 }
 
-func (s *service) GetRoleList(ctx context.Context, adminId int64) ([]ums_role.UmsRole, error) {
+func (s *service) GetRoleList(ctx context.Context, adminId int64) ([]dto.UmsRole, error) {
 	roleRelationDao := new(dao.UmsAdminRoleRelationDao)
-	return roleRelationDao.GetRoleList(mysql.DB().GetDbR(), adminId)
+	roleList, err := roleRelationDao.GetRoleList(mysql.DB().GetDbR(), adminId)
+	if err != nil {
+		return nil, err
+	}
+	listData := make([]dto.UmsRole, 0, len(roleList))
+	for _, v := range roleList {
+		listData = append(listData, dto.UmsRole{
+			Id:          v.Id,
+			Name:        v.Name,
+			Description: v.Description,
+			AdminCount:  v.AdminCount,
+			CreateTime:  v.CreateTime,
+			Status:      v.Status,
+			Sort:        v.Sort,
+		})
+	}
+	return listData, nil
 }
 
-func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum int) ([]ums_admin.UmsAdmin, int64, error) {
-	return new(dao.UmsAdminDao).AdminPageList(ctx, mysql.DB().GetDbR(), keyword, pageSize, pageNum)
+func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum int) ([]dto.UmsAdmin, int64, error) {
+	list, total, err := new(dao.UmsAdminDao).AdminPageList(ctx, mysql.DB().GetDbR(), keyword, pageSize, pageNum)
+	if err != nil {
+		return nil, 0, err
+	}
+	listData := make([]dto.UmsAdmin, 0, len(list))
+	for _, v := range list {
+		listData = append(listData, dto.UmsAdmin{
+			ID:         v.Id,
+			Username:   v.Username,
+			Password:   v.Password,
+			Icon:       v.Icon,
+			Email:      v.Email,
+			NickName:   v.NickName,
+			Note:       v.Note,
+			CreateTime: v.CreateTime,
+			LoginTime:  v.LoginTime,
+			Status:     v.Status,
+		})
+	}
+	return listData, total, nil
 }
 
 func (s *service) GetResourceList(ctx context.Context, adminId int64) ([]*ums_resource.UmsResource, error) {
@@ -205,26 +235,55 @@ func (s *service) LoadUserByUsername(ctx context.Context, username string) (*Adm
 	return nil, fmt.Errorf("用户名或密码错误")
 }
 
-func (s *service) GetItem(ctx context.Context, id int64) (*ums_admin.UmsAdmin, error) {
+func (s *service) GetItem(ctx context.Context, id int64) (*dto.UmsAdmin, error) {
 	qb := ums_admin.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	return qb.First(mysql.DB().GetDbR())
+	admin, err := qb.First(mysql.DB().GetDbR())
+	if err != nil {
+		return nil, err
+	}
+	return &dto.UmsAdmin{
+		ID:         admin.Id,
+		Username:   admin.Username,
+		Password:   admin.Password,
+		Icon:       admin.Icon,
+		Email:      admin.Email,
+		NickName:   admin.NickName,
+		Note:       admin.Note,
+		CreateTime: admin.CreateTime,
+		LoginTime:  admin.LoginTime,
+		Status:     admin.Status,
+	}, nil
 }
 
-func (s *service) Update(ctx context.Context, id int64, admin *ums_admin.UmsAdmin) (int64, error) {
+func (s *service) Update(ctx context.Context, id int64, param dto.UmsAdmin) (int64, error) {
+	data := map[string]interface{}{
+		"username": param.Username,
+		"password": param.Password,
+		"icon":     param.Icon,
+		"email":    param.Email,
+		"nickName": param.NickName,
+		"note":     param.Note,
+		"status":   param.Status,
+	}
 	qb := ums_admin.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	return qb.Update(mysql.DB().GetDbW().WithContext(ctx), admin)
+	return qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
+}
+
+func (s *service) UpdateStatus(ctx context.Context, id int64, status int32) (int64, error) {
+	data := map[string]interface{}{
+		"status": status,
+	}
+	qb := ums_admin.NewQueryBuilder()
+	qb = qb.WhereId(mysql.EqualPredicate, id)
+	return qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
 }
 
 func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
 	qb := ums_admin.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	cnt, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
-	if err != nil || cnt == 0 {
-		return 0, err
-	}
-	return cnt, qb.Delete(mysql.DB().GetDbW().WithContext(ctx))
+	return qb.Delete(mysql.DB().GetDbW().WithContext(ctx))
 }
 
 func (s *service) UpdateRole(ctx context.Context, adminId int64, roleIds []int64) (int64, error) {
@@ -236,7 +295,7 @@ func (s *service) UpdateRole(ctx context.Context, adminId int64, roleIds []int64
 	// 先删除原来的关系
 	qb := ums_admin_role_relation.NewQueryBuilder()
 	qb = qb.WhereAdminId(mysql.EqualPredicate, adminId)
-	if err := qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
+	if _, err := qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
 		return 0, err
 	}
 

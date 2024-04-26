@@ -2,6 +2,7 @@ package ums_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -11,7 +12,7 @@ import (
 type getRequest struct{}
 
 type getResponse struct {
-	UmsAdmin `json:",inline"`
+	dto.UmsAdmin `json:",inline"`
 }
 
 // Get 获取指定用户信息
@@ -27,7 +28,7 @@ type getResponse struct {
 func (h *handler) Get(ctx *gin.Context) {
 	_ = new(getRequest)
 	res := new(getResponse)
-	uri := new(UmsAdminUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -40,17 +41,6 @@ func (h *handler) Get(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.UmsAdmin = UmsAdmin{
-		ID:         admin.Id,
-		Username:   admin.Username,
-		Password:   admin.Password,
-		Icon:       admin.Icon,
-		Email:      admin.Email,
-		NickName:   admin.NickName,
-		Note:       admin.Note,
-		CreateTime: admin.CreateTime,
-		LoginTime:  admin.LoginTime,
-		Status:     admin.Status,
-	}
+	res.UmsAdmin = *admin
 	api.Success(ctx, res)
 }

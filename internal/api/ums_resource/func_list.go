@@ -2,6 +2,7 @@ package ums_resource
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -17,11 +18,11 @@ type listRequest struct {
 }
 
 type listResponse struct {
-	PageNum   int           `json:"pageNum"`
-	PageSize  int           `json:"pageSize"`
-	TotalPage int64         `json:"totalPage"`
-	Total     int64         `json:"total"`
-	List      []UmsResource `json:"list"`
+	PageNum   int               `json:"pageNum"`
+	PageSize  int               `json:"pageSize"`
+	TotalPage int64             `json:"totalPage"`
+	Total     int64             `json:"total"`
+	List      []dto.UmsResource `json:"list"`
 }
 
 // List 分页模糊查询后台资源
@@ -58,17 +59,6 @@ func (h *handler) List(ctx *gin.Context) {
 	}
 	res.TotalPage = totalPage
 	res.Total = total
-	listData := make([]UmsResource, 0, len(list))
-	for _, v := range list {
-		listData = append(listData, UmsResource{
-			Id:          v.Id,
-			CreateTime:  v.CreateTime,
-			Name:        v.Name,
-			Url:         v.Url,
-			Description: v.Description,
-			CategoryId:  v.CategoryId,
-		})
-	}
-	res.List = listData
+	res.List = list
 	api.Success(ctx, res)
 }

@@ -2,7 +2,7 @@ package ums_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -10,7 +10,7 @@ import (
 )
 
 type updateRequest struct {
-	UmsAdmin `json:",inline"`
+	dto.UmsAdmin `json:",inline"`
 }
 
 type updateResponse struct {
@@ -30,7 +30,7 @@ type updateResponse struct {
 func (h *handler) Update(ctx *gin.Context) {
 	req := new(updateRequest)
 	res := new(updateResponse)
-	uri := new(UmsAdminUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -43,19 +43,7 @@ func (h *handler) Update(ctx *gin.Context) {
 		return
 	}
 
-	data := &ums_admin.UmsAdmin{
-		Id:         req.ID,
-		Username:   req.Username,
-		Password:   req.Password,
-		Icon:       req.Icon,
-		Email:      req.Email,
-		NickName:   req.NickName,
-		Note:       req.Note,
-		CreateTime: req.CreateTime,
-		LoginTime:  req.LoginTime,
-		Status:     req.Status,
-	}
-	cnt, err := h.umsAdminService.Update(ctx, uri.Id, data)
+	cnt, err := h.umsAdminService.Update(ctx, uri.Id, req.UmsAdmin)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

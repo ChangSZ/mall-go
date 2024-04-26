@@ -3,7 +3,7 @@ package ums_resource
 import (
 	"context"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
+	"github.com/ChangSZ/mall-go/internal/dto"
 )
 
 var _ Service = (*service)(nil)
@@ -15,17 +15,17 @@ type Service interface {
 	/**
 	 * 添加资源
 	 */
-	Create(ctx context.Context, umsResource *ums_resource.UmsResource) (int64, error)
+	Create(ctx context.Context, param dto.UmsResourceParam) (int64, error)
 
 	/**
 	 * 修改资源
 	 */
-	Update(ctx context.Context, id int64, umsResource *ums_resource.UmsResource) (int64, error)
+	Update(ctx context.Context, id int64, param dto.UmsResourceParam) (int64, error)
 
 	/**
 	 * 获取资源详情
 	 */
-	GetItem(ctx context.Context, id int64) (*ums_resource.UmsResource, error)
+	GetItem(ctx context.Context, id int64) (*dto.UmsResource, error)
 
 	/**
 	 * 删除资源
@@ -36,10 +36,10 @@ type Service interface {
 	 * 分页查询资源
 	 */
 	List(ctx context.Context, categoryId int64,
-		nameKeyword, urlKeyword string, pageSize, pageNum int) ([]*ums_resource.UmsResource, int64, error)
+		nameKeyword, urlKeyword string, pageSize, pageNum int) ([]dto.UmsResource, int64, error)
 
 	/**
 	 * 查询全部资源
 	 */
-	ListAll(ctx context.Context) ([]*ums_resource.UmsResource, error)
+	ListAll(ctx context.Context) ([]dto.UmsResource, error)
 }

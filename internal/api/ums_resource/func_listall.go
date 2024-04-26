@@ -2,6 +2,7 @@ package ums_resource
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +11,7 @@ import (
 type listAllRequest struct{}
 
 type listAllResponse struct {
-	List []UmsResource `json:",inline"`
+	List []dto.UmsResource `json:",inline"`
 }
 
 // ListAll 查询所有后台资源
@@ -20,7 +21,7 @@ type listAllResponse struct {
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body listAllRequest true "请求信息"
-// @Success 200 {object} code.Success{data=[]UmsResource}
+// @Success 200 {object} code.Success{data=[]dto.UmsResource}
 // @Failure 400 {object} code.Failure
 // @Router /resource/listAll [get]
 func (h *handler) ListAll(ctx *gin.Context) {
@@ -32,17 +33,6 @@ func (h *handler) ListAll(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	listData := make([]UmsResource, 0, len(list))
-	for _, v := range list {
-		listData = append(listData, UmsResource{
-			Id:          v.Id,
-			CreateTime:  v.CreateTime,
-			Name:        v.Name,
-			Url:         v.Url,
-			Description: v.Description,
-			CategoryId:  v.CategoryId,
-		})
-	}
-	res.List = listData
+	res.List = list
 	api.Success(ctx, res.List)
 }

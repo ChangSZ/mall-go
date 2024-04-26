@@ -55,43 +55,32 @@ func (qb *umsIntegrationChangeHistoryQueryBuilder) buildQuery(db *gorm.DB) *gorm
 	return ret
 }
 
-func (qb *umsIntegrationChangeHistoryQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (err error) {
+func (qb *umsIntegrationChangeHistoryQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (int64, error) {
 	db = db.Model(&UmsIntegrationChangeHistory{})
 
 	for _, where := range qb.where {
 		db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Updates(m).Error; err != nil {
-		return errors.Wrap(err, "updates err")
-	}
-	return nil
-}
-
-func (qb *umsIntegrationChangeHistoryQueryBuilder) Update(db *gorm.DB, data *UmsIntegrationChangeHistory) (cnt int64, err error) {
-	db = db.Model(&UmsIntegrationChangeHistory{})
-
-	for _, where := range qb.where {
-		db.Where(where.prefix, where.value)
-	}
-
-	ret := db.Updates(data)
-	err = ret.Error
+	ret := db.Updates(m)
+	err := ret.Error
 	if err != nil {
-		return 0, errors.Wrap(err, "update err")
+		return 0, errors.Wrap(err, "updates err")
 	}
 	return ret.RowsAffected, nil
 }
 
-func (qb *umsIntegrationChangeHistoryQueryBuilder) Delete(db *gorm.DB) (err error) {
+func (qb *umsIntegrationChangeHistoryQueryBuilder) Delete(db *gorm.DB) (int64, error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Delete(&UmsIntegrationChangeHistory{}).Error; err != nil {
-		return errors.Wrap(err, "delete err")
+	ret := db.Delete(&UmsIntegrationChangeHistory{})
+	err := ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "delete err")
 	}
-	return nil
+	return ret.RowsAffected, nil
 }
 
 func (qb *umsIntegrationChangeHistoryQueryBuilder) Count(db *gorm.DB) (int64, error) {

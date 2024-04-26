@@ -1,4 +1,4 @@
-package pms_brand
+package dto
 
 type PmsBrandParam struct {
 	Name                string `json:"name" binding:"required"`
@@ -25,8 +25,4 @@ type PmsBrand struct {
 	Logo                string `json:"logo"`
 	BigPic              string `json:"bigPic"`
 	BrandStory          string `json:"brandStory"`
-}
-
-type PmsBrandUri struct {
-	Id int64 `uri:"id" binding:"required"`
 }

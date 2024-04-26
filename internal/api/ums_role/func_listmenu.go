@@ -2,7 +2,7 @@ package ums_role
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/api/ums_menu"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -12,7 +12,7 @@ import (
 type listMenuRequest struct{}
 
 type listMenuResponse struct {
-	List []ums_menu.UmsMenu `json:",inline"`
+	List []dto.UmsMenu `json:",inline"`
 }
 
 // ListMenu 获取角色相关菜单
@@ -28,7 +28,7 @@ type listMenuResponse struct {
 func (h *handler) ListMenu(ctx *gin.Context) {
 	_ = new(listMenuRequest)
 	res := new(listMenuResponse)
-	uri := new(UmsRoleIdUri)
+	uri := new(dto.UmsRoleIdUri)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -41,20 +41,6 @@ func (h *handler) ListMenu(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	listData := make([]ums_menu.UmsMenu, 0, len(list))
-	for _, v := range list {
-		listData = append(listData, ums_menu.UmsMenu{
-			Id:         v.Id,
-			ParentId:   v.ParentId,
-			CreateTime: v.CreateTime,
-			Title:      v.Title,
-			Level:      v.Level,
-			Sort:       v.Sort,
-			Name:       v.Name,
-			Icon:       v.Icon,
-			Hidden:     v.Hidden,
-		})
-	}
-	res.List = listData
+	res.List = list
 	api.Success(ctx, res.List)
 }

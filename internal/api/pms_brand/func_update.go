@@ -2,7 +2,7 @@ package pms_brand
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_brand"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -10,7 +10,7 @@ import (
 )
 
 type updateRequest struct {
-	PmsBrandParam `json:",inline"`
+	dto.PmsBrandParam `json:",inline"`
 }
 
 type updateResponse struct {
@@ -30,7 +30,7 @@ type updateResponse struct {
 func (h *handler) Update(ctx *gin.Context) {
 	req := new(updateRequest)
 	res := new(updateResponse)
-	uri := new(PmsBrandUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -43,19 +43,7 @@ func (h *handler) Update(ctx *gin.Context) {
 		return
 	}
 
-	data := &pms_brand.PmsBrand{
-		Name:                req.Name,
-		FirstLetter:         req.FirstLetter,
-		Sort:                req.Sort,
-		FactoryStatus:       req.FactoryStatus,
-		ShowStatus:          req.ShowStatus,
-		ProductCount:        req.ProductCount,
-		ProductCommentCount: req.ProductCommentCount,
-		Logo:                req.Logo,
-		BigPic:              req.BigPic,
-		BrandStory:          req.BrandStory,
-	}
-	cnt, err := h.pmsBrandService.Update(ctx, uri.Id, data)
+	cnt, err := h.pmsBrandService.Update(ctx, uri.Id, req.PmsBrandParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

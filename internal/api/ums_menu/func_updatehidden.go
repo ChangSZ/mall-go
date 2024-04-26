@@ -2,6 +2,7 @@ package ums_menu
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -29,7 +30,7 @@ type updateHiddenResponse struct {
 func (h *handler) UpdateHidden(ctx *gin.Context) {
 	req := new(updateHiddenRequest)
 	res := new(updateHiddenResponse)
-	uri := new(UmsMenuUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())

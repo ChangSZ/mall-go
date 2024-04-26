@@ -2,7 +2,7 @@ package pms_brand
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_brand"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -10,7 +10,7 @@ import (
 )
 
 type createRequest struct {
-	PmsBrandParam `json:",inline"`
+	dto.PmsBrandParam `json:",inline"`
 }
 
 type createResponse struct {
@@ -35,19 +35,8 @@ func (h *handler) Create(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	data := &pms_brand.PmsBrand{
-		Name:                req.Name,
-		FirstLetter:         req.FirstLetter,
-		Sort:                req.Sort,
-		FactoryStatus:       req.FactoryStatus,
-		ShowStatus:          req.ShowStatus,
-		ProductCount:        req.ProductCount,
-		ProductCommentCount: req.ProductCommentCount,
-		Logo:                req.Logo,
-		BigPic:              req.BigPic,
-		BrandStory:          req.BrandStory,
-	}
-	cnt, err := h.pmsBrandService.Create(ctx, data)
+
+	cnt, err := h.pmsBrandService.Create(ctx, req.PmsBrandParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

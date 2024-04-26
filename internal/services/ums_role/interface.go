@@ -3,9 +3,7 @@ package ums_role
 import (
 	"context"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
+	"github.com/ChangSZ/mall-go/internal/dto"
 )
 
 var _ Service = (*service)(nil)
@@ -16,12 +14,17 @@ type Service interface {
 	/**
 	 * 添加角色
 	 */
-	Create(ctx context.Context, umsRole *ums_role.UmsRole) (int64, error)
+	Create(ctx context.Context, param dto.UmsRoleParam) (int64, error)
 
 	/**
 	 * 修改角色信息
 	 */
-	Update(ctx context.Context, id int64, umsRole *ums_role.UmsRole) (int64, error)
+	Update(ctx context.Context, id int64, param dto.UmsRoleParam) (int64, error)
+
+	/**
+	 * 修改角色状态
+	 */
+	UpdateStatus(ctx context.Context, id int64, status int32) (int64, error)
 
 	/**
 	 * 批量删除角色
@@ -31,27 +34,27 @@ type Service interface {
 	/**
 	 * 获取所有角色列表
 	 */
-	ListAll(ctx context.Context) ([]*ums_role.UmsRole, error)
+	ListAll(ctx context.Context) ([]dto.UmsRole, error)
 
 	/**
 	 * 分页获取角色列表
 	 */
-	List(ctx context.Context, keyword string, pageSize, pageNum int) ([]*ums_role.UmsRole, int64, error)
+	List(ctx context.Context, keyword string, pageSize, pageNum int) ([]dto.UmsRole, int64, error)
 
 	/**
 	 * 根据管理员ID获取对应菜单
 	 */
-	GetMenuList(ctx context.Context, adminId int64) ([]ums_menu.UmsMenu, error)
+	GetMenuList(ctx context.Context, adminId int64) ([]dto.UmsMenu, error)
 
 	/**
 	 * 获取角色相关菜单
 	 */
-	ListMenu(ctx context.Context, roleId int64) ([]ums_menu.UmsMenu, error)
+	ListMenu(ctx context.Context, roleId int64) ([]dto.UmsMenu, error)
 
 	/**
 	 * 获取角色相关资源
 	 */
-	ListResource(ctx context.Context, roleId int64) ([]ums_resource.UmsResource, error)
+	ListResource(ctx context.Context, roleId int64) ([]dto.UmsResource, error)
 
 	/**
 	 * 给角色分配菜单

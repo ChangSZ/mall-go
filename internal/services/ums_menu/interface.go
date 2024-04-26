@@ -3,7 +3,7 @@ package ums_menu
 import (
 	"context"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
+	"github.com/ChangSZ/mall-go/internal/dto"
 )
 
 var _ Service = (*service)(nil)
@@ -15,17 +15,17 @@ type Service interface {
 	/**
 	 * 创建后台菜单
 	 */
-	Create(ctx context.Context, umsMenu *ums_menu.UmsMenu) (int64, error)
+	Create(ctx context.Context, param dto.UmsMenuParam) (int64, error)
 
 	/**
 	 * 修改后台菜单
 	 */
-	Update(ctx context.Context, id int64, umsMenu *ums_menu.UmsMenu) (int64, error)
+	Update(ctx context.Context, id int64, param dto.UmsMenuParam) (int64, error)
 
 	/**
 	 * 根据ID获取菜单详情
 	 */
-	GetItem(ctx context.Context, id int64) (*ums_menu.UmsMenu, error)
+	GetItem(ctx context.Context, id int64) (*dto.UmsMenu, error)
 
 	/**
 	 * 根据ID删除菜单
@@ -35,7 +35,7 @@ type Service interface {
 	/**
 	 * 分页查询后台菜单
 	 */
-	List(ctx context.Context, parentId int64, pageSize, pageNum int) ([]*ums_menu.UmsMenu, int64, error)
+	List(ctx context.Context, parentId int64, pageSize, pageNum int) ([]dto.UmsMenu, int64, error)
 
 	/**
 	 * 树形结构返回所有菜单列表

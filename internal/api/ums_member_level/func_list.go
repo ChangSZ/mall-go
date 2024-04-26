@@ -2,6 +2,7 @@ package ums_member_level
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -13,7 +14,7 @@ type listRequest struct {
 }
 
 type listResponse struct {
-	List []UmsMemberLevel `json:",inline"`
+	List []dto.UmsMemberLevel `json:",inline"`
 }
 
 // List 查询所有会员等级
@@ -23,7 +24,7 @@ type listResponse struct {
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request formData listRequest true "请求信息"
-// @Success 200 {object} code.Success{data=[]UmsMemberLevel}
+// @Success 200 {object} code.Success{data=[]dto.UmsMemberLevel}
 // @Failure 400 {object} code.Failure
 // @Router /memberLevel/list [get]
 func (h *handler) List(ctx *gin.Context) {
@@ -40,24 +41,6 @@ func (h *handler) List(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	listData := make([]UmsMemberLevel, 0, len(list))
-	for _, v := range list {
-		listData = append(listData, UmsMemberLevel{
-			Id:                    v.Id,
-			Name:                  v.Name,
-			GrowthPoint:           v.GrowthPoint,
-			DefaultStatus:         v.DefaultStatus,
-			FreeFreightPoint:      v.FreeFreightPoint,
-			CommentGrowthPoint:    v.CommentGrowthPoint,
-			PriviledgeFreeFreight: v.PriviledgeFreeFreight,
-			PriviledgeSignIn:      v.PriviledgeSignIn,
-			PriviledgeComment:     v.PriviledgeComment,
-			PriviledgePromotion:   v.PriviledgePromotion,
-			PriviledgeMemberPrice: v.PriviledgeMemberPrice,
-			PriviledgeBirthday:    v.PriviledgeBirthday,
-			Note:                  v.Note,
-		})
-	}
-	res.List = listData
+	res.List = list
 	api.Success(ctx, res.List)
 }

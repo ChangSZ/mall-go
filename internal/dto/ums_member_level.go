@@ -1,4 +1,4 @@
-package ums_member_level
+package dto
 
 type UmsMemberLevel struct {
 	Id                    int64   `json:"id"`

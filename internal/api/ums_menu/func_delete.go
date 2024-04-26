@@ -2,6 +2,7 @@ package ums_menu
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -27,7 +28,7 @@ type deleteResponse struct {
 func (h *handler) Delete(ctx *gin.Context) {
 	_ = new(deleteRequest)
 	res := new(deleteResponse)
-	uri := new(UmsMenuUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())

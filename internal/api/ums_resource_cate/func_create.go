@@ -2,7 +2,7 @@ package ums_resource_cate
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource_category"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -10,7 +10,7 @@ import (
 )
 
 type createRequest struct {
-	UmsResourceCateParam `json:",inline"`
+	dto.UmsResourceCateParam `json:",inline"`
 }
 
 type createResponse struct {
@@ -35,11 +35,8 @@ func (h *handler) Create(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	data := &ums_resource_category.UmsResourceCategory{
-		Name: req.Name,
-		Sort: req.Sort,
-	}
-	cnt, err := h.umsResourceCateService.Create(ctx, data)
+
+	cnt, err := h.umsResourceCateService.Create(ctx, req.UmsResourceCateParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

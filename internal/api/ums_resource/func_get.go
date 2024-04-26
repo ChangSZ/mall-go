@@ -2,6 +2,7 @@ package ums_resource
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -11,7 +12,7 @@ import (
 type getRequest struct{}
 
 type getResponse struct {
-	UmsResource `json:",inline"`
+	dto.UmsResource `json:",inline"`
 }
 
 // Get 根据ID获取资源详情
@@ -27,7 +28,7 @@ type getResponse struct {
 func (h *handler) Get(ctx *gin.Context) {
 	_ = new(getRequest)
 	res := new(getResponse)
-	uri := new(UmsResourceUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -40,13 +41,6 @@ func (h *handler) Get(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.UmsResource = UmsResource{
-		Id:          item.Id,
-		CreateTime:  item.CreateTime,
-		Name:        item.Name,
-		Url:         item.Url,
-		Description: item.Description,
-		CategoryId:  item.CategoryId,
-	}
+	res.UmsResource = *item
 	api.Success(ctx, res)
 }

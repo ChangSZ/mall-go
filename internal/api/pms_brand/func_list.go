@@ -2,6 +2,7 @@ package pms_brand
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -16,11 +17,11 @@ type listRequest struct {
 }
 
 type listResponse struct {
-	PageNum   int        `json:"pageNum"`
-	PageSize  int        `json:"pageSize"`
-	TotalPage int64      `json:"totalPage"`
-	Total     int64      `json:"total"`
-	List      []PmsBrand `json:"list"`
+	PageNum   int            `json:"pageNum"`
+	PageSize  int            `json:"pageSize"`
+	TotalPage int64          `json:"totalPage"`
+	Total     int64          `json:"total"`
+	List      []dto.PmsBrand `json:"list"`
 }
 
 // List 根据品牌名称分页获取品牌列表
@@ -56,22 +57,6 @@ func (h *handler) List(ctx *gin.Context) {
 	}
 	res.TotalPage = totalPage
 	res.Total = total
-	listData := make([]PmsBrand, 0, len(list))
-	for _, v := range list {
-		listData = append(listData, PmsBrand{
-			Id:                  v.Id,
-			Name:                v.Name,
-			FirstLetter:         v.FirstLetter,
-			Sort:                v.Sort,
-			FactoryStatus:       v.FactoryStatus,
-			ShowStatus:          v.ShowStatus,
-			ProductCount:        v.ProductCount,
-			ProductCommentCount: v.ProductCommentCount,
-			Logo:                v.Logo,
-			BigPic:              v.BigPic,
-			BrandStory:          v.BrandStory,
-		})
-	}
-	res.List = listData
+	res.List = list
 	api.Success(ctx, res)
 }

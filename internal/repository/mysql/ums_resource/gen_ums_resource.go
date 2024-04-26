@@ -55,43 +55,32 @@ func (qb *umsResourceQueryBuilder) buildQuery(db *gorm.DB) *gorm.DB {
 	return ret
 }
 
-func (qb *umsResourceQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (err error) {
+func (qb *umsResourceQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (int64, error) {
 	db = db.Model(&UmsResource{})
 
 	for _, where := range qb.where {
 		db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Updates(m).Error; err != nil {
-		return errors.Wrap(err, "updates err")
-	}
-	return nil
-}
-
-func (qb *umsResourceQueryBuilder) Update(db *gorm.DB, data *UmsResource) (cnt int64, err error) {
-	db = db.Model(&UmsResource{})
-
-	for _, where := range qb.where {
-		db.Where(where.prefix, where.value)
-	}
-
-	ret := db.Updates(data)
-	err = ret.Error
+	ret := db.Updates(m)
+	err := ret.Error
 	if err != nil {
-		return 0, errors.Wrap(err, "update err")
+		return 0, errors.Wrap(err, "updates err")
 	}
 	return ret.RowsAffected, nil
 }
 
-func (qb *umsResourceQueryBuilder) Delete(db *gorm.DB) (err error) {
+func (qb *umsResourceQueryBuilder) Delete(db *gorm.DB) (int64, error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Delete(&UmsResource{}).Error; err != nil {
-		return errors.Wrap(err, "delete err")
+	ret := db.Delete(&UmsResource{})
+	err := ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "delete err")
 	}
-	return nil
+	return ret.RowsAffected, nil
 }
 
 func (qb *umsResourceQueryBuilder) Count(db *gorm.DB) (int64, error) {

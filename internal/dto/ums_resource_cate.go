@@ -1,4 +1,4 @@
-package ums_resource_cate
+package dto
 
 import "time"
 
@@ -12,8 +12,4 @@ type UmsResourceCate struct {
 	CreateTime time.Time `json:"createTime"`
 	Name       string    `json:"name"`
 	Sort       int32     `json:"sort"`
-}
-
-type UmsResourceCateUri struct {
-	Id int64 `uri:"id" binding:"required"`
 }

@@ -2,7 +2,7 @@ package ums_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -30,7 +30,7 @@ type updateStatusResponse struct {
 func (h *handler) UpdateStatus(ctx *gin.Context) {
 	req := new(updateStatusRequest)
 	res := new(updateStatusResponse)
-	uri := new(UmsAdminUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -43,10 +43,7 @@ func (h *handler) UpdateStatus(ctx *gin.Context) {
 		return
 	}
 
-	data := &ums_admin.UmsAdmin{
-		Status: req.Status,
-	}
-	cnt, err := h.umsAdminService.Update(ctx, uri.Id, data)
+	cnt, err := h.umsAdminService.UpdateStatus(ctx, uri.Id, req.Status)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

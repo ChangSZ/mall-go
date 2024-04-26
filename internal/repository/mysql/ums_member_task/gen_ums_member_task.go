@@ -54,43 +54,32 @@ func (qb *umsMemberTaskQueryBuilder) buildQuery(db *gorm.DB) *gorm.DB {
 	return ret
 }
 
-func (qb *umsMemberTaskQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (err error) {
+func (qb *umsMemberTaskQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (int64, error) {
 	db = db.Model(&UmsMemberTask{})
 
 	for _, where := range qb.where {
 		db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Updates(m).Error; err != nil {
-		return errors.Wrap(err, "updates err")
-	}
-	return nil
-}
-
-func (qb *umsMemberTaskQueryBuilder) Update(db *gorm.DB, data *UmsMemberTask) (cnt int64, err error) {
-	db = db.Model(&UmsMemberTask{})
-
-	for _, where := range qb.where {
-		db.Where(where.prefix, where.value)
-	}
-
-	ret := db.Updates(data)
-	err = ret.Error
+	ret := db.Updates(m)
+	err := ret.Error
 	if err != nil {
-		return 0, errors.Wrap(err, "update err")
+		return 0, errors.Wrap(err, "updates err")
 	}
 	return ret.RowsAffected, nil
 }
 
-func (qb *umsMemberTaskQueryBuilder) Delete(db *gorm.DB) (err error) {
+func (qb *umsMemberTaskQueryBuilder) Delete(db *gorm.DB) (int64, error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Delete(&UmsMemberTask{}).Error; err != nil {
-		return errors.Wrap(err, "delete err")
+	ret := db.Delete(&UmsMemberTask{})
+	err := ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "delete err")
 	}
-	return nil
+	return ret.RowsAffected, nil
 }
 
 func (qb *umsMemberTaskQueryBuilder) Count(db *gorm.DB) (int64, error) {

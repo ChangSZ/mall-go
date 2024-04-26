@@ -2,7 +2,7 @@ package ums_role
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -30,7 +30,7 @@ type updateStatusResponse struct {
 func (h *handler) UpdateStatus(ctx *gin.Context) {
 	req := new(updateStatusRequest)
 	res := new(updateStatusResponse)
-	uri := new(UmsRoleUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -43,10 +43,7 @@ func (h *handler) UpdateStatus(ctx *gin.Context) {
 		return
 	}
 
-	data := &ums_role.UmsRole{
-		Status: req.Status,
-	}
-	cnt, err := h.umsRoleService.Update(ctx, uri.Id, data)
+	cnt, err := h.umsRoleService.UpdateStatus(ctx, uri.Id, req.Status)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

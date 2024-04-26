@@ -2,6 +2,7 @@ package ums_menu
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -11,7 +12,7 @@ import (
 type getRequest struct{}
 
 type getResponse struct {
-	UmsMenu `json:",inline"`
+	dto.UmsMenu `json:",inline"`
 }
 
 // Get 根据ID获取菜单详情
@@ -27,7 +28,7 @@ type getResponse struct {
 func (h *handler) Get(ctx *gin.Context) {
 	_ = new(getRequest)
 	res := new(getResponse)
-	uri := new(UmsMenuUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -40,16 +41,6 @@ func (h *handler) Get(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.UmsMenu = UmsMenu{
-		Id:         item.Id,
-		ParentId:   item.ParentId,
-		CreateTime: item.CreateTime,
-		Title:      item.Title,
-		Level:      item.Level,
-		Sort:       item.Sort,
-		Name:       item.Name,
-		Icon:       item.Icon,
-		Hidden:     item.Hidden,
-	}
+	res.UmsMenu = *item
 	api.Success(ctx, res)
 }
