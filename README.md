@@ -2,14 +2,12 @@
 
 `go-mall` 是基于 [go-gin-api](https://github.com/xinliangnote/go-gin-api) 框架(基本已经改得面目全非了)实现的一套电商系统的后台管理系统，包含商品管理、订单管理、会员管理、促销管理、运营管理、内容管理、统计报表、财务管理、权限管理、设置等模块。
 
-供参考学习，线上使用请谨慎！
+本项目对[macrozheng/mall](https://github.com/macrozheng/mall)商城项目后端代码的重构
 
 
 ## 快速开始
 ### 环境准备
-- golang 1.16+ 
-  - 因为使用了 //go:embed 特性
-  - 建议latest
+- golang 1.21
 - MySQL
   - 连接地址，例如：127.0.0.1:3306
   - 数据库名: mall，会在此数据库下初始化数据表

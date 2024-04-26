@@ -65,6 +65,14 @@ func RoutersInit(cronServer cron.Server) *gin.Engine {
 	setUmsResourceRouter(eng)
 	setUmsRoleRouter(eng)
 
+	// 设置 Pms 路由
+	setPmsBrandRouter(eng)
+	setPmsProducteAttrCateRouter(eng)
+	setPmsProducteAttrRouter(eng)
+	setPmsProducteCateRouter(eng)
+	setPmsProducteRouter(eng)
+	setPmsSkuStockRouter(eng)
+
 	// 设置 Socket 路由
 	setSocketRouter(eng)
 
