@@ -18,5 +18,8 @@ echo.
 echo failed!!!
 exit 1
 )
+
+goimports -w ./
+gofmt -w ./
 echo.
 echo Done.

@@ -14,6 +14,9 @@ shellExit $?
 
 printf "\nFormatting code\n\n"
 time go run -v ./cmd/mfmt/main.go
+
 shellExit $?
 
+goimports -w ./
+gofmt -w ./
 printf "\nDone.\n\n"
