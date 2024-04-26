@@ -2,13 +2,18 @@ package pms_brand
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/pkg/log"
 
 	"github.com/gin-gonic/gin"
 )
 
-type deleteBatchRequest struct{}
+type deleteBatchRequest struct {
+	Ids []int64 `form:"ids" binding:"required"`
+}
 
-type deleteBatchResponse struct{}
+type deleteBatchResponse struct {
+	Count int64 `json:",inline"`
+}
 
 // DeleteBatch 批量删除品牌
 // @Summary 批量删除品牌
@@ -17,9 +22,22 @@ type deleteBatchResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body deleteBatchRequest true "请求信息"
-// @Success 200 {object} code.Success{data=deleteBatchResponse}
+// @Success 200 {object} code.Success{data=int64}
 // @Failure 400 {object} code.Failure
 // @Router /brand/delete/batch [post]
 func (h *handler) DeleteBatch(ctx *gin.Context) {
-	api.Success(ctx, nil)
+	req := new(deleteBatchRequest)
+	res := new(deleteBatchResponse)
+	cnt, err := h.pmsBrandService.DeleteBatch(ctx, req.Ids)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Failed(ctx, err.Error())
+		return
+	}
+	if cnt == 0 {
+		api.Failed(ctx, "批量删除个数为0")
+		return
+	}
+	res.Count = cnt
+	api.Success(ctx, res.Count)
 }
