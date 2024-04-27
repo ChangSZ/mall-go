@@ -24,7 +24,7 @@ func (s *service) Modify(ctx context.Context, id int64, menuData *UpdateMenuData
 
 	qb := menu.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
+	_, err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
 	if err != nil {
 		return err
 	}

@@ -16,7 +16,7 @@ func (s *service) UpdateSort(ctx context.Context, id int64, sort int32) (err err
 
 	qb := menu.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
+	_, err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
 	if err != nil {
 		return err
 	}

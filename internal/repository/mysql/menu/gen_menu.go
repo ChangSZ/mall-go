@@ -55,43 +55,32 @@ func (qb *menuQueryBuilder) buildQuery(db *gorm.DB) *gorm.DB {
 	return ret
 }
 
-func (qb *menuQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (err error) {
+func (qb *menuQueryBuilder) Updates(db *gorm.DB, m map[string]interface{}) (int64, error) {
 	db = db.Model(&Menu{})
 
 	for _, where := range qb.where {
 		db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Updates(m).Error; err != nil {
-		return errors.Wrap(err, "updates err")
-	}
-	return nil
-}
-
-func (qb *menuQueryBuilder) Update(db *gorm.DB, data *Menu) (cnt int64, err error) {
-	db = db.Model(&Menu{})
-
-	for _, where := range qb.where {
-		db.Where(where.prefix, where.value)
-	}
-
-	ret := db.Updates(data)
-	err = ret.Error
+	ret := db.Updates(m)
+	err := ret.Error
 	if err != nil {
-		return 0, errors.Wrap(err, "update err")
+		return 0, errors.Wrap(err, "updates err")
 	}
 	return ret.RowsAffected, nil
 }
 
-func (qb *menuQueryBuilder) Delete(db *gorm.DB) (err error) {
+func (qb *menuQueryBuilder) Delete(db *gorm.DB) (int64, error) {
 	for _, where := range qb.where {
 		db = db.Where(where.prefix, where.value)
 	}
 
-	if err = db.Delete(&Menu{}).Error; err != nil {
-		return errors.Wrap(err, "delete err")
+	ret := db.Delete(&Menu{})
+	err := ret.Error
+	if err != nil {
+		return 0, errors.Wrap(err, "delete err")
 	}
-	return nil
+	return ret.RowsAffected, nil
 }
 
 func (qb *menuQueryBuilder) Count(db *gorm.DB) (int64, error) {

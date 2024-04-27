@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_brand"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product"
@@ -17,7 +18,19 @@ func New() Service {
 
 func (s *service) i() {}
 
-func (s *service) Create(ctx context.Context, data *pms_brand.PmsBrand) (int64, error) {
+func (s *service) Create(ctx context.Context, param dto.PmsBrandParam) (int64, error) {
+	data := &pms_brand.PmsBrand{
+		Name:                param.Name,
+		FirstLetter:         param.FirstLetter,
+		Sort:                param.Sort,
+		FactoryStatus:       param.FactoryStatus,
+		ShowStatus:          param.ShowStatus,
+		ProductCount:        param.ProductCount,
+		ProductCommentCount: param.ProductCommentCount,
+		Logo:                param.Logo,
+		BigPic:              param.BigPic,
+		BrandStory:          param.BrandStory,
+	}
 	// 如果创建时首字母为空，取名称的第一个为首字母
 	if data.FirstLetter == "" && len(data.Name) > 0 {
 		data.FirstLetter = data.Name[:1]
@@ -25,29 +38,36 @@ func (s *service) Create(ctx context.Context, data *pms_brand.PmsBrand) (int64, 
 	return data.Create(mysql.DB().GetDbW().WithContext(ctx))
 }
 
-func (s *service) Update(ctx context.Context, id int64, data *pms_brand.PmsBrand) (int64, error) {
-	data.Id = id
+func (s *service) Update(ctx context.Context, id int64, param dto.PmsBrandParam) (int64, error) {
 	// 如果创建时首字母为空，取名称的第一个为首字母
-	if data.FirstLetter == "" && len(data.Name) > 0 {
-		data.FirstLetter = data.Name[:1]
+	if param.FirstLetter == "" && len(param.Name) > 0 {
+		param.FirstLetter = param.Name[:1]
 	}
 
 	// 更新品牌时要更新商品中的品牌名称
-	pmsProduct := pms_product.NewModel()
-	pmsProduct.BrandName = data.Name
+	pmsProduct := map[string]interface{}{"brand_name": param.Name}
 	pmsProductQb := pms_product.NewQueryBuilder()
 	pmsProductQb = pmsProductQb.WhereBrandId(mysql.EqualPredicate, id)
-	if _, err := pmsProductQb.Update(mysql.DB().GetDbW().WithContext(ctx), pmsProduct); err != nil {
+	if _, err := pmsProductQb.Updates(mysql.DB().GetDbW().WithContext(ctx), pmsProduct); err != nil {
 		return 0, err
 	}
 
+	data := map[string]interface{}{
+		"id":                    id,
+		"name":                  param.Name,
+		"first_letter":          param.FirstLetter,
+		"sort":                  param.Sort,
+		"factory_status":        param.FactoryStatus,
+		"show_status":           param.ShowStatus,
+		"product_count":         param.ProductCount,
+		"product_comment_count": param.ProductCommentCount,
+		"logo":                  param.Logo,
+		"big_pic":               param.BigPic,
+		"brand_story":           param.BrandStory,
+	}
 	qb := pms_brand.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	cnt, err := qb.Update(mysql.DB().GetDbW().WithContext(ctx), data)
-	if err != nil {
-		return 0, err
-	}
-	return cnt, nil
+	return qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
 }
 
 func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
@@ -57,24 +77,36 @@ func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
 func (s *service) DeleteBatch(ctx context.Context, ids []int64) (int64, error) {
 	qb := pms_brand.NewQueryBuilder()
 	qb = qb.WhereIdIn(ids)
-	cnt, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
-	if err != nil || cnt == 0 {
-		return 0, err
-	}
-	err = qb.Delete(mysql.DB().GetDbW().WithContext(ctx))
-	if err != nil {
-		return 0, err
-	}
-	return cnt, nil
+	return qb.Delete(mysql.DB().GetDbW().WithContext(ctx))
 }
 
-func (s *service) ListAll(ctx context.Context) ([]*pms_brand.PmsBrand, error) {
+func (s *service) ListAll(ctx context.Context) ([]dto.PmsBrand, error) {
 	qb := pms_brand.NewQueryBuilder()
-	return qb.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
+	list, err := qb.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
+	if err != nil {
+		return nil, err
+	}
+	listData := make([]dto.PmsBrand, 0, len(list))
+	for _, v := range list {
+		listData = append(listData, dto.PmsBrand{
+			Id:                  v.Id,
+			Name:                v.Name,
+			FirstLetter:         v.FirstLetter,
+			Sort:                v.Sort,
+			FactoryStatus:       v.FactoryStatus,
+			ShowStatus:          v.ShowStatus,
+			ProductCount:        v.ProductCount,
+			ProductCommentCount: v.ProductCommentCount,
+			Logo:                v.Logo,
+			BigPic:              v.BigPic,
+			BrandStory:          v.BrandStory,
+		})
+	}
+	return listData, nil
 }
 
 func (s *service) List(ctx context.Context, keyword string, showStatus int32, pageSize, pageNum int) (
-	[]*pms_brand.PmsBrand, int64, error) {
+	[]dto.PmsBrand, int64, error) {
 	qb := pms_brand.NewQueryBuilder()
 	if strings.TrimSpace(keyword) != "" {
 		qb = qb.WhereName(mysql.LikePredicate, "%"+keyword+"%")
@@ -92,45 +124,65 @@ func (s *service) List(ctx context.Context, keyword string, showStatus int32, pa
 		Offset(offset).
 		OrderBySort(false).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
-	return list, count, err
+	if err != nil {
+		return nil, 0, err
+	}
+
+	listData := make([]dto.PmsBrand, 0, len(list))
+	for _, v := range list {
+		listData = append(listData, dto.PmsBrand{
+			Id:                  v.Id,
+			Name:                v.Name,
+			FirstLetter:         v.FirstLetter,
+			Sort:                v.Sort,
+			FactoryStatus:       v.FactoryStatus,
+			ShowStatus:          v.ShowStatus,
+			ProductCount:        v.ProductCount,
+			ProductCommentCount: v.ProductCommentCount,
+			Logo:                v.Logo,
+			BigPic:              v.BigPic,
+			BrandStory:          v.BrandStory,
+		})
+	}
+	return listData, count, err
 }
 
-func (s *service) GetItem(ctx context.Context, id int64) (*pms_brand.PmsBrand, error) {
+func (s *service) GetItem(ctx context.Context, id int64) (*dto.PmsBrand, error) {
 	qb := pms_brand.NewQueryBuilder()
 	qb.WhereId(mysql.EqualPredicate, id)
-	return qb.First(mysql.DB().GetDbR().WithContext(ctx))
+	item, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
+	if err != nil {
+		return nil, err
+	}
+	return &dto.PmsBrand{
+		Id:                  item.Id,
+		Name:                item.Name,
+		FirstLetter:         item.FirstLetter,
+		Sort:                item.Sort,
+		FactoryStatus:       item.FactoryStatus,
+		ShowStatus:          item.ShowStatus,
+		ProductCount:        item.ProductCount,
+		ProductCommentCount: item.ProductCommentCount,
+		Logo:                item.Logo,
+		BigPic:              item.BigPic,
+		BrandStory:          item.BrandStory,
+	}, nil
 }
 
 func (s *service) UpdateShowStatus(ctx context.Context, ids []int64, showStatus int32) (int64, error) {
-	data := pms_brand.NewModel()
-	data.ShowStatus = showStatus
-
+	data := map[string]interface{}{
+		"show_status": showStatus,
+	}
 	qb := pms_brand.NewQueryBuilder()
 	qb = qb.WhereIdIn(ids)
-	cnt, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
-	if err != nil {
-		return 0, err
-	}
-	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx), map[string]interface{}{"show_status": showStatus})
-	if err != nil {
-		return 0, err
-	}
-	return cnt, nil
+	return qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
 }
 
 func (s *service) UpdateFactoryStatus(ctx context.Context, ids []int64, factoryStatus int32) (int64, error) {
-	data := pms_brand.NewModel()
-	data.FactoryStatus = factoryStatus
-
+	data := map[string]interface{}{
+		"factory_status": factoryStatus,
+	}
 	qb := pms_brand.NewQueryBuilder()
 	qb = qb.WhereIdIn(ids)
-	cnt, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
-	if err != nil {
-		return 0, err
-	}
-	err = qb.Updates(mysql.DB().GetDbW().WithContext(ctx), map[string]interface{}{"factory_status": factoryStatus})
-	if err != nil {
-		return 0, err
-	}
-	return cnt, nil
+	return qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
 }

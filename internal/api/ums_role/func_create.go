@@ -2,7 +2,7 @@ package ums_role
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -10,7 +10,7 @@ import (
 )
 
 type createRequest struct {
-	UmsRoleParam `json:",inline"`
+	dto.UmsRoleParam `json:",inline"`
 }
 
 type createResponse struct {
@@ -35,12 +35,7 @@ func (h *handler) Create(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	data := &ums_role.UmsRole{
-		Name:        req.Name,
-		Description: req.Description,
-		Status:      req.Status,
-	}
-	cnt, err := h.umsRoleService.Create(ctx, data)
+	cnt, err := h.umsRoleService.Create(ctx, req.UmsRoleParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

@@ -2,6 +2,7 @@ package ums_menu
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -14,11 +15,11 @@ type listRequest struct {
 }
 
 type listResponse struct {
-	PageNum   int       `json:"pageNum"`
-	PageSize  int       `json:"pageSize"`
-	TotalPage int64     `json:"totalPage"`
-	Total     int64     `json:"total"`
-	List      []UmsMenu `json:"list"`
+	PageNum   int           `json:"pageNum"`
+	PageSize  int           `json:"pageSize"`
+	TotalPage int64         `json:"totalPage"`
+	Total     int64         `json:"total"`
+	List      []dto.UmsMenu `json:"list"`
 }
 
 // List 分页查询后台菜单
@@ -34,7 +35,7 @@ type listResponse struct {
 func (h *handler) List(ctx *gin.Context) {
 	req := new(listRequest)
 	res := new(listResponse)
-	uri := new(UmsMenuListUri)
+	uri := new(dto.UmsMenuListUri)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -60,20 +61,6 @@ func (h *handler) List(ctx *gin.Context) {
 	}
 	res.TotalPage = totalPage
 	res.Total = total
-	listData := make([]UmsMenu, 0, len(list))
-	for _, v := range list {
-		listData = append(listData, UmsMenu{
-			Id:         v.Id,
-			ParentId:   v.ParentId,
-			CreateTime: v.CreateTime,
-			Title:      v.Title,
-			Level:      v.Level,
-			Sort:       v.Sort,
-			Name:       v.Name,
-			Icon:       v.Icon,
-			Hidden:     v.Hidden,
-		})
-	}
-	res.List = listData
+	res.List = list
 	api.Success(ctx, res)
 }

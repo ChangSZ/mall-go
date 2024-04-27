@@ -2,7 +2,7 @@ package ums_resource
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -10,7 +10,7 @@ import (
 )
 
 type createRequest struct {
-	UmsResourceParam `json:",inline"`
+	dto.UmsResourceParam `json:",inline"`
 }
 
 type createResponse struct {
@@ -35,13 +35,8 @@ func (h *handler) Create(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	data := &ums_resource.UmsResource{
-		Name:        req.Name,
-		Url:         req.Url,
-		Description: req.Description,
-		CategoryId:  req.CategoryId,
-	}
-	cnt, err := h.umsResourceService.Create(ctx, data)
+
+	cnt, err := h.umsResourceService.Create(ctx, req.UmsResourceParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

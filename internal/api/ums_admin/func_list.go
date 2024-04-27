@@ -2,6 +2,7 @@ package ums_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -15,11 +16,11 @@ type listRequest struct {
 }
 
 type listResponse struct {
-	PageNum   int        `json:"pageNum"`
-	PageSize  int        `json:"pageSize"`
-	TotalPage int64      `json:"totalPage"`
-	Total     int64      `json:"total"`
-	List      []UmsAdmin `json:"list"`
+	PageNum   int            `json:"pageNum"`
+	PageSize  int            `json:"pageSize"`
+	TotalPage int64          `json:"totalPage"`
+	Total     int64          `json:"total"`
+	List      []dto.UmsAdmin `json:"list"`
 }
 
 // List 根据用户名或姓名分页获取用户列表
@@ -55,21 +56,6 @@ func (h *handler) List(ctx *gin.Context) {
 	}
 	res.TotalPage = totalPage
 	res.Total = total
-	listData := make([]UmsAdmin, 0, len(list))
-	for _, v := range list {
-		listData = append(listData, UmsAdmin{
-			ID:         v.Id,
-			Username:   v.Username,
-			Password:   v.Password,
-			Icon:       v.Icon,
-			Email:      v.Email,
-			NickName:   v.NickName,
-			Note:       v.Note,
-			CreateTime: v.CreateTime,
-			LoginTime:  v.LoginTime,
-			Status:     v.Status,
-		})
-	}
-	res.List = listData
+	res.List = list
 	api.Success(ctx, res)
 }

@@ -3,9 +3,9 @@ package ums_admin
 import (
 	"context"
 
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role"
 )
 
 var _ Service = (*service)(nil)
@@ -16,7 +16,7 @@ type Service interface {
 	/**
 	 * 注册功能
 	 */
-	Register(ctx context.Context, umsAdminParam *UmsAdminParam) (*ums_admin.UmsAdmin, error)
+	Register(ctx context.Context, param dto.UmsAdminParam) (*dto.UmsAdmin, error)
 
 	/**
 	 * 登录功能
@@ -35,12 +35,17 @@ type Service interface {
 	/**
 	 * 根据用户名或昵称分页查询用户
 	 */
-	List(ctx context.Context, keyword string, pageSize, pageNum int) ([]ums_admin.UmsAdmin, int64, error)
+	List(ctx context.Context, keyword string, pageSize, pageNum int) ([]dto.UmsAdmin, int64, error)
 
 	/**
 	 * 修改指定用户信息
 	 */
-	Update(ctx context.Context, id int64, admin *ums_admin.UmsAdmin) (int64, error)
+	Update(ctx context.Context, id int64, admin dto.UmsAdmin) (int64, error)
+
+	/**
+	 * 修改指定用户的状态
+	 */
+	UpdateStatus(ctx context.Context, id int64, status int32) (int64, error)
 
 	/**
 	* 删除指定用户
@@ -55,7 +60,7 @@ type Service interface {
 	/**
 	* 获取用户对应角色
 	 */
-	GetRoleList(ctx context.Context, adminId int64) ([]ums_role.UmsRole, error)
+	GetRoleList(ctx context.Context, adminId int64) ([]dto.UmsRole, error)
 
 	/**
 	* 修改密码
@@ -70,7 +75,7 @@ type Service interface {
 	/**
 	 * 根据用户id获取用户
 	 */
-	GetItem(ctx context.Context, id int64) (*ums_admin.UmsAdmin, error)
+	GetItem(ctx context.Context, id int64) (*dto.UmsAdmin, error)
 
 	/**
 	 * 获取用户信息

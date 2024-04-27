@@ -2,8 +2,8 @@ package ums_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
 	"github.com/ChangSZ/mall-go/pkg/log"
 
 	"github.com/gin-gonic/gin"
@@ -12,10 +12,10 @@ import (
 type infoRequest struct{}
 
 type infoResponse struct {
-	Username string             `json:"username"`
-	Menus    []ums_menu.UmsMenu `json:"menus"`
-	Icon     string             `json:"icon"`
-	Roles    []string           `json:"roles"`
+	Username string        `json:"username"`
+	Menus    []dto.UmsMenu `json:"menus"`
+	Icon     string        `json:"icon"`
+	Roles    []string      `json:"roles"`
 }
 
 // Info 获取当前登录用户信息

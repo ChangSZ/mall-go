@@ -1,4 +1,4 @@
-package ums_menu
+package dto
 
 import "time"
 
@@ -22,10 +22,6 @@ type UmsMenuParam struct {
 	Name     string `json:"name"`
 	Icon     string `json:"icon"`
 	Hidden   int32  `json:"hidden"`
-}
-
-type UmsMenuUri struct {
-	Id int64 `uri:"id" binding:"required"`
 }
 
 type UmsMenuListUri struct {

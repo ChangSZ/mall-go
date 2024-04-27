@@ -2,6 +2,7 @@ package pms_brand
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -11,7 +12,7 @@ import (
 type getItemRequest struct{}
 
 type getItemResponse struct {
-	PmsBrand `json:",inline"`
+	dto.PmsBrand `json:",inline"`
 }
 
 // GetItem 根据编号查询品牌信息
@@ -27,7 +28,7 @@ type getItemResponse struct {
 func (h *handler) GetItem(ctx *gin.Context) {
 	_ = new(getItemRequest)
 	res := new(getItemResponse)
-	uri := new(PmsBrandUri)
+	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
@@ -40,18 +41,6 @@ func (h *handler) GetItem(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.PmsBrand = PmsBrand{
-		Id:                  item.Id,
-		Name:                item.Name,
-		FirstLetter:         item.FirstLetter,
-		Sort:                item.Sort,
-		FactoryStatus:       item.FactoryStatus,
-		ShowStatus:          item.ShowStatus,
-		ProductCount:        item.ProductCount,
-		ProductCommentCount: item.ProductCommentCount,
-		Logo:                item.Logo,
-		BigPic:              item.BigPic,
-		BrandStory:          item.BrandStory,
-	}
+	res.PmsBrand = *item
 	api.Success(ctx, res)
 }

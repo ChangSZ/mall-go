@@ -2,7 +2,7 @@ package ums_menu
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -10,7 +10,7 @@ import (
 )
 
 type createRequest struct {
-	UmsMenuParam `json:",inline"`
+	dto.UmsMenuParam `json:",inline"`
 }
 
 type createResponse struct {
@@ -35,16 +35,8 @@ func (h *handler) Create(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	data := &ums_menu.UmsMenu{
-		ParentId: req.ParentId,
-		Title:    req.Title,
-		Level:    req.Level,
-		Sort:     req.Sort,
-		Name:     req.Name,
-		Icon:     req.Icon,
-		Hidden:   req.Hidden,
-	}
-	cnt, err := h.umsMenuService.Create(ctx, data)
+
+	cnt, err := h.umsMenuService.Create(ctx, req.UmsMenuParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())
