@@ -310,6 +310,7 @@ func textType(s string) string {
 		"mediumtext": "string",
 		"longblob":   "string",
 		"longtext":   "string",
+		"varbinary":  "[]byte",
 	}
 	return mysqlTypeToGoType[s]
 }

@@ -10,7 +10,7 @@ import (
 )
 
 type listRequest struct {
-	Keyword  string `form:"keyword" binding:"required"`
+	Keyword  string `form:"keyword" binding:"omitempty"`
 	PageSize int    `form:"pageSize,default=5" binding:"omitempty"`
 	PageNum  int    `form:"pageNum,default=1" binding:"omitempty"`
 }

@@ -37,7 +37,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.UmsRoleParam) 
 	data := map[string]interface{}{
 		"name":        param.Name,
 		"description": param.Description,
-		"adminCount":  param.AdminCount,
+		"admin_count": param.AdminCount,
 		"status":      param.Status,
 		"sort":        param.Sort,
 	}

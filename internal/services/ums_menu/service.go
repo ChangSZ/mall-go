@@ -51,13 +51,13 @@ func (s *service) getNewLevel(ctx context.Context, parentId int64) int32 {
 
 func (s *service) Update(ctx context.Context, id int64, param dto.UmsMenuParam) (int64, error) {
 	data := map[string]interface{}{
-		"parentId": param.ParentId,
-		"title":    param.Title,
-		"level":    s.getNewLevel(ctx, param.ParentId),
-		"sort":     param.Sort,
-		"name":     param.Name,
-		"icon":     param.Icon,
-		"hidden":   param.Hidden,
+		"parent_id": param.ParentId,
+		"title":     param.Title,
+		"level":     s.getNewLevel(ctx, param.ParentId),
+		"sort":      param.Sort,
+		"name":      param.Name,
+		"icon":      param.Icon,
+		"hidden":    param.Hidden,
 	}
 	qb := ums_menu.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)

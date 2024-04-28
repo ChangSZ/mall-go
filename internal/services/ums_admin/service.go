@@ -258,13 +258,13 @@ func (s *service) GetItem(ctx context.Context, id int64) (*dto.UmsAdmin, error) 
 
 func (s *service) Update(ctx context.Context, id int64, param dto.UmsAdmin) (int64, error) {
 	data := map[string]interface{}{
-		"username": param.Username,
-		"password": param.Password,
-		"icon":     param.Icon,
-		"email":    param.Email,
-		"nickName": param.NickName,
-		"note":     param.Note,
-		"status":   param.Status,
+		"username":  param.Username,
+		"password":  param.Password,
+		"icon":      param.Icon,
+		"email":     param.Email,
+		"nick_name": param.NickName,
+		"note":      param.Note,
+		"status":    param.Status,
 	}
 	qb := ums_admin.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
