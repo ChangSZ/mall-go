@@ -22,7 +22,7 @@ type listMenuResponse struct {
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body listMenuRequest true "请求信息"
-// @Success 200 {object} code.Success{data=[]ums_menu.UmsMenu}
+// @Success 200 {object} code.Success{data=[]dto.UmsMenu}
 // @Failure 400 {object} code.Failure
 // @Router /role/listMenu/{roleId} [get]
 func (h *handler) ListMenu(ctx *gin.Context) {

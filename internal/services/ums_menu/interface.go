@@ -40,7 +40,7 @@ type Service interface {
 	/**
 	 * 树形结构返回所有菜单列表
 	 */
-	TreeList(ctx context.Context) ([]UmsMenuNode, error)
+	TreeList(ctx context.Context) ([]dto.UmsMenuNode, error)
 
 	/**
 	 * 修改菜单显示状态

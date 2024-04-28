@@ -2,7 +2,6 @@ package ums_menu
 
 import (
 	"context"
-	"time"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
@@ -127,26 +126,13 @@ func (s *service) List(ctx context.Context,
 	return listData, count, err
 }
 
-type UmsMenuNode struct {
-	Id         int64         `json:"id"`
-	ParentId   int64         `json:"parentId"`
-	CreateTime time.Time     `json:"createTime"`
-	Title      string        `json:"title"`
-	Level      int32         `json:"level"`
-	Sort       int32         `json:"sort"`
-	Name       string        `json:"name"`
-	Icon       string        `json:"icon"`
-	Hidden     int32         `json:"hidden"`
-	Children   []UmsMenuNode `json:"children"`
-}
-
-func (s *service) TreeList(ctx context.Context) ([]UmsMenuNode, error) {
+func (s *service) TreeList(ctx context.Context) ([]dto.UmsMenuNode, error) {
 	qb := ums_menu.NewQueryBuilder()
 	menuList, err := qb.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}
-	var result []UmsMenuNode
+	var result []dto.UmsMenuNode
 	for _, menu := range menuList {
 		if menu.ParentId == 0 {
 			result = append(result, s.covertMenuNode(ctx, menu, menuList))
@@ -165,8 +151,8 @@ func (s *service) UpdateHidden(ctx context.Context, id int64, hidden int32) (int
 }
 
 func (s *service) covertMenuNode(ctx context.Context,
-	menu *ums_menu.UmsMenu, menuList []*ums_menu.UmsMenu) UmsMenuNode {
-	node := UmsMenuNode{}
+	menu *ums_menu.UmsMenu, menuList []*ums_menu.UmsMenu) dto.UmsMenuNode {
+	node := dto.UmsMenuNode{}
 	node.Id = menu.Id
 	node.ParentId = menu.ParentId
 	node.CreateTime = menu.CreateTime
@@ -176,7 +162,7 @@ func (s *service) covertMenuNode(ctx context.Context,
 	node.Name = menu.Name
 	node.Icon = menu.Icon
 	node.Hidden = menu.Hidden
-	node.Children = make([]UmsMenuNode, 0)
+	node.Children = make([]dto.UmsMenuNode, 0)
 	for _, subMenu := range menuList {
 		if subMenu.ParentId == menu.Id {
 			node.Children = append(node.Children, s.covertMenuNode(ctx, subMenu, menuList))
