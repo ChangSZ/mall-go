@@ -18,6 +18,15 @@ type PmsProductParam struct {
 	PrefrenceAreaProductRelationList []CmsPrefrenceAreaProductRelation `json:"prerenceAreaProductRelation"` // 优选专区和商品的关系
 }
 
+type PmsProductQueryParam struct {
+	PublishStatus     int32  `json:"publishStatus,omitempty"`     // 上架状态
+	VerifyStatus      int32  `json:"verifyStatus,omitempty"`      // 审核状态
+	Keyword           string `json:"keyword,omitempty"`           // 商品名称模糊关键字
+	ProductSn         string `json:"productSn,omitempty"`         // 商品货号
+	ProductCategoryId int64  `json:"productCategoryId,omitempty"` // 商品分类编号
+	BrandId           int64  `json:"brandId,omitempty"`           // 商品品牌编号
+}
+
 type PmsProduct struct {
 	Id                         int64     `json:"id"`                         //
 	BrandId                    int64     `json:"brandId"`                    //

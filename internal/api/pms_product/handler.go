@@ -1,6 +1,7 @@
 package pms_product
 
 import (
+	"github.com/ChangSZ/mall-go/internal/services/pms_product"
 	"github.com/gin-gonic/gin"
 )
 
@@ -61,12 +62,12 @@ type Handler interface {
 }
 
 type handler struct {
-	// pmsProductService pms_product.Service
+	pmsProductService pms_product.Service
 }
 
 func New() Handler {
 	return &handler{
-		// pmsProductService: pms_product.New(),
+		pmsProductService: pms_product.New(),
 	}
 }
 
