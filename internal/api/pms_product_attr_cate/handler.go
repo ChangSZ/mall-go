@@ -1,6 +1,8 @@
 package pms_product_attr_cate
 
 import (
+	"github.com/ChangSZ/mall-go/internal/services/pms_product_attr_cate"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -41,12 +43,12 @@ type Handler interface {
 }
 
 type handler struct {
-	// pmsProductAttrCateService pms_product_attr_cate.Service
+	pmsProductAttrCateService pms_product_attr_cate.Service
 }
 
 func New() Handler {
 	return &handler{
-		// pmsProductAttrCateService: pms_product_attr_cate.New(),
+		pmsProductAttrCateService: pms_product_attr_cate.New(),
 	}
 }
 

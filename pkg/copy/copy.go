@@ -5,7 +5,12 @@ import (
 	"reflect"
 )
 
-// AssignStruct 将src中有值的字段赋值到dst中, 入参必须是结构体对象引用
+// AssignStruct 将src中有值的字段赋值到dst中
+//
+// - 是将相同字段名中src值赋给dst中对应字段
+// - 入参必须是结构体对象引用
+// - 若结构体中存在切片, 请先初始化至src\dst一致
+// - 如果存在内联, 保证内联结构体名称一致
 func AssignStruct(src, dst interface{}) {
 	defer func() {
 		if r := recover(); r != nil {
