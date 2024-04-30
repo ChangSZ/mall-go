@@ -107,23 +107,7 @@ func (s *service) handleSkuStockCode(skuStockList []dto.PmsSkuStock, productId i
 }
 
 func (s *service) GetUpdateInfo(ctx context.Context, id int64) (*dto.PmsProductResult, error) {
-	data, err := new(dao.PmsProductDao).GetUpdateInfo(ctx, mysql.DB().GetDbR().WithContext(ctx), id)
-	if err != nil {
-		return nil, err
-	}
-	res := &dto.PmsProductResult{
-		PmsProductParam: dto.PmsProductParam{
-			ProductLadderList:                make([]dto.PmsProductLadder, len(data.ProductLadderList)),
-			ProductFullReductionList:         make([]dto.PmsProductFullReduction, len(data.ProductFullReductionList)),
-			MemberPriceList:                  make([]dto.PmsMemberPrice, len(data.MemberPriceList)),
-			SkuStockList:                     make([]dto.PmsSkuStock, len(data.SkuStockList)),
-			ProductAttributeValueList:        make([]dto.PmsProductAttributeValue, len(data.ProductAttributeValueList)),
-			SubjectProductRelationList:       make([]dto.CmsSubjectProductRelation, len(data.SubjectProductRelationList)),
-			PrefrenceAreaProductRelationList: make([]dto.CmsPrefrenceAreaProductRelation, len(data.PrefrenceAreaProductRelationList)),
-		},
-	}
-	copy.AssignStruct(data, res)
-	return res, nil
+	return new(dao.PmsProductDao).GetUpdateInfo(ctx, mysql.DB().GetDbR().WithContext(ctx), id)
 }
 
 func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductParam) (int64, error) {

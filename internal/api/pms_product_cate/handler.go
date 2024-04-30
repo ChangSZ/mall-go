@@ -1,6 +1,8 @@
 package pms_product_cate
 
 import (
+	"github.com/ChangSZ/mall-go/internal/services/pms_product_cate"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -51,12 +53,12 @@ type Handler interface {
 }
 
 type handler struct {
-	// pmsProductCateService pms_product_cate.Service
+	pmsProductCateService pms_product_cate.Service
 }
 
 func New() Handler {
 	return &handler{
-		// pmsProductCateService: pms_product_cate.New(),
+		pmsProductCateService: pms_product_cate.New(),
 	}
 }
 

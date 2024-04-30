@@ -9,13 +9,13 @@ type PmsProductResult struct {
 
 type PmsProductParam struct {
 	PmsProduct                       `json:",inline"`
-	ProductLadderList                []PmsProductLadder                `json:"productLadderList"`           // 商品阶梯价格设置
-	ProductFullReductionList         []PmsProductFullReduction         `json:"productFullReductionList"`    // 商品满减价格设置
-	MemberPriceList                  []PmsMemberPrice                  `json:"memberPriceList"`             // 商品会员价格设置
-	SkuStockList                     []PmsSkuStock                     `json:"skuStockList"`                // 商品的sku库存信息
-	ProductAttributeValueList        []PmsProductAttributeValue        `json:"productAttributeValue"`       // 商品参数及自定义规格属性
-	SubjectProductRelationList       []CmsSubjectProductRelation       `json:"subjectProductRelation"`      // 专题和商品关系
-	PrefrenceAreaProductRelationList []CmsPrefrenceAreaProductRelation `json:"prerenceAreaProductRelation"` // 优选专区和商品的关系
+	ProductLadderList                []PmsProductLadder                `json:"productLadderList" gorm:"foreignKey:ProductId"`           // 商品阶梯价格设置
+	ProductFullReductionList         []PmsProductFullReduction         `json:"productFullReductionList" gorm:"foreignKey:ProductId"`    // 商品满减价格设置
+	MemberPriceList                  []PmsMemberPrice                  `json:"memberPriceList" gorm:"foreignKey:ProductId"`             // 商品会员价格设置
+	SkuStockList                     []PmsSkuStock                     `json:"skuStockList" gorm:"foreignKey:ProductId"`                // 商品的sku库存信息
+	ProductAttributeValueList        []PmsProductAttributeValue        `json:"productAttributeValue" gorm:"foreignKey:ProductId"`       // 商品参数及自定义规格属性
+	SubjectProductRelationList       []CmsSubjectProductRelation       `json:"subjectProductRelation" gorm:"foreignKey:ProductId"`      // 专题和商品关系
+	PrefrenceAreaProductRelationList []CmsPrefrenceAreaProductRelation `json:"prerenceAreaProductRelation" gorm:"foreignKey:ProductId"` // 优选专区和商品的关系
 }
 
 type PmsProductQueryParam struct {

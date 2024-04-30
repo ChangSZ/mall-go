@@ -17,6 +17,11 @@ func AssignStruct(src, dst interface{}) {
 			fmt.Println("Recovered from panic:", r)
 		}
 	}()
+	if src == nil || reflect.ValueOf(src).IsNil() ||
+		dst == nil || reflect.ValueOf(dst).IsNil() {
+		fmt.Println("src or dst is nil")
+		return
+	}
 	assignStructFields(reflect.ValueOf(src).Elem(), reflect.ValueOf(dst).Elem())
 }
 
