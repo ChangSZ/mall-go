@@ -13,7 +13,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_member_price"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_attribute_value"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_category"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_full_reduction"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_ladder"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_vertify_record"
@@ -108,142 +107,27 @@ func (s *service) handleSkuStockCode(skuStockList []dto.PmsSkuStock, productId i
 }
 
 func (s *service) GetUpdateInfo(ctx context.Context, id int64) (*dto.PmsProductResult, error) {
-	res := &dto.PmsProductResult{}
-	{
-		qb := pms_product.NewQueryBuilder()
-		qb = qb.WhereId(mysql.EqualPredicate, id)
-		data, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
-		if err != nil {
-			return res, err
-		}
-		copy.AssignStruct(data, &res.PmsProductParam.PmsProduct)
+	data, err := new(dao.PmsProductDao).GetUpdateInfo(ctx, mysql.DB().GetDbR().WithContext(ctx), id)
+	if err != nil {
+		return nil, err
 	}
-
-	{
-		qb := pms_product_category.NewQueryBuilder()
-		qb = qb.WhereId(mysql.EqualPredicate, res.ProductCategoryId)
-		data, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
-		if err != nil {
-			return res, err
-		}
-		res.CateParentId = data.ParentId
+	res := &dto.PmsProductResult{
+		PmsProductParam: dto.PmsProductParam{
+			ProductLadderList:                make([]dto.PmsProductLadder, len(data.ProductLadderList)),
+			ProductFullReductionList:         make([]dto.PmsProductFullReduction, len(data.ProductFullReductionList)),
+			MemberPriceList:                  make([]dto.PmsMemberPrice, len(data.MemberPriceList)),
+			SkuStockList:                     make([]dto.PmsSkuStock, len(data.SkuStockList)),
+			ProductAttributeValueList:        make([]dto.PmsProductAttributeValue, len(data.ProductAttributeValueList)),
+			SubjectProductRelationList:       make([]dto.CmsSubjectProductRelation, len(data.SubjectProductRelationList)),
+			PrefrenceAreaProductRelationList: make([]dto.CmsPrefrenceAreaProductRelation, len(data.PrefrenceAreaProductRelationList)),
+		},
 	}
-
-	{
-		qb := pms_product_ladder.NewQueryBuilder()
-		qb = qb.WhereProductId(mysql.EqualPredicate, id)
-		data, err := qb.OrderById(false).QueryAll(mysql.DB().GetDbR().WithContext(ctx))
-		if err != nil {
-			return res, err
-		}
-		list := make([]dto.PmsProductLadder, 0, len(data))
-		for _, v := range data {
-			tmp := dto.PmsProductLadder{}
-			copy.AssignStruct(v, &tmp)
-			list = append(list, tmp)
-		}
-		res.PmsProductParam.ProductLadderList = list
-	}
-
-	{
-		qb := pms_product_full_reduction.NewQueryBuilder()
-		qb = qb.WhereProductId(mysql.EqualPredicate, id)
-		data, err := qb.OrderById(false).QueryAll(mysql.DB().GetDbR().WithContext(ctx))
-		if err != nil {
-			return res, err
-		}
-		list := make([]dto.PmsProductFullReduction, 0, len(data))
-		for _, v := range data {
-			tmp := dto.PmsProductFullReduction{}
-			copy.AssignStruct(v, &tmp)
-			list = append(list, tmp)
-		}
-		res.PmsProductParam.ProductFullReductionList = list
-	}
-
-	{
-		qb := pms_member_price.NewQueryBuilder()
-		qb = qb.WhereProductId(mysql.EqualPredicate, id)
-		data, err := qb.OrderById(false).QueryAll(mysql.DB().GetDbR().WithContext(ctx))
-		if err != nil {
-			return res, err
-		}
-		list := make([]dto.PmsMemberPrice, 0, len(data))
-		for _, v := range data {
-			tmp := dto.PmsMemberPrice{}
-			copy.AssignStruct(v, &tmp)
-			list = append(list, tmp)
-		}
-		res.PmsProductParam.MemberPriceList = list
-	}
-
-	{
-		qb := pms_sku_stock.NewQueryBuilder()
-		qb = qb.WhereProductId(mysql.EqualPredicate, id)
-		data, err := qb.OrderById(false).QueryAll(mysql.DB().GetDbR().WithContext(ctx))
-		if err != nil {
-			return res, err
-		}
-		list := make([]dto.PmsSkuStock, 0, len(data))
-		for _, v := range data {
-			tmp := dto.PmsSkuStock{}
-			copy.AssignStruct(v, &tmp)
-			list = append(list, tmp)
-		}
-		res.PmsProductParam.SkuStockList = list
-	}
-
-	{
-		qb := pms_product_attribute_value.NewQueryBuilder()
-		qb = qb.WhereProductId(mysql.EqualPredicate, id)
-		data, err := qb.OrderById(false).QueryAll(mysql.DB().GetDbR().WithContext(ctx))
-		if err != nil {
-			return res, err
-		}
-		list := make([]dto.PmsProductAttributeValue, 0, len(data))
-		for _, v := range data {
-			tmp := dto.PmsProductAttributeValue{}
-			copy.AssignStruct(v, &tmp)
-			list = append(list, tmp)
-		}
-		res.PmsProductParam.ProductAttributeValueList = list
-	}
-
-	{
-		qb := cms_subject_product_relation.NewQueryBuilder()
-		qb = qb.WhereProductId(mysql.EqualPredicate, id)
-		data, err := qb.OrderById(false).QueryAll(mysql.DB().GetDbR().WithContext(ctx))
-		if err != nil {
-			return res, err
-		}
-		list := make([]dto.CmsSubjectProductRelation, 0, len(data))
-		for _, v := range data {
-			tmp := dto.CmsSubjectProductRelation{}
-			copy.AssignStruct(v, &tmp)
-			list = append(list, tmp)
-		}
-		res.PmsProductParam.SubjectProductRelationList = list
-	}
-
-	{
-		qb := cms_prefrence_area_product_relation.NewQueryBuilder()
-		qb = qb.WhereProductId(mysql.EqualPredicate, id)
-		data, err := qb.OrderById(false).QueryAll(mysql.DB().GetDbR().WithContext(ctx))
-		if err != nil {
-			return res, err
-		}
-		list := make([]dto.CmsPrefrenceAreaProductRelation, 0, len(data))
-		for _, v := range data {
-			tmp := dto.CmsPrefrenceAreaProductRelation{}
-			copy.AssignStruct(v, &tmp)
-			list = append(list, tmp)
-		}
-		res.PmsProductParam.PrefrenceAreaProductRelationList = list
-	}
+	copy.AssignStruct(data, res)
 	return res, nil
 }
 
 func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductParam) (int64, error) {
+	// TODO: 后续可以考虑使用事务, 比如gorm的关联模式
 	// 更新商品信息
 	data := map[string]interface{}{
 		"id":                            id,
