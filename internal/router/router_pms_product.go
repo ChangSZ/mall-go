@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api/pms_product"
+	"github.com/ChangSZ/mall-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,7 +10,7 @@ import (
 // 商品管理
 func setPmsProducteRouter(eng *gin.Engine) {
 	productHandler := pms_product.New()
-	products := eng.Group("/product")
+	products := eng.Group("/product", middleware.CheckToken())
 	{
 		products.POST("/create", productHandler.Create)                                // 创建商品
 		products.GET("/updateInfo/:id", productHandler.GetUpdateInfo)                  // 根据商品id获取商品编辑信息

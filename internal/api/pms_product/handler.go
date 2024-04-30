@@ -2,6 +2,7 @@ package pms_product
 
 import (
 	"github.com/ChangSZ/mall-go/internal/services/pms_product"
+
 	"github.com/gin-gonic/gin"
 )
 

@@ -19,12 +19,12 @@ type PmsProductParam struct {
 }
 
 type PmsProductQueryParam struct {
-	PublishStatus     int32  `json:"publishStatus,omitempty"`     // 上架状态
-	VerifyStatus      int32  `json:"verifyStatus,omitempty"`      // 审核状态
-	Keyword           string `json:"keyword,omitempty"`           // 商品名称模糊关键字
-	ProductSn         string `json:"productSn,omitempty"`         // 商品货号
-	ProductCategoryId int64  `json:"productCategoryId,omitempty"` // 商品分类编号
-	BrandId           int64  `json:"brandId,omitempty"`           // 商品品牌编号
+	PublishStatus     int32  `form:"publishStatus" json:"publishStatus,omitempty"`         // 上架状态
+	VerifyStatus      int32  `form:"verifyStatus" json:"verifyStatus,omitempty"`           // 审核状态
+	Keyword           string `form:"keyword" json:"keyword,omitempty"`                     // 商品名称模糊关键字
+	ProductSn         string `form:"productSn" json:"productSn,omitempty"`                 // 商品货号
+	ProductCategoryId int64  `form:"productCategoryId" json:"productCategoryId,omitempty"` // 商品分类编号
+	BrandId           int64  `form:"brandId" json:"brandId,omitempty"`                     // 商品品牌编号
 }
 
 type PmsProduct struct {
