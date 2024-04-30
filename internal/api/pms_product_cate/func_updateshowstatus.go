@@ -2,13 +2,20 @@ package pms_product_cate
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
 
-type updateShowStatusRequest struct{}
+type updateShowStatusRequest struct {
+	Ids        []int64 `form:"ids"`
+	ShowStatus int32   `form:"showStatus"`
+}
 
-type updateShowStatusResponse struct{}
+type updateShowStatusResponse struct {
+	Count int64 `json:",inline"`
+}
 
 // UpdateShowStatus 修改显示状态
 // @Summary 修改显示状态
@@ -17,9 +24,28 @@ type updateShowStatusResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body updateShowStatusRequest true "请求信息"
-// @Success 200 {object} code.Success{data=updateShowStatusResponse}
+// @Success 200 {object} code.Success{data=int64}
 // @Failure 400 {object} code.Failure
 // @Router /productCategory/update/showStatus[post]
 func (h *handler) UpdateShowStatus(ctx *gin.Context) {
-	api.Success(ctx, nil)
+	req := new(updateShowStatusRequest)
+	res := new(updateShowStatusResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		return
+	}
+
+	cnt, err := h.pmsProductCateService.UpdateShowStatus(ctx, req.Ids, req.ShowStatus)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Failed(ctx, err.Error())
+		return
+	}
+	if cnt == 0 {
+		api.Failed(ctx, "更新ShowStatus个数为0")
+		return
+	}
+	res.Count = cnt
+	api.Success(ctx, res.Count)
 }

@@ -2,7 +2,6 @@ package router
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api/pms_product_cate"
-	"github.com/ChangSZ/mall-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +9,7 @@ import (
 // 商品分类管理
 func setPmsProducteCateRouter(eng *gin.Engine) {
 	productCateHandler := pms_product_cate.New()
-	cates := eng.Group("/productCategory", middleware.CheckToken())
+	cates := eng.Group("/productCategory")
 	{
 		cates.POST("/create", productCateHandler.Create)                      // 添加商品分类
 		cates.POST("/update/:id", productCateHandler.Update)                  // 修改商品分类

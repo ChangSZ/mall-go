@@ -62,6 +62,39 @@ func TestAssignStruct(t *testing.T) {
 			},
 			want: &Destination{Field1: 10, Field2: "test", Field3: true, Filed5: 12},
 		},
+		{
+			name: "test4",
+			args: args{
+				src: nil,
+				dst: &Destination{Field3: true, Filed5: 12},
+			},
+			want: &Destination{Field3: true, Filed5: 12},
+		},
+		{
+			name: "test5",
+			args: args{
+				src: &Source{
+					Field1: 10,
+					Field2: "test",
+					Field4: &Destination{Field1: 1, Field2: "test2", Field3: false},
+					Field5: "hello",
+				},
+				dst: nil,
+			},
+			want: nil,
+		},
+		{
+			name: "test6",
+			args: args{
+				src: &Source{
+					Field1: 10,
+					Field2: "test",
+					Field4: &Destination{Field1: 1, Field2: "test2", Field3: false},
+					Field5: "hello",
+				},
+			},
+			want: nil,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
