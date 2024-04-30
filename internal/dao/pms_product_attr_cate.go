@@ -10,8 +10,8 @@ import (
 )
 
 type PmsProductAttrCateItem struct {
-	pms_product_attribute_category.PmsProductAttributeCategory `json:",inline"`
-	ProductAttributeList                                       []pms_product_attribute.PmsProductAttribute `json:"productAttributeList" gorm:"foreignKey:ProductAttributeCategoryId"`
+	pms_product_attribute_category.PmsProductAttributeCategory
+	ProductAttributeList []pms_product_attribute.PmsProductAttribute `gorm:"foreignKey:ProductAttributeCategoryId"`
 }
 
 type PmsProductAttrCateDao struct{}
