@@ -35,7 +35,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.UmsResourcePar
 		"name":        param.Name,
 		"url":         param.Url,
 		"description": param.Description,
-		"categoryId":  param.CategoryId,
+		"category_id": param.CategoryId,
 	}
 	qb := ums_resource.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
