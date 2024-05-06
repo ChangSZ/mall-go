@@ -73,6 +73,10 @@ func RoutersInit(cronServer cron.Server) *gin.Engine {
 	setPmsProducteRouter(eng)
 	setPmsSkuStockRouter(eng)
 
+	// 设置 Cms 路由
+	setCmsSubjectRouter(eng)
+	setCmsPrefrenceAreaRouter(eng)
+
 	// 设置 Socket 路由
 	setSocketRouter(eng)
 

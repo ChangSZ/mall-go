@@ -30,7 +30,7 @@ func (t *PmsSkuStockDao) InsertList(ctx context.Context,
 }
 
 func (t *PmsSkuStockDao) ReplaceList(ctx context.Context,
-	tx *gorm.DB, list []dto.PmsSkuStockUpdateParam) (int64, error) {
+	tx *gorm.DB, list []dto.PmsSkuStock) (int64, error) {
 	var rowsAffected int64
 	db := tx.Begin()
 	for _, v := range list {

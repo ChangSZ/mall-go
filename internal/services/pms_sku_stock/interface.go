@@ -20,5 +20,5 @@ type Service interface {
 	/**
 	 * 批量更新商品库存信息
 	 */
-	Update(ctx context.Context, pid int64, param []dto.PmsSkuStockUpdateParam) (int64, error)
+	Update(ctx context.Context, pid int64, param []dto.PmsSkuStock) (int64, error)
 }

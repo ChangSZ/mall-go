@@ -156,9 +156,16 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		"brand_name":                    param.BrandName,
 		"product_category_name":         param.ProductCategoryName,
 	}
+
+	if param.PromotionStartTime.IsZero() {
+		data["promotion_start_time"] = nil
+	}
+	if param.PromotionEndTime.IsZero() {
+		data["promotion_end_time"] = nil
+	}
 	qb := pms_product.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	cnt, err := qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
+	_, err := qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
 	if err != nil {
 		return 0, err
 	}
@@ -169,12 +176,12 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		qb = qb.WhereProductId(mysql.EqualPredicate, id)
 		if _, err := qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
 			log.WithTrace(ctx).Errorf("删除产品出错(PmsMemberPrice): %v", err)
-			return cnt, err
+			return 0, err
 		}
 		if err := new(dao.PmsMemberPriceDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.MemberPriceList, id); err != nil {
 			log.WithTrace(ctx).Errorf("创建产品出错(PmsMemberPrice): %v", err)
-			return cnt, err
+			return 0, err
 		}
 	}
 	// 阶梯价格
@@ -183,12 +190,12 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		qb = qb.WhereProductId(mysql.EqualPredicate, id)
 		if _, err := qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
 			log.WithTrace(ctx).Errorf("删除产品出错(PmsProductLadder): %v", err)
-			return cnt, err
+			return 0, err
 		}
 		if err := new(dao.PmsProductLadderDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.ProductLadderList, id); err != nil {
 			log.WithTrace(ctx).Errorf("创建产品出错(PmsProductLadder): %v", err)
-			return cnt, err
+			return 0, err
 		}
 	}
 	// 满减价格
@@ -197,19 +204,19 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		qb = qb.WhereProductId(mysql.EqualPredicate, id)
 		if _, err := qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
 			log.WithTrace(ctx).Errorf("删除产品出错(PmsProductFullReduction): %v", err)
-			return cnt, err
+			return 0, err
 		}
 		if err := new(dao.PmsProductFullReductionDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.ProductFullReductionList, id); err != nil {
 			log.WithTrace(ctx).Errorf("创建产品出错(PmsProductFullReduction): %v", err)
-			return cnt, err
+			return 0, err
 		}
 	}
 
 	// 修改sku库存信息
 	if err := s.handleUpdateSkuStockList(ctx, param.SkuStockList, id); err != nil {
 		log.WithTrace(ctx).Errorf("更新sku库存信息出错: %v", err)
-		return cnt, err
+		return 0, err
 	}
 
 	// 修改商品参数,添加自定义商品规格
@@ -218,12 +225,12 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		qb = qb.WhereProductId(mysql.EqualPredicate, id)
 		if _, err := qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
 			log.WithTrace(ctx).Errorf("删除产品出错(PmsProductAttributeValue): %v", err)
-			return cnt, err
+			return 0, err
 		}
 		if err := new(dao.PmsProductAttributeValueDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.ProductAttributeValueList, id); err != nil {
 			log.WithTrace(ctx).Errorf("创建产品出错(PmsProductAttributeValue): %v", err)
-			return cnt, err
+			return 0, err
 		}
 	}
 	// 关联专题
@@ -232,12 +239,12 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		qb = qb.WhereProductId(mysql.EqualPredicate, id)
 		if _, err := qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
 			log.WithTrace(ctx).Errorf("删除产品出错(CmsSubjectProductRelation): %v", err)
-			return cnt, err
+			return 0, err
 		}
 		if err := new(dao.CmsSubjectProductRelationDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.SubjectProductRelationList, id); err != nil {
 			log.WithTrace(ctx).Errorf("创建产品出错(CmsSubjectProductRelation): %v", err)
-			return cnt, err
+			return 0, err
 		}
 	}
 	// 关联优选
@@ -246,15 +253,15 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		qb = qb.WhereProductId(mysql.EqualPredicate, id)
 		if _, err := qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
 			log.WithTrace(ctx).Errorf("删除产品出错(CmsPrefrenceAreaProductRelation): %v", err)
-			return cnt, err
+			return 0, err
 		}
 		if err := new(dao.CmsPrefrenceAreaProductRelationDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.PrefrenceAreaProductRelationList, id); err != nil {
 			log.WithTrace(ctx).Errorf("创建产品出错(CmsPrefrenceAreaProductRelation): %v", err)
-			return cnt, err
+			return 0, err
 		}
 	}
-	return cnt, nil
+	return 1, nil
 }
 
 func (s *service) handleUpdateSkuStockList(ctx context.Context, currSkuList []dto.PmsSkuStock, id int64) error {
@@ -302,7 +309,6 @@ func (s *service) handleUpdateSkuStockList(ctx context.Context, currSkuList []dt
 		if _, err := qb.Delete(mysql.DB().GetDbW().WithContext(ctx)); err != nil {
 			return err
 		}
-		return nil
 	}
 
 	// 新增sku
