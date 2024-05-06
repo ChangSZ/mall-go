@@ -17,7 +17,7 @@ type PmsProduct struct {
 	DeleteStatus               int32     // 删除状态：0->未删除；1->已删除
 	PublishStatus              int32     // 上架状态：0->下架；1->上架
 	NewStatus                  int32     // 新品状态:0->不是新品；1->新品
-	RecommandStatus            int32     // 推荐状态；0->不推荐；1->推荐
+	RecommendStatus            int32     // 推荐状态；0->不推荐；1->推荐
 	VerifyStatus               int32     // 审核状态：0->未审核；1->审核通过
 	Sort                       int32     // 排序
 	Sale                       int32     // 销量

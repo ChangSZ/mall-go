@@ -35,5 +35,5 @@ type PmsProductCategoryWithChildrenItem struct {
 }
 
 type PmsProductCateUri struct {
-	ParentId int64 `uri:"parentId" binding:"required"`
+	ParentId int64 `uri:"parentId" binding:"omitempty"` // 允许为0
 }

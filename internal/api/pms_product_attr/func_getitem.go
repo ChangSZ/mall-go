@@ -2,13 +2,18 @@ package pms_product_attr
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
 
 type getItemRequest struct{}
 
-type getItemResponse struct{}
+type getItemResponse struct {
+	dto.PmsProductAttr `json:",inline"`
+}
 
 // GetItem 查询单个商品属性
 // @Summary 查询单个商品属性
@@ -21,5 +26,21 @@ type getItemResponse struct{}
 // @Failure 400 {object} code.Failure
 // @Router /productAttribute/{id} [get]
 func (h *handler) GetItem(ctx *gin.Context) {
-	api.Success(ctx, nil)
+	_ = new(getItemRequest)
+	res := new(getItemResponse)
+	uri := new(dto.UriID)
+	if err := ctx.ShouldBindUri(uri); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		return
+	}
+
+	item, err := h.pmsProductAttrService.GetItem(ctx, uri.Id)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Failed(ctx, err.Error())
+		return
+	}
+	res.PmsProductAttr = *item
+	api.Success(ctx, res)
 }
