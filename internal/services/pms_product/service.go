@@ -17,7 +17,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_ladder"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_vertify_record"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_sku_stock"
-	pms_sku_stock_svc "github.com/ChangSZ/mall-go/internal/services/pms_sku_stock"
 	"github.com/ChangSZ/mall-go/pkg/copy"
 	"github.com/ChangSZ/mall-go/pkg/log"
 )
@@ -125,7 +124,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		"delete_status":                 param.DeleteStatus,
 		"publish_status":                param.PublishStatus,
 		"new_status":                    param.NewStatus,
-		"recommend_status":              param.RecommendStatus,
+		"recommand_status":              param.RecommandStatus,
 		"verify_status":                 param.VerifyStatus,
 		"sort":                          param.Sort,
 		"sale":                          param.Sale,
@@ -318,9 +317,22 @@ func (s *service) handleUpdateSkuStockList(ctx context.Context, currSkuList []dt
 	// 修改sku
 	if len(updateSkuList) > 0 {
 		s.handleSkuStockCode(updateSkuList, id)
-		svc := pms_sku_stock_svc.New()
 		for _, v := range updateSkuList {
-			if _, err := svc.Update(ctx, v.Id, v); err != nil {
+			data := map[string]interface{}{
+				"product_id":      v.ProductId,
+				"sku_code":        v.SkuCode,
+				"price":           v.Price,
+				"stock":           v.Stock,
+				"low_stock":       v.LowStock,
+				"pic":             v.Pic,
+				"sale":            v.Sale,
+				"promotion_price": v.PromotionPrice,
+				"lock_stock":      v.LockStock,
+				"sp_data":         v.SpData,
+			}
+			qb := pms_sku_stock.NewQueryBuilder()
+			qb = qb.WhereId(mysql.EqualPredicate, id)
+			if _, err := qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data); err != nil {
 				return err
 			}
 		}

@@ -37,11 +37,14 @@ func (t *PmsProductDao) GetUpdateInfo(ctx context.Context, tx *gorm.DB, id int64
 		Preload("MemberPriceList", func(db *gorm.DB) *gorm.DB {
 			return db.Order("id DESC")
 		}).
+		Preload("SkuStockList", func(db *gorm.DB) *gorm.DB {
+			return db.Order("id DESC")
+		}).
 		Preload("ProductAttributeValueList", func(db *gorm.DB) *gorm.DB {
 			return db.Order("id DESC")
 		}).
 		Preload("SubjectProductRelationList", func(db *gorm.DB) *gorm.DB {
-			return db.Order("id DESC")
+			return db.Order("id ASC")
 		}).
 		Preload("PrefrenceAreaProductRelationList", func(db *gorm.DB) *gorm.DB {
 			return db.Order("id DESC")

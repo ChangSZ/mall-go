@@ -599,46 +599,46 @@ func (qb *pmsProductQueryBuilder) OrderByNewStatus(asc bool) *pmsProductQueryBui
 	return qb
 }
 
-func (qb *pmsProductQueryBuilder) WhereRecommendStatus(p mysql.Predicate, value int32) *pmsProductQueryBuilder {
+func (qb *pmsProductQueryBuilder) WhereRecommandStatus(p mysql.Predicate, value int32) *pmsProductQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
 	}{
-		fmt.Sprintf("%v %v ?", "recommend_status", p),
+		fmt.Sprintf("%v %v ?", "recommand_status", p),
 		value,
 	})
 	return qb
 }
 
-func (qb *pmsProductQueryBuilder) WhereRecommendStatusIn(value []int32) *pmsProductQueryBuilder {
+func (qb *pmsProductQueryBuilder) WhereRecommandStatusIn(value []int32) *pmsProductQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
 	}{
-		fmt.Sprintf("%v %v ?", "recommend_status", "IN"),
+		fmt.Sprintf("%v %v ?", "recommand_status", "IN"),
 		value,
 	})
 	return qb
 }
 
-func (qb *pmsProductQueryBuilder) WhereRecommendStatusNotIn(value []int32) *pmsProductQueryBuilder {
+func (qb *pmsProductQueryBuilder) WhereRecommandStatusNotIn(value []int32) *pmsProductQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
 	}{
-		fmt.Sprintf("%v %v ?", "recommend_status", "NOT IN"),
+		fmt.Sprintf("%v %v ?", "recommand_status", "NOT IN"),
 		value,
 	})
 	return qb
 }
 
-func (qb *pmsProductQueryBuilder) OrderByRecommendStatus(asc bool) *pmsProductQueryBuilder {
+func (qb *pmsProductQueryBuilder) OrderByRecommandStatus(asc bool) *pmsProductQueryBuilder {
 	order := "DESC"
 	if asc {
 		order = "ASC"
 	}
 
-	qb.order = append(qb.order, "recommend_status "+order)
+	qb.order = append(qb.order, "recommand_status "+order)
 	return qb
 }
 

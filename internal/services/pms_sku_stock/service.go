@@ -3,9 +3,11 @@ package pms_sku_stock
 import (
 	"context"
 
+	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_sku_stock"
+	"github.com/ChangSZ/mall-go/pkg/copy"
 )
 
 type service struct{}
@@ -16,20 +18,29 @@ func New() Service {
 
 func (s *service) i() {}
 
-func (s *service) Update(ctx context.Context, id int64, param dto.PmsSkuStock) (int64, error) {
-	data := map[string]interface{}{
-		"product_id":      param.ProductId,
-		"sku_code":        param.SkuCode,
-		"price":           param.Price,
-		"stock":           param.Stock,
-		"low_stock":       param.LowStock,
-		"pic":             param.Pic,
-		"sale":            param.Sale,
-		"promotion_price": param.PromotionPrice,
-		"lock_stock":      param.LockStock,
-		"sp_data":         param.SpData,
-	}
+func (s *service) ListAll(ctx context.Context, pid int64, keyword string) ([]dto.PmsSkuStock, error) {
 	qb := pms_sku_stock.NewQueryBuilder()
-	qb = qb.WhereId(mysql.EqualPredicate, id)
-	return qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
+	qb = qb.WhereProductId(mysql.EqualPredicate, pid)
+	qb = qb.WhereSkuCode(mysql.LikePredicate, "%"+keyword+"%")
+	list, err := qb.QueryAll(mysql.DB().GetDbR().WithContext(ctx))
+	if err != nil {
+		return nil, err
+	}
+	listData := make([]dto.PmsSkuStock, 0, len(list))
+	for _, v := range list {
+		tmp := dto.PmsSkuStock{}
+		copy.AssignStruct(v, &tmp)
+		listData = append(listData, tmp)
+	}
+	return listData, nil
+}
+
+func (s *service) Update(ctx context.Context, pid int64, param []dto.PmsSkuStockUpdateParam) (int64, error) {
+	list := make([]dto.PmsSkuStockUpdateParam, 0)
+	for _, v := range param {
+		if pid == v.ProductId {
+			list = append(list, v)
+		}
+	}
+	return new(dao.PmsSkuStockDao).ReplaceList(ctx, mysql.DB().GetDbW().WithContext(ctx), list)
 }

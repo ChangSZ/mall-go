@@ -2,13 +2,20 @@ package pms_sku_stock
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
 
-type getListRequest struct{}
+type getListRequest struct {
+	Keyword string `form:"keyword"`
+}
 
-type getListResponse struct{}
+type getListResponse struct {
+	List []dto.PmsSkuStock `json:",inline"`
+}
 
 // GetList 根据商品ID及sku编码模糊搜索sku库存
 // @Summary 根据商品ID及sku编码模糊搜索sku库存
@@ -17,9 +24,32 @@ type getListResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body getListRequest true "请求信息"
-// @Success 200 {object} code.Success{data=getListResponse}
+// @Success 200 {object} code.Success{data=[]dto.PmsSkuStock}
 // @Failure 400 {object} code.Failure
 // @Router /sku/{pid} [get]
 func (h *handler) GetList(ctx *gin.Context) {
-	api.Success(ctx, nil)
+	req := new(getListRequest)
+	res := new(getListResponse)
+	uri := new(dto.PmsPidUri)
+	if err := ctx.ShouldBindUri(uri); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		return
+	}
+
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		return
+	}
+
+	list, err := h.pmsSkuStockService.ListAll(ctx, uri.Pid, req.Keyword)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Failed(ctx, err.Error())
+		return
+	}
+	res.List = list
+	api.Success(ctx, res.List)
+
 }

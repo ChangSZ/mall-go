@@ -8,9 +8,17 @@ import (
 
 var _ Service = (*service)(nil)
 
-// 商品管理Service
+// 商品SKU库存管理Service
 type Service interface {
 	i()
 
-	Update(ctx context.Context, id int64, param dto.PmsSkuStock) (int64, error)
+	/**
+	 * 根据商品id和skuCode关键字模糊搜索
+	 */
+	ListAll(ctx context.Context, pid int64, keyword string) ([]dto.PmsSkuStock, error)
+
+	/**
+	 * 批量更新商品库存信息
+	 */
+	Update(ctx context.Context, pid int64, param []dto.PmsSkuStockUpdateParam) (int64, error)
 }

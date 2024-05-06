@@ -9,13 +9,13 @@ type PmsProductResult struct {
 
 type PmsProductParam struct {
 	PmsProduct                       `json:",inline"`
-	ProductLadderList                []PmsProductLadder                `json:"productLadderList" gorm:"foreignKey:ProductId"`           // 商品阶梯价格设置
-	ProductFullReductionList         []PmsProductFullReduction         `json:"productFullReductionList" gorm:"foreignKey:ProductId"`    // 商品满减价格设置
-	MemberPriceList                  []PmsMemberPrice                  `json:"memberPriceList" gorm:"foreignKey:ProductId"`             // 商品会员价格设置
-	SkuStockList                     []PmsSkuStock                     `json:"skuStockList" gorm:"foreignKey:ProductId"`                // 商品的sku库存信息
-	ProductAttributeValueList        []PmsProductAttributeValue        `json:"productAttributeValue" gorm:"foreignKey:ProductId"`       // 商品参数及自定义规格属性
-	SubjectProductRelationList       []CmsSubjectProductRelation       `json:"subjectProductRelation" gorm:"foreignKey:ProductId"`      // 专题和商品关系
-	PrefrenceAreaProductRelationList []CmsPrefrenceAreaProductRelation `json:"prerenceAreaProductRelation" gorm:"foreignKey:ProductId"` // 优选专区和商品的关系
+	ProductLadderList                []PmsProductLadder                `json:"productLadderList" gorm:"foreignKey:ProductId"`                // 商品阶梯价格设置
+	ProductFullReductionList         []PmsProductFullReduction         `json:"productFullReductionList" gorm:"foreignKey:ProductId"`         // 商品满减价格设置
+	MemberPriceList                  []PmsMemberPrice                  `json:"memberPriceList" gorm:"foreignKey:ProductId"`                  // 商品会员价格设置
+	SkuStockList                     []PmsSkuStock                     `json:"skuStockList" gorm:"foreignKey:ProductId"`                     // 商品的sku库存信息
+	ProductAttributeValueList        []PmsProductAttributeValue        `json:"productAttributeValueList" gorm:"foreignKey:ProductId"`        // 商品参数及自定义规格属性
+	SubjectProductRelationList       []CmsSubjectProductRelation       `json:"subjectProductRelationList" gorm:"foreignKey:ProductId"`       // 专题和商品关系
+	PrefrenceAreaProductRelationList []CmsPrefrenceAreaProductRelation `json:"prefrenceAreaProductRelationList" gorm:"foreignKey:ProductId"` // 优选专区和商品的关系
 }
 
 type PmsProductQueryParam struct {
@@ -39,7 +39,7 @@ type PmsProduct struct {
 	DeleteStatus               int32     `json:"deleteStatus"`               // 删除状态：0->未删除；1->已删除
 	PublishStatus              int32     `json:"publishStatus"`              // 上架状态：0->下架；1->上架
 	NewStatus                  int32     `json:"newStatus"`                  // 新品状态:0->不是新品；1->新品
-	RecommendStatus            int32     `json:"recommandStatus"`            // 推荐状态；0->不推荐；1->推荐   // FIXME: 前端代码引用json有问题
+	RecommandStatus            int32     `json:"recommandStatus"`            // 推荐状态；0->不推荐；1->推荐
 	VerifyStatus               int32     `json:"verifyStatus"`               // 审核状态：0->未审核；1->审核通过
 	Sort                       int32     `json:"sort"`                       // 排序
 	Sale                       int32     `json:"sale"`                       // 销量

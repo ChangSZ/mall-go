@@ -1,6 +1,8 @@
 package pms_sku_stock
 
 import (
+	"github.com/ChangSZ/mall-go/internal/services/pms_sku_stock"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,12 +23,12 @@ type Handler interface {
 }
 
 type handler struct {
-	// pmsSkuStockService pms_sku_stock.Service
+	pmsSkuStockService pms_sku_stock.Service
 }
 
 func New() Handler {
 	return &handler{
-		// pmsSkuStockService: pms_sku_stock.New(),
+		pmsSkuStockService: pms_sku_stock.New(),
 	}
 }
 
