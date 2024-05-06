@@ -3,6 +3,7 @@ package copy
 import (
 	"fmt"
 	"reflect"
+	"time"
 )
 
 // AssignStruct 将src中有值的字段赋值到dst中
@@ -43,6 +44,11 @@ func assignStructFields(src, dst reflect.Value) {
 				continue
 			}
 			if srcFieldValue.IsZero() {
+				continue
+			}
+
+			if field.Type == reflect.TypeOf(time.Time{}) {
+				dstFieldValue.Set(srcFieldValue)
 				continue
 			}
 

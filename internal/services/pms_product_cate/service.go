@@ -116,7 +116,7 @@ func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
 func (s *service) GetItem(ctx context.Context, id int64) (*dto.PmsProductCategory, error) {
 	qb := pms_product_category.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	data, err := qb.First(mysql.DB().GetDbW().WithContext(ctx))
+	data, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}

@@ -125,7 +125,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		"delete_status":                 param.DeleteStatus,
 		"publish_status":                param.PublishStatus,
 		"new_status":                    param.NewStatus,
-		"recommand_status":              param.RecommandStatus,
+		"recommend_status":              param.RecommendStatus,
 		"verify_status":                 param.VerifyStatus,
 		"sort":                          param.Sort,
 		"sale":                          param.Sale,

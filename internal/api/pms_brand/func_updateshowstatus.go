@@ -9,8 +9,8 @@ import (
 )
 
 type updateShowStatusRequest struct {
-	Ids        []int64 `json:"ids"`
-	ShowStatus int32   `json:"showStatus"`
+	Ids        []int64 `form:"ids"`
+	ShowStatus int32   `form:"showStatus"`
 }
 
 type updateShowStatusResponse struct {

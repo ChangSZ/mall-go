@@ -2,13 +2,18 @@ package pms_product_attr
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
 
 type getAttrInfoRequest struct{}
 
-type getAttrInfoResponse struct{}
+type getAttrInfoResponse struct {
+	List []dto.PmsProductAttrInfo `json:",inline"`
+}
 
 // GetAttrInfo 根据商品分类的id获取商品属性及属性分类
 // @Summary 根据商品分类的id获取商品属性及属性分类
@@ -17,9 +22,25 @@ type getAttrInfoResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body getAttrInfoRequest true "请求信息"
-// @Success 200 {object} code.Success{data=getAttrInfoResponse}
+// @Success 200 {object} code.Success{data=[]dto.PmsProductAttrInfo}
 // @Failure 400 {object} code.Failure
 // @Router /productAttribute/attrInfo/{productCategoryId} [get]
 func (h *handler) GetAttrInfo(ctx *gin.Context) {
-	api.Success(ctx, nil)
+	_ = new(getAttrInfoRequest)
+	res := new(getAttrInfoResponse)
+	uri := new(dto.PmsProductCateIdUri)
+	if err := ctx.ShouldBindUri(uri); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		return
+	}
+
+	info, err := h.pmsProductAttrService.GetProductAttrInfo(ctx, uri.ProductCategoryId)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Failed(ctx, err.Error())
+		return
+	}
+	res.List = info
+	api.Success(ctx, res.List)
 }
