@@ -1,6 +1,8 @@
 package sms_home_recommend_subject
 
 import (
+	"github.com/ChangSZ/mall-go/internal/services/sms_home_recommend_subject"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,12 +38,12 @@ type Handler interface {
 }
 
 type handler struct {
-	// smsHomeRecommendSubjectService sms_home_recommend_subject.Service
+	smsHomeRecommendSubjectService sms_home_recommend_subject.Service
 }
 
 func New() Handler {
 	return &handler{
-		// smsHomeRecommendSubjectService: sms_home_recommend_subject.New(),
+		smsHomeRecommendSubjectService: sms_home_recommend_subject.New(),
 	}
 }
 

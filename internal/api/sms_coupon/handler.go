@@ -1,6 +1,8 @@
 package sms_coupon
 
 import (
+	"github.com/ChangSZ/mall-go/internal/services/sms_coupon"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,12 +38,12 @@ type Handler interface {
 }
 
 type handler struct {
-	// smsCouponService sms_coupon.Service
+	smsCouponService sms_coupon.Service
 }
 
 func New() Handler {
 	return &handler{
-		// smsCouponService: sms_coupon.New(),
+		smsCouponService: sms_coupon.New(),
 	}
 }
 
