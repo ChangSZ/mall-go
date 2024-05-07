@@ -77,6 +77,18 @@ func RoutersInit(cronServer cron.Server) *gin.Engine {
 	setCmsSubjectRouter(eng)
 	setCmsPrefrenceAreaRouter(eng)
 
+	// 设置 Sms 路由
+	setSmsCouponRouter(eng)
+	setSmsCouponHistoryRouter(eng)
+	setSmsFlashPromotionRouter(eng)
+	setSmsFlashPromotionProductRelationRouter(eng)
+	setSmsFlashPromotionSessionRouter(eng)
+	setSmsHomeAdvertiseRouter(eng)
+	setSmsHomeBrandRouter(eng)
+	setSmsHomeNewProductRouter(eng)
+	setSmsHomeRecommendProductRouter(eng)
+	setSmsHomeRecommendSubjectRouter(eng)
+
 	// 设置 Socket 路由
 	setSocketRouter(eng)
 
