@@ -35,8 +35,8 @@ func (s *service) ListAll(ctx context.Context, pid int64, keyword string) ([]dto
 	return listData, nil
 }
 
-func (s *service) Update(ctx context.Context, pid int64, param []dto.PmsSkuStockUpdateParam) (int64, error) {
-	list := make([]dto.PmsSkuStockUpdateParam, 0)
+func (s *service) Update(ctx context.Context, pid int64, param []dto.PmsSkuStock) (int64, error) {
+	list := make([]dto.PmsSkuStock, 0)
 	for _, v := range param {
 		if pid == v.ProductId {
 			list = append(list, v)

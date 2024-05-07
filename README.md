@@ -4,7 +4,7 @@
 
 本项目对[macrozheng/mall](https://github.com/macrozheng/mall)商城项目后端代码的重构
 
-web前端 ==> [mall-admin-web](https://github.com/macrozheng/mall-admin-web)
+web前端 ==> [mall-admin-web](https://github.com/ChangSZ/mall-admin-web) ==> [fork源](https://github.com/macrozheng/mall-admin-web)
 
 
 ## 快速开始

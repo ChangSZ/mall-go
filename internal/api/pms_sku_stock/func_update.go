@@ -21,12 +21,12 @@ type updateResponse struct {
 // @Tags PmsSkuStockController
 // @Accept application/x-www-form-urlencoded
 // @Produce json
-// @Param Request body []dto.PmsSkuStockUpdateParam true "请求信息"
+// @Param Request body []dto.PmsSkuStock true "请求信息"
 // @Success 200 {object} code.Success{data=int64}
 // @Failure 400 {object} code.Failure
 // @Router /sku/update/{pid} [post]
 func (h *handler) Update(ctx *gin.Context) {
-	req := make([]dto.PmsSkuStockUpdateParam, 0)
+	req := make([]dto.PmsSkuStock, 0)
 	res := new(updateResponse)
 	uri := new(dto.PmsPidUri)
 	if err := ctx.ShouldBindUri(uri); err != nil {
