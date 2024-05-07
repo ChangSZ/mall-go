@@ -37,9 +37,9 @@
             "cwd": "${workspaceFolder}",
             "args": [
                 "--structs",
-                "UmsMemberLoginLog",
+                "CmsPrefrenceArea",
                 "--input",
-                "internal/repository/mysql/ums_member_login_log"
+                "internal/repository/mysql/cms_prefrence_area"
             ]
         },
     ]

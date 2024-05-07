@@ -254,46 +254,46 @@ func (qb *cmsPrefrenceAreaQueryBuilder) OrderBySubTitle(asc bool) *cmsPrefrenceA
 	return qb
 }
 
-func (qb *cmsPrefrenceAreaQueryBuilder) Where(p mysql.Predicate, value []byte) *cmsPrefrenceAreaQueryBuilder {
+func (qb *cmsPrefrenceAreaQueryBuilder) WherePic(p mysql.Predicate, value []byte) *cmsPrefrenceAreaQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
 	}{
-		fmt.Sprintf("%v %v ?", "", p),
+		fmt.Sprintf("%v %v ?", "pic", p),
 		value,
 	})
 	return qb
 }
 
-func (qb *cmsPrefrenceAreaQueryBuilder) WhereIn(value [][]byte) *cmsPrefrenceAreaQueryBuilder {
+func (qb *cmsPrefrenceAreaQueryBuilder) WherePicIn(value [][]byte) *cmsPrefrenceAreaQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
 	}{
-		fmt.Sprintf("%v %v ?", "", "IN"),
+		fmt.Sprintf("%v %v ?", "pic", "IN"),
 		value,
 	})
 	return qb
 }
 
-func (qb *cmsPrefrenceAreaQueryBuilder) WhereNotIn(value [][]byte) *cmsPrefrenceAreaQueryBuilder {
+func (qb *cmsPrefrenceAreaQueryBuilder) WherePicNotIn(value [][]byte) *cmsPrefrenceAreaQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
 	}{
-		fmt.Sprintf("%v %v ?", "", "NOT IN"),
+		fmt.Sprintf("%v %v ?", "pic", "NOT IN"),
 		value,
 	})
 	return qb
 }
 
-func (qb *cmsPrefrenceAreaQueryBuilder) OrderBy(asc bool) *cmsPrefrenceAreaQueryBuilder {
+func (qb *cmsPrefrenceAreaQueryBuilder) OrderByPic(asc bool) *cmsPrefrenceAreaQueryBuilder {
 	order := "DESC"
 	if asc {
 		order = "ASC"
 	}
 
-	qb.order = append(qb.order, " "+order)
+	qb.order = append(qb.order, "pic "+order)
 	return qb
 }
 
