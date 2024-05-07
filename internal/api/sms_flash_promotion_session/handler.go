@@ -1,6 +1,8 @@
 package sms_flash_promotion_session
 
 import (
+	"github.com/ChangSZ/mall-go/internal/services/sms_flash_promotion_session"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,12 +48,12 @@ type Handler interface {
 }
 
 type handler struct {
-	// smsFlashPromotionSessionService sms_flash_promotion_session.Service
+	smsFlashPromotionSessionService sms_flash_promotion_session.Service
 }
 
 func New() Handler {
 	return &handler{
-		// smsFlashPromotionSessionService: sms_flash_promotion_session.New(),
+		smsFlashPromotionSessionService: sms_flash_promotion_session.New(),
 	}
 }
 

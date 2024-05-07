@@ -1,6 +1,8 @@
 package sms_coupon_history
 
 import (
+	"github.com/ChangSZ/mall-go/internal/services/sms_coupon_history"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,12 +18,12 @@ type Handler interface {
 }
 
 type handler struct {
-	// smsCouponHistoryService sms_coupon_history.Service
+	smsCouponHistoryService sms_coupon_history.Service
 }
 
 func New() Handler {
 	return &handler{
-		// smsCouponHistoryService: sms_coupon_history.New(),
+		smsCouponHistoryService: sms_coupon_history.New(),
 	}
 }
 

@@ -1,6 +1,8 @@
 package sms_home_advertise
 
 import (
+	"github.com/ChangSZ/mall-go/internal/services/sms_home_advertise"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -41,12 +43,12 @@ type Handler interface {
 }
 
 type handler struct {
-	// smsHomeAdvertiseService sms_home_advertise.Service
+	smsHomeAdvertiseService sms_home_advertise.Service
 }
 
 func New() Handler {
 	return &handler{
-		// smsHomeAdvertiseService: sms_home_advertise.New(),
+		smsHomeAdvertiseService: sms_home_advertise.New(),
 	}
 }
 

@@ -1,6 +1,8 @@
 package sms_home_new_product
 
 import (
+	"github.com/ChangSZ/mall-go/internal/services/sms_home_new_product"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,12 +38,12 @@ type Handler interface {
 }
 
 type handler struct {
-	// smsHomeNewProductService sms_home_new_product.Service
+	smsHomeNewProductService sms_home_new_product.Service
 }
 
 func New() Handler {
 	return &handler{
-		// smsHomeNewProductService: sms_home_new_product.New(),
+		smsHomeNewProductService: sms_home_new_product.New(),
 	}
 }
 
