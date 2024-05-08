@@ -2,13 +2,20 @@ package sms_home_advertise
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
 
-type updateStatusRequest struct{}
+type updateStatusRequest struct {
+	Status int32 `json:"status"`
+}
 
-type updateStatusResponse struct{}
+type updateStatusResponse struct {
+	Count int64 `json:",inline"`
+}
 
 // UpdateStatus 修改上下线状态
 // @Summary 修改上下线状态
@@ -21,5 +28,31 @@ type updateStatusResponse struct{}
 // @Failure 400 {object} code.Failure
 // @Router /home/advertise/update/status/{id} [post]
 func (h *handler) UpdateStatus(ctx *gin.Context) {
-	api.Success(ctx, nil)
+	req := new(updateStatusRequest)
+	res := new(updateStatusResponse)
+	uri := new(dto.UriID)
+	if err := ctx.ShouldBindUri(uri); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		return
+	}
+
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		return
+	}
+
+	cnt, err := h.smsHomeAdvertiseService.UpdateStatus(ctx, uri.Id, req.Status)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Failed(ctx, err.Error())
+		return
+	}
+	if cnt == 0 {
+		api.Failed(ctx, "更新状态个数为0")
+		return
+	}
+	res.Count = cnt
+	api.Success(ctx, res.Count)
 }

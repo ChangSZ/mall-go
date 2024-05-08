@@ -2,13 +2,18 @@ package sms_home_advertise
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/pkg/log"
 
 	"github.com/gin-gonic/gin"
 )
 
-type deleteRequest struct{}
+type deleteRequest struct {
+	Ids []int64 `form:"ids" binding:"required"`
+}
 
-type deleteResponse struct{}
+type deleteResponse struct {
+	Count int64 `json:",inline"`
+}
 
 // Delete 删除广告
 // @Summary 删除广告
@@ -21,5 +26,18 @@ type deleteResponse struct{}
 // @Failure 400 {object} code.Failure
 // @Router /home/advertise/delete [post]
 func (h *handler) Delete(ctx *gin.Context) {
-	api.Success(ctx, nil)
+	req := new(deleteRequest)
+	res := new(deleteResponse)
+	cnt, err := h.smsHomeAdvertiseService.Delete(ctx, req.Ids)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Failed(ctx, err.Error())
+		return
+	}
+	if cnt == 0 {
+		api.Failed(ctx, "删除个数为0")
+		return
+	}
+	res.Count = cnt
+	api.Success(ctx, res.Count)
 }

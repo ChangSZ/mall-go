@@ -2,13 +2,20 @@ package sms_home_recommend_subject
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
 
-type updateSortRequest struct{}
+type updateSortRequest struct {
+	Sort int32 `form:"sort"`
+}
 
-type updateSortResponse struct{}
+type updateSortResponse struct {
+	Count int64 `json:",inline"`
+}
 
 // UpdateSort 修改推荐专题排序
 // @Summary 修改推荐专题排序
@@ -17,9 +24,35 @@ type updateSortResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body updateSortRequest true "请求信息"
-// @Success 200 {object} code.Success{data=updateSortResponse}
+// @Success 200 {object} code.Success{data=int64}
 // @Failure 400 {object} code.Failure
 // @Router /home/recommendSubject/update/sort/{id} [post]
 func (h *handler) UpdateSort(ctx *gin.Context) {
-	api.Success(ctx, nil)
+	req := new(updateSortRequest)
+	res := new(updateSortResponse)
+	uri := new(dto.UriID)
+	if err := ctx.ShouldBindUri(uri); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		return
+	}
+
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		return
+	}
+
+	cnt, err := h.smsHomeRecommendSubjectService.UpdateSort(ctx, uri.Id, req.Sort)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Failed(ctx, err.Error())
+		return
+	}
+	if cnt == 0 {
+		api.Failed(ctx, "更新排序状态个数为0")
+		return
+	}
+	res.Count = cnt
+	api.Success(ctx, res.Count)
 }
