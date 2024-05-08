@@ -37,7 +37,6 @@ type listResponse struct {
 func (h *handler) List(ctx *gin.Context) {
 	req := new(listRequest)
 	res := new(listResponse)
-
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())

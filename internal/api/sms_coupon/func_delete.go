@@ -22,7 +22,7 @@ type deleteResponse struct {
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body deleteRequest true "请求信息"
-// @Success 200 {object} code.Success{data=deleteResponse}
+// @Success 200 {object} code.Success{data=int64}
 // @Failure 400 {object} code.Failure
 // @Router /coupon/delete/{id} [post]
 func (h *handler) Delete(ctx *gin.Context) {

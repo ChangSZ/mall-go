@@ -96,7 +96,6 @@ func (s *service) deleteProductCategoryRelation(ctx context.Context, couponId in
 
 func (s *service) Update(ctx context.Context, id int64, param dto.SmsCouponParam) (int64, error) {
 	data := map[string]interface{}{
-		"id":            id,
 		"type":          param.Type,
 		"name":          param.Name,
 		"platform":      param.Platform,
