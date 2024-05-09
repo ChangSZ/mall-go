@@ -89,6 +89,13 @@ func RoutersInit(cronServer cron.Server) *gin.Engine {
 	setSmsHomeRecommendProductRouter(eng)
 	setSmsHomeRecommendSubjectRouter(eng)
 
+	// 设置 Oms 路由
+	setOmsOrderRouter(eng)
+	setOmsCompanyAddressRouter(eng)
+	setOmsOrderReturnApplyRouter(eng)
+	setOmsOrderReturnReasonRouter(eng)
+	setOmsOrderSettingRouter(eng)
+
 	// 设置 Socket 路由
 	setSocketRouter(eng)
 
