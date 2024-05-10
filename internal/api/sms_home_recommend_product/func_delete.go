@@ -28,7 +28,7 @@ type deleteResponse struct {
 func (h *handler) Delete(ctx *gin.Context) {
 	req := new(deleteRequest)
 	res := new(deleteResponse)
-	cnt, err := h.smsHomeRecommendProductService.Delete(ctx, req.Ids)
+	cnt, err := h.service.Delete(ctx, req.Ids)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

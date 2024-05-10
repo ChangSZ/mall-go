@@ -36,7 +36,7 @@ func (h *handler) Register(ctx *gin.Context) {
 		return
 	}
 
-	umsAdmin, err := h.umsAdminService.Register(ctx, req.UmsAdminParam)
+	umsAdmin, err := h.service.Register(ctx, req.UmsAdminParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

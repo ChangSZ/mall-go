@@ -31,7 +31,7 @@ func (h *handler) RefreshToken(ctx *gin.Context) {
 	res := new(refreshTokenResponse)
 	userInfo := core.GetUmsUserInfo(ctx)
 
-	token, err := h.umsAdminService.RefreshToken(ctx, userInfo.Token)
+	token, err := h.service.RefreshToken(ctx, userInfo.Token)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

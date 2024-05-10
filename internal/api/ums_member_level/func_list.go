@@ -35,7 +35,7 @@ func (h *handler) List(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	list, err := h.umsMemberLevelService.List(ctx, req.DefaultStatus)
+	list, err := h.service.List(ctx, req.DefaultStatus)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

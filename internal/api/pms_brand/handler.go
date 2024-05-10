@@ -58,12 +58,12 @@ type Handler interface {
 }
 
 type handler struct {
-	pmsBrandService pms_brand.Service
+	service pms_brand.Service
 }
 
 func New() Handler {
 	return &handler{
-		pmsBrandService: pms_brand.New(),
+		service: pms_brand.New(),
 	}
 }
 

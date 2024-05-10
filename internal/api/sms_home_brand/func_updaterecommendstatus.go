@@ -36,7 +36,7 @@ func (h *handler) UpdateRecommendStatus(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.smsHomeBrandService.UpdateRecommendStatus(ctx, req.Ids, req.RecommendStatus)
+	cnt, err := h.service.UpdateRecommendStatus(ctx, req.Ids, req.RecommendStatus)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

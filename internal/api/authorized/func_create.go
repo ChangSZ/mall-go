@@ -49,7 +49,7 @@ func (h *handler) Create(ctx *gin.Context) {
 	createData.BusinessDeveloper = req.BusinessDeveloper
 	createData.Remark = req.Remark
 
-	id, err := h.authorizedService.Create(ctx, createData)
+	id, err := h.service.Create(ctx, createData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AuthorizedCreateError, err)

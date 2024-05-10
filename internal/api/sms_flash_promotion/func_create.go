@@ -36,7 +36,7 @@ func (h *handler) Create(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.smsFlashPromotionService.Create(ctx, req.SmsFlashPromotion)
+	cnt, err := h.service.Create(ctx, req.SmsFlashPromotion)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

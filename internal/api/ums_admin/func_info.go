@@ -32,7 +32,7 @@ func (h *handler) Info(ctx *gin.Context) {
 	_ = new(infoRequest)
 	res := new(infoResponse)
 	userInfo := core.GetUmsUserInfo(ctx)
-	umsAdmin, err := h.umsAdminService.GetAdminByUsername(ctx, userInfo.UserName)
+	umsAdmin, err := h.service.GetAdminByUsername(ctx, userInfo.UserName)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())
@@ -49,7 +49,7 @@ func (h *handler) Info(ctx *gin.Context) {
 	}
 	res.Menus = menuList
 
-	roleList, err := h.umsAdminService.GetRoleList(ctx, umsAdmin.Id)
+	roleList, err := h.service.GetRoleList(ctx, umsAdmin.Id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

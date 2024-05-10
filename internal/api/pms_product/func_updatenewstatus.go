@@ -36,7 +36,7 @@ func (h *handler) UpdateNewStatus(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.pmsProductService.UpdateNewStatus(ctx, req.Ids, req.NewStatus)
+	cnt, err := h.service.UpdateNewStatus(ctx, req.Ids, req.NewStatus)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

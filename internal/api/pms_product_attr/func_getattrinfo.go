@@ -35,7 +35,7 @@ func (h *handler) GetAttrInfo(ctx *gin.Context) {
 		return
 	}
 
-	info, err := h.pmsProductAttrService.GetProductAttrInfo(ctx, uri.ProductCategoryId)
+	info, err := h.service.GetProductAttrInfo(ctx, uri.ProductCategoryId)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

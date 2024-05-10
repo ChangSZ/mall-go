@@ -18,12 +18,12 @@ type Handler interface {
 }
 
 type handler struct {
-	umsMemberLevelService ums_member_level.Service
+	service ums_member_level.Service
 }
 
 func New() Handler {
 	return &handler{
-		umsMemberLevelService: ums_member_level.New(),
+		service: ums_member_level.New(),
 	}
 }
 

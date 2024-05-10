@@ -88,14 +88,14 @@ func (h *handler) List(ctx *gin.Context) {
 	searchData.BusinessSecret = req.BusinessSecret
 	searchData.Remark = req.Remark
 
-	resListData, err := h.authorizedService.PageList(ctx, searchData)
+	resListData, err := h.service.PageList(ctx, searchData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AuthorizedListError, err)
 		return
 	}
 
-	resCountData, err := h.authorizedService.PageListCount(ctx, searchData)
+	resCountData, err := h.service.PageListCount(ctx, searchData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AuthorizedListError, err)

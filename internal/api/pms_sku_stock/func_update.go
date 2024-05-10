@@ -26,6 +26,7 @@ type updateResponse struct {
 // @Failure 400 {object} code.Failure
 // @Router /sku/update/{pid} [post]
 func (h *handler) Update(ctx *gin.Context) {
+	_ = new(updateRequest)
 	req := make([]dto.PmsSkuStock, 0)
 	res := new(updateResponse)
 	uri := new(dto.PmsPidUri)
@@ -41,7 +42,7 @@ func (h *handler) Update(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.pmsSkuStockService.Update(ctx, uri.Pid, req)
+	cnt, err := h.service.Update(ctx, uri.Pid, req)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

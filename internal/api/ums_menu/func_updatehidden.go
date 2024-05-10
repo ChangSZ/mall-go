@@ -43,7 +43,7 @@ func (h *handler) UpdateHidden(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.umsMenuService.UpdateHidden(ctx, uri.Id, req.Hidden)
+	cnt, err := h.service.UpdateHidden(ctx, uri.Id, req.Hidden)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

@@ -23,12 +23,12 @@ type Handler interface {
 }
 
 type handler struct {
-	cmsSubjectService cms_subject.Service
+	service cms_subject.Service
 }
 
 func New() Handler {
 	return &handler{
-		cmsSubjectService: cms_subject.New(),
+		service: cms_subject.New(),
 	}
 }
 

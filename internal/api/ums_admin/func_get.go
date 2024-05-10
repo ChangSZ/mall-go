@@ -35,7 +35,7 @@ func (h *handler) Get(ctx *gin.Context) {
 		return
 	}
 
-	admin, err := h.umsAdminService.GetItem(ctx, uri.Id)
+	admin, err := h.service.GetItem(ctx, uri.Id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

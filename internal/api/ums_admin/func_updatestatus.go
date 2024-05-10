@@ -43,7 +43,7 @@ func (h *handler) UpdateStatus(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.umsAdminService.UpdateStatus(ctx, uri.Id, req.Status)
+	cnt, err := h.service.UpdateStatus(ctx, uri.Id, req.Status)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

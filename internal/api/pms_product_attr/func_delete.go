@@ -35,7 +35,7 @@ func (h *handler) Delete(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.pmsProductAttrService.Delete(ctx, req.Ids)
+	cnt, err := h.service.Delete(ctx, req.Ids)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

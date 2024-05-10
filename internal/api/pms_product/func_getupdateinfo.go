@@ -35,7 +35,7 @@ func (h *handler) GetUpdateInfo(ctx *gin.Context) {
 		return
 	}
 
-	info, err := h.pmsProductService.GetUpdateInfo(ctx, uri.Id)
+	info, err := h.service.GetUpdateInfo(ctx, uri.Id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

@@ -10,8 +10,3 @@ type SmsFlashPromotionProductRelation struct {
 	FlashPromotionLimit     int32   `json:"flashPromotionLimit"`
 	Sort                    int32   `json:"sort"`
 }
-
-type SmsFlashPromotionProduct struct {
-	SmsFlashPromotionProductRelation `json:",inline"`
-	Product                          PmsProduct `json:"product" gorm:"embedded;embeddedPrefix:p_"`
-}

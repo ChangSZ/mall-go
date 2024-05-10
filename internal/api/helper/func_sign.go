@@ -51,7 +51,7 @@ func (h *handler) Sign(ctx *gin.Context) {
 		return
 	}
 
-	authorizedInfo, err := h.authorizedService.DetailByKey(ctx, req.Key)
+	authorizedInfo, err := h.service.DetailByKey(ctx, req.Key)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AuthorizationError, err)

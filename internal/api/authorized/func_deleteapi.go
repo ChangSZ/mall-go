@@ -47,7 +47,7 @@ func (h *handler) DeleteAPI(ctx *gin.Context) {
 	}
 
 	id := int64(ids[0])
-	err = h.authorizedService.DeleteAPI(ctx, id)
+	err = h.service.DeleteAPI(ctx, id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AuthorizedDeleteAPIError, err)

@@ -36,7 +36,7 @@ func (h *handler) UpdatePassword(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	status, err := h.umsAdminService.UpdatePassword(ctx, req.Username, req.OldPassword, req.NewPassword)
+	status, err := h.service.UpdatePassword(ctx, req.Username, req.OldPassword, req.NewPassword)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

@@ -36,7 +36,7 @@ func (h *handler) AllocMenu(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.umsRoleService.AllocMenu(ctx, req.RoleId, req.MenuIds)
+	cnt, err := h.service.AllocMenu(ctx, req.RoleId, req.MenuIds)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

@@ -39,7 +39,7 @@ type listResponse struct {
 // @Security LoginToken
 func (h *handler) List(ctx *gin.Context) {
 	res := new(listResponse)
-	resListData, err := h.menuService.List(ctx, new(menu.SearchData))
+	resListData, err := h.service.List(ctx, new(menu.SearchData))
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.MenuListError, err)

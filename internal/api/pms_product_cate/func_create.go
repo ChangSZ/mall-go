@@ -36,7 +36,7 @@ func (h *handler) Create(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.pmsProductCateService.Create(ctx, req.PmsProductCategoryParam)
+	cnt, err := h.service.Create(ctx, req.PmsProductCategoryParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

@@ -55,7 +55,7 @@ func (h *handler) CreateAction(ctx *gin.Context) {
 
 	searchOneData := new(menu.SearchOneData)
 	searchOneData.Id = id
-	menuInfo, err := h.menuService.Detail(ctx, searchOneData)
+	menuInfo, err := h.service.Detail(ctx, searchOneData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.MenuDetailError, err)
@@ -67,7 +67,7 @@ func (h *handler) CreateAction(ctx *gin.Context) {
 	createActionData.Method = req.Method
 	createActionData.API = req.API
 
-	createId, err := h.menuService.CreateAction(ctx, createActionData)
+	createId, err := h.service.CreateAction(ctx, createActionData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.MenuCreateActionError, err)

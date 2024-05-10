@@ -37,7 +37,7 @@ func (h *handler) UpdateVerifyStatus(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.pmsProductService.UpdateVerifyStatus(ctx, req.Ids, req.VerifyStatus, req.Detail)
+	cnt, err := h.service.UpdateVerifyStatus(ctx, req.Ids, req.VerifyStatus, req.Detail)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

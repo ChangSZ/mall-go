@@ -56,7 +56,7 @@ func (h *handler) Detail(ctx *gin.Context) {
 	searchOneData := new(menu.SearchOneData)
 	searchOneData.Id = id
 
-	info, err := h.menuService.Detail(ctx, searchOneData)
+	info, err := h.service.Detail(ctx, searchOneData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.MenuDetailError, err)

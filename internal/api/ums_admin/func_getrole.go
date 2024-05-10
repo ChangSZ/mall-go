@@ -35,7 +35,7 @@ func (h *handler) GetRole(ctx *gin.Context) {
 		return
 	}
 
-	roleList, err := h.umsAdminService.GetRoleList(ctx, uri.AdminId)
+	roleList, err := h.service.GetRoleList(ctx, uri.AdminId)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

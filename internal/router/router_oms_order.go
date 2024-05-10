@@ -17,6 +17,7 @@ func setOmsOrderRouter(eng *gin.Engine) {
 		group.POST("/delete", handler.Delete)                          // 批量删除订单
 		group.GET("/:id", handler.GetItem)                             // 获取订单详情：订单信息、商品信息、操作记录
 		group.POST("/update/receiverInfo", handler.UpdateReceiverInfo) // 修改收货人信息
+		group.POST("/update/moneyInfo", handler.UpdateMoneyInfo)       // 修改订单费用信息
 		group.POST("/update/note", handler.UpdateNote)                 // 备注订单
 	}
 }

@@ -18,12 +18,12 @@ type Handler interface {
 }
 
 type handler struct {
-	smsCouponHistoryService sms_coupon_history.Service
+	service sms_coupon_history.Service
 }
 
 func New() Handler {
 	return &handler{
-		smsCouponHistoryService: sms_coupon_history.New(),
+		service: sms_coupon_history.New(),
 	}
 }
 

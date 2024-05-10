@@ -43,7 +43,7 @@ func (h *handler) UpdateSort(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.smsHomeRecommendProductService.UpdateSort(ctx, uri.Id, req.Sort)
+	cnt, err := h.service.UpdateSort(ctx, uri.Id, req.Sort)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

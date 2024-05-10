@@ -64,7 +64,7 @@ func (h *handler) Detail(ctx *gin.Context) {
 	searchOneData := new(cron.SearchOneData)
 	searchOneData.Id = cast.ToInt64(ids[0])
 
-	info, err := h.cronService.Detail(ctx, searchOneData)
+	info, err := h.service.Detail(ctx, searchOneData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.CronDetailError, err)

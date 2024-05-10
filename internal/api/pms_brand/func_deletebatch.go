@@ -28,7 +28,7 @@ type deleteBatchResponse struct {
 func (h *handler) DeleteBatch(ctx *gin.Context) {
 	req := new(deleteBatchRequest)
 	res := new(deleteBatchResponse)
-	cnt, err := h.pmsBrandService.DeleteBatch(ctx, req.Ids)
+	cnt, err := h.service.DeleteBatch(ctx, req.Ids)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

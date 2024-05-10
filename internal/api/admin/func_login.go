@@ -52,7 +52,7 @@ func (h *handler) Login(ctx *gin.Context) {
 	searchOneData.Password = password.GeneratePassword(req.Password)
 	searchOneData.IsUsed = 1
 
-	info, err := h.adminService.Detail(ctx, searchOneData)
+	info, err := h.service.Detail(ctx, searchOneData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminLoginError, err)
@@ -83,7 +83,7 @@ func (h *handler) Login(ctx *gin.Context) {
 
 	searchMenuData := new(admin.SearchMyMenuData)
 	searchMenuData.AdminId = info.Id
-	menu, err := h.adminService.MyMenu(ctx, searchMenuData)
+	menu, err := h.service.MyMenu(ctx, searchMenuData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminLoginError, err)
@@ -103,7 +103,7 @@ func (h *handler) Login(ctx *gin.Context) {
 
 	searchActionData := new(admin.SearchMyActionData)
 	searchActionData.AdminId = info.Id
-	action, err := h.adminService.MyAction(ctx, searchActionData)
+	action, err := h.service.MyAction(ctx, searchActionData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminLoginError, err)

@@ -11,7 +11,7 @@ func setOmsOrderSettingRouter(eng *gin.Engine) {
 	handler := oms_order_setting.New()
 	group := eng.Group("/orderSetting")
 	{
-		group.GET("/:id", handler.GetItem)               // 获取指定订单设置
-		group.POST("/update/update/:id", handler.Update) // 修改指定订单设置
+		group.GET("/:id", handler.GetItem)        // 获取指定订单设置
+		group.POST("/update/:id", handler.Update) // 修改指定订单设置
 	}
 }

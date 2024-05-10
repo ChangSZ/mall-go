@@ -35,7 +35,7 @@ func (h *handler) Create(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	cnt, err := h.umsRoleService.Create(ctx, req.UmsRoleParam)
+	cnt, err := h.service.Create(ctx, req.UmsRoleParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

@@ -38,7 +38,7 @@ func (h *handler) Login(ctx *gin.Context) {
 		return
 	}
 
-	token, err := h.umsAdminService.Login(ctx, req.Username, req.Password)
+	token, err := h.service.Login(ctx, req.Username, req.Password)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

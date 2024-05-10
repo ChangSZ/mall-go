@@ -35,7 +35,7 @@ func (h *handler) ListMenu(ctx *gin.Context) {
 		return
 	}
 
-	list, err := h.umsRoleService.ListMenu(ctx, uri.RoleId)
+	list, err := h.service.ListMenu(ctx, uri.RoleId)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

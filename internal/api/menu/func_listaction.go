@@ -61,7 +61,7 @@ func (h *handler) ListAction(ctx *gin.Context) {
 	searchOneData := new(menu.SearchOneData)
 	searchOneData.Id = id
 
-	menuInfo, err := h.menuService.Detail(ctx, searchOneData)
+	menuInfo, err := h.service.Detail(ctx, searchOneData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.MenuDetailError, err)
@@ -73,7 +73,7 @@ func (h *handler) ListAction(ctx *gin.Context) {
 	searchListData := new(menu.SearchListActionData)
 	searchListData.MenuId = menuInfo.Id
 
-	resListData, err := h.menuService.ListAction(ctx, searchListData)
+	resListData, err := h.service.ListAction(ctx, searchListData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AuthorizedListAPIError, err)

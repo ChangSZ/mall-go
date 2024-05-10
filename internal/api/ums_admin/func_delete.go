@@ -34,7 +34,7 @@ func (h *handler) Delete(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	cnt, err := h.umsAdminService.Delete(ctx, uri.Id)
+	cnt, err := h.service.Delete(ctx, uri.Id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

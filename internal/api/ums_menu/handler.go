@@ -48,12 +48,12 @@ type Handler interface {
 }
 
 type handler struct {
-	umsMenuService ums_menu.Service
+	service ums_menu.Service
 }
 
 func New() Handler {
 	return &handler{
-		umsMenuService: ums_menu.New(),
+		service: ums_menu.New(),
 	}
 }
 

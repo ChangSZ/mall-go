@@ -27,7 +27,7 @@ type listAllResponse struct {
 func (h *handler) ListAll(ctx *gin.Context) {
 	_ = new(listAllRequest)
 	res := new(listAllResponse)
-	list, err := h.umsResourceCateService.ListAll(ctx)
+	list, err := h.service.ListAll(ctx)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

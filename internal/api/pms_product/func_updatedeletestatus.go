@@ -36,7 +36,7 @@ func (h *handler) UpdateDeleteStatus(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.pmsProductService.UpdateDeleteStatus(ctx, req.Ids, req.DeleteStatus)
+	cnt, err := h.service.UpdateDeleteStatus(ctx, req.Ids, req.DeleteStatus)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

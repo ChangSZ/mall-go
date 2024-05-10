@@ -43,7 +43,7 @@ func (h *handler) Update(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.pmsProductCateService.Update(ctx, uri.Id, req.PmsProductCategoryParam)
+	cnt, err := h.service.Update(ctx, uri.Id, req.PmsProductCategoryParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

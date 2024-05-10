@@ -36,7 +36,7 @@ func (h *handler) Create(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.smsHomeAdvertiseService.Create(ctx, req.SmsHomeAdvertise)
+	cnt, err := h.service.Create(ctx, req.SmsHomeAdvertise)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

@@ -43,7 +43,7 @@ func (h *handler) Update(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.umsMenuService.Update(ctx, uri.Id, req.UmsMenuParam)
+	cnt, err := h.service.Update(ctx, uri.Id, req.UmsMenuParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

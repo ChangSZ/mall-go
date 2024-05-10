@@ -35,7 +35,7 @@ func (h *handler) ListResource(ctx *gin.Context) {
 		return
 	}
 
-	list, err := h.umsRoleService.ListResource(ctx, uri.RoleId)
+	list, err := h.service.ListResource(ctx, uri.RoleId)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

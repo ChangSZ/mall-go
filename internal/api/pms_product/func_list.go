@@ -42,7 +42,7 @@ func (h *handler) List(ctx *gin.Context) {
 		return
 	}
 
-	list, total, err := h.pmsProductService.List(ctx, req.PmsProductQueryParam, req.PageSize, req.PageNum)
+	list, total, err := h.service.List(ctx, req.PmsProductQueryParam, req.PageSize, req.PageNum)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

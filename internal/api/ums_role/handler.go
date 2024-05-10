@@ -63,12 +63,12 @@ type Handler interface {
 }
 
 type handler struct {
-	umsRoleService ums_role.Service
+	service ums_role.Service
 }
 
 func New() Handler {
 	return &handler{
-		umsRoleService: ums_role.New(),
+		service: ums_role.New(),
 	}
 }
 

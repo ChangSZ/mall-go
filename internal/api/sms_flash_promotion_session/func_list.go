@@ -28,7 +28,7 @@ func (h *handler) List(ctx *gin.Context) {
 	_ = new(listRequest)
 	res := new(listResponse)
 
-	list, err := h.smsFlashPromotionSessionService.ListAll(ctx)
+	list, err := h.service.ListAll(ctx)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

@@ -27,7 +27,7 @@ type treeListResponse struct {
 func (h *handler) TreeList(ctx *gin.Context) {
 	_ = new(treeListRequest)
 	res := new(treeListResponse)
-	list, err := h.umsMenuService.TreeList(ctx)
+	list, err := h.service.TreeList(ctx)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

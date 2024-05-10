@@ -35,7 +35,7 @@ func (h *handler) GetItem(ctx *gin.Context) {
 		return
 	}
 
-	item, err := h.smsCouponService.GetItem(ctx, uri.Id)
+	item, err := h.service.GetItem(ctx, uri.Id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

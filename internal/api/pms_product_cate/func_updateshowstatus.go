@@ -36,7 +36,7 @@ func (h *handler) UpdateShowStatus(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.pmsProductCateService.UpdateShowStatus(ctx, req.Ids, req.ShowStatus)
+	cnt, err := h.service.UpdateShowStatus(ctx, req.Ids, req.ShowStatus)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

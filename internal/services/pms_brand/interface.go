@@ -42,6 +42,7 @@ type Service interface {
 	 */
 	List(ctx context.Context, keyword string, showStatus int32, pageSize, pageNum int) (
 		[]dto.PmsBrand, int64, error)
+
 	/**
 	 * 获取品牌详情
 	 */

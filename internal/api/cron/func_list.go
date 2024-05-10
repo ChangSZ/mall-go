@@ -96,14 +96,14 @@ func (h *handler) List(ctx *gin.Context) {
 	searchData.Protocol = cast.ToInt32(req.Protocol)
 	searchData.IsUsed = cast.ToInt32(req.IsUsed)
 
-	resListData, err := h.cronService.PageList(ctx, searchData)
+	resListData, err := h.service.PageList(ctx, searchData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.CronListError, err)
 		return
 	}
 
-	resCountData, err := h.cronService.PageListCount(ctx, searchData)
+	resCountData, err := h.service.PageListCount(ctx, searchData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.CronListError, err)

@@ -82,7 +82,7 @@ func (h *handler) Create(ctx *gin.Context) {
 	createData.Remark = req.Remark
 	createData.IsUsed = req.IsUsed
 
-	id, err := h.cronService.Create(ctx, createData)
+	id, err := h.service.Create(ctx, createData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.CronCreateError, err)

@@ -48,7 +48,7 @@ func (h *handler) DeleteAction(ctx *gin.Context) {
 
 	id := int64(ids[0])
 
-	err = h.menuService.DeleteAction(ctx, id)
+	err = h.service.DeleteAction(ctx, id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.MenuDeleteActionError, err)

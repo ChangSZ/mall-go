@@ -47,7 +47,7 @@ func (h *handler) ModifyPersonalInfo(ctx *gin.Context) {
 	modifyData.Nickname = req.Nickname
 	modifyData.Mobile = req.Mobile
 
-	if err := h.adminService.ModifyPersonalInfo(ctx, core.SessionUserInfo(ctx).UserID, modifyData); err != nil {
+	if err := h.service.ModifyPersonalInfo(ctx, core.SessionUserInfo(ctx).UserID, modifyData); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminModifyPersonalInfoError, err)
 		return

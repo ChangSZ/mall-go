@@ -2,13 +2,21 @@ package oms_order
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/pkg/log"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 
 	"github.com/gin-gonic/gin"
 )
 
-type updateNoteRequest struct{}
+type updateNoteRequest struct {
+	Id     int64  `form:"id"`
+	Note   string `form:"note"`
+	Status int32  `form:"status"`
+}
 
-type updateNoteResponse struct{}
+type updateNoteResponse struct {
+	Count int64 `json:",inline"`
+}
 
 // UpdateNote 备注订单
 // @Summary 备注订单
@@ -17,9 +25,28 @@ type updateNoteResponse struct{}
 // @Accept application/x-www-form-urlencoded
 // @Produce json
 // @Param Request body updateNoteRequest true "请求信息"
-// @Success 200 {object} code.Success{data=updateNoteResponse}
+// @Success 200 {object} code.Success{data=int64}
 // @Failure 400 {object} code.Failure
 // @Router /order/update/note [post]
 func (h *handler) UpdateNote(ctx *gin.Context) {
-	api.Success(ctx, nil)
+	req := new(updateNoteRequest)
+	res := new(updateNoteResponse)
+	if err := ctx.ShouldBind(req); err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		return
+	}
+
+	cnt, err := h.service.UpdateNote(ctx, req.Id, req.Note, req.Status)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Failed(ctx, err.Error())
+		return
+	}
+	if cnt == 0 {
+		api.Failed(ctx, "更新Note个数为0")
+		return
+	}
+	res.Count = cnt
+	api.Success(ctx, res.Count)
 }

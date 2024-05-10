@@ -47,7 +47,7 @@ func (h *handler) ResetPassword(ctx *gin.Context) {
 	}
 
 	id := int64(ids[0])
-	err = h.adminService.ResetPassword(ctx, id)
+	err = h.service.ResetPassword(ctx, id)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminResetPasswordError, err)

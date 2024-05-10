@@ -36,7 +36,7 @@ func (h *handler) Create(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.umsMenuService.Create(ctx, req.UmsMenuParam)
+	cnt, err := h.service.Create(ctx, req.UmsMenuParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

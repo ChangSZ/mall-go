@@ -52,7 +52,7 @@ func (h *handler) Create(ctx *gin.Context) {
 	createData.Mobile = req.Mobile
 	createData.Password = req.Password
 
-	id, err := h.adminService.Create(ctx, createData)
+	id, err := h.service.Create(ctx, createData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminCreateError, err)

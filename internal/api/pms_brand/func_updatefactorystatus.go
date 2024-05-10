@@ -36,7 +36,7 @@ func (h *handler) UpdateFactoryStatus(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.pmsBrandService.UpdateFactoryStatus(ctx, req.Ids, req.FactoryStatus)
+	cnt, err := h.service.UpdateFactoryStatus(ctx, req.Ids, req.FactoryStatus)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

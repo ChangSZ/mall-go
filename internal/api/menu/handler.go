@@ -60,14 +60,14 @@ type Handler interface {
 }
 
 type handler struct {
-	hashids     hash.Hash
-	menuService menu.Service
+	hashids hash.Hash
+	service menu.Service
 }
 
 func New() Handler {
 	return &handler{
-		hashids:     hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
-		menuService: menu.New(),
+		hashids: hash.New(configs.Get().HashIds.Secret, configs.Get().HashIds.Length),
+		service: menu.New(),
 	}
 }
 

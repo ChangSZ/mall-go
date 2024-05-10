@@ -27,7 +27,7 @@ type getListWithAttrResponse struct {
 func (h *handler) GetListWithAttr(ctx *gin.Context) {
 	_ = new(getListWithAttrRequest)
 	res := new(getListWithAttrResponse)
-	list, err := h.pmsProductAttrCateService.ListWithAttr(ctx)
+	list, err := h.service.ListWithAttr(ctx)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

@@ -41,6 +41,11 @@ type Handler interface {
 	// @Router /order/update/receiverInfo [post]
 	UpdateReceiverInfo(*gin.Context)
 
+	// UpdateMoneyInfo 修改订单费用信息
+	// @Tags OmsOrderController
+	// @Router /order/update/moneyInfo [post]
+	UpdateMoneyInfo(*gin.Context)
+
 	// UpdateNote 备注订单
 	// @Tags OmsOrderController
 	// @Router /order/update/note [post]

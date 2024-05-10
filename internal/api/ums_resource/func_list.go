@@ -44,7 +44,7 @@ func (h *handler) List(ctx *gin.Context) {
 		return
 	}
 
-	list, total, err := h.umsResourceService.List(
+	list, total, err := h.service.List(
 		ctx, req.CategoryId, req.NameKeyword, req.UrlKeyword, req.PageSize, req.PageNum)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)

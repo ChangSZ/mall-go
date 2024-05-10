@@ -50,7 +50,7 @@ func (h *handler) UpdateUsed(ctx *gin.Context) {
 
 	id := int64(ids[0])
 
-	err = h.cronService.UpdateUsed(ctx, id, req.Used)
+	err = h.service.UpdateUsed(ctx, id, req.Used)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminUpdateError, err)

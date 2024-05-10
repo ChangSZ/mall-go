@@ -42,7 +42,7 @@ func (h *handler) List(ctx *gin.Context) {
 		return
 	}
 
-	list, total, err := h.cmsSubjectService.List(ctx, req.Keyword, req.PageSize, req.PageNum)
+	list, total, err := h.service.List(ctx, req.Keyword, req.PageSize, req.PageNum)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

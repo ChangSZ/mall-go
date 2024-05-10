@@ -43,7 +43,7 @@ func (h *handler) List(ctx *gin.Context) {
 		return
 	}
 
-	list, total, err := h.smsHomeRecommendProductService.List(
+	list, total, err := h.service.List(
 		ctx, req.ProductName, req.RecommendStatus, req.PageSize, req.PageNum)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)

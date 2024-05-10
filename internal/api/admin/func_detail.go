@@ -40,7 +40,7 @@ func (h *handler) Detail(ctx *gin.Context) {
 	searchOneData.Id = core.SessionUserInfo(ctx).UserID
 	searchOneData.IsUsed = 1
 
-	info, err := h.adminService.Detail(ctx, searchOneData)
+	info, err := h.service.Detail(ctx, searchOneData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminDetailError, err)

@@ -43,12 +43,12 @@ type Handler interface {
 }
 
 type handler struct {
-	smsHomeAdvertiseService sms_home_advertise.Service
+	service sms_home_advertise.Service
 }
 
 func New() Handler {
 	return &handler{
-		smsHomeAdvertiseService: sms_home_advertise.New(),
+		service: sms_home_advertise.New(),
 	}
 }
 

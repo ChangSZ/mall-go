@@ -36,7 +36,7 @@ func (h *handler) Create(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.smsCouponService.Create(ctx, req.SmsCouponParam)
+	cnt, err := h.service.Create(ctx, req.SmsCouponParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

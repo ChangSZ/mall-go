@@ -43,7 +43,7 @@ func (h *handler) GetList(ctx *gin.Context) {
 		return
 	}
 
-	list, err := h.pmsSkuStockService.ListAll(ctx, uri.Pid, req.Keyword)
+	list, err := h.service.ListAll(ctx, uri.Pid, req.Keyword)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())
@@ -51,5 +51,4 @@ func (h *handler) GetList(ctx *gin.Context) {
 	}
 	res.List = list
 	api.Success(ctx, res.List)
-
 }

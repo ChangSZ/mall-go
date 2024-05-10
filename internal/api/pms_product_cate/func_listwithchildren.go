@@ -27,7 +27,7 @@ type listWithChildrenResponse struct {
 func (h *handler) ListWithChildren(ctx *gin.Context) {
 	_ = new(listWithChildrenRequest)
 	res := new(listWithChildrenResponse)
-	list, err := h.pmsProductCateService.ListWithChildren(ctx)
+	list, err := h.service.ListWithChildren(ctx)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

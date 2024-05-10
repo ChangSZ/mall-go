@@ -36,7 +36,7 @@ func (h *handler) AllocResource(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.umsRoleService.AllocResource(ctx, req.RoleId, req.ResourceIds)
+	cnt, err := h.service.AllocResource(ctx, req.RoleId, req.ResourceIds)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

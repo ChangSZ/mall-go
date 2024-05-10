@@ -36,7 +36,7 @@ func (h *handler) UpdatePublishStatus(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.pmsProductService.UpdatePublishStatus(ctx, req.Ids, req.PublishStatus)
+	cnt, err := h.service.UpdatePublishStatus(ctx, req.Ids, req.PublishStatus)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

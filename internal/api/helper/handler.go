@@ -23,12 +23,12 @@ type Handler interface {
 }
 
 type handler struct {
-	authorizedService authorized.Service
+	service authorized.Service
 }
 
 func New() Handler {
 	return &handler{
-		authorizedService: authorized.New(),
+		service: authorized.New(),
 	}
 }
 

@@ -53,7 +53,7 @@ func (h *handler) CreateAdminMenu(ctx *gin.Context) {
 	createData.AdminId = int64(ids[0])
 	createData.Actions = req.Actions
 
-	err = h.adminService.CreateMenu(ctx, createData)
+	err = h.service.CreateMenu(ctx, createData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminMenuCreateError, err)

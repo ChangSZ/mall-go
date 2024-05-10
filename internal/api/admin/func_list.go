@@ -89,14 +89,14 @@ func (h *handler) List(ctx *gin.Context) {
 	searchData.Nickname = req.Nickname
 	searchData.Mobile = req.Mobile
 
-	resListData, err := h.adminService.PageList(ctx, searchData)
+	resListData, err := h.service.PageList(ctx, searchData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminListError, err)
 		return
 	}
 
-	resCountData, err := h.adminService.PageListCount(ctx, searchData)
+	resCountData, err := h.service.PageListCount(ctx, searchData)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.AdminListError, err)

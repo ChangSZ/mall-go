@@ -18,12 +18,12 @@ type Handler interface {
 }
 
 type handler struct {
-	cmsPrefrenceAreaService cms_prefrence_area.Service
+	service cms_prefrence_area.Service
 }
 
 func New() Handler {
 	return &handler{
-		cmsPrefrenceAreaService: cms_prefrence_area.New(),
+		service: cms_prefrence_area.New(),
 	}
 }
 

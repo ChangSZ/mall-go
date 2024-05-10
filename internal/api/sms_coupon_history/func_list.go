@@ -44,7 +44,7 @@ func (h *handler) List(ctx *gin.Context) {
 		return
 	}
 
-	list, total, err := h.smsCouponHistoryService.List(
+	list, total, err := h.service.List(
 		ctx, req.CouponId, req.UseStatus, req.OrderSn, req.PageSize, req.PageNum)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)

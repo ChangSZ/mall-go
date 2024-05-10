@@ -35,7 +35,7 @@ func (h *handler) UpdateRole(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	count, err := h.umsAdminService.UpdateRole(ctx, req.AdminId, req.RoleIds)
+	count, err := h.service.UpdateRole(ctx, req.AdminId, req.RoleIds)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

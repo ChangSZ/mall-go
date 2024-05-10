@@ -36,7 +36,7 @@ func (h *handler) Create(ctx *gin.Context) {
 		return
 	}
 
-	cnt, err := h.umsResourceService.Create(ctx, req.UmsResourceParam)
+	cnt, err := h.service.Create(ctx, req.UmsResourceParam)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())
