@@ -1,7 +1,7 @@
 # 备忘录, 想起来啥就写啥
-- [ ] 工程框架优化整改
+- [x] 工程框架优化整改
   - [x] mysql、redis、gormgen、contollergen等
-  - [ ] mall-admin、mall-portal、工程api框架拆分
+  - [x] mall-admin、mall-portal、工程api框架拆分
 - [x] jwt token权限模块
 - [x] update相关接口支持字段强制更新
 - [ ] 动态权限校验
@@ -14,6 +14,7 @@
   - [x] oms模块接口实现
   - [x] cms模块接口实现
   - [ ] 对象存储
+  - [ ] docker构建支持
 - [ ] portal服务实现
   - [ ] 首页管理
   - [ ] 会员关注品牌管理
@@ -28,6 +29,7 @@
   - [ ] 会员优惠券管理
   - [ ] 会员收货地址管理
   - [ ] 支付模块 
+  - [ ] docker构建支持
 - [ ] 启用前端页面对后端接口进行调试
 - [ ] 写作与完善开发文档
 - [ ] 云端部署
