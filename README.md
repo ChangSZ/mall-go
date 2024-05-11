@@ -25,25 +25,36 @@ web前端 ==> [mall-admin-web](https://github.com/ChangSZ/mall-admin-web) ==> [f
 $ git clone https://github.com/ChangSZ/mall-go.git
 # 数据导入： internal\proposal\tablesqls\mall.sql
 $ cd mall-go
+# 运行GO框架
 $ go run main.go -env fat  
+# 运行mall_admin
+$ go run cmd/mall_admin/main.go -env fat
+# 运行mall_portal
+$ go run cmd/mall_portal/main.go -env fat
 # -env 表示设置哪个环境，主要是区分使用哪个配置文件，默认为 fat
-# -env dev 表示为本地开发环境，使用的配置信息为：configs/dev_configs.toml
-# -env fat 表示为测试环境，使用的配置信息为：configs/fat_configs.toml
-# -env uat 表示为预上线环境，使用的配置信息为：configs/uat_configs.toml
-# -env pro 表示为正式环境，使用的配置信息为：configs/pro_configs.toml
 ```
 
+## Go框架
 ### 安装界面
-首次启动程序之后，会在浏览器中自动打开安装界面，链接地址：http://127.0.0.1:8080/install
-重新启动程序，会在浏览器中自动打开登录界面，链接地址：http://127.0.0.1:8080
+首次启动程序之后，会在浏览器中自动打开安装界面，[链接地址](http://127.0.0.1:8080/render/install)
+
+重新启动程序，会在浏览器中自动打开登录界面，[链接地址](http://127.0.0.1:8080)
+
 输入默认账号 admin，密码 admin 即可登录成功
 
 如果想重新安装，删除INSTALL.lock文件即可。该文件存在即认为无需安装。
 
-# 格式化代码
+### 格式化代码
 ```bash
   go run cmd/mfmt/main.go
 ```
 
-## 框架使用
+### 重点使用
+- 代码生成器
+  - 生成数据表CURD - 选择对应的mysql数据表即可
+  - 生成控制器方法 - 输入相对于/internal/api的目录路径即可
+- 查询小助手
+- 其他的可以用来学习娱乐
+
+### 使用介绍
 参见[go-gin-api语雀](https://www.yuque.com/xinliangnote/go-gin-api), 前端几乎没动, 可以参考使用

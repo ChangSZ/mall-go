@@ -20,5 +20,7 @@
 /logs/*
 __debug_bin*
 
+INSTALL.lock
+
 # dev用来本地测试了, 需要的话自建一下
 configs/dev_configs.toml

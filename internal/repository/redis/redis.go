@@ -8,23 +8,9 @@ import (
 
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/pkg/errors"
-	"github.com/ChangSZ/mall-go/pkg/trace"
 
 	"github.com/go-redis/redis/v8"
 )
-
-type Option func(*option)
-
-type Trace = trace.T
-
-type option struct {
-	Trace *trace.Trace
-	Redis *trace.Redis
-}
-
-func newOption() *option {
-	return &option{}
-}
 
 var _ Repo = (*cacheRepo)(nil)
 
@@ -142,16 +128,6 @@ func (c *cacheRepo) Incr(ctx context.Context, key string) int64 {
 // Close close redis client
 func (c *cacheRepo) Close() error {
 	return c.client.Close()
-}
-
-// WithTrace 设置trace信息
-func WithTrace(t Trace) Option {
-	return func(opt *option) {
-		if t != nil {
-			opt.Trace = t.(*trace.Trace)
-			opt.Redis = new(trace.Redis)
-		}
-	}
 }
 
 // Version redis server version
