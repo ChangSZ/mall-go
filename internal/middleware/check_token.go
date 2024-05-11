@@ -9,7 +9,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal"
-	"github.com/ChangSZ/mall-go/internal/services/ums_admin"
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_admin"
 	"github.com/ChangSZ/mall-go/pkg/jwt"
 	"github.com/ChangSZ/mall-go/pkg/log"
 

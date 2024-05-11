@@ -272,6 +272,34 @@ definitions:
         description: 主键ID
         type: integer
     type: object
+  cms_prefrence_area.listAllRequest:
+    type: object
+  cms_subject.listAllRequest:
+    type: object
+  cms_subject.listRequest:
+    properties:
+      keyword:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  cms_subject.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.CmsSubject'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
   code.Failure:
     properties:
       code:
@@ -442,7 +470,1047 @@ definitions:
         description: 主键ID
         type: integer
     type: object
-  github.com_ChangSZ_mall-go_internal_api_ums_menu.UmsMenu:
+  dto.CmsPrefrenceArea:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      pic:
+        items:
+          type: integer
+        type: array
+      showStatus:
+        type: integer
+      sort:
+        type: integer
+      subtitle:
+        type: string
+    type: object
+  dto.CmsPrefrenceAreaProductRelation:
+    properties:
+      id:
+        type: integer
+      prefrenceAreaId:
+        type: integer
+      productId:
+        type: integer
+    type: object
+  dto.CmsSubject:
+    properties:
+      albumPics:
+        type: string
+      categoryId:
+        type: integer
+      categoryName:
+        type: string
+      collectCount:
+        type: integer
+      commentCount:
+        type: integer
+      content:
+        type: string
+      createTime:
+        type: string
+      description:
+        type: string
+      forwardCount:
+        type: integer
+      id:
+        type: integer
+      pic:
+        type: string
+      productCount:
+        type: integer
+      readCount:
+        type: integer
+      recommendStatus:
+        type: integer
+      showStatus:
+        type: integer
+      title:
+        type: string
+    type: object
+  dto.CmsSubjectProductRelation:
+    properties:
+      id:
+        type: integer
+      productId:
+        type: integer
+      subjectId:
+        type: integer
+    type: object
+  dto.OmsCompanyAddress:
+    properties:
+      addressName:
+        type: string
+      city:
+        type: string
+      detailAddress:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      province:
+        type: string
+      receiveStatus:
+        type: integer
+      region:
+        type: string
+      sendStatus:
+        type: integer
+    type: object
+  dto.OmsOrder:
+    properties:
+      autoConfirmDay:
+        description: 自动确认时间（天）
+        type: integer
+      billContent:
+        description: 发票内容
+        type: string
+      billHeader:
+        description: 发票抬头
+        type: string
+      billReceiverEmail:
+        description: 收票人邮箱
+        type: string
+      billReceiverPhone:
+        description: 收票人电话
+        type: string
+      billType:
+        description: 发票类型：0->不开发票；1->电子发票；2->纸质发票
+        type: integer
+      commentTime:
+        description: 评价时间
+        type: string
+      confirmStatus:
+        description: 确认收货状态：0->未确认；1->已确认
+        type: integer
+      couponAmount:
+        description: 优惠券抵扣金额
+        type: number
+      couponId:
+        type: integer
+      createTime:
+        description: 提交时间
+        type: string
+      deleteStatus:
+        description: 删除状态：0->未删除；1->已删除
+        type: integer
+      deliveryCompany:
+        description: 物流公司(配送方式)
+        type: string
+      deliverySn:
+        description: 物流单号
+        type: string
+      deliveryTime:
+        description: 发货时间
+        type: string
+      discountAmount:
+        description: 管理员后台调整订单使用的折扣金额
+        type: number
+      freightAmount:
+        description: 运费金额
+        type: number
+      growth:
+        description: 可以活动的成长值
+        type: integer
+      id:
+        description: 订单id
+        type: integer
+      integration:
+        description: 可以获得的积分
+        type: integer
+      integrationAmount:
+        description: 积分抵扣金额
+        type: number
+      memberId:
+        type: integer
+      memberUsername:
+        description: 用户帐号
+        type: string
+      modifyTime:
+        description: 修改时间
+        type: string
+      note:
+        description: 订单备注
+        type: string
+      orderSn:
+        description: 订单编号
+        type: string
+      orderType:
+        description: 订单类型：0->正常订单；1->秒杀订单
+        type: integer
+      payAmount:
+        description: 应付金额（实际支付金额）
+        type: number
+      payType:
+        description: 支付方式：0->未支付；1->支付宝；2->微信
+        type: integer
+      paymentTime:
+        description: 支付时间
+        type: string
+      promotionAmount:
+        description: 促销优化金额（促销价、满减、阶梯价）
+        type: number
+      promotionInfo:
+        description: 活动信息
+        type: string
+      receiveTime:
+        description: 确认收货时间
+        type: string
+      receiverCity:
+        description: 城市
+        type: string
+      receiverDetailAddress:
+        description: 详细地址
+        type: string
+      receiverName:
+        description: 收货人姓名
+        type: string
+      receiverPhone:
+        description: 收货人电话
+        type: string
+      receiverPostCode:
+        description: 收货人邮编
+        type: string
+      receiverProvince:
+        description: 省份/直辖市
+        type: string
+      receiverRegion:
+        description: 区
+        type: string
+      sourceType:
+        description: 订单来源：0->PC订单；1->app订单
+        type: integer
+      status:
+        description: 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
+        type: integer
+      totalAmount:
+        description: 订单总金额
+        type: number
+      useIntegration:
+        description: 下单时使用的积分
+        type: integer
+    type: object
+  dto.OmsOrderItem:
+    properties:
+      couponAmount:
+        description: 优惠券优惠分解金额
+        type: number
+      giftGrowth:
+        type: integer
+      giftIntegration:
+        type: integer
+      id:
+        type: integer
+      integrationAmount:
+        description: 积分优惠分解金额
+        type: number
+      orderId:
+        description: 订单id
+        type: integer
+      orderSn:
+        description: 订单编号
+        type: string
+      productAttr:
+        description: 商品销售属性:[{"key":"颜色","value":"颜色"},{"key":"容量","value":"4G"}]
+        type: string
+      productBrand:
+        type: string
+      productCategoryId:
+        description: 商品分类id
+        type: integer
+      productId:
+        type: integer
+      productName:
+        type: string
+      productPic:
+        type: string
+      productPrice:
+        description: 销售价格
+        type: number
+      productQuantity:
+        description: 购买数量
+        type: integer
+      productSkuCode:
+        description: 商品sku条码
+        type: string
+      productSkuId:
+        description: 商品sku编号
+        type: integer
+      productSn:
+        type: string
+      promotionAmount:
+        description: 商品促销分解金额
+        type: number
+      promotionName:
+        description: 商品促销名称
+        type: string
+      realAmount:
+        description: 该商品经过优惠后的分解金额
+        type: number
+    type: object
+  dto.OmsOrderOperateHistory:
+    properties:
+      createTime:
+        description: 操作时间
+        type: string
+      id:
+        type: integer
+      note:
+        description: 备注
+        type: string
+      operateMan:
+        description: 操作人：用户；系统；后台管理员
+        type: string
+      orderId:
+        description: 订单id
+        type: integer
+      orderStatus:
+        description: 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
+        type: integer
+    type: object
+  dto.OmsOrderReturnApply:
+    properties:
+      companyAddressId:
+        description: 收货地址表id
+        type: integer
+      createTime:
+        description: 申请时间
+        type: string
+      description:
+        description: 描述
+        type: string
+      handleMan:
+        description: 处理人员
+        type: string
+      handleNote:
+        description: 处理备注
+        type: string
+      handleTime:
+        description: 处理时间
+        type: string
+      id:
+        type: integer
+      memberUsername:
+        description: 会员用户名
+        type: string
+      orderId:
+        description: 订单id
+        type: integer
+      orderSn:
+        description: 订单编号
+        type: string
+      productAttr:
+        description: 商品销售属性：颜色：红色；尺码：xl;
+        type: string
+      productBrand:
+        description: 商品品牌
+        type: string
+      productCount:
+        description: 退货数量
+        type: integer
+      productId:
+        description: 退货商品id
+        type: integer
+      productName:
+        description: 商品名称
+        type: string
+      productPic:
+        description: 商品图片
+        type: string
+      productPrice:
+        description: 商品单价
+        type: number
+      productRealPrice:
+        description: 商品实际支付单价
+        type: number
+      proofPics:
+        description: 凭证图片，以逗号隔开
+        type: string
+      reason:
+        description: 原因
+        type: string
+      receiveMan:
+        description: 收货人
+        type: string
+      receiveNote:
+        description: 收货备注
+        type: string
+      receiveTime:
+        description: 收货时间
+        type: string
+      returnAmount:
+        description: 退款金额
+        type: number
+      returnName:
+        description: 退货人姓名
+        type: string
+      returnPhone:
+        description: 退货人电话
+        type: string
+      status:
+        description: 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
+        type: integer
+    type: object
+  dto.OmsOrderReturnReason:
+    properties:
+      createTime:
+        description: 添加时间
+        type: string
+      id:
+        type: integer
+      name:
+        description: 退货类型
+        type: string
+      sort:
+        type: integer
+      status:
+        description: 状态：0->不启用；1->启用
+        type: integer
+    type: object
+  dto.PmsBrand:
+    properties:
+      bigPic:
+        type: string
+      brandStory:
+        type: string
+      factoryStatus:
+        type: integer
+      firstLetter:
+        type: string
+      id:
+        type: integer
+      logo:
+        type: string
+      name:
+        type: string
+      productCommentCount:
+        type: integer
+      productCount:
+        type: integer
+      showStatus:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  dto.PmsMemberPrice:
+    properties:
+      id:
+        type: integer
+      memberLevelId:
+        type: integer
+      memberLevelName:
+        type: string
+      memberPrice:
+        description: 会员价格
+        type: number
+      productId:
+        type: integer
+    type: object
+  dto.PmsProduct:
+    properties:
+      albumPics:
+        description: 画册图片，连产品图片限制为5张，以逗号分割
+        type: string
+      brandId:
+        type: integer
+      brandName:
+        description: 品牌名称
+        type: string
+      deleteStatus:
+        description: 删除状态：0->未删除；1->已删除
+        type: integer
+      description:
+        description: 商品描述
+        type: string
+      detailDesc:
+        type: string
+      detailHtml:
+        description: 产品详情网页内容
+        type: string
+      detailMobileHtml:
+        description: 移动端网页详情
+        type: string
+      detailTitle:
+        type: string
+      feightTemplateId:
+        type: integer
+      giftGrowth:
+        description: 赠送的成长值
+        type: integer
+      giftPoint:
+        description: 赠送的积分
+        type: integer
+      id:
+        type: integer
+      keywords:
+        type: string
+      lowStock:
+        description: 库存预警值
+        type: integer
+      name:
+        type: string
+      newStatus:
+        description: 新品状态:0->不是新品；1->新品
+        type: integer
+      note:
+        type: string
+      originalPrice:
+        description: 市场价
+        type: number
+      pic:
+        type: string
+      previewStatus:
+        description: 是否为预告商品：0->不是；1->是
+        type: integer
+      price:
+        type: number
+      productAttributeCategoryId:
+        type: integer
+      productCategoryId:
+        type: integer
+      productCategoryName:
+        description: 商品分类名称
+        type: string
+      productSn:
+        description: 货号
+        type: string
+      promotionEndTime:
+        description: 促销结束时间
+        type: string
+      promotionPerLimit:
+        description: 活动限购数量
+        type: integer
+      promotionPrice:
+        description: 促销价格
+        type: number
+      promotionStartTime:
+        description: 促销开始时间
+        type: string
+      promotionType:
+        description: 促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购
+        type: integer
+      publishStatus:
+        description: 上架状态：0->下架；1->上架
+        type: integer
+      recommandStatus:
+        description: 推荐状态；0->不推荐；1->推荐
+        type: integer
+      sale:
+        description: 销量
+        type: integer
+      serviceIds:
+        description: 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
+        type: string
+      sort:
+        description: 排序
+        type: integer
+      stock:
+        description: 库存
+        type: integer
+      subTitle:
+        description: 副标题
+        type: string
+      unit:
+        description: 单位
+        type: string
+      usePointLimit:
+        description: 限制使用的积分数
+        type: integer
+      verifyStatus:
+        description: 审核状态：0->未审核；1->审核通过
+        type: integer
+      weight:
+        description: 商品重量，默认为克
+        type: number
+    type: object
+  dto.PmsProductAttr:
+    properties:
+      filterType:
+        type: integer
+      handAddStatus:
+        type: integer
+      id:
+        type: integer
+      inputList:
+        type: string
+      inputType:
+        type: integer
+      name:
+        type: string
+      productAttributeCategoryId:
+        type: integer
+      relatedStatus:
+        type: integer
+      searchType:
+        type: integer
+      selectType:
+        type: integer
+      sort:
+        type: integer
+      type:
+        type: integer
+    type: object
+  dto.PmsProductAttrCateItem:
+    properties:
+      attributeCount:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      paramCount:
+        type: integer
+      productAttributeList:
+        items:
+          $ref: '#/definitions/dto.PmsProductAttr'
+        type: array
+    type: object
+  dto.PmsProductAttrInfo:
+    properties:
+      attributeCategoryId:
+        description: 商品属性分类ID
+        type: integer
+      attributeId:
+        description: 商品属性ID
+        type: integer
+    type: object
+  dto.PmsProductAttributeCategory:
+    properties:
+      attributeCount:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      paramCount:
+        type: integer
+    type: object
+  dto.PmsProductAttributeValue:
+    properties:
+      id:
+        type: integer
+      productAttributeId:
+        type: integer
+      productId:
+        type: integer
+      value:
+        description: 手动添加规格或参数的值，参数单值，规格有多个时以逗号隔开
+        type: string
+    type: object
+  dto.PmsProductCategory:
+    properties:
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      keywords:
+        type: string
+      level:
+        type: integer
+      name:
+        type: string
+      navStatus:
+        type: integer
+      parentId:
+        type: integer
+      productCount:
+        type: integer
+      productUnit:
+        type: string
+      showStatus:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  dto.PmsProductCategoryWithChildrenItem:
+    properties:
+      children:
+        description: 子级分类
+        items:
+          $ref: '#/definitions/dto.PmsProductCategory'
+        type: array
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      keywords:
+        type: string
+      level:
+        type: integer
+      name:
+        type: string
+      navStatus:
+        type: integer
+      parentId:
+        type: integer
+      productCount:
+        type: integer
+      productUnit:
+        type: string
+      showStatus:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  dto.PmsProductFullReduction:
+    properties:
+      fullPrice:
+        type: number
+      id:
+        type: integer
+      productId:
+        type: integer
+      reducePrice:
+        type: number
+    type: object
+  dto.PmsProductLadder:
+    properties:
+      count:
+        description: 满足的商品数量
+        type: integer
+      discount:
+        description: 折扣
+        type: number
+      id:
+        type: integer
+      price:
+        description: 折后价格
+        type: number
+      productId:
+        type: integer
+    type: object
+  dto.PmsSkuStock:
+    properties:
+      id:
+        type: integer
+      lockStock:
+        description: 锁定库存
+        type: integer
+      lowStock:
+        description: 预警库存
+        type: integer
+      pic:
+        description: 展示图片
+        type: string
+      price:
+        type: number
+      productId:
+        type: integer
+      promotionPrice:
+        description: 单品促销价格
+        type: number
+      sale:
+        description: 销量
+        type: integer
+      skuCode:
+        description: sku编码
+        type: string
+      spData:
+        description: 商品销售属性，json格式
+        type: string
+      stock:
+        description: 库存
+        type: integer
+    type: object
+  dto.SmsCoupon:
+    properties:
+      amount:
+        type: number
+      code:
+        type: string
+      count:
+        type: integer
+      enableTime:
+        type: string
+      endTime:
+        type: string
+      id:
+        type: integer
+      memberLevel:
+        type: integer
+      minPoint:
+        type: number
+      name:
+        type: string
+      note:
+        type: string
+      perLimit:
+        type: integer
+      platform:
+        type: integer
+      publishCount:
+        type: integer
+      receiveCount:
+        type: integer
+      startTime:
+        type: string
+      type:
+        type: integer
+      useCount:
+        type: integer
+      useType:
+        type: integer
+    type: object
+  dto.SmsCouponHistory:
+    properties:
+      couponCode:
+        type: string
+      couponId:
+        type: integer
+      createTime:
+        type: string
+      getType:
+        type: integer
+      id:
+        type: integer
+      memberId:
+        type: integer
+      memberNickname:
+        type: string
+      orderId:
+        type: integer
+      orderSn:
+        type: string
+      useStatus:
+        type: integer
+      useTime:
+        type: string
+    type: object
+  dto.SmsCouponProductCategoryRelation:
+    properties:
+      couponId:
+        type: integer
+      id:
+        type: integer
+      parentCategoryName:
+        type: string
+      productCategoryId:
+        type: integer
+      productCategoryName:
+        type: string
+    type: object
+  dto.SmsCouponProductRelation:
+    properties:
+      couponId:
+        type: integer
+      id:
+        type: integer
+      productId:
+        type: integer
+      productName:
+        type: string
+      productSn:
+        type: string
+    type: object
+  dto.SmsFlashPromotion:
+    properties:
+      createTime:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      startDate:
+        type: string
+      status:
+        type: integer
+      title:
+        type: string
+    type: object
+  dto.SmsFlashPromotionProductRelation:
+    properties:
+      flashPromotionCount:
+        type: integer
+      flashPromotionId:
+        type: integer
+      flashPromotionLimit:
+        type: integer
+      flashPromotionPrice:
+        type: number
+      flashPromotionSessionId:
+        type: integer
+      id:
+        type: integer
+      productId:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  dto.SmsFlashPromotionSession:
+    properties:
+      createTime:
+        type: string
+      endTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      startTime:
+        type: string
+      status:
+        type: integer
+    type: object
+  dto.SmsFlashPromotionSessionDetail:
+    properties:
+      createTime:
+        type: string
+      endTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      productCount:
+        description: 商品数量
+        type: integer
+      startTime:
+        type: string
+      status:
+        type: integer
+    type: object
+  dto.SmsHomeAdvertise:
+    properties:
+      clickCount:
+        type: integer
+      endTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      orderCount:
+        type: integer
+      pic:
+        type: string
+      sort:
+        type: integer
+      startTime:
+        type: string
+      status:
+        type: integer
+      type:
+        type: integer
+      url:
+        type: string
+    type: object
+  dto.SmsHomeBrand:
+    properties:
+      brandId:
+        type: integer
+      brandName:
+        type: string
+      id:
+        type: integer
+      recommendStatus:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  dto.SmsHomeNewProduct:
+    properties:
+      id:
+        type: integer
+      productId:
+        type: integer
+      productName:
+        type: string
+      recommendStatus:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  dto.SmsHomeRecommendProduct:
+    properties:
+      id:
+        type: integer
+      productId:
+        type: integer
+      productName:
+        type: string
+      recommendStatus:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  dto.SmsHomeRecommendSubject:
+    properties:
+      id:
+        type: integer
+      recommendStatus:
+        type: integer
+      sort:
+        type: integer
+      subjectId:
+        type: integer
+      subjectName:
+        type: string
+    type: object
+  dto.UmsAdmin:
+    properties:
+      createTime:
+        type: string
+      email:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      loginTime:
+        type: string
+      nickName:
+        type: string
+      note:
+        type: string
+      password:
+        type: string
+      status:
+        type: integer
+      username:
+        type: string
+    type: object
+  dto.UmsMemberLevel:
+    properties:
+      commentGrowthPoint:
+        type: integer
+      defaultStatus:
+        type: integer
+      freeFreightPoint:
+        type: number
+      growthPoint:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      priviledgeBirthday:
+        type: integer
+      priviledgeComment:
+        type: integer
+      priviledgeFreeFreight:
+        type: integer
+      priviledgeMemberPrice:
+        type: integer
+      priviledgePromotion:
+        type: integer
+      priviledgeSignIn:
+        type: integer
+    type: object
+  dto.UmsMenu:
     properties:
       createTime:
         type: string
@@ -463,34 +1531,73 @@ definitions:
       title:
         type: string
     type: object
-  github.com_ChangSZ_mall-go_internal_repository_mysql_ums_menu.UmsMenu:
+  dto.UmsMenuNode:
     properties:
+      children:
+        items:
+          $ref: '#/definitions/dto.UmsMenuNode'
+        type: array
       createTime:
-        description: 创建时间
         type: string
       hidden:
-        description: 前端隐藏
         type: integer
       icon:
-        description: 前端图标
         type: string
       id:
         type: integer
       level:
-        description: 菜单级数
         type: integer
       name:
-        description: 前端名称
         type: string
       parentId:
-        description: 父级ID
         type: integer
       sort:
-        description: 菜单排序
         type: integer
       title:
-        description: 菜单名称
         type: string
+    type: object
+  dto.UmsResource:
+    properties:
+      categoryId:
+        type: integer
+      createTime:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      url:
+        type: string
+    type: object
+  dto.UmsResourceCate:
+    properties:
+      createTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      sort:
+        type: integer
+    type: object
+  dto.UmsRole:
+    properties:
+      adminCount:
+        type: integer
+      createTime:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      sort:
+        type: integer
+      status:
+        type: integer
     type: object
   helper.md5Response:
     properties:
@@ -640,6 +1747,2390 @@ definitions:
         description: 主键ID
         type: integer
     type: object
+  oms_company_address.listRequest:
+    type: object
+  oms_order.closeRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      note:
+        type: string
+    type: object
+  oms_order.deleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    type: object
+  oms_order.deliveryRequest:
+    type: object
+  oms_order.getItemRequest:
+    type: object
+  oms_order.getItemResponse:
+    properties:
+      autoConfirmDay:
+        description: 自动确认时间（天）
+        type: integer
+      billContent:
+        description: 发票内容
+        type: string
+      billHeader:
+        description: 发票抬头
+        type: string
+      billReceiverEmail:
+        description: 收票人邮箱
+        type: string
+      billReceiverPhone:
+        description: 收票人电话
+        type: string
+      billType:
+        description: 发票类型：0->不开发票；1->电子发票；2->纸质发票
+        type: integer
+      commentTime:
+        description: 评价时间
+        type: string
+      confirmStatus:
+        description: 确认收货状态：0->未确认；1->已确认
+        type: integer
+      couponAmount:
+        description: 优惠券抵扣金额
+        type: number
+      couponId:
+        type: integer
+      createTime:
+        description: 提交时间
+        type: string
+      deleteStatus:
+        description: 删除状态：0->未删除；1->已删除
+        type: integer
+      deliveryCompany:
+        description: 物流公司(配送方式)
+        type: string
+      deliverySn:
+        description: 物流单号
+        type: string
+      deliveryTime:
+        description: 发货时间
+        type: string
+      discountAmount:
+        description: 管理员后台调整订单使用的折扣金额
+        type: number
+      freightAmount:
+        description: 运费金额
+        type: number
+      growth:
+        description: 可以活动的成长值
+        type: integer
+      historyList:
+        description: 订单操作记录列表
+        items:
+          $ref: '#/definitions/dto.OmsOrderOperateHistory'
+        type: array
+      id:
+        description: 订单id
+        type: integer
+      integration:
+        description: 可以获得的积分
+        type: integer
+      integrationAmount:
+        description: 积分抵扣金额
+        type: number
+      memberId:
+        type: integer
+      memberUsername:
+        description: 用户帐号
+        type: string
+      modifyTime:
+        description: 修改时间
+        type: string
+      note:
+        description: 订单备注
+        type: string
+      orderItemList:
+        description: 订单商品列表
+        items:
+          $ref: '#/definitions/dto.OmsOrderItem'
+        type: array
+      orderSn:
+        description: 订单编号
+        type: string
+      orderType:
+        description: 订单类型：0->正常订单；1->秒杀订单
+        type: integer
+      payAmount:
+        description: 应付金额（实际支付金额）
+        type: number
+      payType:
+        description: 支付方式：0->未支付；1->支付宝；2->微信
+        type: integer
+      paymentTime:
+        description: 支付时间
+        type: string
+      promotionAmount:
+        description: 促销优化金额（促销价、满减、阶梯价）
+        type: number
+      promotionInfo:
+        description: 活动信息
+        type: string
+      receiveTime:
+        description: 确认收货时间
+        type: string
+      receiverCity:
+        description: 城市
+        type: string
+      receiverDetailAddress:
+        description: 详细地址
+        type: string
+      receiverName:
+        description: 收货人姓名
+        type: string
+      receiverPhone:
+        description: 收货人电话
+        type: string
+      receiverPostCode:
+        description: 收货人邮编
+        type: string
+      receiverProvince:
+        description: 省份/直辖市
+        type: string
+      receiverRegion:
+        description: 区
+        type: string
+      sourceType:
+        description: 订单来源：0->PC订单；1->app订单
+        type: integer
+      status:
+        description: 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
+        type: integer
+      totalAmount:
+        description: 订单总金额
+        type: number
+      useIntegration:
+        description: 下单时使用的积分
+        type: integer
+    type: object
+  oms_order.listRequest:
+    properties:
+      createTime:
+        type: string
+      orderSn:
+        type: string
+      orderType:
+        type: integer
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      receiverKeyword:
+        type: string
+      sourceType:
+        type: integer
+      status:
+        type: integer
+    type: object
+  oms_order.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.OmsOrder'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  oms_order.updateMoneyInfoRequest:
+    properties:
+      discountAmount:
+        description: 管理员后台调整订单所使用的折扣金额
+        type: number
+      freightAmount:
+        description: 运费金额
+        type: number
+      orderId:
+        description: 订单ID
+        type: integer
+      status:
+        description: 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
+        type: integer
+    type: object
+  oms_order.updateNoteRequest:
+    properties:
+      id:
+        type: integer
+      note:
+        type: string
+      status:
+        type: integer
+    type: object
+  oms_order.updateReceiverInfoRequest:
+    properties:
+      orderId:
+        description: 订单ID
+        type: integer
+      receiverCity:
+        description: 城市
+        type: string
+      receiverDetailAddress:
+        description: 详细地址
+        type: string
+      receiverName:
+        description: 收货人姓名
+        type: string
+      receiverPhone:
+        description: 收货人电话
+        type: string
+      receiverPostCode:
+        description: 收货人邮编
+        type: string
+      receiverProvince:
+        description: 省份/直辖市
+        type: string
+      receiverRegion:
+        description: 区
+        type: string
+      status:
+        description: 订单状态：0->待付款；1->待发货；2->已发货；3->已完成；4->已关闭；5->无效订单
+        type: integer
+    type: object
+  oms_order_return_apply.deleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    type: object
+  oms_order_return_apply.getItemRequest:
+    type: object
+  oms_order_return_apply.getItemResponse:
+    properties:
+      companyAddress:
+        $ref: '#/definitions/dto.OmsCompanyAddress'
+        description: 公司收货地址
+      companyAddressId:
+        description: 收货地址表id
+        type: integer
+      createTime:
+        description: 申请时间
+        type: string
+      description:
+        description: 描述
+        type: string
+      handleMan:
+        description: 处理人员
+        type: string
+      handleNote:
+        description: 处理备注
+        type: string
+      handleTime:
+        description: 处理时间
+        type: string
+      id:
+        type: integer
+      memberUsername:
+        description: 会员用户名
+        type: string
+      orderId:
+        description: 订单id
+        type: integer
+      orderSn:
+        description: 订单编号
+        type: string
+      productAttr:
+        description: 商品销售属性：颜色：红色；尺码：xl;
+        type: string
+      productBrand:
+        description: 商品品牌
+        type: string
+      productCount:
+        description: 退货数量
+        type: integer
+      productId:
+        description: 退货商品id
+        type: integer
+      productName:
+        description: 商品名称
+        type: string
+      productPic:
+        description: 商品图片
+        type: string
+      productPrice:
+        description: 商品单价
+        type: number
+      productRealPrice:
+        description: 商品实际支付单价
+        type: number
+      proofPics:
+        description: 凭证图片，以逗号隔开
+        type: string
+      reason:
+        description: 原因
+        type: string
+      receiveMan:
+        description: 收货人
+        type: string
+      receiveNote:
+        description: 收货备注
+        type: string
+      receiveTime:
+        description: 收货时间
+        type: string
+      returnAmount:
+        description: 退款金额
+        type: number
+      returnName:
+        description: 退货人姓名
+        type: string
+      returnPhone:
+        description: 退货人电话
+        type: string
+      status:
+        description: 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
+        type: integer
+    type: object
+  oms_order_return_apply.listRequest:
+    properties:
+      createTime:
+        description: 申请时间
+        type: string
+      handleMan:
+        description: 处理人员
+        type: string
+      handleTime:
+        description: 处理时间
+        type: string
+      id:
+        description: 服务单号
+        type: integer
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      receiverKeyword:
+        description: 收货人姓名/号码
+        type: string
+      status:
+        description: 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
+        type: integer
+    type: object
+  oms_order_return_apply.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.OmsOrderReturnApply'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  oms_order_return_apply.updateStatusRequest:
+    properties:
+      companyAddressId:
+        description: 收货地址关联id
+        type: integer
+      handleMan:
+        description: 处理人
+        type: string
+      handleNote:
+        description: 处理备注
+        type: string
+      id:
+        description: 服务单号
+        type: integer
+      receiveMan:
+        description: 收货人
+        type: string
+      receiveNote:
+        description: 收货备注
+        type: string
+      returnAmount:
+        description: 确认退款金额
+        type: number
+      status:
+        description: 申请状态：1->退货中；2->已完成；3->已拒绝
+        type: integer
+    type: object
+  oms_order_return_reason.createRequest:
+    properties:
+      createTime:
+        description: 添加时间
+        type: string
+      id:
+        type: integer
+      name:
+        description: 退货类型
+        type: string
+      sort:
+        type: integer
+      status:
+        description: 状态：0->不启用；1->启用
+        type: integer
+    type: object
+  oms_order_return_reason.deleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    type: object
+  oms_order_return_reason.getItemRequest:
+    type: object
+  oms_order_return_reason.getItemResponse:
+    properties:
+      createTime:
+        description: 添加时间
+        type: string
+      id:
+        type: integer
+      name:
+        description: 退货类型
+        type: string
+      sort:
+        type: integer
+      status:
+        description: 状态：0->不启用；1->启用
+        type: integer
+    type: object
+  oms_order_return_reason.listRequest:
+    properties:
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  oms_order_return_reason.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.OmsOrderReturnReason'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  oms_order_return_reason.updateRequest:
+    properties:
+      createTime:
+        description: 添加时间
+        type: string
+      id:
+        type: integer
+      name:
+        description: 退货类型
+        type: string
+      sort:
+        type: integer
+      status:
+        description: 状态：0->不启用；1->启用
+        type: integer
+    type: object
+  oms_order_return_reason.updateStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      status:
+        type: integer
+    type: object
+  oms_order_setting.getItemRequest:
+    type: object
+  oms_order_setting.getItemResponse:
+    properties:
+      commentOvertime:
+        description: 订单完成后自动好评时间（天）
+        type: integer
+      confirmOvertime:
+        description: 发货后自动确认收货时间（天）
+        type: integer
+      finishOvertime:
+        description: 自动完成交易时间，不能申请售后（天）
+        type: integer
+      flashOrderOvertime:
+        description: 秒杀订单超时关闭时间(分)
+        type: integer
+      id:
+        type: integer
+      normalOrderOvertime:
+        description: 正常订单超时时间(分)
+        type: integer
+    type: object
+  oms_order_setting.updateRequest:
+    properties:
+      commentOvertime:
+        description: 订单完成后自动好评时间（天）
+        type: integer
+      confirmOvertime:
+        description: 发货后自动确认收货时间（天）
+        type: integer
+      finishOvertime:
+        description: 自动完成交易时间，不能申请售后（天）
+        type: integer
+      flashOrderOvertime:
+        description: 秒杀订单超时关闭时间(分)
+        type: integer
+      id:
+        type: integer
+      normalOrderOvertime:
+        description: 正常订单超时时间(分)
+        type: integer
+    type: object
+  pms_brand.createRequest:
+    properties:
+      bigPic:
+        type: string
+      brandStory:
+        type: string
+      factoryStatus:
+        type: integer
+      firstLetter:
+        type: string
+      logo:
+        type: string
+      name:
+        type: string
+      productCommentCount:
+        type: integer
+      productCount:
+        type: integer
+      showStatus:
+        type: integer
+      sort:
+        type: integer
+    required:
+    - logo
+    - name
+    type: object
+  pms_brand.deleteBatchRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - ids
+    type: object
+  pms_brand.deleteRequest:
+    type: object
+  pms_brand.getItemRequest:
+    type: object
+  pms_brand.getItemResponse:
+    properties:
+      bigPic:
+        type: string
+      brandStory:
+        type: string
+      factoryStatus:
+        type: integer
+      firstLetter:
+        type: string
+      id:
+        type: integer
+      logo:
+        type: string
+      name:
+        type: string
+      productCommentCount:
+        type: integer
+      productCount:
+        type: integer
+      showStatus:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  pms_brand.listAllRequest:
+    type: object
+  pms_brand.listRequest:
+    properties:
+      keyword:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      showStatus:
+        type: integer
+    type: object
+  pms_brand.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.PmsBrand'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  pms_brand.updateFactoryStatusRequest:
+    properties:
+      factoryStatus:
+        type: integer
+      ids:
+        items:
+          type: integer
+        type: array
+    type: object
+  pms_brand.updateRequest:
+    properties:
+      bigPic:
+        type: string
+      brandStory:
+        type: string
+      factoryStatus:
+        type: integer
+      firstLetter:
+        type: string
+      logo:
+        type: string
+      name:
+        type: string
+      productCommentCount:
+        type: integer
+      productCount:
+        type: integer
+      showStatus:
+        type: integer
+      sort:
+        type: integer
+    required:
+    - logo
+    - name
+    type: object
+  pms_brand.updateShowStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      showStatus:
+        type: integer
+    type: object
+  pms_product.createRequest:
+    properties:
+      albumPics:
+        description: 画册图片，连产品图片限制为5张，以逗号分割
+        type: string
+      brandId:
+        type: integer
+      brandName:
+        description: 品牌名称
+        type: string
+      deleteStatus:
+        description: 删除状态：0->未删除；1->已删除
+        type: integer
+      description:
+        description: 商品描述
+        type: string
+      detailDesc:
+        type: string
+      detailHtml:
+        description: 产品详情网页内容
+        type: string
+      detailMobileHtml:
+        description: 移动端网页详情
+        type: string
+      detailTitle:
+        type: string
+      feightTemplateId:
+        type: integer
+      giftGrowth:
+        description: 赠送的成长值
+        type: integer
+      giftPoint:
+        description: 赠送的积分
+        type: integer
+      id:
+        type: integer
+      keywords:
+        type: string
+      lowStock:
+        description: 库存预警值
+        type: integer
+      memberPriceList:
+        description: 商品会员价格设置
+        items:
+          $ref: '#/definitions/dto.PmsMemberPrice'
+        type: array
+      name:
+        type: string
+      newStatus:
+        description: 新品状态:0->不是新品；1->新品
+        type: integer
+      note:
+        type: string
+      originalPrice:
+        description: 市场价
+        type: number
+      pic:
+        type: string
+      prefrenceAreaProductRelationList:
+        description: 优选专区和商品的关系
+        items:
+          $ref: '#/definitions/dto.CmsPrefrenceAreaProductRelation'
+        type: array
+      previewStatus:
+        description: 是否为预告商品：0->不是；1->是
+        type: integer
+      price:
+        type: number
+      productAttributeCategoryId:
+        type: integer
+      productAttributeValueList:
+        description: 商品参数及自定义规格属性
+        items:
+          $ref: '#/definitions/dto.PmsProductAttributeValue'
+        type: array
+      productCategoryId:
+        type: integer
+      productCategoryName:
+        description: 商品分类名称
+        type: string
+      productFullReductionList:
+        description: 商品满减价格设置
+        items:
+          $ref: '#/definitions/dto.PmsProductFullReduction'
+        type: array
+      productLadderList:
+        description: 商品阶梯价格设置
+        items:
+          $ref: '#/definitions/dto.PmsProductLadder'
+        type: array
+      productSn:
+        description: 货号
+        type: string
+      promotionEndTime:
+        description: 促销结束时间
+        type: string
+      promotionPerLimit:
+        description: 活动限购数量
+        type: integer
+      promotionPrice:
+        description: 促销价格
+        type: number
+      promotionStartTime:
+        description: 促销开始时间
+        type: string
+      promotionType:
+        description: 促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购
+        type: integer
+      publishStatus:
+        description: 上架状态：0->下架；1->上架
+        type: integer
+      recommandStatus:
+        description: 推荐状态；0->不推荐；1->推荐
+        type: integer
+      sale:
+        description: 销量
+        type: integer
+      serviceIds:
+        description: 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
+        type: string
+      skuStockList:
+        description: 商品的sku库存信息
+        items:
+          $ref: '#/definitions/dto.PmsSkuStock'
+        type: array
+      sort:
+        description: 排序
+        type: integer
+      stock:
+        description: 库存
+        type: integer
+      subTitle:
+        description: 副标题
+        type: string
+      subjectProductRelationList:
+        description: 专题和商品关系
+        items:
+          $ref: '#/definitions/dto.CmsSubjectProductRelation'
+        type: array
+      unit:
+        description: 单位
+        type: string
+      usePointLimit:
+        description: 限制使用的积分数
+        type: integer
+      verifyStatus:
+        description: 审核状态：0->未审核；1->审核通过
+        type: integer
+      weight:
+        description: 商品重量，默认为克
+        type: number
+    type: object
+  pms_product.getUpdateInfoRequest:
+    type: object
+  pms_product.getUpdateInfoResponse:
+    properties:
+      albumPics:
+        description: 画册图片，连产品图片限制为5张，以逗号分割
+        type: string
+      brandId:
+        type: integer
+      brandName:
+        description: 品牌名称
+        type: string
+      cateParentId:
+        description: 商品所选分类的父id
+        type: integer
+      deleteStatus:
+        description: 删除状态：0->未删除；1->已删除
+        type: integer
+      description:
+        description: 商品描述
+        type: string
+      detailDesc:
+        type: string
+      detailHtml:
+        description: 产品详情网页内容
+        type: string
+      detailMobileHtml:
+        description: 移动端网页详情
+        type: string
+      detailTitle:
+        type: string
+      feightTemplateId:
+        type: integer
+      giftGrowth:
+        description: 赠送的成长值
+        type: integer
+      giftPoint:
+        description: 赠送的积分
+        type: integer
+      id:
+        type: integer
+      keywords:
+        type: string
+      lowStock:
+        description: 库存预警值
+        type: integer
+      memberPriceList:
+        description: 商品会员价格设置
+        items:
+          $ref: '#/definitions/dto.PmsMemberPrice'
+        type: array
+      name:
+        type: string
+      newStatus:
+        description: 新品状态:0->不是新品；1->新品
+        type: integer
+      note:
+        type: string
+      originalPrice:
+        description: 市场价
+        type: number
+      pic:
+        type: string
+      prefrenceAreaProductRelationList:
+        description: 优选专区和商品的关系
+        items:
+          $ref: '#/definitions/dto.CmsPrefrenceAreaProductRelation'
+        type: array
+      previewStatus:
+        description: 是否为预告商品：0->不是；1->是
+        type: integer
+      price:
+        type: number
+      productAttributeCategoryId:
+        type: integer
+      productAttributeValueList:
+        description: 商品参数及自定义规格属性
+        items:
+          $ref: '#/definitions/dto.PmsProductAttributeValue'
+        type: array
+      productCategoryId:
+        type: integer
+      productCategoryName:
+        description: 商品分类名称
+        type: string
+      productFullReductionList:
+        description: 商品满减价格设置
+        items:
+          $ref: '#/definitions/dto.PmsProductFullReduction'
+        type: array
+      productLadderList:
+        description: 商品阶梯价格设置
+        items:
+          $ref: '#/definitions/dto.PmsProductLadder'
+        type: array
+      productSn:
+        description: 货号
+        type: string
+      promotionEndTime:
+        description: 促销结束时间
+        type: string
+      promotionPerLimit:
+        description: 活动限购数量
+        type: integer
+      promotionPrice:
+        description: 促销价格
+        type: number
+      promotionStartTime:
+        description: 促销开始时间
+        type: string
+      promotionType:
+        description: 促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购
+        type: integer
+      publishStatus:
+        description: 上架状态：0->下架；1->上架
+        type: integer
+      recommandStatus:
+        description: 推荐状态；0->不推荐；1->推荐
+        type: integer
+      sale:
+        description: 销量
+        type: integer
+      serviceIds:
+        description: 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
+        type: string
+      skuStockList:
+        description: 商品的sku库存信息
+        items:
+          $ref: '#/definitions/dto.PmsSkuStock'
+        type: array
+      sort:
+        description: 排序
+        type: integer
+      stock:
+        description: 库存
+        type: integer
+      subTitle:
+        description: 副标题
+        type: string
+      subjectProductRelationList:
+        description: 专题和商品关系
+        items:
+          $ref: '#/definitions/dto.CmsSubjectProductRelation'
+        type: array
+      unit:
+        description: 单位
+        type: string
+      usePointLimit:
+        description: 限制使用的积分数
+        type: integer
+      verifyStatus:
+        description: 审核状态：0->未审核；1->审核通过
+        type: integer
+      weight:
+        description: 商品重量，默认为克
+        type: number
+    type: object
+  pms_product.listRequest:
+    properties:
+      brandId:
+        description: 商品品牌编号
+        type: integer
+      keyword:
+        description: 商品名称模糊关键字
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      productCategoryId:
+        description: 商品分类编号
+        type: integer
+      productSn:
+        description: 商品货号
+        type: string
+      publishStatus:
+        description: 上架状态
+        type: integer
+      verifyStatus:
+        description: 审核状态
+        type: integer
+    type: object
+  pms_product.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.PmsProduct'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  pms_product.simpleListRequest:
+    properties:
+      keyword:
+        type: string
+    type: object
+  pms_product.updateDeleteStatusRequest:
+    properties:
+      deleteStatus:
+        type: integer
+      ids:
+        items:
+          type: integer
+        type: array
+    type: object
+  pms_product.updateNewStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      newStatus:
+        type: integer
+    type: object
+  pms_product.updatePublishStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      publishStatus:
+        type: integer
+    type: object
+  pms_product.updateRecommendStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      recommendStatus:
+        type: integer
+    type: object
+  pms_product.updateRequest:
+    properties:
+      albumPics:
+        description: 画册图片，连产品图片限制为5张，以逗号分割
+        type: string
+      brandId:
+        type: integer
+      brandName:
+        description: 品牌名称
+        type: string
+      deleteStatus:
+        description: 删除状态：0->未删除；1->已删除
+        type: integer
+      description:
+        description: 商品描述
+        type: string
+      detailDesc:
+        type: string
+      detailHtml:
+        description: 产品详情网页内容
+        type: string
+      detailMobileHtml:
+        description: 移动端网页详情
+        type: string
+      detailTitle:
+        type: string
+      feightTemplateId:
+        type: integer
+      giftGrowth:
+        description: 赠送的成长值
+        type: integer
+      giftPoint:
+        description: 赠送的积分
+        type: integer
+      id:
+        type: integer
+      keywords:
+        type: string
+      lowStock:
+        description: 库存预警值
+        type: integer
+      memberPriceList:
+        description: 商品会员价格设置
+        items:
+          $ref: '#/definitions/dto.PmsMemberPrice'
+        type: array
+      name:
+        type: string
+      newStatus:
+        description: 新品状态:0->不是新品；1->新品
+        type: integer
+      note:
+        type: string
+      originalPrice:
+        description: 市场价
+        type: number
+      pic:
+        type: string
+      prefrenceAreaProductRelationList:
+        description: 优选专区和商品的关系
+        items:
+          $ref: '#/definitions/dto.CmsPrefrenceAreaProductRelation'
+        type: array
+      previewStatus:
+        description: 是否为预告商品：0->不是；1->是
+        type: integer
+      price:
+        type: number
+      productAttributeCategoryId:
+        type: integer
+      productAttributeValueList:
+        description: 商品参数及自定义规格属性
+        items:
+          $ref: '#/definitions/dto.PmsProductAttributeValue'
+        type: array
+      productCategoryId:
+        type: integer
+      productCategoryName:
+        description: 商品分类名称
+        type: string
+      productFullReductionList:
+        description: 商品满减价格设置
+        items:
+          $ref: '#/definitions/dto.PmsProductFullReduction'
+        type: array
+      productLadderList:
+        description: 商品阶梯价格设置
+        items:
+          $ref: '#/definitions/dto.PmsProductLadder'
+        type: array
+      productSn:
+        description: 货号
+        type: string
+      promotionEndTime:
+        description: 促销结束时间
+        type: string
+      promotionPerLimit:
+        description: 活动限购数量
+        type: integer
+      promotionPrice:
+        description: 促销价格
+        type: number
+      promotionStartTime:
+        description: 促销开始时间
+        type: string
+      promotionType:
+        description: 促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购
+        type: integer
+      publishStatus:
+        description: 上架状态：0->下架；1->上架
+        type: integer
+      recommandStatus:
+        description: 推荐状态；0->不推荐；1->推荐
+        type: integer
+      sale:
+        description: 销量
+        type: integer
+      serviceIds:
+        description: 以逗号分割的产品服务：1->无忧退货；2->快速退款；3->免费包邮
+        type: string
+      skuStockList:
+        description: 商品的sku库存信息
+        items:
+          $ref: '#/definitions/dto.PmsSkuStock'
+        type: array
+      sort:
+        description: 排序
+        type: integer
+      stock:
+        description: 库存
+        type: integer
+      subTitle:
+        description: 副标题
+        type: string
+      subjectProductRelationList:
+        description: 专题和商品关系
+        items:
+          $ref: '#/definitions/dto.CmsSubjectProductRelation'
+        type: array
+      unit:
+        description: 单位
+        type: string
+      usePointLimit:
+        description: 限制使用的积分数
+        type: integer
+      verifyStatus:
+        description: 审核状态：0->未审核；1->审核通过
+        type: integer
+      weight:
+        description: 商品重量，默认为克
+        type: number
+    type: object
+  pms_product.updateVerifyStatusRequest:
+    properties:
+      detail:
+        type: string
+      ids:
+        items:
+          type: integer
+        type: array
+      verifyStatus:
+        type: integer
+    type: object
+  pms_product_attr.createRequest:
+    properties:
+      filterType:
+        description: 分类筛选样式：0->普通；1->颜色
+        type: integer
+      handAddStatus:
+        description: 是否支持手动新增；0->不支持；1->支持
+        type: integer
+      inputList:
+        description: 可选值列表，以逗号隔开
+        type: string
+      inputType:
+        description: 属性录入方式：0->手工录入；1->从列表中选取
+        type: integer
+      name:
+        description: 属性名称
+        type: string
+      productAttributeCategoryId:
+        description: 属性分类ID
+        type: integer
+      relatedStatus:
+        description: 相同属性商品是否关联；0->不关联；1->关联
+        type: integer
+      searchType:
+        description: 检索类型；0->不需要进行检索；1->关键字检索；2->范围检索
+        type: integer
+      selectType:
+        description: 属性选择类型：0->唯一；1->单选；2->多选
+        type: integer
+      sort:
+        description: 排序
+        type: integer
+      type:
+        description: 属性的类型；0->规格；1->参数
+        type: integer
+    required:
+    - name
+    - productAttributeCategoryId
+    type: object
+  pms_product_attr.deleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    type: object
+  pms_product_attr.deleteResponse:
+    properties:
+      count:
+        type: integer
+    type: object
+  pms_product_attr.getAttrInfoRequest:
+    type: object
+  pms_product_attr.getItemRequest:
+    type: object
+  pms_product_attr.getItemResponse:
+    properties:
+      filterType:
+        type: integer
+      handAddStatus:
+        type: integer
+      id:
+        type: integer
+      inputList:
+        type: string
+      inputType:
+        type: integer
+      name:
+        type: string
+      productAttributeCategoryId:
+        type: integer
+      relatedStatus:
+        type: integer
+      searchType:
+        type: integer
+      selectType:
+        type: integer
+      sort:
+        type: integer
+      type:
+        type: integer
+    type: object
+  pms_product_attr.listRequest:
+    properties:
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      type:
+        type: integer
+    type: object
+  pms_product_attr.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.PmsProductAttr'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  pms_product_attr.updateRequest:
+    properties:
+      filterType:
+        description: 分类筛选样式：0->普通；1->颜色
+        type: integer
+      handAddStatus:
+        description: 是否支持手动新增；0->不支持；1->支持
+        type: integer
+      inputList:
+        description: 可选值列表，以逗号隔开
+        type: string
+      inputType:
+        description: 属性录入方式：0->手工录入；1->从列表中选取
+        type: integer
+      name:
+        description: 属性名称
+        type: string
+      productAttributeCategoryId:
+        description: 属性分类ID
+        type: integer
+      relatedStatus:
+        description: 相同属性商品是否关联；0->不关联；1->关联
+        type: integer
+      searchType:
+        description: 检索类型；0->不需要进行检索；1->关键字检索；2->范围检索
+        type: integer
+      selectType:
+        description: 属性选择类型：0->唯一；1->单选；2->多选
+        type: integer
+      sort:
+        description: 排序
+        type: integer
+      type:
+        description: 属性的类型；0->规格；1->参数
+        type: integer
+    required:
+    - name
+    - productAttributeCategoryId
+    type: object
+  pms_product_attr_cate.createRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  pms_product_attr_cate.deleteRequest:
+    type: object
+  pms_product_attr_cate.getItemRequest:
+    type: object
+  pms_product_attr_cate.getItemResponse:
+    properties:
+      attributeCount:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      paramCount:
+        type: integer
+    type: object
+  pms_product_attr_cate.getListWithAttrRequest:
+    type: object
+  pms_product_attr_cate.listRequest:
+    properties:
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  pms_product_attr_cate.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.PmsProductAttributeCategory'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  pms_product_attr_cate.updateRequest:
+    properties:
+      name:
+        type: string
+    type: object
+  pms_product_cate.createRequest:
+    properties:
+      description:
+        description: 描述
+        type: string
+      icon:
+        description: 图标
+        type: string
+      keywords:
+        description: 关键字
+        type: string
+      name:
+        description: 商品分类名称
+        type: string
+      navStatus:
+        description: 是否在导航栏显示
+        type: integer
+      parentId:
+        description: 父分类的编号
+        type: integer
+      productAttributeIdList:
+        description: 产品相关筛选属性集合
+        items:
+          type: integer
+        type: array
+      productUnit:
+        description: 分类单位
+        type: string
+      showStatus:
+        description: 是否进行显示
+        type: integer
+      sort:
+        description: 排序
+        type: integer
+    required:
+    - name
+    - parentId
+    type: object
+  pms_product_cate.deleteRequest:
+    type: object
+  pms_product_cate.getItemRequest:
+    type: object
+  pms_product_cate.getItemResponse:
+    properties:
+      description:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      keywords:
+        type: string
+      level:
+        type: integer
+      name:
+        type: string
+      navStatus:
+        type: integer
+      parentId:
+        type: integer
+      productCount:
+        type: integer
+      productUnit:
+        type: string
+      showStatus:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  pms_product_cate.listRequest:
+    properties:
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  pms_product_cate.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.PmsProductCategory'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  pms_product_cate.listWithChildrenRequest:
+    type: object
+  pms_product_cate.updateNavStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      navStatus:
+        type: integer
+    type: object
+  pms_product_cate.updateRequest:
+    properties:
+      description:
+        description: 描述
+        type: string
+      icon:
+        description: 图标
+        type: string
+      keywords:
+        description: 关键字
+        type: string
+      name:
+        description: 商品分类名称
+        type: string
+      navStatus:
+        description: 是否在导航栏显示
+        type: integer
+      parentId:
+        description: 父分类的编号
+        type: integer
+      productAttributeIdList:
+        description: 产品相关筛选属性集合
+        items:
+          type: integer
+        type: array
+      productUnit:
+        description: 分类单位
+        type: string
+      showStatus:
+        description: 是否进行显示
+        type: integer
+      sort:
+        description: 排序
+        type: integer
+    required:
+    - name
+    - parentId
+    type: object
+  pms_product_cate.updateShowStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      showStatus:
+        type: integer
+    type: object
+  pms_sku_stock.getListRequest:
+    properties:
+      keyword:
+        type: string
+    type: object
+  sms_coupon.createRequest:
+    properties:
+      amount:
+        type: number
+      code:
+        type: string
+      count:
+        type: integer
+      enableTime:
+        type: string
+      endTime:
+        type: string
+      id:
+        type: integer
+      memberLevel:
+        type: integer
+      minPoint:
+        type: number
+      name:
+        type: string
+      note:
+        type: string
+      perLimit:
+        type: integer
+      platform:
+        type: integer
+      productCategoryRelationList:
+        description: 优惠券绑定的商品分类
+        items:
+          $ref: '#/definitions/dto.SmsCouponProductCategoryRelation'
+        type: array
+      productRelationList:
+        description: 优惠券绑定的商品
+        items:
+          $ref: '#/definitions/dto.SmsCouponProductRelation'
+        type: array
+      publishCount:
+        type: integer
+      receiveCount:
+        type: integer
+      startTime:
+        type: string
+      type:
+        type: integer
+      useCount:
+        type: integer
+      useType:
+        type: integer
+    type: object
+  sms_coupon.deleteRequest:
+    type: object
+  sms_coupon.getItemRequest:
+    type: object
+  sms_coupon.getItemResponse:
+    properties:
+      amount:
+        type: number
+      code:
+        type: string
+      count:
+        type: integer
+      enableTime:
+        type: string
+      endTime:
+        type: string
+      id:
+        type: integer
+      memberLevel:
+        type: integer
+      minPoint:
+        type: number
+      name:
+        type: string
+      note:
+        type: string
+      perLimit:
+        type: integer
+      platform:
+        type: integer
+      productCategoryRelationList:
+        description: 优惠券绑定的商品分类
+        items:
+          $ref: '#/definitions/dto.SmsCouponProductCategoryRelation'
+        type: array
+      productRelationList:
+        description: 优惠券绑定的商品
+        items:
+          $ref: '#/definitions/dto.SmsCouponProductRelation'
+        type: array
+      publishCount:
+        type: integer
+      receiveCount:
+        type: integer
+      startTime:
+        type: string
+      type:
+        type: integer
+      useCount:
+        type: integer
+      useType:
+        type: integer
+    type: object
+  sms_coupon.listRequest:
+    properties:
+      name:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      type:
+        type: integer
+    type: object
+  sms_coupon.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.SmsCoupon'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  sms_coupon.updateRequest:
+    properties:
+      amount:
+        type: number
+      code:
+        type: string
+      count:
+        type: integer
+      enableTime:
+        type: string
+      endTime:
+        type: string
+      id:
+        type: integer
+      memberLevel:
+        type: integer
+      minPoint:
+        type: number
+      name:
+        type: string
+      note:
+        type: string
+      perLimit:
+        type: integer
+      platform:
+        type: integer
+      productCategoryRelationList:
+        description: 优惠券绑定的商品分类
+        items:
+          $ref: '#/definitions/dto.SmsCouponProductCategoryRelation'
+        type: array
+      productRelationList:
+        description: 优惠券绑定的商品
+        items:
+          $ref: '#/definitions/dto.SmsCouponProductRelation'
+        type: array
+      publishCount:
+        type: integer
+      receiveCount:
+        type: integer
+      startTime:
+        type: string
+      type:
+        type: integer
+      useCount:
+        type: integer
+      useType:
+        type: integer
+    type: object
+  sms_coupon_history.listRequest:
+    properties:
+      couponId:
+        type: integer
+      orderSn:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      useStatus:
+        type: integer
+    type: object
+  sms_coupon_history.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.SmsCouponHistory'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  sms_flash_promotion.createRequest:
+    properties:
+      createTime:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      startDate:
+        type: string
+      status:
+        type: integer
+      title:
+        type: string
+    type: object
+  sms_flash_promotion.deleteRequest:
+    type: object
+  sms_flash_promotion.getItemRequest:
+    type: object
+  sms_flash_promotion.getItemResponse:
+    properties:
+      createTime:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      startDate:
+        type: string
+      status:
+        type: integer
+      title:
+        type: string
+    type: object
+  sms_flash_promotion.listRequest:
+    properties:
+      keyword:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  sms_flash_promotion.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.SmsFlashPromotion'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  sms_flash_promotion.updateRequest:
+    properties:
+      createTime:
+        type: string
+      endDate:
+        type: string
+      id:
+        type: integer
+      startDate:
+        type: string
+      status:
+        type: integer
+      title:
+        type: string
+    type: object
+  sms_flash_promotion.updateStatusRequest:
+    properties:
+      status:
+        type: integer
+    type: object
+  sms_flash_promotion_product_relation.SmsFlashPromotionProductRelation:
+    properties:
+      flashPromotionCount:
+        description: 限时购数量
+        type: integer
+      flashPromotionId:
+        type: integer
+      flashPromotionLimit:
+        description: 每人限购数量
+        type: integer
+      flashPromotionPrice:
+        description: 限时购价格
+        type: number
+      flashPromotionSessionId:
+        description: 编号
+        type: integer
+      id:
+        description: 编号
+        type: integer
+      productId:
+        type: integer
+      sort:
+        description: 排序
+        type: integer
+    type: object
+  sms_flash_promotion_product_relation.deleteRequest:
+    type: object
+  sms_flash_promotion_product_relation.getItemRequest:
+    type: object
+  sms_flash_promotion_product_relation.getItemResponse:
+    properties:
+      flashPromotionCount:
+        type: integer
+      flashPromotionId:
+        type: integer
+      flashPromotionLimit:
+        type: integer
+      flashPromotionPrice:
+        type: number
+      flashPromotionSessionId:
+        type: integer
+      id:
+        type: integer
+      productId:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  sms_flash_promotion_product_relation.listRequest:
+    properties:
+      flashPromotionId:
+        type: integer
+      flashPromotionSessionId:
+        type: integer
+      keyword:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  sms_flash_promotion_product_relation.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.SmsFlashPromotionProductRelation'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  sms_flash_promotion_product_relation.updateRequest:
+    properties:
+      flashPromotionCount:
+        type: integer
+      flashPromotionId:
+        type: integer
+      flashPromotionLimit:
+        type: integer
+      flashPromotionPrice:
+        type: number
+      flashPromotionSessionId:
+        type: integer
+      id:
+        type: integer
+      productId:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  sms_flash_promotion_session.createRequest:
+    properties:
+      createTime:
+        type: string
+      endTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      startTime:
+        type: string
+      status:
+        type: integer
+    type: object
+  sms_flash_promotion_session.deleteRequest:
+    type: object
+  sms_flash_promotion_session.getItemRequest:
+    type: object
+  sms_flash_promotion_session.getItemResponse:
+    properties:
+      createTime:
+        type: string
+      endTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      startTime:
+        type: string
+      status:
+        type: integer
+    type: object
+  sms_flash_promotion_session.listRequest:
+    type: object
+  sms_flash_promotion_session.selectListRequest:
+    properties:
+      flashPromotionId:
+        type: integer
+    type: object
+  sms_flash_promotion_session.updateRequest:
+    properties:
+      createTime:
+        type: string
+      endTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      startTime:
+        type: string
+      status:
+        type: integer
+    type: object
+  sms_flash_promotion_session.updateStatusRequest:
+    properties:
+      status:
+        type: integer
+    type: object
+  sms_home_advertise.createRequest:
+    properties:
+      clickCount:
+        type: integer
+      endTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      orderCount:
+        type: integer
+      pic:
+        type: string
+      sort:
+        type: integer
+      startTime:
+        type: string
+      status:
+        type: integer
+      type:
+        type: integer
+      url:
+        type: string
+    type: object
+  sms_home_advertise.createResponse:
+    properties:
+      count:
+        type: integer
+    type: object
+  sms_home_advertise.deleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - ids
+    type: object
+  sms_home_advertise.deleteResponse:
+    properties:
+      count:
+        type: integer
+    type: object
+  sms_home_advertise.getItemRequest:
+    type: object
+  sms_home_advertise.getItemResponse:
+    properties:
+      clickCount:
+        type: integer
+      endTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      orderCount:
+        type: integer
+      pic:
+        type: string
+      sort:
+        type: integer
+      startTime:
+        type: string
+      status:
+        type: integer
+      type:
+        type: integer
+      url:
+        type: string
+    type: object
+  sms_home_advertise.listRequest:
+    properties:
+      endTime:
+        type: string
+      name:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      type:
+        type: integer
+    type: object
+  sms_home_advertise.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.SmsHomeAdvertise'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  sms_home_advertise.updateRequest:
+    properties:
+      clickCount:
+        type: integer
+      endTime:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      orderCount:
+        type: integer
+      pic:
+        type: string
+      sort:
+        type: integer
+      startTime:
+        type: string
+      status:
+        type: integer
+      type:
+        type: integer
+      url:
+        type: string
+    type: object
+  sms_home_advertise.updateResponse:
+    properties:
+      count:
+        type: integer
+    type: object
+  sms_home_advertise.updateStatusRequest:
+    properties:
+      status:
+        type: integer
+    type: object
+  sms_home_advertise.updateStatusResponse:
+    properties:
+      count:
+        type: integer
+    type: object
+  sms_home_brand.createRequest:
+    type: object
+  sms_home_brand.deleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - ids
+    type: object
+  sms_home_brand.listRequest:
+    properties:
+      brandName:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      recommendStatus:
+        type: integer
+    type: object
+  sms_home_brand.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.SmsHomeBrand'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  sms_home_brand.updateRecommendStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      recommendStatus:
+        type: integer
+    required:
+    - ids
+    - recommendStatus
+    type: object
+  sms_home_brand.updateSortRequest:
+    properties:
+      sort:
+        type: integer
+    type: object
+  sms_home_new_product.createRequest:
+    type: object
+  sms_home_new_product.deleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - ids
+    type: object
+  sms_home_new_product.listRequest:
+    properties:
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      productName:
+        type: string
+      recommendStatus:
+        type: integer
+    type: object
+  sms_home_new_product.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.SmsHomeNewProduct'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  sms_home_new_product.updateRecommendStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      recommendStatus:
+        type: integer
+    required:
+    - ids
+    - recommendStatus
+    type: object
+  sms_home_new_product.updateSortRequest:
+    properties:
+      sort:
+        type: integer
+    type: object
+  sms_home_recommend_product.createRequest:
+    type: object
+  sms_home_recommend_product.deleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - ids
+    type: object
+  sms_home_recommend_product.listRequest:
+    properties:
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      productName:
+        type: string
+      recommendStatus:
+        type: integer
+    type: object
+  sms_home_recommend_product.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.SmsHomeRecommendProduct'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  sms_home_recommend_product.updateRecommendStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      recommendStatus:
+        type: integer
+    required:
+    - ids
+    - recommendStatus
+    type: object
+  sms_home_recommend_product.updateSortRequest:
+    properties:
+      sort:
+        type: integer
+    type: object
+  sms_home_recommend_subject.createRequest:
+    type: object
+  sms_home_recommend_subject.deleteRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - ids
+    type: object
+  sms_home_recommend_subject.listRequest:
+    properties:
+      keyword:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      recommendStatus:
+        type: integer
+      subjectName:
+        type: string
+    type: object
+  sms_home_recommend_subject.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.SmsHomeRecommendSubject'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  sms_home_recommend_subject.updateRecommendStatusRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      recommendStatus:
+        type: integer
+    required:
+    - ids
+    - recommendStatus
+    type: object
+  sms_home_recommend_subject.updateSortRequest:
+    properties:
+      sort:
+        type: integer
+    type: object
   tool.dbData:
     properties:
       db_name:
@@ -726,46 +4217,6 @@ definitions:
           $ref: '#/definitions/tool.tableData'
         type: array
     type: object
-  ums_admin.UmsAdmin:
-    properties:
-      createTime:
-        type: string
-      email:
-        type: string
-      icon:
-        type: string
-      id:
-        type: integer
-      loginTime:
-        type: string
-      nickName:
-        type: string
-      note:
-        type: string
-      password:
-        type: string
-      status:
-        type: integer
-      username:
-        type: string
-    type: object
-  ums_admin.UmsRole:
-    properties:
-      adminCount:
-        type: integer
-      createTime:
-        type: string
-      description:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
-      sort:
-        type: integer
-      status:
-        type: integer
-    type: object
   ums_admin.deleteRequest:
     type: object
   ums_admin.getRequest:
@@ -803,7 +4254,7 @@ definitions:
         type: string
       menus:
         items:
-          $ref: '#/definitions/github.com_ChangSZ_mall-go_internal_repository_mysql_ums_menu.UmsMenu'
+          $ref: '#/definitions/dto.UmsMenu'
         type: array
       roles:
         items:
@@ -816,7 +4267,7 @@ definitions:
     properties:
       list:
         items:
-          $ref: '#/definitions/ums_admin.UmsAdmin'
+          $ref: '#/definitions/dto.UmsAdmin'
         type: array
       pageNum:
         type: integer
@@ -878,29 +4329,22 @@ definitions:
   ums_admin.registerResponse:
     properties:
       createTime:
-        description: 创建时间
         type: string
       email:
-        description: 邮箱
         type: string
       icon:
-        description: 头像
         type: string
       id:
         type: integer
       loginTime:
-        description: 最后登录时间
         type: string
       nickName:
-        description: 昵称
         type: string
       note:
-        description: 备注信息
         type: string
       password:
         type: string
       status:
-        description: 帐号启用状态：0->禁用；1->启用
         type: integer
       username:
         type: string
@@ -955,60 +4399,6 @@ definitions:
       status:
         type: integer
     type: object
-  ums_member_level.UmsMemberLevel:
-    properties:
-      commentGrowthPoint:
-        type: integer
-      defaultStatus:
-        type: integer
-      freeFreightPoint:
-        type: number
-      growthPoint:
-        type: integer
-      id:
-        type: integer
-      name:
-        type: string
-      note:
-        type: string
-      priviledgeBirthday:
-        type: integer
-      priviledgeComment:
-        type: integer
-      priviledgeFreeFreight:
-        type: integer
-      priviledgeMemberPrice:
-        type: integer
-      priviledgePromotion:
-        type: integer
-      priviledgeSignIn:
-        type: integer
-    type: object
-  ums_menu.UmsMenuNode:
-    properties:
-      children:
-        items:
-          $ref: '#/definitions/ums_menu.UmsMenuNode'
-        type: array
-      createTime:
-        type: string
-      hidden:
-        type: integer
-      icon:
-        type: string
-      id:
-        type: integer
-      level:
-        type: integer
-      name:
-        type: string
-      parentId:
-        type: integer
-      sort:
-        type: integer
-      title:
-        type: string
-    type: object
   ums_menu.createRequest:
     properties:
       hidden:
@@ -1055,7 +4445,7 @@ definitions:
     properties:
       list:
         items:
-          $ref: '#/definitions/github.com_ChangSZ_mall-go_internal_api_ums_menu.UmsMenu'
+          $ref: '#/definitions/dto.UmsMenu'
         type: array
       pageNum:
         type: integer
@@ -1096,84 +4486,197 @@ definitions:
         type: string
     type: object
   ums_resource.createRequest:
-    type: object
-  ums_resource.createResponse:
+    properties:
+      categoryId:
+        type: integer
+      description:
+        type: string
+      name:
+        type: string
+      url:
+        type: string
     type: object
   ums_resource.deleteRequest:
     type: object
   ums_resource.deleteResponse:
+    properties:
+      count:
+        type: integer
     type: object
   ums_resource.getRequest:
     type: object
   ums_resource.getResponse:
+    properties:
+      categoryId:
+        type: integer
+      createTime:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      url:
+        type: string
     type: object
   ums_resource.listAllRequest:
     type: object
-  ums_resource.listAllResponse:
-    type: object
   ums_resource.listRequest:
+    properties:
+      categoryId:
+        type: integer
+      nameKeyword:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      urlKeyword:
+        type: string
     type: object
   ums_resource.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.UmsResource'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
     type: object
   ums_resource.updateRequest:
-    type: object
-  ums_resource.updateResponse:
+    properties:
+      categoryId:
+        type: integer
+      description:
+        type: string
+      name:
+        type: string
+      url:
+        type: string
     type: object
   ums_resource_cate.createRequest:
-    type: object
-  ums_resource_cate.createResponse:
+    properties:
+      name:
+        type: string
+      sort:
+        type: integer
     type: object
   ums_resource_cate.deleteRequest:
     type: object
-  ums_resource_cate.deleteResponse:
-    type: object
   ums_resource_cate.listAllRequest:
     type: object
-  ums_resource_cate.listAllResponse:
-    type: object
   ums_resource_cate.updateRequest:
-    type: object
-  ums_resource_cate.updateResponse:
+    properties:
+      name:
+        type: string
+      sort:
+        type: integer
     type: object
   ums_role.allocMenuRequest:
-    type: object
-  ums_role.allocMenuResponse:
+    properties:
+      menuIds:
+        items:
+          type: integer
+        type: array
+      roleId:
+        type: integer
+    required:
+    - roleId
     type: object
   ums_role.allocResourceRequest:
-    type: object
-  ums_role.allocResourceResponse:
+    properties:
+      resourceIds:
+        items:
+          type: integer
+        type: array
+      roleId:
+        type: integer
+    required:
+    - roleId
     type: object
   ums_role.createRequest:
-    type: object
-  ums_role.createResponse:
+    properties:
+      adminCount:
+        type: integer
+      description:
+        type: string
+      name:
+        type: string
+      sort:
+        type: integer
+      status:
+        type: integer
     type: object
   ums_role.deleteRequest:
-    type: object
-  ums_role.deleteResponse:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - ids
     type: object
   ums_role.listAllRequest:
     type: object
-  ums_role.listAllResponse:
-    type: object
   ums_role.listMenuRequest:
     type: object
-  ums_role.listMenuResponse:
-    type: object
   ums_role.listRequest:
+    properties:
+      keyword:
+        type: string
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
     type: object
   ums_role.listResourceRequest:
     type: object
   ums_role.listResourceResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.UmsResource'
+        type: array
     type: object
   ums_role.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.UmsRole'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
     type: object
   ums_role.updateRequest:
-    type: object
-  ums_role.updateResponse:
+    properties:
+      adminCount:
+        type: integer
+      description:
+        type: string
+      name:
+        type: string
+      sort:
+        type: integer
+      status:
+        type: integer
     type: object
   ums_role.updateStatusRequest:
-    type: object
-  ums_role.updateStatusResponse:
+    properties:
+      status:
+        type: integer
     type: object
 info:
   contact: {}
@@ -1284,7 +4787,6 @@ paths:
       parameters:
       - in: formData
         name: keyword
-        required: true
         type: string
       - in: formData
         name: pageNum
@@ -1458,7 +4960,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/ums_admin.UmsRole'
+                    $ref: '#/definitions/dto.UmsRole'
                   type: array
               type: object
         "400":
@@ -3055,6 +6557,1070 @@ paths:
       summary: 发送消息
       tags:
       - API.tool
+  /brand/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据编号查询品牌信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_brand.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_brand.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据编号查询品牌信息
+      tags:
+      - PmsBrandController
+  /brand/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加品牌
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_brand.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加品牌
+      tags:
+      - PmsBrandController
+  /brand/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除品牌
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_brand.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除品牌
+      tags:
+      - PmsBrandController
+  /brand/delete/batch:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量删除品牌
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_brand.deleteBatchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量删除品牌
+      tags:
+      - PmsBrandController
+  /brand/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据品牌名称分页获取品牌列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_brand.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_brand.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据品牌名称分页获取品牌列表
+      tags:
+      - PmsBrandController
+  /brand/listAll:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取全部品牌列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_brand.listAllRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.PmsBrand'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取全部品牌列表
+      tags:
+      - PmsBrandController
+  /brand/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 更新品牌
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_brand.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 更新品牌
+      tags:
+      - PmsBrandController
+  /brand/update/factoryStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量更新厂家制造商状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_brand.updateFactoryStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量更新厂家制造商状态
+      tags:
+      - PmsBrandController
+  /brand/update/showStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量更新显示状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_brand.updateShowStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量更新显示状态
+      tags:
+      - PmsBrandController
+  /companyAddress/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取所有收货地址
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_company_address.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.OmsCompanyAddress'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取所有收货地址
+      tags:
+      - OmsCompanyAddressController
+  /coupon:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加优惠券
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_coupon.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加优惠券
+      tags:
+      - SmsCouponController
+  /coupon/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取单个优惠券的详细信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_coupon.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_coupon.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取单个优惠券的详细信息
+      tags:
+      - SmsCouponController
+  /coupon/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除优惠券
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_coupon.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除优惠券
+      tags:
+      - SmsCouponController
+  /coupon/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据优惠券名称和类型分页获取优惠券列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_coupon.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_coupon.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据优惠券名称和类型分页获取优惠券列表
+      tags:
+      - SmsCouponController
+  /coupon/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改优惠券
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_coupon.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改优惠券
+      tags:
+      - SmsCouponController
+  /couponHistory/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据优惠券id，使用状态，订单编号分页获取领取记录
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_coupon_history.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_coupon_history.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据优惠券id，使用状态，订单编号分页获取领取记录
+      tags:
+      - SmsCouponHistoryController
+  /flash:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加活动
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加活动
+      tags:
+      - SmsFlashPromotionController
+  /flash/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取活动详情
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_flash_promotion.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取活动详情
+      tags:
+      - SmsFlashPromotionController
+  /flash/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除活动
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除活动
+      tags:
+      - SmsFlashPromotionController
+  /flash/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据活动名称分页查询
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_flash_promotion.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据活动名称分页查询
+      tags:
+      - SmsFlashPromotionController
+  /flash/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 编辑活动
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 编辑活动
+      tags:
+      - SmsFlashPromotionController
+  /flash/update/status/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 编辑活动
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion.updateStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 编辑活动
+      tags:
+      - SmsFlashPromotionController
+  /flashProductRelation:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量选择商品添加关联
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/sms_flash_promotion_product_relation.SmsFlashPromotionProductRelation'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量选择商品添加关联
+      tags:
+      - SmsFlashPromotionProductRelationController
+  /flashProductRelation/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取关联商品促销信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_product_relation.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_flash_promotion_product_relation.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取关联商品促销信息
+      tags:
+      - SmsFlashPromotionProductRelationController
+  /flashProductRelation/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除关联
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_product_relation.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除关联
+      tags:
+      - SmsFlashPromotionProductRelationController
+  /flashProductRelation/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询不同场次关联及商品信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_product_relation.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_flash_promotion_product_relation.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询不同场次关联及商品信息
+      tags:
+      - SmsFlashPromotionProductRelationController
+  /flashProductRelation/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改关联信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_product_relation.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改关联信息
+      tags:
+      - SmsFlashPromotionProductRelationController
+  /flashSession:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加场次
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_session.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加场次
+      tags:
+      - SmsFlashPromotionSessionController
+  /flashSession/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取场次详情
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_session.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_flash_promotion_session.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取场次详情
+      tags:
+      - SmsFlashPromotionSessionController
+  /flashSession/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除场次
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_session.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除场次
+      tags:
+      - SmsFlashPromotionSessionController
+  /flashSession/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取全部场次
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_session.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.SmsFlashPromotionSession'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取全部场次
+      tags:
+      - SmsFlashPromotionSessionController
+  /flashSession/selectList:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取全部可选场次及其数量
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_session.selectListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.SmsFlashPromotionSessionDetail'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取全部可选场次及其数量
+      tags:
+      - SmsFlashPromotionSessionController
+  /flashSession/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改场次
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_session.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改场次
+      tags:
+      - SmsFlashPromotionSessionController
+  /flashSession/update/status/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改启用状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_flash_promotion_session.updateStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改启用状态
+      tags:
+      - SmsFlashPromotionSessionController
   /helper/md5/{str}:
     get:
       consumes:
@@ -3120,6 +7686,812 @@ paths:
       summary: 签名
       tags:
       - Helper
+  /home/advertise:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加广告
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_advertise.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_home_advertise.createResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加广告
+      tags:
+      - SmsHomeAdvertiseController
+  /home/advertise/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取广告详情
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_advertise.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_home_advertise.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取广告详情
+      tags:
+      - SmsHomeAdvertiseController
+  /home/advertise/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除广告
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_advertise.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_home_advertise.deleteResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除广告
+      tags:
+      - SmsHomeAdvertiseController
+  /home/advertise/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询广告
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_advertise.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_home_advertise.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询广告
+      tags:
+      - SmsHomeAdvertiseController
+  /home/advertise/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改广告
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_advertise.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_home_advertise.updateResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改广告
+      tags:
+      - SmsHomeAdvertiseController
+  /home/advertise/update/status/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改上下线状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_advertise.updateStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_home_advertise.updateStatusResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改上下线状态
+      tags:
+      - SmsHomeAdvertiseController
+  /home/brand:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加首页推荐品牌
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_brand.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加首页推荐品牌
+      tags:
+      - SmsHomeBrandController
+  /home/brand/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量删除推荐品牌
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_brand.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量删除推荐品牌
+      tags:
+      - SmsHomeBrandController
+  /home/brand/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询推荐品牌
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_brand.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_home_brand.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询推荐品牌
+      tags:
+      - SmsHomeBrandController
+  /home/brand/update/recommendStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量修改推荐品牌状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_brand.updateRecommendStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量修改推荐品牌状态
+      tags:
+      - SmsHomeBrandController
+  /home/brand/update/sort/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改推荐品牌排序
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_brand.updateSortRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改推荐品牌排序
+      tags:
+      - SmsHomeBrandController
+  /home/newProduct:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加首页新品
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_new_product.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加首页新品
+      tags:
+      - SmsHomeNewProductController
+  /home/newProduct/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量删除首页新品
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_new_product.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量删除首页新品
+      tags:
+      - SmsHomeNewProductController
+  /home/newProduct/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询首页新品
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_new_product.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_home_new_product.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询首页新品
+      tags:
+      - SmsHomeNewProductController
+  /home/newProduct/update/recommendStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量修改首页新品状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_new_product.updateRecommendStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量修改首页新品状态
+      tags:
+      - SmsHomeNewProductController
+  /home/newProduct/update/sort/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改首页新品排序
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_new_product.updateSortRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改首页新品排序
+      tags:
+      - SmsHomeNewProductController
+  /home/recommendProduct:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加首页推荐
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_recommend_product.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加首页推荐
+      tags:
+      - SmsHomeRecommendProductController
+  /home/recommendProduct/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量删除推荐
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_recommend_product.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量删除推荐
+      tags:
+      - SmsHomeRecommendProductController
+  /home/recommendProduct/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询推荐
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_recommend_product.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_home_recommend_product.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询推荐
+      tags:
+      - SmsHomeRecommendProductController
+  /home/recommendProduct/update/recommendStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量修改推荐状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_recommend_product.updateRecommendStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量修改推荐状态
+      tags:
+      - SmsHomeRecommendProductController
+  /home/recommendProduct/update/sort/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改推荐排序
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_recommend_product.updateSortRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改推荐排序
+      tags:
+      - SmsHomeRecommendProductController
+  /home/recommendSubject:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加首页推荐专题
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_recommend_subject.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加首页推荐专题
+      tags:
+      - SmsHomeRecommendSubjectController
+  /home/recommendSubject/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量删除推荐专题
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_recommend_subject.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量删除推荐专题
+      tags:
+      - SmsHomeRecommendSubjectController
+  /home/recommendSubject/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询推荐专题
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_recommend_subject.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/sms_home_recommend_subject.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询推荐专题
+      tags:
+      - SmsHomeRecommendSubjectController
+  /home/recommendSubject/update/recommendStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量修改推荐专题状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_recommend_subject.updateRecommendStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量修改推荐专题状态
+      tags:
+      - SmsHomeRecommendSubjectController
+  /home/recommendSubject/update/sort/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改推荐专题排序
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/sms_home_recommend_subject.updateSortRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改推荐专题排序
+      tags:
+      - SmsHomeRecommendSubjectController
   /memberLevel/list:
     get:
       consumes:
@@ -3140,7 +8512,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/ums_member_level.UmsMemberLevel'
+                    $ref: '#/definitions/dto.UmsMemberLevel'
                   type: array
               type: object
         "400":
@@ -3297,7 +8669,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/ums_menu.UmsMenuNode'
+                    $ref: '#/definitions/dto.UmsMenuNode'
                   type: array
               type: object
         "400":
@@ -3369,6 +8741,1287 @@ paths:
       summary: 修改菜单显示状态
       tags:
       - UmsMenuController
+  /order/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取订单详情：订单信息、商品信息、操作记录
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/oms_order.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取订单详情：订单信息、商品信息、操作记录
+      tags:
+      - OmsOrderController
+  /order/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量删除订单
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量删除订单
+      tags:
+      - OmsOrderController
+  /order/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 查询订单
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/oms_order.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 查询订单
+      tags:
+      - OmsOrderController
+  /order/update/close:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量关闭订单
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order.closeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量关闭订单
+      tags:
+      - OmsOrderController
+  /order/update/delivery:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量发货
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order.deliveryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量发货
+      tags:
+      - OmsOrderController
+  /order/update/moneyInfo:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改订单费用信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order.updateMoneyInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改订单费用信息
+      tags:
+      - OmsOrderController
+  /order/update/note:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 备注订单
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order.updateNoteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 备注订单
+      tags:
+      - OmsOrderController
+  /order/update/receiverInfo:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改收货人信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order.updateReceiverInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改收货人信息
+      tags:
+      - OmsOrderController
+  /orderSetting/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取指定订单设置
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_setting.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/oms_order_setting.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取指定订单设置
+      tags:
+      - OmsOrderSettingController
+  /orderSetting/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改指定订单设置
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_setting.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改指定订单设置
+      tags:
+      - OmsOrderSettingController
+  /prefrenceArea/listAll:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取所有商品优选
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/cms_prefrence_area.listAllRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.CmsPrefrenceArea'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取所有商品优选
+      tags:
+      - CmsPrefrenceAreaController
+  /product/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 创建商品
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 创建商品
+      tags:
+      - PmsProductController
+  /product/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 查询商品
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_product.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 查询商品
+      tags:
+      - PmsProductController
+  /product/simpleList:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据商品名称或货号模糊查询
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product.simpleListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.PmsProduct'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据商品名称或货号模糊查询
+      tags:
+      - PmsProductController
+  /product/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 更新商品
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 更新商品
+      tags:
+      - PmsProductController
+  /product/update/deleteStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量修改删除状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product.updateDeleteStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量修改删除状态
+      tags:
+      - PmsProductController
+  /product/update/newStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量设为新品
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product.updateNewStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量设为新品
+      tags:
+      - PmsProductController
+  /product/update/publishStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量上下架商品
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product.updatePublishStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量上下架商品
+      tags:
+      - PmsProductController
+  /product/update/recommendStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量推荐商品
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product.updateRecommendStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量推荐商品
+      tags:
+      - PmsProductController
+  /product/update/verifyStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量修改审核状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product.updateVerifyStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量修改审核状态
+      tags:
+      - PmsProductController
+  /product/updateInfo/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据商品id获取商品编辑信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product.getUpdateInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_product.getUpdateInfoResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据商品id获取商品编辑信息
+      tags:
+      - PmsProductController
+  /productAttribute/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 查询单个商品属性
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_product_attr.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 查询单个商品属性
+      tags:
+      - PmsProductAttributeController
+  /productAttribute/attrInfo/{productCategoryId}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据商品分类的id获取商品属性及属性分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr.getAttrInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.PmsProductAttrInfo'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据商品分类的id获取商品属性及属性分类
+      tags:
+      - PmsProductAttributeController
+  /productAttribute/category/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取单个商品属性分类信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr_cate.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_product_attr_cate.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取单个商品属性分类信息
+      tags:
+      - PmsProductAttributeCategoryController
+  /productAttribute/category/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加商品属性分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr_cate.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加商品属性分类
+      tags:
+      - PmsProductAttributeCategoryController
+  /productAttribute/category/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除单个商品属性分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr_cate.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除单个商品属性分类
+      tags:
+      - PmsProductAttributeCategoryController
+  /productAttribute/category/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页获取所有商品属性分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr_cate.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_product_attr_cate.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页获取所有商品属性分类
+      tags:
+      - PmsProductAttributeCategoryController
+  /productAttribute/category/list/withAttr:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取所有商品属性分类及其下属性
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr_cate.getListWithAttrRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.PmsProductAttrCateItem'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取所有商品属性分类及其下属性
+      tags:
+      - PmsProductAttributeCategoryController
+  /productAttribute/category/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改商品属性分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr_cate.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改商品属性分类
+      tags:
+      - PmsProductAttributeCategoryController
+  /productAttribute/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加商品属性信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加商品属性信息
+      tags:
+      - PmsProductAttributeController
+  /productAttribute/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量删除商品属性
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_product_attr.deleteResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量删除商品属性
+      tags:
+      - PmsProductAttributeController
+  /productAttribute/list/{cid}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据分类查询属性列表或参数列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_product_attr.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据分类查询属性列表或参数列表
+      tags:
+      - PmsProductAttributeController
+  /productAttribute/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改商品属性信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_attr.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改商品属性信息
+      tags:
+      - PmsProductAttributeController
+  /productCategory/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据id获取商品分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_cate.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_product_cate.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据id获取商品分类
+      tags:
+      - PmsProductCategoryController
+  /productCategory/{parentId}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询商品分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_cate.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/pms_product_cate.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询商品分类
+      tags:
+      - PmsProductCategoryController
+  /productCategory/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加商品分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_cate.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加商品分类
+      tags:
+      - PmsProductCategoryController
+  /productCategory/delete/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除商品分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_cate.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除商品分类
+      tags:
+      - PmsProductCategoryController
+  /productCategory/list/withChildren:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 查询所有一级分类及子分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_cate.listWithChildrenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.PmsProductCategoryWithChildrenItem'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 查询所有一级分类及子分类
+      tags:
+      - PmsProductCategoryController
+  /productCategory/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改商品分类
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_cate.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改商品分类
+      tags:
+      - PmsProductCategoryController
+  /productCategory/update/navStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改导航栏显示状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_cate.updateNavStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改导航栏显示状态
+      tags:
+      - PmsProductCategoryController
+  /productCategory/update/showStatus:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改显示状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_product_cate.updateShowStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改显示状态
+      tags:
+      - PmsProductCategoryController
   /resource/{id}:
     get:
       consumes:
@@ -3422,7 +10075,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_resource.createResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3515,7 +10168,9 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_resource.listAllResponse'
+                  items:
+                    $ref: '#/definitions/dto.UmsResource'
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -3546,7 +10201,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_resource.updateResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3577,7 +10232,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_resource_cate.createResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3608,7 +10263,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_resource_cate.deleteResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3639,7 +10294,9 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_resource_cate.listAllResponse'
+                  items:
+                    $ref: '#/definitions/dto.UmsResourceCate'
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -3670,7 +10327,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_resource_cate.updateResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3679,6 +10336,316 @@ paths:
       summary: 修改后台资源分类
       tags:
       - UmsResourceController
+  /returnApply/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取退货申请详情
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_return_apply.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/oms_order_return_apply.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取退货申请详情
+      tags:
+      - OmsOrderReturnApplyController
+  /returnApply/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量删除退货申请
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_return_apply.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量删除退货申请
+      tags:
+      - OmsOrderReturnApplyController
+  /returnApply/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询退货申请
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_return_apply.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/oms_order_return_apply.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询退货申请
+      tags:
+      - OmsOrderReturnApplyController
+  /returnApply/update/status/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改退货申请状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_return_apply.updateStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改退货申请状态
+      tags:
+      - OmsOrderReturnApplyController
+  /returnReason/{id}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取单个退货原因详情信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_return_reason.getItemRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/oms_order_return_reason.getItemResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取单个退货原因详情信息
+      tags:
+      - OmsOrderReturnReasonController
+  /returnReason/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加退货原因
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_return_reason.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加退货原因
+      tags:
+      - OmsOrderReturnReasonController
+  /returnReason/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量删除退货原因
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_return_reason.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量删除退货原因
+      tags:
+      - OmsOrderReturnReasonController
+  /returnReason/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询退货原因
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_return_reason.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/oms_order_return_reason.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询退货原因
+      tags:
+      - OmsOrderReturnReasonController
+  /returnReason/update/{id}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改退货原因
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_return_reason.updateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改退货原因
+      tags:
+      - OmsOrderReturnReasonController
+  /returnReason/update/status:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 修改退货原因启用状态
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/oms_order_return_reason.updateStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 修改退货原因启用状态
+      tags:
+      - OmsOrderReturnReasonController
   /role/allocMenu:
     post:
       consumes:
@@ -3701,7 +10668,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_role.allocMenuResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3732,7 +10699,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_role.allocResourceResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3763,7 +10730,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_role.createResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3794,7 +10761,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_role.deleteResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3856,7 +10823,9 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_role.listAllResponse'
+                  items:
+                    $ref: '#/definitions/dto.UmsRole'
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -3887,7 +10856,9 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_role.listMenuResponse'
+                  items:
+                    $ref: '#/definitions/dto.UmsMenu'
+                  type: array
               type: object
         "400":
           description: Bad Request
@@ -3949,7 +10920,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_role.updateResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3980,7 +10951,7 @@ paths:
             - $ref: '#/definitions/code.Success'
             - properties:
                 data:
-                  $ref: '#/definitions/ums_role.updateStatusResponse'
+                  type: integer
               type: object
         "400":
           description: Bad Request
@@ -3989,6 +10960,136 @@ paths:
       summary: 修改角色状态
       tags:
       - UmsRoleController
+  /sku/{pid}:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据商品ID及sku编码模糊搜索sku库存
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/pms_sku_stock.getListRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.PmsSkuStock'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据商品ID及sku编码模糊搜索sku库存
+      tags:
+      - PmsSkuStockController
+  /sku/update/{pid}:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 批量更新sku库存信息
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/dto.PmsSkuStock'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 批量更新sku库存信息
+      tags:
+      - PmsSkuStockController
+  /subject/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据专题名称分页获取商品专题
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/cms_subject.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/cms_subject.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据专题名称分页获取商品专题
+      tags:
+      - CmsSubjectController
+  /subject/listAll:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 获取全部商品专题
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/cms_subject.listAllRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/dto.CmsSubject'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 获取全部商品专题
+      tags:
+      - CmsSubjectController
 securityDefinitions:
   LoginToken:
     in: header

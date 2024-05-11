@@ -13,13 +13,8 @@ import (
 
 const (
 	_Alias           = "_alias_"
-	_TraceName       = "_trace_"
-	_LoggerName      = "_logger_"
-	_BodyName        = "_body_"
-	_PayloadName     = "_payload_"
 	_SessionUserInfo = "_session_user_info"
 	_AbortErrorName  = "_abort_error_"
-	_IsRecordMetrics = "_is_record_metrics_"
 	_UmsUserInfo     = "_ums_user_info_"
 )
 

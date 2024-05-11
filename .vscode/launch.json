@@ -5,7 +5,31 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "go服务",
+            "name": "mall_admin服务",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd/mall_admin/main.go",
+            "cwd": "${workspaceFolder}",
+            "args" :[
+                "--env",
+                "dev"
+            ]
+        },
+        {
+            "name": "mall_portal服务",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/cmd/mall_portal/main.go",
+            "cwd": "${workspaceFolder}",
+            "args" :[
+                "--env",
+                "dev"
+            ]
+        },
+        {
+            "name": "go框架",
             "type": "go",
             "request": "launch",
             "mode": "auto",
