@@ -1,0 +1,25 @@
+FROM golang:1.21-alpine AS builder
+
+WORKDIR /work
+ENV GOPROXY=https://goproxy.cn,direct
+COPY . .
+RUN go build -o bin/portal cmd/mall_portal/main.go
+
+FROM alpine:latest
+WORKDIR /work
+COPY --from=builder /work/bin/. .
+COPY --from=builder /work/configs  ./configs
+
+RUN set -eux; \  
+    # 替换源
+    sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories; \
+    # 解决时区问题
+    apk add --no-cache tzdata; \
+    ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime; \
+    # 二进制文件无法通过./执行 ; \
+    apk add --no-cache libc6-compat; \
+    # 在go程序中无法访问https链接; \
+    apk add --no-cache ca-certificates
+
+EXPOSE 8085/tcp
+CMD ["./portal", "-env", "pro"]

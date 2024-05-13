@@ -14,7 +14,9 @@
   - [x] oms模块接口实现
   - [x] cms模块接口实现
   - [ ] 对象存储
-  - [ ] docker构建支持
+    - [ ] [minio](https://min.io/docs/minio/linux/developers/go/minio-go.html#)
+    - [x] [aliyun-不写了，没啥意思](https://help.aliyun.com/zh/oss/user-guide/objects/?spm=a2c4g.11186623.0.0.5a605bc8PE0W9c)
+  - [x] docker构建支持
 - [ ] portal服务实现
   - [ ] 首页管理
   - [ ] 会员关注品牌管理
