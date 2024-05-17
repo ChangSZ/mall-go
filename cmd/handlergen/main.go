@@ -22,6 +22,14 @@ func init() {
 	handlerName = strings.ToLower(*handler)
 }
 
+func getLastSegment(s string) string {
+	index := strings.LastIndex(s, "/")
+	if index == -1 {
+		return s
+	}
+	return s[index+1:]
+}
+
 func main() {
 	fs := token.NewFileSet()
 	filePath := fmt.Sprintf("./internal/api/%s", handlerName)
@@ -81,7 +89,7 @@ func main() {
 
 					fmt.Println("  └── file : ", filename)
 
-					funcContent := fmt.Sprintf("package %s\n\n", handlerName)
+					funcContent := fmt.Sprintf("package %s\n\n", getLastSegment(handlerName))
 					funcContent += "import (\n\"github.com/ChangSZ/mall-go/internal/api\"\n\n"
 					funcContent += `"github.com/gin-gonic/gin"`
 					funcContent += "\n)\n"
