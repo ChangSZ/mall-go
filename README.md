@@ -23,7 +23,10 @@ web前端 ==> [mall-admin-web](https://github.com/ChangSZ/mall-admin-web) ==> [f
 ### 下载运行
 ```bash
 $ git clone https://github.com/ChangSZ/mall-go.git
-# 数据导入： internal\proposal\tablesqls\mall.sql
+$ cd mall-go
+# 启动mysql、redis等中间件(也可以选择其他方式)
+$ docker-compose -f deploy/docker-compose-env.yml up -d
+# 数据导入(进入mysql中执行)： internal\proposal\tablesqls\mall.sql
 $ cd mall-go
 # 运行GO框架
 $ go run main.go -env fat  
