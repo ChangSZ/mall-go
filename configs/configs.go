@@ -78,6 +78,13 @@ type Config struct {
 		Expiration  int64  `toml:"expiration"`
 		TokenHead   string `toml:"tokenHead"`
 	} `toml:"jwt"`
+
+	Minio struct {
+		Endpoint   string `toml:"endpoint"`
+		BucketName string `toml:"bucketName"`
+		AccessKey  string `toml:"accessKey"`
+		SecretKey  string `toml:"secretKey"`
+	} `toml:"minio"`
 }
 
 var (

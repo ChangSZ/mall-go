@@ -9,6 +9,7 @@ import (
 	"github.com/ChangSZ/mall-go/pkg/color"
 	"github.com/ChangSZ/mall-go/pkg/env"
 	"github.com/ChangSZ/mall-go/pkg/log"
+
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	kgin "github.com/go-kratos/gin"

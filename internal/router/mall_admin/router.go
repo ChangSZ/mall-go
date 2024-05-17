@@ -57,5 +57,8 @@ func RoutersInit() *gin.Engine {
 	setOmsOrderReturnReasonRouter(eng)
 	setOmsOrderSettingRouter(eng)
 
+	// 设置 Minio 路由
+	setMinioRouter(eng)
+
 	return eng
 }
