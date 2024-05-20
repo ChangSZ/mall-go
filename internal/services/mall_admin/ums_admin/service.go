@@ -10,10 +10,12 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_login_log"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_role_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_resource_relation"
 	"github.com/ChangSZ/mall-go/pkg/jwt"
+	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/password"
 )
 
@@ -314,4 +316,20 @@ func (s *service) UpdateRole(ctx context.Context, adminId int64, roleIds []int64
 	}
 	s.cacheService.DelResourceList(ctx, adminId)
 	return count, nil
+}
+
+func (s *service) InsertLoginLog(ctx context.Context, username, ip string) {
+	admin, err := s.GetAdminByUsername(ctx, username)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		return
+	}
+	loginLog := ums_admin_login_log.NewModel()
+	loginLog.AdminId = admin.Id
+	loginLog.Ip = ip
+	_, err = loginLog.Create(mysql.DB().GetDbW().WithContext(ctx))
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		return
+	}
 }

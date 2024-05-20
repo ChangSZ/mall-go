@@ -1,6 +1,9 @@
 package ums_admin
 
 import (
+	"net"
+	"strings"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/pkg/log"
@@ -46,5 +49,54 @@ func (h *handler) Login(ctx *gin.Context) {
 	}
 	res.Token = token
 	res.TokenHead = configs.Get().Jwt.TokenHead
+	h.service.InsertLoginLog(ctx, req.Username, getRequestIp(ctx))
 	api.Success(ctx, res)
+}
+
+// getRequestIp 获取请求的真实IP地址
+func getRequestIp(c *gin.Context) string {
+	// 尝试从X-Forwarded-For头部获取IP
+	ip := c.GetHeader("X-Forwarded-For")
+	if ip == "" || strings.ToLower(ip) == "unknown" {
+		// 尝试从Proxy-Client-IP头部获取IP
+		ip = c.GetHeader("Proxy-Client-IP")
+	}
+	if ip == "" || strings.ToLower(ip) == "unknown" {
+		// 尝试从WL-Proxy-Client-IP头部获取IP
+		ip = c.GetHeader("WL-Proxy-Client-IP")
+	}
+	if ip == "" || strings.ToLower(ip) == "unknown" {
+		// 从远程地址获取IP
+		ip = c.ClientIP()
+		// 如果是本地地址，则获取本地IP
+		if ip == "127.0.0.1" || ip == "::1" {
+			if localIp, err := getLocalIp(); err == nil {
+				ip = localIp
+			}
+		}
+	}
+
+	// 如果通过多个代理转发，获取第一个IP
+	if ip != "" && len(ip) > 15 {
+		if index := strings.Index(ip, ","); index > 0 {
+			ip = ip[:index]
+		}
+	}
+	return ip
+}
+
+// getLocalIp 获取本地IP地址
+func getLocalIp() (string, error) {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return "", err
+	}
+	for _, addr := range addrs {
+		if ipNet, ok := addr.(*net.IPNet); ok && !ipNet.IP.IsLoopback() {
+			if ipNet.IP.To4() != nil {
+				return ipNet.IP.String(), nil
+			}
+		}
+	}
+	return "", nil
 }

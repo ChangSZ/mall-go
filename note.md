@@ -16,7 +16,7 @@
     - [x] [aliyun-不写了，没啥意思](https://help.aliyun.com/zh/oss/user-guide/objects/?spm=a2c4g.11186623.0.0.5a605bc8PE0W9c)
   - [x] docker构建支持
   - [ ] 动态权限校验
-  - [ ] 登录日志记录
+  - [x] 登录日志记录
 - [ ] portal服务实现
   - [ ] 首页管理
   - [ ] 会员关注品牌管理

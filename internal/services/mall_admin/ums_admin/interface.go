@@ -86,6 +86,11 @@ type Service interface {
 	 * 获取指定用户的可访问资源
 	 */
 	GetResourceList(ctx context.Context, adminId int64) ([]*ums_resource.UmsResource, error)
+
+	/**
+	 * 添加登录记录
+	 */
+	InsertLoginLog(ctx context.Context, username, ip string)
 }
 
 // 后台用户缓存管理Service
