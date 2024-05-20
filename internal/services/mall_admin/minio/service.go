@@ -70,14 +70,14 @@ func (s *service) Upload(ctx context.Context, file multipart.File, filename stri
 	}
 	log.WithTrace(ctx).Infof("文件上传成功: %v", objectName)
 	// 构建返回结果
-	url := fmt.Sprintf("%s/%s/%s", ENDPOINT, BUCKET_NAME, objectName)
+	url := fmt.Sprintf("%s%s/minio/presigned-url?bucket=%s&objectName=%s",
+		configs.ProjectDomain, configs.MallAdminPort, BUCKET_NAME, objectName)
 	return url, filename, nil
 }
 
 /**
  * 创建存储桶的访问策略，设置为只读权限
  */
-
 func (s *service) createBucketPolicy(bucketName string) (string, error) {
 	policy := map[string]interface{}{
 		"version": "2024-05-17",
@@ -106,4 +106,23 @@ func (s *service) Delete(ctx context.Context, objectName string) error {
 
 	// 删除文件
 	return minioClient.RemoveObject(ctx, BUCKET_NAME, objectName, minio.RemoveObjectOptions{})
+}
+
+func (s *service) PresignedURL(ctx context.Context, bucketName, objectName string) (string, error) {
+	// 创建Minio客户端对象
+	minioClient, err := minio.New(ENDPOINT, &minio.Options{
+		Creds:  credentials.NewStaticV4(ACCESS_KEY, SECRET_KEY, ""),
+		Secure: false,
+	})
+	if err != nil {
+		return "", fmt.Errorf("创建客户端失败: %w", err)
+	}
+
+	// 生成预签名URL
+	presignedURL, err := minioClient.PresignedGetObject(ctx, bucketName, objectName, 24*time.Hour, nil)
+	if err != nil {
+		return "", err
+	}
+
+	return presignedURL.String(), nil
 }

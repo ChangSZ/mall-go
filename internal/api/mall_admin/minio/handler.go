@@ -18,8 +18,13 @@ type Handler interface {
 
 	// Delete 文件删除
 	// @Tags MinioController
-	// @Router /minio/delete [get]
+	// @Router /minio/delete [post]
 	Delete(*gin.Context)
+
+	// PresignedURL 文件预签名URL
+	// @Tags MinioController
+	// @Router /minio/presigned-url [get]
+	PresignedURL(*gin.Context)
 }
 
 type handler struct {

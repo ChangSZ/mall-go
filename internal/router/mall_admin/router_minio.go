@@ -11,7 +11,8 @@ func setMinioRouter(eng *gin.Engine) {
 	handler := minio.New()
 	group := eng.Group("/minio")
 	{
-		group.POST("/upload", handler.Upload) // 文件上传
-		group.POST("/delete", handler.Delete) // 文件删除
+		group.POST("/upload", handler.Upload)             // 文件上传
+		group.POST("/delete", handler.Delete)             // 文件删除
+		group.GET("/presigned-url", handler.PresignedURL) // 文件预签名URL
 	}
 }

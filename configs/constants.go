@@ -16,7 +16,9 @@ const (
 	ProjectDomain = "http://127.0.0.1"
 
 	// ProjectPort 项目端口
-	ProjectPort = ":8080"
+	ProjectPort    = ":8080"
+	MallAdminPort  = ":8080"
+	MallPortalPort = ":8085"
 
 	// ProjectLogFile 项目访问日志存放文件
 	ProjectLogFile          = "./logs/" + ProjectName

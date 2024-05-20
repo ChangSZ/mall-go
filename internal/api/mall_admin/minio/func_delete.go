@@ -23,7 +23,7 @@ type deleteResponse struct{}
 // @Param Request body deleteRequest true "请求信息"
 // @Success 200 {object} code.Success{data=deleteResponse}
 // @Failure 400 {object} code.Failure
-// @Router /minio/delete [get]
+// @Router /minio/delete [post]
 func (h *handler) Delete(ctx *gin.Context) {
 	req := new(deleteRequest)
 	_ = new(deleteResponse)

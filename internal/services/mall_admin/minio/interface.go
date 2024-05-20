@@ -14,4 +14,6 @@ type Service interface {
 	Upload(ctx context.Context, file multipart.File, filename string) (string, string, error)
 
 	Delete(ctx context.Context, objectName string) error
+
+	PresignedURL(ctx context.Context, bucketName, objectName string) (string, error)
 }
