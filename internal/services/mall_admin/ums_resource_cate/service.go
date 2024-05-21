@@ -6,6 +6,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource_category"
+	"github.com/ChangSZ/mall-go/pkg/copy"
 )
 
 type service struct{}
@@ -26,21 +27,16 @@ func (s *service) ListAll(ctx context.Context) ([]dto.UmsResourceCate, error) {
 
 	listData := make([]dto.UmsResourceCate, 0, len(list))
 	for _, v := range list {
-		listData = append(listData, dto.UmsResourceCate{
-			Id:         v.Id,
-			CreateTime: v.CreateTime,
-			Name:       v.Name,
-			Sort:       v.Sort,
-		})
+		tmp := dto.UmsResourceCate{}
+		copy.AssignStruct(v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, nil
 }
 
 func (s *service) Create(ctx context.Context, param dto.UmsResourceCateParam) (int64, error) {
-	data := &ums_resource_category.UmsResourceCategory{
-		Name: param.Name,
-		Sort: param.Sort,
-	}
+	data := &ums_resource_category.UmsResourceCategory{}
+	copy.AssignStruct(&param, data)
 	return data.Create(mysql.DB().GetDbW().WithContext(ctx))
 }
 

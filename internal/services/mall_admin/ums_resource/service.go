@@ -8,6 +8,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_admin"
+	"github.com/ChangSZ/mall-go/pkg/copy"
 )
 
 type service struct {
@@ -21,12 +22,8 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) Create(ctx context.Context, param dto.UmsResourceParam) (int64, error) {
-	data := &ums_resource.UmsResource{
-		Name:        param.Name,
-		Url:         param.Url,
-		Description: param.Description,
-		CategoryId:  param.CategoryId,
-	}
+	data := &ums_resource.UmsResource{}
+	copy.AssignStruct(&param, data)
 	return data.Create(mysql.DB().GetDbW().WithContext(ctx))
 }
 
@@ -54,14 +51,9 @@ func (s *service) GetItem(ctx context.Context, id int64) (*dto.UmsResource, erro
 	if err != nil {
 		return nil, err
 	}
-	return &dto.UmsResource{
-		Id:          item.Id,
-		CreateTime:  item.CreateTime,
-		Name:        item.Name,
-		Url:         item.Url,
-		Description: item.Description,
-		CategoryId:  item.CategoryId,
-	}, nil
+	res := &dto.UmsResource{}
+	copy.AssignStruct(item, res)
+	return res, nil
 }
 
 func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
@@ -102,14 +94,9 @@ func (s *service) List(ctx context.Context, categoryId int64,
 
 	listData := make([]dto.UmsResource, 0, len(list))
 	for _, v := range list {
-		listData = append(listData, dto.UmsResource{
-			Id:          v.Id,
-			CreateTime:  v.CreateTime,
-			Name:        v.Name,
-			Url:         v.Url,
-			Description: v.Description,
-			CategoryId:  v.CategoryId,
-		})
+		tmp := dto.UmsResource{}
+		copy.AssignStruct(v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, count, nil
 }
@@ -122,14 +109,9 @@ func (s *service) ListAll(ctx context.Context) ([]dto.UmsResource, error) {
 	}
 	listData := make([]dto.UmsResource, 0, len(list))
 	for _, v := range list {
-		listData = append(listData, dto.UmsResource{
-			Id:          v.Id,
-			CreateTime:  v.CreateTime,
-			Name:        v.Name,
-			Url:         v.Url,
-			Description: v.Description,
-			CategoryId:  v.CategoryId,
-		})
+		tmp := dto.UmsResource{}
+		copy.AssignStruct(v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, nil
 }

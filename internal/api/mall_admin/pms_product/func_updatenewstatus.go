@@ -42,10 +42,6 @@ func (h *handler) UpdateNewStatus(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	if cnt == 0 {
-		api.Failed(ctx, "更新NewStatus个数为0")
-		return
-	}
 	res.Count = cnt
 	api.Success(ctx, res.Count)
 }

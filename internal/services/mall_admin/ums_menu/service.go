@@ -6,6 +6,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
+	"github.com/ChangSZ/mall-go/pkg/copy"
 	"github.com/ChangSZ/mall-go/pkg/log"
 )
 
@@ -18,15 +19,8 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) Create(ctx context.Context, param dto.UmsMenuParam) (int64, error) {
-	data := &ums_menu.UmsMenu{
-		ParentId: param.ParentId,
-		Title:    param.Title,
-		Level:    param.Level,
-		Sort:     param.Sort,
-		Name:     param.Name,
-		Icon:     param.Icon,
-		Hidden:   param.Hidden,
-	}
+	data := &ums_menu.UmsMenu{}
+	copy.AssignStruct(&param, data)
 	data.Level = s.getNewLevel(ctx, data.ParentId)
 	return data.Create(mysql.DB().GetDbW().WithContext(ctx))
 }
@@ -71,17 +65,10 @@ func (s *service) GetItem(ctx context.Context, id int64) (*dto.UmsMenu, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &dto.UmsMenu{
-		Id:         item.Id,
-		ParentId:   item.ParentId,
-		CreateTime: item.CreateTime,
-		Title:      item.Title,
-		Level:      item.Level,
-		Sort:       item.Sort,
-		Name:       item.Name,
-		Icon:       item.Icon,
-		Hidden:     item.Hidden,
-	}, nil
+
+	res := &dto.UmsMenu{}
+	copy.AssignStruct(item, res)
+	return res, nil
 }
 
 func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
@@ -111,17 +98,9 @@ func (s *service) List(ctx context.Context,
 
 	listData := make([]dto.UmsMenu, 0, len(list))
 	for _, v := range list {
-		listData = append(listData, dto.UmsMenu{
-			Id:         v.Id,
-			ParentId:   v.ParentId,
-			CreateTime: v.CreateTime,
-			Title:      v.Title,
-			Level:      v.Level,
-			Sort:       v.Sort,
-			Name:       v.Name,
-			Icon:       v.Icon,
-			Hidden:     v.Hidden,
-		})
+		tmp := dto.UmsMenu{}
+		copy.AssignStruct(v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, count, err
 }
@@ -153,15 +132,7 @@ func (s *service) UpdateHidden(ctx context.Context, id int64, hidden int32) (int
 func (s *service) covertMenuNode(ctx context.Context,
 	menu *ums_menu.UmsMenu, menuList []*ums_menu.UmsMenu) dto.UmsMenuNode {
 	node := dto.UmsMenuNode{}
-	node.Id = menu.Id
-	node.ParentId = menu.ParentId
-	node.CreateTime = menu.CreateTime
-	node.Title = menu.Title
-	node.Level = menu.Level
-	node.Sort = menu.Sort
-	node.Name = menu.Name
-	node.Icon = menu.Icon
-	node.Hidden = menu.Hidden
+	copy.AssignStruct(menu, &node)
 	node.Children = make([]dto.UmsMenuNode, 0)
 	for _, subMenu := range menuList {
 		if subMenu.ParentId == menu.Id {

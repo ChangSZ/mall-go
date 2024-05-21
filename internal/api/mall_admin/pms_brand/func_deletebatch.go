@@ -34,10 +34,6 @@ func (h *handler) DeleteBatch(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	if cnt == 0 {
-		api.Failed(ctx, "批量删除个数为0")
-		return
-	}
 	res.Count = cnt
 	api.Success(ctx, res.Count)
 }

@@ -41,10 +41,6 @@ func (h *handler) Delete(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	if cnt == 0 {
-		api.Failed(ctx, "删除个数为0")
-		return
-	}
 	res.Count = cnt
 	api.Success(ctx, res.Count)
 }

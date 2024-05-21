@@ -128,7 +128,9 @@ func main() {
 			fmt.Println(path)
 		}
 
-		if err = os.WriteFile(path, raw, info.Mode()); err != nil {
+		// 使用LF换行符
+		content := strings.ReplaceAll(string(raw), "\r\n", "\n")
+		if err = os.WriteFile(path, []byte(content), info.Mode()); err != nil {
 			return errors.Wrapf(err, "write file %s err", path)
 		}
 

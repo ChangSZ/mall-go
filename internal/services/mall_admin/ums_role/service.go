@@ -12,6 +12,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_menu_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_resource_relation"
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_admin"
+	"github.com/ChangSZ/mall-go/pkg/copy"
 )
 
 type service struct {
@@ -25,11 +26,8 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) Create(ctx context.Context, param dto.UmsRoleParam) (int64, error) {
-	data := &ums_role.UmsRole{
-		Name:        param.Name,
-		Description: param.Description,
-		Status:      param.Status,
-	}
+	data := &ums_role.UmsRole{}
+	copy.AssignStruct(&param, data)
 	return data.Create(mysql.DB().GetDbW().WithContext(ctx))
 }
 
@@ -74,15 +72,9 @@ func (s *service) ListAll(ctx context.Context) ([]dto.UmsRole, error) {
 	}
 	listData := make([]dto.UmsRole, 0, len(list))
 	for _, v := range list {
-		listData = append(listData, dto.UmsRole{
-			Id:          v.Id,
-			Name:        v.Name,
-			Description: v.Description,
-			AdminCount:  v.AdminCount,
-			CreateTime:  v.CreateTime,
-			Status:      v.Status,
-			Sort:        v.Sort,
-		})
+		tmp := dto.UmsRole{}
+		copy.AssignStruct(v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, nil
 }
@@ -106,15 +98,9 @@ func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum in
 	}
 	listData := make([]dto.UmsRole, 0, len(list))
 	for _, v := range list {
-		listData = append(listData, dto.UmsRole{
-			Id:          v.Id,
-			Name:        v.Name,
-			Description: v.Description,
-			AdminCount:  v.AdminCount,
-			CreateTime:  v.CreateTime,
-			Status:      v.Status,
-			Sort:        v.Sort,
-		})
+		tmp := dto.UmsRole{}
+		copy.AssignStruct(v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, count, err
 }
@@ -126,17 +112,9 @@ func (s *service) GetMenuList(ctx context.Context, adminId int64) ([]dto.UmsMenu
 	}
 	listData := make([]dto.UmsMenu, 0, len(list))
 	for _, v := range list {
-		listData = append(listData, dto.UmsMenu{
-			Id:         v.Id,
-			ParentId:   v.ParentId,
-			CreateTime: v.CreateTime,
-			Title:      v.Title,
-			Level:      v.Level,
-			Sort:       v.Sort,
-			Name:       v.Name,
-			Icon:       v.Icon,
-			Hidden:     v.Hidden,
-		})
+		tmp := dto.UmsMenu{}
+		copy.AssignStruct(&v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, nil
 }
@@ -148,17 +126,9 @@ func (s *service) ListMenu(ctx context.Context, roleId int64) ([]dto.UmsMenu, er
 	}
 	listData := make([]dto.UmsMenu, 0, len(list))
 	for _, v := range list {
-		listData = append(listData, dto.UmsMenu{
-			Id:         v.Id,
-			ParentId:   v.ParentId,
-			CreateTime: v.CreateTime,
-			Title:      v.Title,
-			Level:      v.Level,
-			Sort:       v.Sort,
-			Name:       v.Name,
-			Icon:       v.Icon,
-			Hidden:     v.Hidden,
-		})
+		tmp := dto.UmsMenu{}
+		copy.AssignStruct(&v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, nil
 }
@@ -170,14 +140,9 @@ func (s *service) ListResource(ctx context.Context, roleId int64) ([]dto.UmsReso
 	}
 	listData := make([]dto.UmsResource, 0, len(list))
 	for _, v := range list {
-		listData = append(listData, dto.UmsResource{
-			Id:          v.Id,
-			CreateTime:  v.CreateTime,
-			Name:        v.Name,
-			Url:         v.Url,
-			Description: v.Description,
-			CategoryId:  v.CategoryId,
-		})
+		tmp := dto.UmsResource{}
+		copy.AssignStruct(&v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, nil
 }

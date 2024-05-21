@@ -13,6 +13,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_login_log"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_role_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
+	"github.com/ChangSZ/mall-go/pkg/copy"
 	"github.com/ChangSZ/mall-go/pkg/jwt"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/password"
@@ -58,18 +59,9 @@ func (s *service) Register(ctx context.Context, param dto.UmsAdminParam) (*dto.U
 	}
 
 	_, err = umsAdmin.Create(mysql.DB().GetDbW().WithContext(ctx))
-	return &dto.UmsAdmin{
-		ID:         umsAdmin.Id,
-		Username:   umsAdmin.Username,
-		Password:   umsAdmin.Password,
-		Icon:       umsAdmin.Icon,
-		Email:      umsAdmin.Email,
-		NickName:   umsAdmin.NickName,
-		Note:       umsAdmin.Note,
-		CreateTime: umsAdmin.CreateTime,
-		LoginTime:  umsAdmin.LoginTime,
-		Status:     umsAdmin.Status,
-	}, err
+	res := &dto.UmsAdmin{}
+	copy.AssignStruct(umsAdmin, res)
+	return res, err
 }
 
 func (s *service) Login(ctx context.Context, username, passwd string) (string, error) {
@@ -142,15 +134,9 @@ func (s *service) GetRoleList(ctx context.Context, adminId int64) ([]dto.UmsRole
 	}
 	listData := make([]dto.UmsRole, 0, len(roleList))
 	for _, v := range roleList {
-		listData = append(listData, dto.UmsRole{
-			Id:          v.Id,
-			Name:        v.Name,
-			Description: v.Description,
-			AdminCount:  v.AdminCount,
-			CreateTime:  v.CreateTime,
-			Status:      v.Status,
-			Sort:        v.Sort,
-		})
+		tmp := dto.UmsRole{}
+		copy.AssignStruct(&v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, nil
 }
@@ -162,18 +148,9 @@ func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum in
 	}
 	listData := make([]dto.UmsAdmin, 0, len(list))
 	for _, v := range list {
-		listData = append(listData, dto.UmsAdmin{
-			ID:         v.Id,
-			Username:   v.Username,
-			Password:   v.Password,
-			Icon:       v.Icon,
-			Email:      v.Email,
-			NickName:   v.NickName,
-			Note:       v.Note,
-			CreateTime: v.CreateTime,
-			LoginTime:  v.LoginTime,
-			Status:     v.Status,
-		})
+		tmp := dto.UmsAdmin{}
+		copy.AssignStruct(&v, &tmp)
+		listData = append(listData, tmp)
 	}
 	return listData, total, nil
 }
@@ -237,18 +214,9 @@ func (s *service) GetItem(ctx context.Context, id int64) (*dto.UmsAdmin, error) 
 	if err != nil {
 		return nil, err
 	}
-	return &dto.UmsAdmin{
-		ID:         admin.Id,
-		Username:   admin.Username,
-		Password:   admin.Password,
-		Icon:       admin.Icon,
-		Email:      admin.Email,
-		NickName:   admin.NickName,
-		Note:       admin.Note,
-		CreateTime: admin.CreateTime,
-		LoginTime:  admin.LoginTime,
-		Status:     admin.Status,
-	}, nil
+	res := &dto.UmsAdmin{}
+	copy.AssignStruct(admin, res)
+	return res, nil
 }
 
 func (s *service) Update(ctx context.Context, id int64, param dto.UmsAdmin) (int64, error) {
