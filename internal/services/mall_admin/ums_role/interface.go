@@ -59,7 +59,7 @@ type Service interface {
 	/**
 	 * 给角色分配菜单
 	 */
-	AllocMenu(ctx context.Context, roleId int64, menuIds []int64) (int64, error)
+	AllocMenu(ctx context.Context, roleId int64, menuIds string) (int64, error)
 
 	/**
 	 * 给角色分配资源

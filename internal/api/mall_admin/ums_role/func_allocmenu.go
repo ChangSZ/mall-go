@@ -9,8 +9,8 @@ import (
 )
 
 type allocMenuRequest struct {
-	RoleId  int64   `form:"role_id" binding:"required"`
-	MenuIds []int64 `form:"menu_id"`
+	RoleId  int64  `form:"roleId" binding:"required"`
+	MenuIds string `form:"menuIds"`
 }
 
 type allocMenuResponse struct {

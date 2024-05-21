@@ -2,6 +2,8 @@ package ums_role
 
 import (
 	"context"
+	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/ChangSZ/mall-go/internal/dao"
@@ -147,7 +149,21 @@ func (s *service) ListResource(ctx context.Context, roleId int64) ([]dto.UmsReso
 	return listData, nil
 }
 
-func (s *service) AllocMenu(ctx context.Context, roleId int64, menuIds []int64) (int64, error) {
+func (s *service) AllocMenu(ctx context.Context, roleId int64, menuIdsStr string) (int64, error) {
+	menuIds := make([]int64, 0)
+	// 将字符串以逗号分隔成切片
+	idStrs := strings.Split(menuIdsStr, ",")
+
+	// 遍历每个数字字符串并将其转换为 int64 类型，然后添加到 menuIds 切片中
+	for _, idStr := range idStrs {
+		id, err := strconv.ParseInt(idStr, 10, 64)
+		if err != nil {
+			// 处理转换错误
+			fmt.Printf("Error converting %s to int64: %v\n", idStr, err)
+			continue
+		}
+		menuIds = append(menuIds, id)
+	}
 	// 先删除原有关系
 	qb := ums_role_menu_relation.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, roleId)
