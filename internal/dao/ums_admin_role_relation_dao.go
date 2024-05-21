@@ -27,8 +27,29 @@ func (t *UmsAdminRoleRelationDao) GetRoleList(tx *gorm.DB,
 
 // 获取用户所有可访问资源
 func (t *UmsAdminRoleRelationDao) GetResourceList(tx *gorm.DB,
-	adminId int64) []ums_resource.UmsResource {
-	return nil
+	adminId int64) ([]ums_resource.UmsResource, error) {
+	res := make([]ums_resource.UmsResource, 0)
+	sql := `
+SELECT
+	ur.id id,
+	ur.create_time create_time,
+	ur.name name,
+	ur.url url,
+	ur.description description,
+	ur.category_id category_id
+FROM
+	ums_admin_role_relation ar
+	LEFT JOIN ums_role r ON ar.role_id = r.id
+	LEFT JOIN ums_role_resource_relation rrr ON r.id = rrr.role_id
+	LEFT JOIN ums_resource ur ON ur.id = rrr.resource_id
+WHERE
+	ar.admin_id = ?
+	AND ur.id IS NOT NULL
+GROUP BY
+	ur.id
+`
+	err := tx.Raw(sql, adminId).Scan(&res).Error
+	return res, err
 }
 
 // 获取资源相关用户ID列表

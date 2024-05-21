@@ -13,7 +13,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_login_log"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_role_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_resource_relation"
 	"github.com/ChangSZ/mall-go/pkg/jwt"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/password"
@@ -179,7 +178,7 @@ func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum in
 	return listData, total, nil
 }
 
-func (s *service) GetResourceList(ctx context.Context, adminId int64) ([]*ums_resource.UmsResource, error) {
+func (s *service) GetResourceList(ctx context.Context, adminId int64) ([]ums_resource.UmsResource, error) {
 	// 先从缓存中获取数据
 	resourceList := s.cacheService.GetResourceList(ctx, adminId)
 	if len(resourceList) != 0 {
@@ -187,20 +186,7 @@ func (s *service) GetResourceList(ctx context.Context, adminId int64) ([]*ums_re
 	}
 
 	// 缓存中没有从数据库中获取
-	qb := ums_role_resource_relation.NewQueryBuilder()
-	qb = qb.WhereRoleId(mysql.EqualPredicate, adminId)
-	roleResourceRelations, err := qb.QueryAll(mysql.DB().GetDbR())
-	if err != nil {
-		return nil, err
-	}
-	resourceIds := make([]int64, 0, len(resourceList))
-	for _, relation := range roleResourceRelations {
-		resourceIds = append(resourceIds, relation.ResourceId)
-	}
-
-	resourceQueryBuilder := ums_resource.NewQueryBuilder()
-	resourceQueryBuilder = resourceQueryBuilder.WhereIdIn(resourceIds)
-	ret, err := resourceQueryBuilder.QueryAll(mysql.DB().GetDbR())
+	ret, err := new(dao.UmsAdminRoleRelationDao).GetResourceList(mysql.DB().GetDbR().WithContext(ctx), adminId)
 	if len(ret) != 0 {
 		// 将数据库中的数据存入缓存中
 		s.cacheService.SetResourceList(ctx, adminId, ret)

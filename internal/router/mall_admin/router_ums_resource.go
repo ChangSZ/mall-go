@@ -10,7 +10,7 @@ import (
 // 后台资源管理
 func setUmsResourceRouter(eng *gin.Engine) {
 	resourceHandler := ums_resource.New()
-	resources := eng.Group("/resource", middleware.CheckToken())
+	resources := eng.Group("/resource", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		resources.POST("/create", resourceHandler.Create)     // 添加后台资源
 		resources.POST("/update/:id", resourceHandler.Update) // 修改后台资源

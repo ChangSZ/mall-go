@@ -97,13 +97,13 @@ func (s *UmsAdminCacheService) SetAdmin(ctx context.Context, admin *ums_admin.Um
 	redis.Cache().Set(ctx, key, string(adminBytes), REDIS_EXPIRE)
 }
 
-func (s *UmsAdminCacheService) GetResourceList(ctx context.Context, adminId int64) []*ums_resource.UmsResource {
+func (s *UmsAdminCacheService) GetResourceList(ctx context.Context, adminId int64) []ums_resource.UmsResource {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
 	ret, err := redis.Cache().Get(ctx, key)
 	if err != nil {
 		return nil
 	}
-	var data = make([]*ums_resource.UmsResource, 0)
+	var data = make([]ums_resource.UmsResource, 0)
 	if err := json.Unmarshal([]byte(ret), &data); err != nil {
 		return nil
 	}
@@ -111,7 +111,7 @@ func (s *UmsAdminCacheService) GetResourceList(ctx context.Context, adminId int6
 }
 
 func (s *UmsAdminCacheService) SetResourceList(ctx context.Context,
-	adminId int64, resourceList []*ums_resource.UmsResource) {
+	adminId int64, resourceList []ums_resource.UmsResource) {
 	key := fmt.Sprintf("%s:%s:%d", REDIS_DATABASE, REDIS_KEY_RESOURCE_LIST, adminId)
 	resourceListBytes, _ := json.Marshal(resourceList)
 	redis.Cache().Set(ctx, key, string(resourceListBytes), REDIS_EXPIRE)

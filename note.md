@@ -5,7 +5,7 @@
 - [x] jwt token权限模块
 - [x] update相关接口支持字段强制更新
 - [ ] swagger注释整改
-- [ ] admin服务实现
+- [x] admin服务实现（功能已可用, 部分update接口可能需要改下前端传入的数据类型）
   - [x] ums模块接口实现
   - [x] pms模块接口实现
   - [x] sms模块接口实现
@@ -15,7 +15,7 @@
     - [x] [minio](https://min.io/docs/minio/linux/developers/go/minio-go.html#)
     - [x] [aliyun-不写了，没啥意思](https://help.aliyun.com/zh/oss/user-guide/objects/?spm=a2c4g.11186623.0.0.5a605bc8PE0W9c)
   - [x] docker构建支持
-  - [ ] 动态权限校验
+  - [x] 动态权限校验
   - [x] 登录日志记录
 - [ ] portal服务实现
   - [ ] 首页管理

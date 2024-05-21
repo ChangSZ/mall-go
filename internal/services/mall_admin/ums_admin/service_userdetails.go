@@ -9,7 +9,7 @@ import (
 
 type AdminUserDetails struct {
 	UmsAdmin     *ums_admin.UmsAdmin
-	ResourceList []*ums_resource.UmsResource
+	ResourceList []ums_resource.UmsResource
 }
 
 func (au *AdminUserDetails) GetAuthorities() []string {

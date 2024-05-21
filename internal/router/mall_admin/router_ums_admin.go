@@ -20,7 +20,7 @@ func setUmsAdminRouter(eng *gin.Engine) {
 	{
 		adminsM.GET("/refreshToken", adminHandler.RefreshToken)      // 刷新token
 		adminsM.GET("/info", adminHandler.Info)                      // 获取当前登录用户信息
-		adminsM.GET("/logout", adminHandler.Logout)                  // 登出功能
+		adminsM.POST("/logout", adminHandler.Logout)                 // 登出功能
 		adminsM.GET("/list", adminHandler.List)                      // 根据用户名或姓名分页获取用户列表
 		adminsM.GET("/:id", adminHandler.Get)                        // 获取指定用户信息
 		adminsM.POST("/update/:id", adminHandler.Update)             // 修改指定用户信息

@@ -2,7 +2,7 @@
 
 `go-mall` 是基于 [go-gin-api](https://github.com/xinliangnote/go-gin-api) 框架(基本已经改得面目全非了)实现的一套电商系统的后台管理系统，包含商品管理、订单管理、会员管理、促销管理、运营管理、内容管理、统计报表、财务管理、权限管理、设置等模块。
 
-本项目对[macrozheng/mall](https://github.com/macrozheng/mall)商城项目后端代码的重构
+本项目对[macrozheng/mall](https://github.com/macrozheng/mall)商城项目后端代码的重构 ==> [进度](./note.md)
 
 web前端 ==> [mall-admin-web](https://github.com/ChangSZ/mall-admin-web) ==> [fork源](https://github.com/macrozheng/mall-admin-web)
 
