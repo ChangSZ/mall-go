@@ -93,6 +93,13 @@ func (s *service) Login(ctx context.Context, username, passwd string) (string, e
 	return token, nil
 }
 
+func (s *service) Logout(ctx context.Context, username string) {
+	// 清空缓存中的用户相关数据
+	admin := s.cacheService.GetAdmin(ctx, username)
+	s.cacheService.DelAdmin(ctx, admin.Id)
+	s.cacheService.DelResourceList(ctx, admin.Id)
+}
+
 func (s *service) RefreshToken(ctx context.Context, oldToken string) (string, error) {
 	return jwtTokenUtil.RefreshHeadToken(oldToken, 1800) // 30 minutes
 }

@@ -41,19 +41,19 @@ func (s *service) Create(ctx context.Context, param dto.PmsProductParam) (int64,
 	// 会员价格
 	if err := new(dao.PmsMemberPriceDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 		param.MemberPriceList, productId); err != nil {
-		log.WithTrace(ctx).Errorf("创建产品出错(PmsMemberPrice): %v", err)
+		log.WithTrace(ctx).Errorf("创建商品出错(PmsMemberPrice): %v", err)
 		return productId, err
 	}
 	// 阶梯价格
 	if err := new(dao.PmsProductLadderDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 		param.ProductLadderList, productId); err != nil {
-		log.WithTrace(ctx).Errorf("创建产品出错(PmsProductLadder): %v", err)
+		log.WithTrace(ctx).Errorf("创建商品出错(PmsProductLadder): %v", err)
 		return productId, err
 	}
 	// 满减价格
 	if err := new(dao.PmsProductFullReductionDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 		param.ProductFullReductionList, productId); err != nil {
-		log.WithTrace(ctx).Errorf("创建产品出错(PmsProductFullReduction): %v", err)
+		log.WithTrace(ctx).Errorf("创建商品出错(PmsProductFullReduction): %v", err)
 		return productId, err
 	}
 	// 处理sku的编码
@@ -61,25 +61,25 @@ func (s *service) Create(ctx context.Context, param dto.PmsProductParam) (int64,
 	// 添加sku库存信息
 	if err := new(dao.PmsSkuStockDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 		param.SkuStockList, productId); err != nil {
-		log.WithTrace(ctx).Errorf("创建产品出错(PmsSkuStock): %v", err)
+		log.WithTrace(ctx).Errorf("创建商品出错(PmsSkuStock): %v", err)
 		return productId, err
 	}
 	// 添加商品参数,添加自定义商品规格
 	if err := new(dao.PmsProductAttributeValueDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 		param.ProductAttributeValueList, productId); err != nil {
-		log.WithTrace(ctx).Errorf("创建产品出错(PmsProductAttributeValue): %v", err)
+		log.WithTrace(ctx).Errorf("创建商品出错(PmsProductAttributeValue): %v", err)
 		return productId, err
 	}
 	// 关联专题
 	if err := new(dao.CmsSubjectProductRelationDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 		param.SubjectProductRelationList, productId); err != nil {
-		log.WithTrace(ctx).Errorf("创建产品出错(CmsSubjectProductRelation): %v", err)
+		log.WithTrace(ctx).Errorf("创建商品出错(CmsSubjectProductRelation): %v", err)
 		return productId, err
 	}
 	// 关联优选
 	if err := new(dao.CmsPrefrenceAreaProductRelationDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 		param.PrefrenceAreaProductRelationList, productId); err != nil {
-		log.WithTrace(ctx).Errorf("创建产品出错(CmsPrefrenceAreaProductRelation): %v", err)
+		log.WithTrace(ctx).Errorf("创建商品出错(CmsPrefrenceAreaProductRelation): %v", err)
 		return productId, err
 	}
 	return productId, nil
@@ -180,7 +180,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		}
 		if err := new(dao.PmsMemberPriceDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.MemberPriceList, id); err != nil {
-			log.WithTrace(ctx).Errorf("创建产品出错(PmsMemberPrice): %v", err)
+			log.WithTrace(ctx).Errorf("创建商品出错(PmsMemberPrice): %v", err)
 			return 0, err
 		}
 	}
@@ -194,7 +194,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		}
 		if err := new(dao.PmsProductLadderDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.ProductLadderList, id); err != nil {
-			log.WithTrace(ctx).Errorf("创建产品出错(PmsProductLadder): %v", err)
+			log.WithTrace(ctx).Errorf("创建商品出错(PmsProductLadder): %v", err)
 			return 0, err
 		}
 	}
@@ -208,7 +208,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		}
 		if err := new(dao.PmsProductFullReductionDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.ProductFullReductionList, id); err != nil {
-			log.WithTrace(ctx).Errorf("创建产品出错(PmsProductFullReduction): %v", err)
+			log.WithTrace(ctx).Errorf("创建商品出错(PmsProductFullReduction): %v", err)
 			return 0, err
 		}
 	}
@@ -229,7 +229,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		}
 		if err := new(dao.PmsProductAttributeValueDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.ProductAttributeValueList, id); err != nil {
-			log.WithTrace(ctx).Errorf("创建产品出错(PmsProductAttributeValue): %v", err)
+			log.WithTrace(ctx).Errorf("创建商品出错(PmsProductAttributeValue): %v", err)
 			return 0, err
 		}
 	}
@@ -243,7 +243,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		}
 		if err := new(dao.CmsSubjectProductRelationDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.SubjectProductRelationList, id); err != nil {
-			log.WithTrace(ctx).Errorf("创建产品出错(CmsSubjectProductRelation): %v", err)
+			log.WithTrace(ctx).Errorf("创建商品出错(CmsSubjectProductRelation): %v", err)
 			return 0, err
 		}
 	}
@@ -257,7 +257,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductPara
 		}
 		if err := new(dao.CmsPrefrenceAreaProductRelationDao).InsertList(ctx, mysql.DB().GetDbW().WithContext(ctx),
 			param.PrefrenceAreaProductRelationList, id); err != nil {
-			log.WithTrace(ctx).Errorf("创建产品出错(CmsPrefrenceAreaProductRelation): %v", err)
+			log.WithTrace(ctx).Errorf("创建商品出错(CmsPrefrenceAreaProductRelation): %v", err)
 			return 0, err
 		}
 	}

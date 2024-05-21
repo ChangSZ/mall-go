@@ -1747,6 +1747,31 @@ definitions:
         description: 主键ID
         type: integer
     type: object
+  minio.deleteRequest:
+    properties:
+      objectName:
+        type: string
+    type: object
+  minio.deleteResponse:
+    type: object
+  minio.presignedURLRequest:
+    properties:
+      bucket:
+        type: string
+      objectName:
+        type: string
+    type: object
+  minio.uploadRequest:
+    type: object
+  minio.uploadResponse:
+    properties:
+      name:
+        description: 文件名称
+        type: string
+      url:
+        description: 文件访问URL
+        type: string
+    type: object
   oms_company_address.listRequest:
     type: object
   oms_order.closeRequest:
@@ -3196,7 +3221,7 @@ definitions:
         description: 父分类的编号
         type: integer
       productAttributeIdList:
-        description: 产品相关筛选属性集合
+        description: 商品相关筛选属性集合
         items:
           type: integer
         type: array
@@ -3298,7 +3323,7 @@ definitions:
         description: 父分类的编号
         type: integer
       productAttributeIdList:
-        description: 产品相关筛选属性集合
+        description: 商品相关筛选属性集合
         items:
           type: integer
         type: array
@@ -8741,6 +8766,99 @@ paths:
       summary: 修改菜单显示状态
       tags:
       - UmsMenuController
+  /minio/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 文件删除
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/minio.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/minio.deleteResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 文件删除
+      tags:
+      - MinioController
+  /minio/presigned-url:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 文件预签名URL
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/minio.presignedURLRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 文件预签名URL
+      tags:
+      - MinioController
+  /minio/upload:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 文件上传
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/minio.uploadRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/minio.uploadResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 文件上传
+      tags:
+      - MinioController
   /order/{id}:
     get:
       consumes:

@@ -10,7 +10,7 @@ type PmsProductCategoryParam struct {
 	Icon                   string  `json:"icon"`                                     // 图标
 	Keywords               string  `json:"keywords"`                                 // 关键字
 	Description            string  `json:"description"`                              // 描述
-	ProductAttributeIdList []int64 `json:"productAttributeIdList"`                   // 产品相关筛选属性集合
+	ProductAttributeIdList []int64 `json:"productAttributeIdList"`                   // 商品相关筛选属性集合
 }
 
 type PmsProductCategory struct {

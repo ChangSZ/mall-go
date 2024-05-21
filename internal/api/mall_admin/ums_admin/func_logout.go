@@ -2,6 +2,7 @@ package ums_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,6 +24,7 @@ type logoutResponse struct{}
 func (h *handler) Logout(ctx *gin.Context) {
 	_ = new(logoutRequest)
 	_ = new(logoutResponse)
-	// 实际上毛都没实现, mall就是这么写的
+	userInfo := core.GetUmsUserInfo(ctx)
+	h.service.Logout(ctx, userInfo.UserName)
 	api.Success(ctx, nil)
 }

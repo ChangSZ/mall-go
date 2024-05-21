@@ -27,6 +27,12 @@ type Service interface {
 	Login(ctx context.Context, username, password string) (string, error)
 
 	/**
+	 * 登出功能
+	 * @param username 用户名
+	 */
+	Logout(ctx context.Context, username string)
+
+	/**
 	 * 刷新token的功能
 	 * @param oldToken 旧的token
 	 */

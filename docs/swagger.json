@@ -6623,6 +6623,162 @@
                 }
             }
         },
+        "/minio/delete": {
+            "post": {
+                "description": "文件删除",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MinioController"
+                ],
+                "summary": "文件删除",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/minio.deleteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/minio.deleteResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/minio/presigned-url": {
+            "get": {
+                "description": "文件预签名URL",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MinioController"
+                ],
+                "summary": "文件预签名URL",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/minio.presignedURLRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/minio/upload": {
+            "post": {
+                "description": "文件上传",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MinioController"
+                ],
+                "summary": "文件上传",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/minio.uploadRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/minio.uploadResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
         "/order/delete": {
             "post": {
                 "description": "批量删除订单",
@@ -13097,6 +13253,44 @@
                 }
             }
         },
+        "minio.deleteRequest": {
+            "type": "object",
+            "properties": {
+                "objectName": {
+                    "type": "string"
+                }
+            }
+        },
+        "minio.deleteResponse": {
+            "type": "object"
+        },
+        "minio.presignedURLRequest": {
+            "type": "object",
+            "properties": {
+                "bucket": {
+                    "type": "string"
+                },
+                "objectName": {
+                    "type": "string"
+                }
+            }
+        },
+        "minio.uploadRequest": {
+            "type": "object"
+        },
+        "minio.uploadResponse": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "description": "文件名称",
+                    "type": "string"
+                },
+                "url": {
+                    "description": "文件访问URL",
+                    "type": "string"
+                }
+            }
+        },
         "oms_company_address.listRequest": {
             "type": "object"
         },
@@ -15167,7 +15361,7 @@
                     "type": "integer"
                 },
                 "productAttributeIdList": {
-                    "description": "产品相关筛选属性集合",
+                    "description": "商品相关筛选属性集合",
                     "type": "array",
                     "items": {
                         "type": "integer"
@@ -15317,7 +15511,7 @@
                     "type": "integer"
                 },
                 "productAttributeIdList": {
-                    "description": "产品相关筛选属性集合",
+                    "description": "商品相关筛选属性集合",
                     "type": "array",
                     "items": {
                         "type": "integer"
