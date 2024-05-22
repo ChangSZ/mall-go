@@ -10,7 +10,7 @@ import (
 // 后台菜单管理
 func setUmsMenuRouter(eng *gin.Engine) {
 	menuHandler := ums_menu.New()
-	menus := eng.Group("/menu", middleware.CheckToken())
+	menus := eng.Group("/menu", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		menus.POST("/create", menuHandler.Create)                 // 添加后台菜单
 		menus.POST("/update/:id", menuHandler.Update)             // 修改后台菜单

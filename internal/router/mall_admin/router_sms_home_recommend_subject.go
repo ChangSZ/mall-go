@@ -10,7 +10,7 @@ import (
 // 首页专题推荐管理
 func setSmsHomeRecommendSubjectRouter(eng *gin.Engine) {
 	handler := sms_home_recommend_subject.New()
-	group := eng.Group("/home/recommendSubject", middleware.CheckToken())
+	group := eng.Group("/home/recommendSubject", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		group.POST("", handler.Create)                                              // 添加首页推荐专题
 		group.POST("/update/sort/:id", handler.UpdateSort)                          // 修改推荐专题排序

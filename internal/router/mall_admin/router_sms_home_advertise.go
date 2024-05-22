@@ -10,7 +10,7 @@ import (
 // 首页轮播广告管理
 func setSmsHomeAdvertiseRouter(eng *gin.Engine) {
 	handler := sms_home_advertise.New()
-	group := eng.Group("/home/advertise", middleware.CheckToken())
+	group := eng.Group("/home/advertise", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		group.POST("", handler.Create)                         // 添加广告
 		group.POST("/update/:id", handler.Update)              // 修改广告

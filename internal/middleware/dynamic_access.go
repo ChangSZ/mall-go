@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"net/http"
-	"path/filepath"
 
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
@@ -11,11 +10,8 @@ import (
 	"github.com/ChangSZ/mall-go/pkg/log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gobwas/glob"
 )
-
-func match(pattern, path string) (bool, error) {
-	return filepath.Match(pattern, path)
-}
 
 func DynamicAccess() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
@@ -28,8 +24,8 @@ func DynamicAccess() gin.HandlerFunc {
 		}
 		url := ctx.Request.URL.Path
 		for _, v := range userDetails.ResourceList {
-			matched, _ := match(v.Url, url)
-			if matched {
+			g := glob.MustCompile(v.Url)
+			if g.Match(url) {
 				ctx.Next()
 				return
 			}

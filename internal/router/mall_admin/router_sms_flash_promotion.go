@@ -10,7 +10,7 @@ import (
 // 限时购活动管理
 func setSmsFlashPromotionRouter(eng *gin.Engine) {
 	handler := sms_flash_promotion.New()
-	group := eng.Group("/flash", middleware.CheckToken())
+	group := eng.Group("/flash", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		group.POST("", handler.Create)                         // 添加活动
 		group.POST("/update/:id", handler.Update)              // 编辑活动

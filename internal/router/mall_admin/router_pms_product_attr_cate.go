@@ -10,7 +10,7 @@ import (
 // 商品属性分类管理
 func setPmsProducteAttrCateRouter(eng *gin.Engine) {
 	productAttrCateHandler := pms_product_attr_cate.New()
-	attrCates := eng.Group("/productAttribute/category", middleware.CheckToken())
+	attrCates := eng.Group("/productAttribute/category", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		attrCates.POST("/create", productAttrCateHandler.Create)                // 添加商品属性分类
 		attrCates.POST("/update/:id", productAttrCateHandler.Update)            // 修改商品属性分类

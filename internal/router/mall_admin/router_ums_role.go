@@ -10,7 +10,7 @@ import (
 // 后台用户角色管理
 func setUmsRoleRouter(eng *gin.Engine) {
 	roleHandler := ums_role.New()
-	roles := eng.Group("/role", middleware.CheckToken())
+	roles := eng.Group("/role", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		roles.POST("/create", roleHandler.Create)                    // 添加角色
 		roles.POST("/update/:id", roleHandler.Update)                // 修改角色

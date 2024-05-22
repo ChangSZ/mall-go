@@ -2,6 +2,7 @@ package mall_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api/mall_admin/oms_order"
+	"github.com/ChangSZ/mall-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,7 +10,7 @@ import (
 // 订单管理
 func setOmsOrderRouter(eng *gin.Engine) {
 	handler := oms_order.New()
-	group := eng.Group("/order")
+	group := eng.Group("/order", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		group.GET("/list", handler.List)                               // 查询订单
 		group.POST("/update/delivery", handler.Delivery)               // 批量发货

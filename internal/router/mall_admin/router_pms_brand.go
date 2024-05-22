@@ -2,6 +2,7 @@ package mall_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api/mall_admin/pms_brand"
+	"github.com/ChangSZ/mall-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,7 +10,7 @@ import (
 // 商品分类管理
 func setPmsBrandRouter(eng *gin.Engine) {
 	brandHandler := pms_brand.New()
-	brands := eng.Group("/brand")
+	brands := eng.Group("/brand", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		brands.POST("/create", brandHandler.Create)                            // 添加品牌
 		brands.POST("/update/:id", brandHandler.Update)                        // 更新品牌

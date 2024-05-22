@@ -10,7 +10,7 @@ import (
 // 首页品牌管理
 func setSmsHomeBrandRouter(eng *gin.Engine) {
 	handler := sms_home_brand.New()
-	group := eng.Group("/home/brand", middleware.CheckToken())
+	group := eng.Group("/home/brand", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		group.POST("", handler.Create)                                              // 添加首页推荐品牌
 		group.POST("/update/sort/:id", handler.UpdateSort)                          // 修改推荐品牌排序

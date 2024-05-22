@@ -10,7 +10,7 @@ import (
 // 优惠券管理
 func setSmsCouponRouter(eng *gin.Engine) {
 	handler := sms_coupon.New()
-	group := eng.Group("/coupon", middleware.CheckToken())
+	group := eng.Group("/coupon", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		group.POST("", handler.Create)            // 添加优惠券
 		group.POST("/update/:id", handler.Update) // 修改优惠券

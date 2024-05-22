@@ -2,6 +2,7 @@ package mall_admin
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api/mall_admin/oms_order_return_reason"
+	"github.com/ChangSZ/mall-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,7 +10,7 @@ import (
 // 退货原因管理
 func setOmsOrderReturnReasonRouter(eng *gin.Engine) {
 	handler := oms_order_return_reason.New()
-	group := eng.Group("/returnReason")
+	group := eng.Group("/returnReason", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		group.POST("/create", handler.Create)              // 添加退货原因
 		group.POST("/update/:id", handler.Update)          // 修改退货原因

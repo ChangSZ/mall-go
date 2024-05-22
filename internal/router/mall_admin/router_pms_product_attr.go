@@ -10,7 +10,7 @@ import (
 // 商品属性管理
 func setPmsProducteAttrRouter(eng *gin.Engine) {
 	productAttrHandler := pms_product_attr.New()
-	attrs := eng.Group("/productAttribute", middleware.CheckToken())
+	attrs := eng.Group("/productAttribute", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		attrs.POST("/create", productAttrHandler.Create)                          // 添加商品属性信息
 		attrs.POST("/update/:id", productAttrHandler.Update)                      // 修改商品属性信息

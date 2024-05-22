@@ -82,6 +82,7 @@ require (
 	github.com/go-openapi/swag v0.23.0 // indirect
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-sql-driver/mysql v1.8.0 // indirect
+	github.com/gobwas/glob v0.2.3
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/hashicorp/hcl v1.0.0 // indirect

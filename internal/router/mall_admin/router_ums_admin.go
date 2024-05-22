@@ -16,7 +16,7 @@ func setUmsAdminRouter(eng *gin.Engine) {
 		admins.POST("/login", adminHandler.Login)       // 登录以后返回token
 	}
 
-	adminsM := eng.Group("/admin", middleware.CheckToken())
+	adminsM := eng.Group("/admin", middleware.CheckToken(), middleware.DynamicAccess())
 	{
 		adminsM.GET("/refreshToken", adminHandler.RefreshToken)      // 刷新token
 		adminsM.GET("/info", adminHandler.Info)                      // 获取当前登录用户信息
