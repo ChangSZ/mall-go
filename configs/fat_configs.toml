@@ -18,6 +18,12 @@ port = 465
 to = ''
 user = ''
 
+[minio]
+accesskey = 'minioadmin'
+bucketname = 'mall'
+endpoint = 'localhost:9000'
+secretkey = 'minioadmin'
+
 [mysql]
 [mysql.base]
 connmaxlifetime = 60
@@ -51,13 +57,3 @@ common = 86400
 [redis.key]
 admin = 'ums:admin'
 resourcelist = 'ums:resourceList'
-
-[minio]
-# MinIO服务所在地址
-endpoint = 'localhost:9000'
-# 存储桶名称
-bucketName = 'mall'
-# 访问的key
-accessKey = 'minioadmin'
-# 访问的秘钥
-secretKey = 'minioadmin'

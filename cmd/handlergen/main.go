@@ -6,6 +6,7 @@ import (
 	"go/token"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"unicode"
 
@@ -120,6 +121,7 @@ func main() {
 		}
 		return true
 	})
+	genServices(handlerName)
 }
 
 func Lcfirst(str string) string {
@@ -127,4 +129,55 @@ func Lcfirst(str string) string {
 		return string(unicode.ToLower(v)) + str[i+1:]
 	}
 	return ""
+}
+
+// genServices 生成services目录及文件
+func genServices(svcName string) {
+	svcDirPath := "./internal/services/" + svcName
+	pkgName := getLastSegment(svcName)
+
+	// 检查文件夹是否存在
+	if _, err := os.Stat(svcDirPath); os.IsNotExist(err) {
+		// 文件夹不存在，创建文件夹
+		err := os.MkdirAll(svcDirPath, os.ModePerm)
+		if err != nil {
+			fmt.Printf("Failed to create directory: %v\n", err)
+			return
+		}
+	}
+
+	// 检查service.go文件是否存在
+	serviceFilePath := filepath.Join(svcDirPath, "service.go")
+	if _, err := os.Stat(serviceFilePath); os.IsNotExist(err) {
+		// 文件不存在，创建文件
+		file, err := os.Create(serviceFilePath)
+		if err != nil {
+			fmt.Printf("Failed to create service.go: %v\n", err)
+			return
+		}
+		content := fmt.Sprintf("package %s\n\n", pkgName)
+		content += "type service struct{}\n\n"
+		content += "func New() Service {\nreturn &service{}\n}\n\n"
+		content += "func (s *service) i() {}"
+
+		file.WriteString(content)
+		file.Close()
+	}
+
+	// 检查interface.go文件是否存在
+	interfaceFilePath := filepath.Join(svcDirPath, "interface.go")
+	if _, err := os.Stat(interfaceFilePath); os.IsNotExist(err) {
+		// 文件不存在，创建文件
+		file, err := os.Create(interfaceFilePath)
+		if err != nil {
+			fmt.Printf("Failed to create interface.go: %v\n", err)
+			return
+		}
+		content := fmt.Sprintf("package %s\n\n", pkgName)
+		content += "var _ Service = (*service)(nil)\n\n"
+		content += "type Service interface {\ni()\n}"
+
+		file.WriteString(content)
+		file.Close()
+	}
 }
