@@ -34,7 +34,7 @@ type OmsOrderReturnApply struct {
 
 // OmsReturnApplyQueryParam 订单退货申请查询参数
 type OmsReturnApplyQueryParam struct {
-	ID              int64  `json:"id"`              // 服务单号
+	Id              int64  `json:"id"`              // 服务单号
 	ReceiverKeyword string `json:"receiverKeyword"` // 收货人姓名/号码
 	Status          *int32 `json:"status"`          // 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
 	CreateTime      string `json:"createTime"`      // 申请时间
@@ -44,7 +44,7 @@ type OmsReturnApplyQueryParam struct {
 
 // OmsUpdateStatusParam 确认收货请求参数
 type OmsUpdateStatusParam struct {
-	ID               int64   `json:"id"`               // 服务单号
+	Id               int64   `json:"id"`               // 服务单号
 	CompanyAddressID int64   `json:"companyAddressId"` // 收货地址关联id
 	ReturnAmount     float64 `json:"returnAmount"`     // 确认退款金额
 	HandleNote       string  `json:"handleNote"`       // 处理备注

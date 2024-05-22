@@ -30,8 +30,8 @@ FROM
 WHERE
 	1 = 1
 `
-	if queryParam.ID != 0 {
-		sql += fmt.Sprintf(" AND id = %d", queryParam.ID)
+	if queryParam.Id != 0 {
+		sql += fmt.Sprintf(" AND id = %d", queryParam.Id)
 	}
 	if queryParam.Status != nil {
 		sql += fmt.Sprintf(" AND status = %d", *queryParam.Status)
