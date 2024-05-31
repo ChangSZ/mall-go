@@ -25,6 +25,9 @@ services:
     container_name: rabbitmq
     volumes:
       - ~/mydata/rabbitmq/data:/var/lib/rabbitmq #数据文件目录挂载
+    environment:
+      RABBITMQ_DEFAULT_USER: mall
+      RABBITMQ_DEFAULT_PASS: mall
     ports:
       - 5672:5672
       - 15672:15672

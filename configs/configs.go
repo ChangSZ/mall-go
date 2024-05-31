@@ -49,9 +49,13 @@ type Config struct {
 		Key          struct {
 			Admin        string `toml:"admin"`
 			ResourceList string `toml:"resourceList"`
+			AuthCode     string `toml:"authCode"`
+			OrderId      string `toml:"orderId"`
+			Member       string `toml:"member"`
 		} `toml:"key"`
 		Expire struct {
-			Common int64 `toml:"common"`
+			Common   int64 `toml:"common"`
+			AuthCode int64 `toml:"authCode"`
 		} `toml:"expire"`
 	} `toml:"redis"`
 

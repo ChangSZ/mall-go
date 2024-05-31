@@ -53,7 +53,11 @@ poolsize = 10
 
 [redis.expire]
 common = 86400
+authcode = 90
 
 [redis.key]
 admin = 'ums:admin'
 resourcelist = 'ums:resourceList'
+authcode = 'ums:authCode'
+orderid = 'oms:orderId'
+member = 'ums:member'

@@ -18,6 +18,7 @@ const _UI = `
 func RoutersInit() *gin.Engine {
 	eng := router.InitEngine(_UI)
 
+	setUmsMemberRouter(eng)
 	setHomeRouter(eng)
 
 	return eng
