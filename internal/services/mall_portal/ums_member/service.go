@@ -8,9 +8,12 @@ import (
 
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/dao"
+	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_member"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_member_level"
+	"github.com/ChangSZ/mall-go/pkg/copy"
 	"github.com/ChangSZ/mall-go/pkg/jwt"
 	"github.com/ChangSZ/mall-go/pkg/password"
 )
@@ -167,6 +170,17 @@ func (s *service) LoadUserByUsername(ctx context.Context, username string) (*Mem
 		return &MemberUserDetails{member}, nil
 	}
 	return nil, fmt.Errorf("用户名或密码错误")
+}
+
+func (s *service) GetCurrentMember(ctx context.Context) (*dto.UmsMember, error) {
+	userInfo := core.GetUmsUserInfo(ctx)
+	member, err := s.LoadUserByUsername(ctx, userInfo.UserName)
+	if err != nil {
+		return nil, err
+	}
+	res := &dto.UmsMember{}
+	copy.AssignStruct(member.UmsMember, res)
+	return res, nil
 }
 
 func (s *service) Login(ctx context.Context, username, passwd string) (string, error) {

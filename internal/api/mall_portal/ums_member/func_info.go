@@ -3,8 +3,6 @@ package ums_member
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/internal/pkg/core"
-	"github.com/ChangSZ/mall-go/pkg/copy"
 	"github.com/ChangSZ/mall-go/pkg/log"
 
 	"github.com/gin-gonic/gin"
@@ -29,13 +27,12 @@ type infoResponse struct {
 func (h *handler) Info(ctx *gin.Context) {
 	_ = new(infoRequest)
 	res := new(infoResponse)
-	userInfo := core.GetUmsUserInfo(ctx)
-	member, err := h.service.LoadUserByUsername(ctx, userInfo.UserName)
+	member, err := h.service.GetCurrentMember(ctx)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())
 		return
 	}
-	copy.AssignStruct(member.UmsMember, &res.UmsMember)
+	res.UmsMember = *member
 	api.Success(ctx, res)
 }

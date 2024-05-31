@@ -3,6 +3,7 @@ package ums_member
 import (
 	"context"
 
+	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_member"
 )
 
@@ -40,6 +41,11 @@ type Service interface {
 	 * 根据会员id修改会员积分
 	 */
 	UpdateIntegration(ctx context.Context, id int64, integration int32) error
+
+	/**
+	 * 获取当前登录会员
+	 */
+	GetCurrentMember(ctx context.Context) (*dto.UmsMember, error)
 
 	/**
 	 * 获取用户信息

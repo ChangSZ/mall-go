@@ -19,6 +19,8 @@ func RoutersInit() *gin.Engine {
 	eng := router.InitEngine(_UI)
 
 	setUmsMemberRouter(eng)
+	setUmsMemberCouponRouter(eng)
+
 	setHomeRouter(eng)
 
 	return eng
