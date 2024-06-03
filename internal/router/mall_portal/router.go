@@ -20,6 +20,7 @@ func RoutersInit() *gin.Engine {
 
 	setUmsMemberRouter(eng)
 	setUmsMemberCouponRouter(eng)
+	setUmsMemberReceiveAddressRouter(eng)
 
 	setHomeRouter(eng)
 
