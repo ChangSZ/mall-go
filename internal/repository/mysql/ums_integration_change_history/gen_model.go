@@ -8,7 +8,7 @@ import "time"
 type UmsIntegrationChangeHistory struct {
 	Id          int64     //
 	MemberId    int64     //
-	CreateTime  time.Time `gorm:"time"` //
+	CreateTime  time.Time `gorm:"autoCreateTime"` //
 	ChangeType  int32     // 改变类型：0->增加；1->减少
 	ChangeCount int32     // 积分改变数量
 	OperateMan  string    // 操作人员

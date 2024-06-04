@@ -556,7 +556,7 @@ func (qb *umsMemberQueryBuilder) OrderByGender(asc bool) *umsMemberQueryBuilder 
 	return qb
 }
 
-func (qb *umsMemberQueryBuilder) WhereBirthday(p mysql.Predicate, value string) *umsMemberQueryBuilder {
+func (qb *umsMemberQueryBuilder) WhereBirthday(p mysql.Predicate, value time.Time) *umsMemberQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -567,7 +567,7 @@ func (qb *umsMemberQueryBuilder) WhereBirthday(p mysql.Predicate, value string) 
 	return qb
 }
 
-func (qb *umsMemberQueryBuilder) WhereBirthdayIn(value []string) *umsMemberQueryBuilder {
+func (qb *umsMemberQueryBuilder) WhereBirthdayIn(value []time.Time) *umsMemberQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -578,7 +578,7 @@ func (qb *umsMemberQueryBuilder) WhereBirthdayIn(value []string) *umsMemberQuery
 	return qb
 }
 
-func (qb *umsMemberQueryBuilder) WhereBirthdayNotIn(value []string) *umsMemberQueryBuilder {
+func (qb *umsMemberQueryBuilder) WhereBirthdayNotIn(value []time.Time) *umsMemberQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

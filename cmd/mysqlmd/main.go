@@ -141,11 +141,19 @@ func main() {
 						"gorm:\"autoUpdateTime\"",
 						info.ColumnComment.String)
 				default:
-					modelContent += fmt.Sprintf("%s %s `%s` // %s\n",
-						capitalize(info.ColumnName),
-						textType(info.DataType),
-						"gorm:\"time\"",
-						info.ColumnComment.String)
+					if info.ColumnType == "date" {
+						modelContent += fmt.Sprintf("%s %s `%s` // %s\n",
+							capitalize(info.ColumnName),
+							textType(info.DataType),
+							"gorm:\"date\"",
+							info.ColumnComment.String)
+					} else {
+						modelContent += fmt.Sprintf("%s %s `%s` // %s\n",
+							capitalize(info.ColumnName),
+							textType(info.DataType),
+							"gorm:\"time\"",
+							info.ColumnComment.String)
+					}
 				}
 			} else {
 				modelContent += fmt.Sprintf("%s %s // %s\n", capitalize(info.ColumnName), textType(info.DataType), info.ColumnComment.String)
@@ -295,8 +303,8 @@ func textType(s string) string {
 		"float":      "float64",
 		"double":     "float64",
 		"decimal":    "float64",
-		"date":       "string",
-		"time":       "string",
+		"date":       "time.Time",
+		"time":       "time.Time",
 		"year":       "string",
 		"datetime":   "time.Time",
 		"timestamp":  "time.Time",

@@ -7,7 +7,7 @@ import "time"
 //go:generate gormgen -structs SmsFlashPromotionLog -input .
 type SmsFlashPromotionLog struct {
 	Id            int64     //
-	MemberId      int32     //
+	MemberId      int64     //
 	ProductId     int64     //
 	MemberPhone   string    //
 	ProductName   string    //

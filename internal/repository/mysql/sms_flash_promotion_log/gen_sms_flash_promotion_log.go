@@ -169,7 +169,7 @@ func (qb *smsFlashPromotionLogQueryBuilder) OrderById(asc bool) *smsFlashPromoti
 	return qb
 }
 
-func (qb *smsFlashPromotionLogQueryBuilder) WhereMemberId(p mysql.Predicate, value int32) *smsFlashPromotionLogQueryBuilder {
+func (qb *smsFlashPromotionLogQueryBuilder) WhereMemberId(p mysql.Predicate, value int64) *smsFlashPromotionLogQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -180,7 +180,7 @@ func (qb *smsFlashPromotionLogQueryBuilder) WhereMemberId(p mysql.Predicate, val
 	return qb
 }
 
-func (qb *smsFlashPromotionLogQueryBuilder) WhereMemberIdIn(value []int32) *smsFlashPromotionLogQueryBuilder {
+func (qb *smsFlashPromotionLogQueryBuilder) WhereMemberIdIn(value []int64) *smsFlashPromotionLogQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -191,7 +191,7 @@ func (qb *smsFlashPromotionLogQueryBuilder) WhereMemberIdIn(value []int32) *smsF
 	return qb
 }
 
-func (qb *smsFlashPromotionLogQueryBuilder) WhereMemberIdNotIn(value []int32) *smsFlashPromotionLogQueryBuilder {
+func (qb *smsFlashPromotionLogQueryBuilder) WhereMemberIdNotIn(value []int64) *smsFlashPromotionLogQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

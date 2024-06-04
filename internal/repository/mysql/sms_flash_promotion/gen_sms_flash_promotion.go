@@ -212,7 +212,7 @@ func (qb *smsFlashPromotionQueryBuilder) OrderByTitle(asc bool) *smsFlashPromoti
 	return qb
 }
 
-func (qb *smsFlashPromotionQueryBuilder) WhereStartDate(p mysql.Predicate, value string) *smsFlashPromotionQueryBuilder {
+func (qb *smsFlashPromotionQueryBuilder) WhereStartDate(p mysql.Predicate, value time.Time) *smsFlashPromotionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -223,7 +223,7 @@ func (qb *smsFlashPromotionQueryBuilder) WhereStartDate(p mysql.Predicate, value
 	return qb
 }
 
-func (qb *smsFlashPromotionQueryBuilder) WhereStartDateIn(value []string) *smsFlashPromotionQueryBuilder {
+func (qb *smsFlashPromotionQueryBuilder) WhereStartDateIn(value []time.Time) *smsFlashPromotionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -234,7 +234,7 @@ func (qb *smsFlashPromotionQueryBuilder) WhereStartDateIn(value []string) *smsFl
 	return qb
 }
 
-func (qb *smsFlashPromotionQueryBuilder) WhereStartDateNotIn(value []string) *smsFlashPromotionQueryBuilder {
+func (qb *smsFlashPromotionQueryBuilder) WhereStartDateNotIn(value []time.Time) *smsFlashPromotionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -255,7 +255,7 @@ func (qb *smsFlashPromotionQueryBuilder) OrderByStartDate(asc bool) *smsFlashPro
 	return qb
 }
 
-func (qb *smsFlashPromotionQueryBuilder) WhereEndDate(p mysql.Predicate, value string) *smsFlashPromotionQueryBuilder {
+func (qb *smsFlashPromotionQueryBuilder) WhereEndDate(p mysql.Predicate, value time.Time) *smsFlashPromotionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -266,7 +266,7 @@ func (qb *smsFlashPromotionQueryBuilder) WhereEndDate(p mysql.Predicate, value s
 	return qb
 }
 
-func (qb *smsFlashPromotionQueryBuilder) WhereEndDateIn(value []string) *smsFlashPromotionQueryBuilder {
+func (qb *smsFlashPromotionQueryBuilder) WhereEndDateIn(value []time.Time) *smsFlashPromotionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -277,7 +277,7 @@ func (qb *smsFlashPromotionQueryBuilder) WhereEndDateIn(value []string) *smsFlas
 	return qb
 }
 
-func (qb *smsFlashPromotionQueryBuilder) WhereEndDateNotIn(value []string) *smsFlashPromotionQueryBuilder {
+func (qb *smsFlashPromotionQueryBuilder) WhereEndDateNotIn(value []time.Time) *smsFlashPromotionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

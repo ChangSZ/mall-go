@@ -1911,8 +1911,8 @@ INSERT INTO `sms_flash_promotion` VALUES (14, '双11特卖活动', '2022-11-09',
 -- ----------------------------
 DROP TABLE IF EXISTS `sms_flash_promotion_log`;
 CREATE TABLE `sms_flash_promotion_log`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `member_id` int(11) NULL DEFAULT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `member_id` bigint(20) NULL DEFAULT NULL,
   `product_id` bigint(20) NULL DEFAULT NULL,
   `member_phone` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `product_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,

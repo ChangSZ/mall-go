@@ -8,8 +8,8 @@ import "time"
 type SmsFlashPromotion struct {
 	Id         int64     //
 	Title      string    // 秒杀时间段名称
-	StartDate  string    // 开始日期
-	EndDate    string    // 结束日期
+	StartDate  time.Time `gorm:"date"` // 开始日期
+	EndDate    time.Time `gorm:"date"` // 结束日期
 	Status     int32     // 上下线状态
 	CreateTime time.Time `gorm:"autoCreateTime"` // 创建时间
 }

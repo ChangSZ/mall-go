@@ -212,7 +212,7 @@ func (qb *smsFlashPromotionSessionQueryBuilder) OrderByName(asc bool) *smsFlashP
 	return qb
 }
 
-func (qb *smsFlashPromotionSessionQueryBuilder) WhereStartTime(p mysql.Predicate, value string) *smsFlashPromotionSessionQueryBuilder {
+func (qb *smsFlashPromotionSessionQueryBuilder) WhereStartTime(p mysql.Predicate, value time.Time) *smsFlashPromotionSessionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -223,7 +223,7 @@ func (qb *smsFlashPromotionSessionQueryBuilder) WhereStartTime(p mysql.Predicate
 	return qb
 }
 
-func (qb *smsFlashPromotionSessionQueryBuilder) WhereStartTimeIn(value []string) *smsFlashPromotionSessionQueryBuilder {
+func (qb *smsFlashPromotionSessionQueryBuilder) WhereStartTimeIn(value []time.Time) *smsFlashPromotionSessionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -234,7 +234,7 @@ func (qb *smsFlashPromotionSessionQueryBuilder) WhereStartTimeIn(value []string)
 	return qb
 }
 
-func (qb *smsFlashPromotionSessionQueryBuilder) WhereStartTimeNotIn(value []string) *smsFlashPromotionSessionQueryBuilder {
+func (qb *smsFlashPromotionSessionQueryBuilder) WhereStartTimeNotIn(value []time.Time) *smsFlashPromotionSessionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -255,7 +255,7 @@ func (qb *smsFlashPromotionSessionQueryBuilder) OrderByStartTime(asc bool) *smsF
 	return qb
 }
 
-func (qb *smsFlashPromotionSessionQueryBuilder) WhereEndTime(p mysql.Predicate, value string) *smsFlashPromotionSessionQueryBuilder {
+func (qb *smsFlashPromotionSessionQueryBuilder) WhereEndTime(p mysql.Predicate, value time.Time) *smsFlashPromotionSessionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -266,7 +266,7 @@ func (qb *smsFlashPromotionSessionQueryBuilder) WhereEndTime(p mysql.Predicate, 
 	return qb
 }
 
-func (qb *smsFlashPromotionSessionQueryBuilder) WhereEndTimeIn(value []string) *smsFlashPromotionSessionQueryBuilder {
+func (qb *smsFlashPromotionSessionQueryBuilder) WhereEndTimeIn(value []time.Time) *smsFlashPromotionSessionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}
@@ -277,7 +277,7 @@ func (qb *smsFlashPromotionSessionQueryBuilder) WhereEndTimeIn(value []string) *
 	return qb
 }
 
-func (qb *smsFlashPromotionSessionQueryBuilder) WhereEndTimeNotIn(value []string) *smsFlashPromotionSessionQueryBuilder {
+func (qb *smsFlashPromotionSessionQueryBuilder) WhereEndTimeNotIn(value []time.Time) *smsFlashPromotionSessionQueryBuilder {
 	qb.where = append(qb.where, struct {
 		prefix string
 		value  interface{}

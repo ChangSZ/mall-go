@@ -87,7 +87,9 @@ func (p *Parser) parseTypes(file *ast.File) (ret []structConfig) {
 					// 切片元素类型非Ident的先不care, 目前不需要
 				} else {
 					if v.Tag != nil {
-						if strings.Contains(v.Tag.Value, "gorm") && strings.Contains(strings.ToLower(v.Tag.Value), "time") {
+						if strings.Contains(v.Tag.Value, "gorm") &&
+							(strings.Contains(strings.ToLower(v.Tag.Value), "time") ||
+								strings.Contains(strings.ToLower(v.Tag.Value), "date")) {
 							optionField.FieldType = "time.Time"
 						}
 					}
