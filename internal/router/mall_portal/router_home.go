@@ -2,6 +2,7 @@ package mall_portal
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api/mall_portal/home"
+	"github.com/ChangSZ/mall-go/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,7 +10,7 @@ import (
 // 首页内容管理
 func setHomeRouter(eng *gin.Engine) {
 	handler := home.New()
-	group := eng.Group("/home")
+	group := eng.Group("/home", middleware.CheckMemberToken())
 	{
 		group.GET("/content", handler.Content)                              // 首页内容信息展示
 		group.GET("/recommendProductList", handler.RecommendProductList)    // 分页获取推荐商品

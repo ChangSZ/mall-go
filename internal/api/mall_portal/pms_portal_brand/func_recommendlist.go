@@ -11,7 +11,7 @@ import (
 
 type recommendListRequest struct {
 	PageNum  int `form:"pageNum,default=1" binding:"omitempty"`
-	PageSize int `form:"pageSize,default=5" binding:"omitempty"`
+	PageSize int `form:"pageSize,default=6" binding:"omitempty"`
 }
 
 type recommendListResponse struct {

@@ -5,8 +5,8 @@ import "time"
 type SmsFlashPromotionSession struct {
 	Id         int64     `json:"id"`
 	Name       string    `json:"name"`
-	StartTime  string    `json:"startTime"`
-	EndTime    string    `json:"endTime"`
+	StartTime  time.Time `json:"startTime"`
+	EndTime    time.Time `json:"endTime"`
 	Status     int32     `json:"status"`
 	CreateTime time.Time `json:"createTime"`
 }

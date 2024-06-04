@@ -13,7 +13,7 @@ type UmsMember struct {
 	CreateTime            time.Time `json:"createTime"`            // 注册时间
 	Icon                  string    `json:"icon"`                  // 头像
 	Gender                int32     `json:"gender"`                // 性别：0->未知；1->男；2->女
-	Birthday              string    `json:"birthday"`              // 生日
+	Birthday              time.Time `json:"birthday"`              // 生日
 	City                  string    `json:"city"`                  // 所做城市
 	Job                   string    `json:"job"`                   // 职业
 	PersonalizedSignature string    `json:"personalizedSignature"` // 个性签名

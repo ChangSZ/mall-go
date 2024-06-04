@@ -12,7 +12,7 @@ import (
 type productListRequest struct {
 	BrandId  int64 `form:"brandId" binding:"required"`
 	PageNum  int   `form:"pageNum,default=1" binding:"omitempty"`
-	PageSize int   `form:"pageSize,default=5" binding:"omitempty"`
+	PageSize int   `form:"pageSize,default=6" binding:"omitempty"`
 }
 
 type productListResponse struct {
