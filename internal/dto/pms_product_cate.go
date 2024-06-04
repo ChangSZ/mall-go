@@ -37,3 +37,9 @@ type PmsProductCategoryWithChildrenItem struct {
 type PmsProductCateUri struct {
 	ParentId int64 `uri:"parentId" binding:"omitempty"` // 允许为0
 }
+
+// PmsProductCategoryNode 包含子分类的商品分类
+type PmsProductCategoryNode struct {
+	PmsProductCategory `json:",inline"`
+	Children           []PmsProductCategoryNode `json:"children"` // 子分类集合
+}

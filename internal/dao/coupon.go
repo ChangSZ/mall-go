@@ -59,3 +59,36 @@ func (t *CouponDao) ListByCouponIds(ctx context.Context, tx *gorm.DB, allCouponI
 	err := db.Find(&res).Error
 	return res, err
 }
+
+func (t *CouponDao) GetAvailableCouponList(ctx context.Context,
+	tx *gorm.DB, productId, productCategoryId int64) ([]dto.SmsCoupon, error) {
+	res := make([]dto.SmsCoupon, 0)
+	sql := `
+SELECT *
+FROM sms_coupon
+WHERE use_type = 0
+	AND start_time < NOW()
+	AND end_time > NOW()
+UNION
+(
+	SELECT c.*
+	FROM sms_coupon_product_category_relation cpc
+				LEFT JOIN sms_coupon c ON cpc.coupon_id = c.id
+	WHERE c.use_type = 1
+		AND c.start_time < NOW()
+		AND c.end_time > NOW()
+		AND cpc.product_category_id = ?
+)
+UNION
+(
+	SELECT c.*
+	FROM sms_coupon_product_relation cp
+				LEFT JOIN sms_coupon c ON cp.coupon_id = c.id
+	WHERE c.use_type = 2
+		AND c.start_time < NOW()
+		AND c.end_time > NOW()
+		AND cp.product_id = ?
+)`
+	err := tx.Raw(sql, productCategoryId, productId).Scan(&res).Error
+	return nil, err
+}

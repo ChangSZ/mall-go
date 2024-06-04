@@ -94,3 +94,15 @@ type PmsMemberPrice struct {
 	MemberPrice     float64 `json:"memberPrice"`     // 会员价格
 	MemberLevelName string  `json:"memberLevelName"` //
 }
+
+// PmsPortalProductDetail 前台商品详情
+type PmsPortalProductDetail struct {
+	Product                   PmsProduct                 `json:"product"`                   // 商品信息
+	Brand                     PmsBrand                   `json:"brand"`                     // 商品品牌
+	ProductAttributeList      []PmsProductAttr           `json:"productAttributeList"`      // 商品属性与参数
+	ProductAttributeValueList []PmsProductAttributeValue `json:"productAttributeValueList"` // 手动录入的商品属性与参数值
+	SkuStockList              []PmsSkuStock              `json:"skuStockList"`              // 商品的sku库存信息
+	ProductLadderList         []PmsProductLadder         `json:"productLadderList"`         // 商品阶梯价格设置
+	ProductFullReductionList  []PmsProductFullReduction  `json:"productFullReductionList"`  // 商品满减价格设置
+	CouponList                []SmsCoupon                `json:"couponList"`                // 商品可用优惠券
+}
