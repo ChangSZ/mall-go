@@ -145,13 +145,13 @@ func main() {
 						modelContent += fmt.Sprintf("%s %s `%s` // %s\n",
 							capitalize(info.ColumnName),
 							textType(info.DataType),
-							"gorm:\"date\"",
+							"gorm:\"type:date;default:'1000-01-01'\"",
 							info.ColumnComment.String)
 					} else {
 						modelContent += fmt.Sprintf("%s %s `%s` // %s\n",
 							capitalize(info.ColumnName),
 							textType(info.DataType),
-							"gorm:\"time\"",
+							"gorm:\"type:time;default:'1000-01-01 00:00:00'\"",
 							info.ColumnComment.String)
 					}
 				}

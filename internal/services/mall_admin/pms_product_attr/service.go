@@ -21,7 +21,7 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) List(ctx context.Context, cid int64, attrType int32, pageSize, pageNum int) (
-	[]dto.PmsProductAttr, int64, error) {
+	[]dto.PmsProductAttribute, int64, error) {
 	qb := pms_product_attribute.NewQueryBuilder()
 	qb = qb.WhereProductAttributeCategoryId(mysql.EqualPredicate, cid)
 	qb = qb.WhereType(mysql.EqualPredicate, attrType)
@@ -40,9 +40,9 @@ func (s *service) List(ctx context.Context, cid int64, attrType int32, pageSize,
 		return nil, 0, err
 	}
 
-	listData := make([]dto.PmsProductAttr, 0, len(list))
+	listData := make([]dto.PmsProductAttribute, 0, len(list))
 	for _, v := range list {
-		tmp := dto.PmsProductAttr{}
+		tmp := dto.PmsProductAttribute{}
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
@@ -100,14 +100,14 @@ func (s *service) Update(ctx context.Context, id int64, param dto.PmsProductAttr
 	return qb.Updates(mysql.DB().GetDbW().WithContext(ctx), data)
 }
 
-func (s *service) GetItem(ctx context.Context, id int64) (*dto.PmsProductAttr, error) {
+func (s *service) GetItem(ctx context.Context, id int64) (*dto.PmsProductAttribute, error) {
 	qb := pms_product_attribute.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
 	data, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}
-	res := &dto.PmsProductAttr{}
+	res := &dto.PmsProductAttribute{}
 	copy.AssignStruct(data, res)
 	return res, nil
 }

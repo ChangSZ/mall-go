@@ -16,11 +16,11 @@ type listRequest struct {
 }
 
 type listResponse struct {
-	PageNum   int                  `json:"pageNum"`
-	PageSize  int                  `json:"pageSize"`
-	TotalPage int64                `json:"totalPage"`
-	Total     int64                `json:"total"`
-	List      []dto.PmsProductAttr `json:"list"`
+	PageNum   int                       `json:"pageNum"`
+	PageSize  int                       `json:"pageSize"`
+	TotalPage int64                     `json:"totalPage"`
+	Total     int64                     `json:"total"`
+	List      []dto.PmsProductAttribute `json:"list"`
 }
 
 // List 根据分类查询属性列表或参数列表

@@ -17,8 +17,8 @@ type OmsCartItem struct {
 	ProductSubTitle   string    // 商品副标题（卖点）
 	ProductSkuCode    string    // 商品sku条码
 	MemberNickname    string    // 会员昵称
-	CreateDate        time.Time `gorm:"time"` // 创建时间
-	ModifyDate        time.Time `gorm:"time"` // 修改时间
+	CreateDate        time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 创建时间
+	ModifyDate        time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 修改时间
 	DeleteStatus      int32     // 是否删除
 	ProductCategoryId int64     // 商品分类
 	ProductBrand      string    //

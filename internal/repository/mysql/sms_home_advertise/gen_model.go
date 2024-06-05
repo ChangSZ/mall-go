@@ -10,8 +10,8 @@ type SmsHomeAdvertise struct {
 	Name       string    //
 	Type       int32     // 轮播位置：0->PC首页轮播；1->app首页轮播
 	Pic        string    //
-	StartTime  time.Time `gorm:"time"` //
-	EndTime    time.Time `gorm:"time"` //
+	StartTime  time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` //
+	EndTime    time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` //
 	Status     int32     // 上下线状态：0->下线；1->上线
 	ClickCount int32     // 点击数
 	OrderCount int32     // 下单数

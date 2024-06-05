@@ -3,6 +3,7 @@ package ums_member_coupon
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/oms_cart_item"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 
@@ -35,7 +36,15 @@ func (h *handler) ListCart(ctx *gin.Context) {
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return
 	}
-	list, err := h.service.ListCart(ctx, req.Type)
+
+	cartItemList, err := oms_cart_item.New().ListPromotion(ctx, nil)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Failed(ctx, err.Error())
+		return
+	}
+
+	list, err := h.service.ListCart(ctx, cartItemList, req.Type)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())

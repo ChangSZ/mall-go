@@ -11,6 +11,6 @@ type SmsFlashPromotionLog struct {
 	ProductId     int64     //
 	MemberPhone   string    //
 	ProductName   string    //
-	SubscribeTime time.Time `gorm:"time"` // 会员订阅时间
-	SendTime      time.Time `gorm:"time"` //
+	SubscribeTime time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 会员订阅时间
+	SendTime      time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` //
 }

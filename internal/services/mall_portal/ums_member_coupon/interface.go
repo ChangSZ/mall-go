@@ -25,7 +25,8 @@ type Service interface {
 	/**
 	 * 根据购物车信息获取可用优惠券
 	 */
-	ListCart(ctx context.Context, enable int32) ([]dto.SmsCouponHistoryDetail, error)
+	ListCart(ctx context.Context,
+		cartItemList []dto.CartPromotionItem, enable int32) ([]dto.SmsCouponHistoryDetail, error)
 
 	/**
 	 * 获取当前商品相关优惠券

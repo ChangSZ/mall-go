@@ -18,7 +18,7 @@ type Service interface {
 	 * @param type 0->规格；1->参数
 	 */
 
-	List(ctx context.Context, cid int64, attrType int32, pageSize, pageNum int) ([]dto.PmsProductAttr, int64, error)
+	List(ctx context.Context, cid int64, attrType int32, pageSize, pageNum int) ([]dto.PmsProductAttribute, int64, error)
 
 	/**
 	 * 添加商品属性
@@ -33,7 +33,7 @@ type Service interface {
 	/**
 	 * 获取单个商品属性信息
 	 */
-	GetItem(ctx context.Context, id int64) (*dto.PmsProductAttr, error)
+	GetItem(ctx context.Context, id int64) (*dto.PmsProductAttribute, error)
 
 	/**
 	 * 批量删除商品属性

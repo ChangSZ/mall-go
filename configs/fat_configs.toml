@@ -61,3 +61,10 @@ resourcelist = 'ums:resourceList'
 authcode = 'ums:authCode'
 orderid = 'oms:orderId'
 member = 'ums:member'
+
+[rabbitmq]
+host = 'localhost'
+port = 5672
+virtualhost = '/'
+username = 'mall'
+password = 'mall'

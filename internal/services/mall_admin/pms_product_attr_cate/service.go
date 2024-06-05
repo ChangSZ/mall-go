@@ -84,7 +84,7 @@ func (s *service) ListWithAttr(ctx context.Context) ([]dto.PmsProductAttrCateIte
 	res := make([]dto.PmsProductAttrCateItem, 0, len(list))
 	for _, v := range list {
 		tmp := dto.PmsProductAttrCateItem{
-			ProductAttributeList: make([]dto.PmsProductAttr, len(v.ProductAttributeList)),
+			ProductAttributeList: make([]dto.PmsProductAttribute, len(v.ProductAttributeList)),
 		}
 		copy.AssignStruct(&v, &tmp)
 		res = append(res, tmp)

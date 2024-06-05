@@ -1,10 +1,13 @@
 package main
 
 import (
+	"context"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/router/mall_portal"
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/oms_portal_order"
 	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/shutdown"
 
@@ -56,6 +59,11 @@ func main() {
 
 	// 初始化 Cache
 	redis.Init()
+
+	// 启动CancelOrderReceiver
+	go oms_portal_order.CancelOrderReceive(context.Background())
+	// 启动CancelTimeOutOrder
+	go oms_portal_order.CancelTimeOutOrderCron(context.Background())
 
 	// 初始化路由
 	eng := mall_portal.RoutersInit()

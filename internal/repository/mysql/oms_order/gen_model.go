@@ -45,9 +45,9 @@ type OmsOrder struct {
 	ConfirmStatus         int32     // 确认收货状态：0->未确认；1->已确认
 	DeleteStatus          int32     // 删除状态：0->未删除；1->已删除
 	UseIntegration        int32     // 下单时使用的积分
-	PaymentTime           time.Time `gorm:"time"` // 支付时间
-	DeliveryTime          time.Time `gorm:"time"` // 发货时间
-	ReceiveTime           time.Time `gorm:"time"` // 确认收货时间
-	CommentTime           time.Time `gorm:"time"` // 评价时间
-	ModifyTime            time.Time `gorm:"time"` // 修改时间
+	PaymentTime           time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 支付时间
+	DeliveryTime          time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 发货时间
+	ReceiveTime           time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 确认收货时间
+	CommentTime           time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 评价时间
+	ModifyTime            time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 修改时间
 }

@@ -9,5 +9,5 @@ type PmsProductAttributeCategory struct {
 
 type PmsProductAttrCateItem struct {
 	PmsProductAttributeCategory `json:",inline"`
-	ProductAttributeList        []PmsProductAttr `json:"productAttributeList"`
+	ProductAttributeList        []PmsProductAttribute `json:"productAttributeList"`
 }
