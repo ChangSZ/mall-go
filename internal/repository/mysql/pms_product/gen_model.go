@@ -42,8 +42,8 @@ type PmsProduct struct {
 	DetailDesc                 string    //
 	DetailHtml                 string    // 产品详情网页内容
 	DetailMobileHtml           string    // 移动端网页详情
-	PromotionStartTime         time.Time `gorm:"time"` // 促销开始时间
-	PromotionEndTime           time.Time `gorm:"time"` // 促销结束时间
+	PromotionStartTime         time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 促销开始时间
+	PromotionEndTime           time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 促销结束时间
 	PromotionPerLimit          int32     // 活动限购数量
 	PromotionType              int32     // 促销类型：0->没有促销使用原价;1->使用促销价；2->使用会员价；3->使用阶梯价格；4->使用满减价格；5->限时购
 	BrandName                  string    // 品牌名称

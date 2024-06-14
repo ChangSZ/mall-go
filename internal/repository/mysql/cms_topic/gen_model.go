@@ -9,9 +9,9 @@ type CmsTopic struct {
 	Id             int64     //
 	CategoryId     int64     //
 	Name           string    //
-	CreateTime     time.Time `gorm:"autoCreateTime"` //
-	StartTime      time.Time `gorm:"time"`           //
-	EndTime        time.Time `gorm:"time"`           //
+	CreateTime     time.Time `gorm:"autoCreateTime"`                          //
+	StartTime      time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` //
+	EndTime        time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` //
 	AttendCount    int32     // 参与人数
 	AttentionCount int32     // 关注人数
 	ReadCount      int32     //

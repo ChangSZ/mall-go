@@ -17,7 +17,7 @@ type OmsOrderReturnApply struct {
 	ReturnName       string    // 退货人姓名
 	ReturnPhone      string    // 退货人电话
 	Status           int32     // 申请状态：0->待处理；1->退货中；2->已完成；3->已拒绝
-	HandleTime       time.Time `gorm:"time"` // 处理时间
+	HandleTime       time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 处理时间
 	ProductPic       string    // 商品图片
 	ProductName      string    // 商品名称
 	ProductBrand     string    // 商品品牌
@@ -31,6 +31,6 @@ type OmsOrderReturnApply struct {
 	HandleNote       string    // 处理备注
 	HandleMan        string    // 处理人员
 	ReceiveMan       string    // 收货人
-	ReceiveTime      time.Time `gorm:"time"` // 收货时间
+	ReceiveTime      time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 收货时间
 	ReceiveNote      string    // 收货备注
 }

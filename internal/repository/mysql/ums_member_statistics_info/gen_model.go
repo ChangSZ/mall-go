@@ -21,5 +21,5 @@ type UmsMemberStatisticsInfo struct {
 	CollectTopicCount   int32     //
 	CollectCommentCount int32     //
 	InviteFriendCount   int32     //
-	RecentOrderTime     time.Time `gorm:"time"` // 最后一次下订单时间
+	RecentOrderTime     time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 最后一次下订单时间
 }

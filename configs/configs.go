@@ -89,6 +89,14 @@ type Config struct {
 		AccessKey  string `toml:"accessKey"`
 		SecretKey  string `toml:"secretKey"`
 	} `toml:"minio"`
+
+	Rabbitmq struct {
+		Host        string `toml:"host"`
+		Port        int64  `toml:"port"`
+		VirtualHost string `toml:"virtualHost"`
+		Username    string `toml:"username"`
+		Password    string `toml:"password"`
+	} `toml:"rabbitmq"`
 }
 
 var (

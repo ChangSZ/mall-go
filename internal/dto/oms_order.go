@@ -69,8 +69,8 @@ type OmsOrderDeliveryParam struct {
 // OmsOrderDetail 订单详情信息
 type OmsOrderDetail struct {
 	OmsOrder      `json:",inline"`
-	OrderItemList []OmsOrderItem           `json:"orderItemList"  gorm:"foreignKey:OrderId"` // 订单商品列表
-	HistoryList   []OmsOrderOperateHistory `json:"historyList"  gorm:"foreignKey:OrderId"`   // 订单操作记录列表
+	OrderItemList []OmsOrderItem           `json:"orderItemList" gorm:"foreignKey:OrderId"` // 订单商品列表
+	HistoryList   []OmsOrderOperateHistory `json:"historyList" gorm:"foreignKey:OrderId"`   // 订单操作记录列表
 }
 
 // OmsReceiverInfoParam 订单修改收货人信息参数

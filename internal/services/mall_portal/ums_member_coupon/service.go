@@ -134,13 +134,12 @@ func (s *service) ListHistory(ctx context.Context, useStatus int32) ([]dto.SmsCo
 	return listData, nil
 }
 
-func (s *service) ListCart(ctx context.Context, enable int32) ([]dto.SmsCouponHistoryDetail, error) {
+func (s *service) ListCart(ctx context.Context,
+	cartItemList []dto.CartPromotionItem, enable int32) ([]dto.SmsCouponHistoryDetail, error) {
 	currentMember, err := ums_member.New().GetCurrentMember(ctx)
 	if err != nil {
 		return nil, err
 	}
-
-	cartItemList := make([]dto.CartPromotionItem, 0) // TODO
 	// 获取该用户所有优惠券
 	allList, err := new(dao.CouponDao).GetHistoryDetailList(ctx, mysql.DB().GetDbR().WithContext(ctx), currentMember.Id)
 	if err != nil {

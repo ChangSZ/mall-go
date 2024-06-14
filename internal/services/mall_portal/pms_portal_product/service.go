@@ -145,11 +145,11 @@ func (s *service) Detail(ctx context.Context, id int64) (*dto.PmsPortalProductDe
 		return nil, err
 	}
 	if len(productAttributeList) > 0 {
-		result.ProductAttributeList = make([]dto.PmsProductAttr, 0, len(productAttributeList))
+		result.ProductAttributeList = make([]dto.PmsProductAttribute, 0, len(productAttributeList))
 		attributeIds := make([]int64, 0, len(productAttributeList))
 		for _, v := range productAttributeList {
 			attributeIds = append(attributeIds, v.Id)
-			tmp := dto.PmsProductAttr{}
+			tmp := dto.PmsProductAttribute{}
 			copy.AssignStruct(v, &tmp)
 			result.ProductAttributeList = append(result.ProductAttributeList, tmp)
 		}

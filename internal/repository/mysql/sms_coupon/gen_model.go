@@ -14,14 +14,14 @@ type SmsCoupon struct {
 	Amount       float64   // 金额
 	PerLimit     int32     // 每人限领张数
 	MinPoint     float64   // 使用门槛；0表示无门槛
-	StartTime    time.Time `gorm:"time"` //
-	EndTime      time.Time `gorm:"time"` //
+	StartTime    time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` //
+	EndTime      time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` //
 	UseType      int32     // 使用类型：0->全场通用；1->指定分类；2->指定商品
 	Note         string    // 备注
 	PublishCount int32     // 发行数量
 	UseCount     int32     // 已使用数量
 	ReceiveCount int32     // 领取数量
-	EnableTime   time.Time `gorm:"time"` // 可以领取的日期
+	EnableTime   time.Time `gorm:"type:time;default:'1000-01-01 00:00:00'"` // 可以领取的日期
 	Code         string    // 优惠码
 	MemberLevel  int32     // 可领取的会员类型：0->无限时
 }

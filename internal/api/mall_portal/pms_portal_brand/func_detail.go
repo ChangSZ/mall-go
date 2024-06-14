@@ -30,7 +30,7 @@ type detailResponse struct {
 func (h *handler) Detail(ctx *gin.Context) {
 	req := new(detailRequest)
 	res := new(detailResponse)
-	if err := ctx.ShouldBind(req); err != nil {
+	if err := ctx.ShouldBindUri(req); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return

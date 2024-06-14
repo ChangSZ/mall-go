@@ -16,7 +16,7 @@ type UmsMember struct {
 	CreateTime            time.Time `gorm:"autoCreateTime"` // 注册时间
 	Icon                  string    // 头像
 	Gender                int32     // 性别：0->未知；1->男；2->女
-	Birthday              time.Time `gorm:"date"` // 生日
+	Birthday              time.Time `gorm:"type:date;default:'1000-01-01'"` // 生日
 	City                  string    // 所做城市
 	Job                   string    // 职业
 	PersonalizedSignature string    // 个性签名

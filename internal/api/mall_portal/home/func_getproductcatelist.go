@@ -10,7 +10,7 @@ import (
 )
 
 type getProductCateListRequest struct {
-	ParentId int64 `uri:"parentId" binding:"required"`
+	ParentId int64 `uri:"parentId"`
 }
 
 type getProductCateListResponse struct {
@@ -30,7 +30,7 @@ type getProductCateListResponse struct {
 func (h *handler) GetProductCateList(ctx *gin.Context) {
 	req := new(getProductCateListRequest)
 	res := new(getProductCateListResponse)
-	if err := ctx.ShouldBind(req); err != nil {
+	if err := ctx.ShouldBindUri(req); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
 		return

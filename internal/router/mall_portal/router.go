@@ -21,8 +21,13 @@ func RoutersInit() *gin.Engine {
 	setUmsMemberRouter(eng)
 	setUmsMemberCouponRouter(eng)
 	setUmsMemberReceiveAddressRouter(eng)
+
 	setPmsPortalBrandRouter(eng)
 	setPmsPortalProductRouter(eng)
+
+	setOmsCartItemBrandRouter(eng)
+	setOmsPortalOrderReturnApplyRouter(eng)
+	setOmsPortalOrderRouter(eng)
 
 	setHomeRouter(eng)
 
