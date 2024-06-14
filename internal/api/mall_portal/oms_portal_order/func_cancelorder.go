@@ -9,7 +9,7 @@ import (
 )
 
 type cancelOrderRequest struct {
-	OrderId int64 `json:"orderId"`
+	OrderId int64 `form:"orderId" binding:"required"`
 }
 
 type cancelOrderResponse struct{}
