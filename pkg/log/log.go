@@ -35,7 +35,7 @@ func GetLoggerWithTrace() log.Logger {
 
 // Log Print log by level and keyvals.
 func Log(level log.Level, keyvals ...interface{}) {
-	myLogger.Log(level, keyvals...)
+	log.Log(level, keyvals...)
 }
 
 func WithTrace(ctx context.Context) *log.Helper {
