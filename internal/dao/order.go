@@ -49,7 +49,7 @@ func (t *OrderDao) GetTimeOutOrders(ctx context.Context,
 	timeout := time.Now().Add(time.Duration(-minute) * time.Minute)
 	err := tx.
 		Preload("OrderItemList", func(db *gorm.DB) *gorm.DB {
-			return db.Select("id, product_name, product_sku_id, product_sku_code, product_quantity")
+			return db.Select("id, order_id, product_name, product_sku_id, product_sku_code, product_quantity")
 		}).
 		Table("oms_order o").
 		Where("o.status = 0 AND o.create_time < ?", timeout).Find(&res).Error

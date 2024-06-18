@@ -97,6 +97,16 @@ type Config struct {
 		Username    string `toml:"username"`
 		Password    string `toml:"password"`
 	} `toml:"rabbitmq"`
+
+	Alipay struct {
+		GatewayUrl      string `toml:"gatewayUrl"`
+		AppId           string `toml:"appId"`
+		AlipayPublicKey string `toml:"alipayPublicKey"`
+		AppPrivateKey   string `toml:"appPrivateKey"`
+		ApiAESKey       string `toml:"apiAESKey"`
+		ReturnUrl       string `toml:"returnUrl"`
+		NotifyUrl       string `toml:"notifyUrl"`
+	}
 }
 
 var (

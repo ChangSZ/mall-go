@@ -31,5 +31,7 @@ func RoutersInit() *gin.Engine {
 
 	setHomeRouter(eng)
 
+	setAlipayRouter(eng)
+
 	return eng
 }

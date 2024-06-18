@@ -9,7 +9,14 @@
 mall_admin前端 ==> [mall-admin-web](https://github.com/ChangSZ/mall-admin-web) ==> [fork源](https://github.com/macrozheng/mall-admin-web)
 
 mall_portal前端 ==> [mall-app-web](https://github.com/ChangSZ/mall-app-web) ==> [fork源](https://github.com/macrozheng/mall-app-web)
+<hr/>
 
+## 须知
+铁子们, 当前mall_admin、mall_portal基本功能均已OK, 使用中并未发现问题, 我还未进行覆盖性测试, 你们可以搭建前后端自己先玩着. 
+
+工程相关文档后期会逐步补充完善
+
+推荐先mark吧🤩, 靠谱楼主, 迭代更新
 
 ## 快速开始
 ### 环境准备
