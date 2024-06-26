@@ -33,5 +33,9 @@ func RoutersInit() *gin.Engine {
 
 	setAlipayRouter(eng)
 
+	setMemberAttentionRouter(eng)
+	setMemberCollectionRouter(eng)
+	setMemberReadHistoryRouter(eng)
+
 	return eng
 }
