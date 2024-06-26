@@ -1,2 +1,95 @@
+#############【框架】 ############
+[hashids]
+length = 12
+secret = '6ab6122836cfef95f8db'
 
+[language]
+# 错误码的提示信息, 仅框架本身使用
+local = 'zh-cn'
 
+[mail]
+host = 'smtp.163.com'
+pass = ''
+port = 465
+to = ''
+user = ''
+
+#############【MALL】 ############
+[jwt]
+expiration = 604800
+secret = 'mall-admin-secret'
+tokenHead = 'Bearer '
+tokenHeader = 'Authorization'
+
+[minio]
+accessKey = 'minioadmin'
+bucketName = 'mall'
+endpoint = 'minio:9000'
+secretKey = 'minioadmin'
+
+[mysql]
+[mysql.base]
+connMaxLifeTime = 60
+maxIdleConn = 60
+maxOpenConn = 10
+
+[mysql.read]
+addr = 'mysql:3306'
+name = 'mall'
+pass = 'root'
+user = 'root'
+
+[mysql.write]
+addr = 'mysql:3306'
+name = 'mall'
+pass = 'root'
+user = 'root'
+
+[mongodb]
+host = 'mongo'
+port = 27017
+database = 'mall-portal'
+
+[redis]
+addr = 'redis:6379'
+database = 'mall'
+db = '0'
+maxRetries = 3
+minIdleConns = 5
+pass = ''
+poolSize = 10
+
+[redis.expire]
+common = 86400
+authCode = 90
+
+[redis.key]
+admin = 'ums:admin'
+resourceList = 'ums:resourceList'
+authCode = 'ums:authCode'
+orderId = 'oms:orderId'
+member = 'ums:member'
+
+[rabbitmq]
+host = 'rabbitmq'
+port = 5672
+virtualHost = '/'
+username = 'mall'
+password = 'mall'
+
+[alipay]
+# 以下配置来源于支付宝沙箱, 可以自行设置: https://open.alipay.com/develop/sandbox/app
+# 支付宝网关
+gatewayUrl = 'https://openapi-sandbox.dl.alipaydev.com/gateway.do'
+# 应用ID
+appId = '9021000138622354'
+# 支付宝公钥
+alipayPublicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAky5YdhQBfqNzxXFjc9OV5znFyK9m3F7J/82lR7Qy9qnBqoDp7vVAdkjhibpwUu1GuawyqJGtmhKGsKySmcfR52X17JfOb+FJvbhQ5izeTPiyE/VXcjjs6JpzLXuZLjSJDyD9eDdfUVOEgMqnxI+r7sGJcc4M44v0zyUmKEXzlkMAwUVZOLuRBv4X9QbU7zHPO/pFOGkNpI043wqApFVM6sGv1H9ii6epXltpW6d3S0Zgj1OnwxPcbiaRBkHITt8InIvbpLK6jSV4rtfWkR77ufzUms2ugN9RXr7nUOfsHk6zH0hUGRxCYoQJ5CHk2m0GEoT59LZJ3rUIqjVjrM2m8QIDAQAB'
+# 应用私钥
+appPrivateKey = 'MIIEpQIBAAKCAQEAv8tjVeZbHbODEiEmQbtJQo/cCgIkOS35UAHUPjSLA8/jzUz3M26HqADahzJcrEQ+axTX3e6yx9Mdw0zkGdwYoYhkwjxpf8fQFksbYhRTTPUb2C9Nd16P2MVar3/F8IGItbDHE1RaNn4wT6+wYUjvH7WnclxQ6gIOfaGu77JS8ofETDqX+sUw2pa31pu2+XhAJentLiuhpklyg61Z53HDbr/eDmkbyLLZUgKbuhmD41GF3tcdNSipDPyYLQjFuBN0rssJI7JQlFqTbfWVqlP9/he3NsWf80zp1CRc722WkslwQeiZN5o19QHFA9baE1vBiY4fxnl21RqJQJ/dXa0UiQIDAQABAoIBADI9Ra0HpVB3aFsEYfAP7hXIdzwL6Y8s0sS5Ze5RdyStfR+XDJ3lUxWX+6Y0dAAP9EW6dP1GfIBJdd9lsc5wT+doQfR7PKtjHMfqLqcXaeabwgp0AZfGJmoC8ElOb/wbAkONpegTTXo+vcrx24LwRusIe29CbVOO7FrOUnOpQ38Ryyxsw+dfC7b3332lL518Vg34/N+6nUly4o2E9uo0RmI9uE8VIBR1D6EVzEBuH95QgBqeLwdQqscr+2MLOJj5Wp1ABTtD+0cCgRr3jphcl/Qk8GrwGeoplMtfcOFtulUvhsmrE5hOcJikUQRv2YQuDd0HHZVwqK0VqvxL9WAcKi0CgYEA3e0vnnuE3dsnF/M39kViPZA8Di+nq8/v47tySZ1Vv111U4haDiB4wNhJNGXWEsKxJ5djQ2MUnUuDFjyYu6Q9eZo7raBUez9VZwKTU53LgoKLEmxHF2KS2fFLOYHyDbHOF4exgHjuc1Z/CW+nrW3dFmF4kRs44M9fu3N/gR7Q7T8CgYEA3T3dJOPSHux5RBhZIZvTB9+7snSN4HO7ZcRny01ybJDCnzXDq0lltn/RJ2lYCAiggtt30qPt3nRaBPGTq5cM2XGpwpFpKJpKjxKKivEP0mzoNkM7T5TV0IY5ZMpVI5Slz1KAgZKiYb9ZU4Y2oZp7Ijr2qiyGD5Odi3yV8u8C5DcCgYEAx3xTF6R0NHCwXWj1XtvTiP9D3ISdtWU+f3iZLO7OiyvZMPMZ8CTkJoTEmOMJYOe9EpeUVJiViSa9eJmTuOfTkqE/D71U80xk2imIgNsQegoaNL870Bt9YYbyVYknKYQwexowRgluXiLcIoFJOi3NVDbdh6HuqLX/maIidNBcgUUCgYEAvW9CElsryCSstLywXNGiwSQ1/9hCvwP5WmrwgKhAqGrO6inL77b562jH+pn9sWtJnKI0l9ybSRWRGpiK26qLawgi1iFRzF1IJ/c1P0CnToLH1eZ9O2fyKAk1zXJdsgiObNV0iP24IkAISTcrQfYXJrkcCZvz8hRwGkZD0m4KqMMCgYEAt1k9HTa1wa9wrQ94OYIpKW6o7WFnpTDT1shjSc3fpRqQ+alaFdCQSMb7VkYhleOjmOuVaIYLr7lv5VhCRBuJpGcVea2KmazQaSuoHbifw0bTGh0CX0NH3OHcXopUJDKPX+RR77sNmpDGlvULC3dbaJv2d/f2Ugd6GoqWy3iKhxk='
+# 接口加密的Key
+apiAESKey = 'qw9YR4SBMHlDh5Jv0z92hg=='
+# 用户确认支付后，支付宝调用的页面返回路径
+returnUrl = 'http://localhost:8060/#/pages/money/paySuccess'
+# 支付成功后，支付宝服务器主动通知商户服务器里的异步通知回调（需要公网能访问）
+notifyUrl = ''

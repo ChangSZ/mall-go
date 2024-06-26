@@ -1,0 +1,21 @@
+package dto
+
+import (
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+// MemberReadHistory 会员商品浏览历史记录
+type MemberReadHistory struct {
+	Id              primitive.ObjectID `json:"_id"`
+	MemberId        int64              `json:"memberId"`
+	MemberNickname  string             `json:"memberNickname"`
+	MemberIcon      string             `json:"memberIcon"`
+	ProductId       int64              `json:"productId"`
+	ProductName     string             `json:"productName"`
+	ProductPic      string             `json:"productPic"`
+	ProductSubTitle string             `json:"productSubTitle"`
+	ProductPrice    float64            `json:"productPrice"`
+	CreateTime      time.Time          `json:"createTime"`
+}

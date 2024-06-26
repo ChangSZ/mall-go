@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/repository/mongodb"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/router/mall_portal"
@@ -57,6 +58,9 @@ func main() {
 	// 初始化 DB
 	mysql.Init()
 
+	// 初始化 MongoDB
+	mongodb.Init()
+
 	// 初始化 Cache
 	redis.Init()
 
@@ -92,11 +96,20 @@ func main() {
 		func() {
 			if mysql.DB() != nil {
 				if err := mysql.DB().DbWClose(); err != nil {
-					log.Error("dbw close err: ", err)
+					log.Error("mysql dbw close err: ", err)
 				}
 
 				if err := mysql.DB().DbRClose(); err != nil {
-					log.Error("dbr close err: ", err)
+					log.Error("mysql dbr close err: ", err)
+				}
+			}
+		},
+
+		// 关闭 mongodb
+		func() {
+			if mongodb.DB() != nil {
+				if err := mongodb.DB().Disconnect(); err != nil {
+					log.Error("mongodb disconnect err: ", err)
 				}
 			}
 		},
@@ -105,7 +118,7 @@ func main() {
 		func() {
 			if redis.Cache() != nil {
 				if err := redis.Cache().Close(); err != nil {
-					log.Error("cache close err: ", err)
+					log.Error("redis close err: ", err)
 				}
 			}
 		},

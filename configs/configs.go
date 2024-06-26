@@ -38,6 +38,12 @@ type Config struct {
 		} `toml:"base"`
 	} `toml:"mysql"`
 
+	MongoDB struct {
+		Host     string `toml:"host"`
+		Port     int    `toml:"port"`
+		Database string `toml:"database"`
+	}
+
 	Redis struct {
 		Addr         string `toml:"addr"`
 		Pass         string `toml:"pass"`

@@ -8,7 +8,7 @@ RUN go build -o bin/portal cmd/mall_portal/main.go
 FROM alpine:latest
 WORKDIR /work
 COPY --from=builder /work/bin/. .
-COPY --from=builder /work/configs  ./configs
+COPY --from=builder /work/configs/*.toml  ./configs/
 
 RUN set -eux; \  
     # 替换源
