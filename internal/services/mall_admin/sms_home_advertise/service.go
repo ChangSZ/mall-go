@@ -46,12 +46,15 @@ func (s *service) UpdateStatus(ctx context.Context, id int64, status int32) (int
 func (s *service) GetItem(ctx context.Context, id int64) (*dto.SmsHomeAdvertise, error) {
 	qb := sms_home_advertise.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	item, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
+	data, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}
+	if data == nil {
+		return nil, nil
+	}
 	res := &dto.SmsHomeAdvertise{}
-	copy.AssignStruct(item, res)
+	copy.AssignStruct(data, res)
 	return res, nil
 }
 

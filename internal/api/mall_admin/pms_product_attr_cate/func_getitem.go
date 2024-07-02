@@ -12,7 +12,7 @@ import (
 type getItemRequest struct{}
 
 type getItemResponse struct {
-	dto.PmsProductAttributeCategory `json:",inline"`
+	*dto.PmsProductAttributeCategory `json:",inline"`
 }
 
 // GetItem 获取单个商品属性分类信息
@@ -41,6 +41,6 @@ func (h *handler) GetItem(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.PmsProductAttributeCategory = *item
+	res.PmsProductAttributeCategory = item
 	api.Success(ctx, res)
 }

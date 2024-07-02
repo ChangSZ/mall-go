@@ -101,6 +101,9 @@ func (s *service) Detail(ctx context.Context, brandId int64) (*dto.MemberBrandAt
 		return nil, err
 	}
 
+	if data == nil {
+		return nil, nil
+	}
 	res := &dto.MemberBrandAttention{}
 	copy.AssignStruct(data, res)
 	return res, nil

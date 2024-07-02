@@ -24,6 +24,10 @@ func (s *service) GetItem(ctx context.Context, id int64) (*dto.OmsOrderSetting, 
 	if err != nil {
 		return nil, err
 	}
+
+	if data == nil {
+		return nil, nil
+	}
 	res := &dto.OmsOrderSetting{}
 	copy.AssignStruct(data, res)
 	return res, nil

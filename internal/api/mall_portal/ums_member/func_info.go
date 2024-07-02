@@ -11,7 +11,7 @@ import (
 type infoRequest struct{}
 
 type infoResponse struct {
-	dto.UmsMember `json:",inline"`
+	*dto.UmsMember `json:",inline"`
 }
 
 // Info 获取会员信息
@@ -33,6 +33,6 @@ func (h *handler) Info(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.UmsMember = *member
+	res.UmsMember = member
 	api.Success(ctx, res)
 }

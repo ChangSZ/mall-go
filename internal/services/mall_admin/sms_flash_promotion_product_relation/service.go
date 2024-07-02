@@ -58,12 +58,15 @@ func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
 func (s *service) GetItem(ctx context.Context, id int64) (*dto.SmsFlashPromotionProductRelation, error) {
 	qb := sms_flash_promotion_product_relation.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	item, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
+	data, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}
+	if data == nil {
+		return nil, nil
+	}
 	res := &dto.SmsFlashPromotionProductRelation{}
-	copy.AssignStruct(item, res)
+	copy.AssignStruct(data, res)
 	return res, nil
 }
 

@@ -25,12 +25,15 @@ func (s *service) RecommendList(ctx context.Context, pageNum, pageSize int) ([]d
 
 func (s *service) Detail(ctx context.Context, brandId int64) (*dto.PmsBrand, error) {
 	qb := pms_brand.NewQueryBuilder().WhereId(mysql.EqualPredicate, brandId)
-	item, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
+	data, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}
+	if data == nil {
+		return nil, nil
+	}
 	res := &dto.PmsBrand{}
-	copy.AssignStruct(item, res)
+	copy.AssignStruct(data, res)
 	return res, nil
 }
 

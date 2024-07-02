@@ -61,13 +61,16 @@ func (s *service) Update(ctx context.Context, id int64, param dto.UmsMenuParam) 
 func (s *service) GetItem(ctx context.Context, id int64) (*dto.UmsMenu, error) {
 	qb := ums_menu.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	item, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
+	data, err := qb.First(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}
 
+	if data == nil {
+		return nil, nil
+	}
 	res := &dto.UmsMenu{}
-	copy.AssignStruct(item, res)
+	copy.AssignStruct(data, res)
 	return res, nil
 }
 

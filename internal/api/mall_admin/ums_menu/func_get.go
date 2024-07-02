@@ -12,7 +12,7 @@ import (
 type getRequest struct{}
 
 type getResponse struct {
-	dto.UmsMenu `json:",inline"`
+	*dto.UmsMenu `json:",inline"`
 }
 
 // Get 根据ID获取菜单详情
@@ -41,6 +41,6 @@ func (h *handler) Get(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.UmsMenu = *item
+	res.UmsMenu = item
 	api.Success(ctx, res)
 }

@@ -101,10 +101,13 @@ func (s *service) Detail(ctx context.Context, productId int64) (*dto.MemberProdu
 		return nil, err
 	}
 	data, err := member_product_collection.FindByMemberIDAndProductID(ctx, member.Id, productId)
-	if err != nil || data == nil {
+	if err != nil {
 		return nil, err
 	}
 
+	if data == nil {
+		return nil, nil
+	}
 	res := &dto.MemberProductCollection{}
 	copy.AssignStruct(data, res)
 	return res, nil

@@ -14,7 +14,7 @@ type detailRequest struct {
 }
 
 type detailResponse struct {
-	dto.PmsBrand `json:",inline"`
+	*dto.PmsBrand `json:",inline"`
 }
 
 // Detail 获取品牌详情
@@ -42,6 +42,6 @@ func (h *handler) Detail(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.PmsBrand = *data
+	res.PmsBrand = data
 	api.Success(ctx, res)
 }
