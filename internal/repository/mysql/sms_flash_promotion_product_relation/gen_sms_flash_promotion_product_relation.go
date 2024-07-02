@@ -86,7 +86,7 @@ func (qb *smsFlashPromotionProductRelationQueryBuilder) Count(db *gorm.DB) (int6
 	var c int64
 	res := qb.buildQuery(db).Model(&SmsFlashPromotionProductRelation{}).Count(&c)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		c = 0
+		return 0, nil
 	}
 	return c, res.Error
 }
@@ -95,7 +95,7 @@ func (qb *smsFlashPromotionProductRelationQueryBuilder) First(db *gorm.DB) (*Sms
 	ret := &SmsFlashPromotionProductRelation{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		ret = nil
+		return nil, nil
 	}
 	return ret, res.Error
 }

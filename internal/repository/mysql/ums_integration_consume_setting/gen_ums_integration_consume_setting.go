@@ -86,7 +86,7 @@ func (qb *umsIntegrationConsumeSettingQueryBuilder) Count(db *gorm.DB) (int64, e
 	var c int64
 	res := qb.buildQuery(db).Model(&UmsIntegrationConsumeSetting{}).Count(&c)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		c = 0
+		return 0, nil
 	}
 	return c, res.Error
 }
@@ -95,7 +95,7 @@ func (qb *umsIntegrationConsumeSettingQueryBuilder) First(db *gorm.DB) (*UmsInte
 	ret := &UmsIntegrationConsumeSetting{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		ret = nil
+		return nil, nil
 	}
 	return ret, res.Error
 }

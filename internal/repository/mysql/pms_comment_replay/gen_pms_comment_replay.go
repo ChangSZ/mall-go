@@ -87,7 +87,7 @@ func (qb *pmsCommentReplayQueryBuilder) Count(db *gorm.DB) (int64, error) {
 	var c int64
 	res := qb.buildQuery(db).Model(&PmsCommentReplay{}).Count(&c)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		c = 0
+		return 0, nil
 	}
 	return c, res.Error
 }
@@ -96,7 +96,7 @@ func (qb *pmsCommentReplayQueryBuilder) First(db *gorm.DB) (*PmsCommentReplay, e
 	ret := &PmsCommentReplay{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		ret = nil
+		return nil, nil
 	}
 	return ret, res.Error
 }

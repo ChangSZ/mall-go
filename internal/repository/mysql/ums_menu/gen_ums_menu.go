@@ -87,7 +87,7 @@ func (qb *umsMenuQueryBuilder) Count(db *gorm.DB) (int64, error) {
 	var c int64
 	res := qb.buildQuery(db).Model(&UmsMenu{}).Count(&c)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		c = 0
+		return 0, nil
 	}
 	return c, res.Error
 }
@@ -96,7 +96,7 @@ func (qb *umsMenuQueryBuilder) First(db *gorm.DB) (*UmsMenu, error) {
 	ret := &UmsMenu{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		ret = nil
+		return nil, nil
 	}
 	return ret, res.Error
 }
