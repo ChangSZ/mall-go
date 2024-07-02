@@ -120,7 +120,7 @@ func (s *service) Detail(ctx context.Context, id int64) (*dto.PmsPortalProductDe
 	if err != nil {
 		return nil, err
 	}
-	if product.Id == 0 {
+	if product == nil {
 		return nil, fmt.Errorf("未找到该商品")
 	}
 	copy.AssignStruct(product, &result.Product)
@@ -132,7 +132,7 @@ func (s *service) Detail(ctx context.Context, id int64) (*dto.PmsPortalProductDe
 	if err != nil {
 		return nil, err
 	}
-	if brand.Id == 0 {
+	if brand == nil {
 		return nil, fmt.Errorf("未找到商品的品牌信息")
 	}
 	copy.AssignStruct(brand, &result.Brand)

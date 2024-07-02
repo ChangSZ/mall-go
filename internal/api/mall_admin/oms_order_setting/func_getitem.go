@@ -12,7 +12,7 @@ import (
 type getItemRequest struct{}
 
 type getItemResponse struct {
-	dto.OmsOrderSetting `json:",inline"`
+	*dto.OmsOrderSetting `json:",inline"`
 }
 
 // GetItem 获取指定订单设置
@@ -41,6 +41,6 @@ func (h *handler) GetItem(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.OmsOrderSetting = *item
+	res.OmsOrderSetting = item
 	api.Success(ctx, res)
 }

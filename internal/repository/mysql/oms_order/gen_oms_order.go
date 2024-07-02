@@ -87,7 +87,7 @@ func (qb *omsOrderQueryBuilder) Count(db *gorm.DB) (int64, error) {
 	var c int64
 	res := qb.buildQuery(db).Model(&OmsOrder{}).Count(&c)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		c = 0
+		return 0, nil
 	}
 	return c, res.Error
 }
@@ -96,7 +96,7 @@ func (qb *omsOrderQueryBuilder) First(db *gorm.DB) (*OmsOrder, error) {
 	ret := &OmsOrder{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		ret = nil
+		return nil, nil
 	}
 	return ret, res.Error
 }

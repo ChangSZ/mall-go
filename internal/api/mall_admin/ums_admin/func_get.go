@@ -12,7 +12,7 @@ import (
 type getRequest struct{}
 
 type getResponse struct {
-	dto.UmsAdmin `json:",inline"`
+	*dto.UmsAdmin `json:",inline"`
 }
 
 // Get 获取指定用户信息
@@ -41,6 +41,6 @@ func (h *handler) Get(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.UmsAdmin = *admin
+	res.UmsAdmin = admin
 	api.Success(ctx, res)
 }

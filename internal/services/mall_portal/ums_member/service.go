@@ -178,6 +178,9 @@ func (s *service) GetCurrentMember(ctx context.Context) (*dto.UmsMember, error) 
 	if err != nil {
 		return nil, err
 	}
+	if member == nil {
+		return nil, nil
+	}
 	res := &dto.UmsMember{}
 	copy.AssignStruct(member.UmsMember, res)
 	return res, nil

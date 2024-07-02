@@ -86,7 +86,7 @@ func (qb *omsCompanyAddressQueryBuilder) Count(db *gorm.DB) (int64, error) {
 	var c int64
 	res := qb.buildQuery(db).Model(&OmsCompanyAddress{}).Count(&c)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		c = 0
+		return 0, nil
 	}
 	return c, res.Error
 }
@@ -95,7 +95,7 @@ func (qb *omsCompanyAddressQueryBuilder) First(db *gorm.DB) (*OmsCompanyAddress,
 	ret := &OmsCompanyAddress{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		ret = nil
+		return nil, nil
 	}
 	return ret, res.Error
 }

@@ -86,7 +86,7 @@ func (qb *umsMemberMemberTagRelationQueryBuilder) Count(db *gorm.DB) (int64, err
 	var c int64
 	res := qb.buildQuery(db).Model(&UmsMemberMemberTagRelation{}).Count(&c)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		c = 0
+		return 0, nil
 	}
 	return c, res.Error
 }
@@ -95,7 +95,7 @@ func (qb *umsMemberMemberTagRelationQueryBuilder) First(db *gorm.DB) (*UmsMember
 	ret := &UmsMemberMemberTagRelation{}
 	res := qb.buildQuery(db).First(ret)
 	if res.Error != nil && res.Error == gorm.ErrRecordNotFound {
-		ret = nil
+		return nil, nil
 	}
 	return ret, res.Error
 }

@@ -214,6 +214,10 @@ func (s *service) GetItem(ctx context.Context, id int64) (*dto.UmsAdmin, error) 
 	if err != nil {
 		return nil, err
 	}
+
+	if admin == nil {
+		return nil, nil
+	}
 	res := &dto.UmsAdmin{}
 	copy.AssignStruct(admin, res)
 	return res, nil

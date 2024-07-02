@@ -76,9 +76,11 @@ func (s *service) GenerateConfirmOrder(ctx context.Context, cartIds []int64) (*d
 	if err != nil {
 		return nil, err
 	}
-	tmp := dto.UmsIntegrationConsumeSetting{}
-	copy.AssignStruct(integrationConsumeSetting, &tmp)
-	result.IntegrationConsumeSetting = tmp
+	if integrationConsumeSetting != nil {
+		tmp := dto.UmsIntegrationConsumeSetting{}
+		copy.AssignStruct(integrationConsumeSetting, &tmp)
+		result.IntegrationConsumeSetting = tmp
+	}
 
 	// 计算总金额、活动优惠、应付金额
 	calcAmount := s.CalcCartAmount(cartPromotionItemList)
@@ -545,6 +547,9 @@ func (s *service) Detail(ctx context.Context, orderId int64) (*dto.OrderDetail, 
 		First(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
 		return nil, err
+	}
+	if omsOrder == nil {
+		return nil, fmt.Errorf("未找到订单信息")
 	}
 	orderItemList, err := oms_order_item.NewQueryBuilder().
 		WhereOrderId(mysql.EqualPredicate, orderId).

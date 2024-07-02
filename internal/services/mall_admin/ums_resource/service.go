@@ -47,12 +47,15 @@ func (s *service) Update(ctx context.Context, id int64, param dto.UmsResourcePar
 func (s *service) GetItem(ctx context.Context, id int64) (*dto.UmsResource, error) {
 	qb := ums_resource.NewQueryBuilder()
 	qb = qb.WhereId(mysql.EqualPredicate, id)
-	item, err := qb.First(mysql.DB().GetDbW().WithContext(ctx))
+	data, err := qb.First(mysql.DB().GetDbW().WithContext(ctx))
 	if err != nil {
 		return nil, err
 	}
+	if data == nil {
+		return nil, nil
+	}
 	res := &dto.UmsResource{}
-	copy.AssignStruct(item, res)
+	copy.AssignStruct(data, res)
 	return res, nil
 }
 

@@ -12,7 +12,7 @@ import (
 type getItemRequest struct{}
 
 type getItemResponse struct {
-	dto.SmsFlashPromotionSession `json:",inline"`
+	*dto.SmsFlashPromotionSession `json:",inline"`
 }
 
 // GetItem 获取场次详情
@@ -41,6 +41,6 @@ func (h *handler) GetItem(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.SmsFlashPromotionSession = *item
+	res.SmsFlashPromotionSession = item
 	api.Success(ctx, res)
 }

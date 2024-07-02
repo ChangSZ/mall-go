@@ -12,7 +12,7 @@ import (
 type getItemRequest struct{}
 
 type getItemResponse struct {
-	dto.SmsHomeAdvertise `json:",inline"`
+	*dto.SmsHomeAdvertise `json:",inline"`
 }
 
 // GetItem 获取广告详情
@@ -41,6 +41,6 @@ func (h *handler) GetItem(ctx *gin.Context) {
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.SmsHomeAdvertise = *item
+	res.SmsHomeAdvertise = item
 	api.Success(ctx, res)
 }
