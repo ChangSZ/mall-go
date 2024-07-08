@@ -8,9 +8,9 @@ import (
 	"github.com/ChangSZ/mall-go/internal/router"
 	"github.com/ChangSZ/mall-go/pkg/browser"
 	"github.com/ChangSZ/mall-go/pkg/file"
-	"github.com/ChangSZ/mall-go/pkg/shutdown"
 
 	"github.com/ChangSZ/golib/log"
+	"github.com/ChangSZ/golib/shutdown"
 )
 
 // @title swagger 接口文档

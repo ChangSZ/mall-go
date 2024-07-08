@@ -1,7 +1,7 @@
 filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=
 filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=
-github.com/ChangSZ/golib v0.0.0-20240707153929-d5e6cd08b1b5 h1:V0khrgvEHN964KFGf9J7yXe/yjDNZtE/ZidK323D0ww=
-github.com/ChangSZ/golib v0.0.0-20240707153929-d5e6cd08b1b5/go.mod h1:VhDXgjJAafrYD3q32fvdkdNc4C54xuj9yBf6YNC1KHM=
+github.com/ChangSZ/golib v0.0.0-20240708072806-829b34006f67 h1:wUCLUvBzvTJsXetQNwYeiKLA3ErnmlAdErqPtqVU4Lw=
+github.com/ChangSZ/golib v0.0.0-20240708072806-829b34006f67/go.mod h1:VhDXgjJAafrYD3q32fvdkdNc4C54xuj9yBf6YNC1KHM=
 github.com/KyleBanks/depth v1.2.1 h1:5h8fQADFrWtarTdtDudMmGsC7GPbOAu6RVB3ffsVFHc=
 github.com/KyleBanks/depth v1.2.1/go.mod h1:jzSb9d0L43HxTQfT+oSA1EEp2q+ne2uh6XgeJcm8brE=
 github.com/PuerkitoBio/goquery v1.5.1/go.mod h1:GsLWisAFVj4WgDibEWF4pvYnkVQBpKBKeU+7zCJoLcc=
