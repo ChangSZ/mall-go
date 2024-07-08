@@ -2,8 +2,8 @@ package sms_home_new_product
 
 import (
 	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/pkg/log"
 
+	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
 )
 

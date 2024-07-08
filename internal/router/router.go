@@ -20,10 +20,11 @@ const _UI = `
 `
 
 func RoutersInit(cronServer cron.Server) *gin.Engine {
-	eng := InitEngine(_UI)
-
-	eng.StaticFS("assets", http.FS(assets.Bootstrap))
+	eng := gin.Default()
 	eng.SetHTMLTemplate(template.Must(template.New("").ParseFS(assets.Templates, "templates/**/*")))
+	eng.StaticFS("assets", http.FS(assets.Bootstrap))
+
+	InitEngine(eng, _UI)
 
 	// 设置 Render 路由
 	setRenderRouter(eng)

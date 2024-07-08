@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/pkg/log"
 
+	"github.com/ChangSZ/golib/log"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 )

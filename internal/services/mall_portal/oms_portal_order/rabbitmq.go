@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/ChangSZ/mall-go/internal/repository/rabbitmq"
-	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/queue"
 
+	"github.com/ChangSZ/golib/log"
 	"github.com/robfig/cron/v3"
 )
 

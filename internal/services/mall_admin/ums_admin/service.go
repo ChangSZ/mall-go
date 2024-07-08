@@ -15,8 +15,9 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/pkg/copy"
 	"github.com/ChangSZ/mall-go/pkg/jwt"
-	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/password"
+
+	"github.com/ChangSZ/golib/log"
 )
 
 var (
