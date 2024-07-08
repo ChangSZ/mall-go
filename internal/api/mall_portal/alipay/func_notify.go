@@ -3,8 +3,7 @@ package alipay
 import (
 	"net/http"
 
-	"github.com/ChangSZ/mall-go/pkg/log"
-
+	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
 )
 

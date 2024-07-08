@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/pkg/log"
 
+	"github.com/ChangSZ/golib/log"
 	"github.com/tidwall/gjson"
 	"go.mongodb.org/mongo-driver/event"
 	"go.mongodb.org/mongo-driver/mongo"

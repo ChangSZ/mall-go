@@ -22,8 +22,9 @@ import (
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_coupon"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_receive_address"
 	"github.com/ChangSZ/mall-go/pkg/copy"
-	"github.com/ChangSZ/mall-go/pkg/log"
 	"github.com/ChangSZ/mall-go/pkg/math"
+
+	"github.com/ChangSZ/golib/log"
 )
 
 var (

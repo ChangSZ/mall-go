@@ -18,7 +18,8 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_vertify_record"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_sku_stock"
 	"github.com/ChangSZ/mall-go/pkg/copy"
-	"github.com/ChangSZ/mall-go/pkg/log"
+
+	"github.com/ChangSZ/golib/log"
 )
 
 type service struct{}

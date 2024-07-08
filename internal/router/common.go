@@ -8,33 +8,49 @@ import (
 	"github.com/ChangSZ/mall-go/internal/middleware"
 	"github.com/ChangSZ/mall-go/pkg/color"
 	"github.com/ChangSZ/mall-go/pkg/env"
-	"github.com/ChangSZ/mall-go/pkg/log"
 
+	"github.com/ChangSZ/golib/log"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
-	kgin "github.com/go-kratos/gin"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func InitEngine(ui string) *gin.Engine {
+func InitEngine(eng *gin.Engine, ui string) *gin.Engine {
 	if env.Active().IsPro() {
 		gin.SetMode(gin.ReleaseMode)
 	} else {
 		gin.SetMode(gin.DebugMode)
 	}
 
-	eng := gin.New()
+	// 配置 CORS 中间件
+	config := cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST", "OPTIONS", "PUT", "DELETE", "UPDATE"},
+		AllowHeaders: []string{"Origin", "Content-Type", "Content-Length", "Accept-Encoding",
+			"X-CSRF-Token", "Authorization", "X-Auth-Token", "X-Auth-UUID", "X-Auth-Openid",
+			"referrer", "Authorization", "x-client-id", "x-client-version", "x-client-type"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}
+
 	eng.Use(
+		cors.New(config),
 		middleware.Rate(),
 		middleware.Metrics(),
+		middleware.Tracing("server"),
+		middleware.AccessLog(log.GetLoggerWithTrace()),
 		// middleware.AlertNotify(),
-		kgin.Middlewares(tracing.Server(), middleware.Logging(log.GetLoggerWithTrace()), middleware.AddTraceCtx),
 	)
 
 	fmt.Println(color.Blue(ui))
+	// 设置可信代理
+	err := eng.SetTrustedProxies([]string{"127.0.0.1"})
+	if err != nil {
+		panic(err)
+	}
 
 	system := eng.Group("/system")
 	{

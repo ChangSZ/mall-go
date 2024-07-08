@@ -16,7 +16,8 @@ const _UI = `
 `
 
 func RoutersInit() *gin.Engine {
-	eng := router.InitEngine(_UI)
+	eng := gin.Default()
+	router.InitEngine(eng, _UI)
 
 	// 设置 Ums 路由
 	setUmsAdminRouter(eng)
