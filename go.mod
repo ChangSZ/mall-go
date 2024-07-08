@@ -3,7 +3,7 @@ module github.com/ChangSZ/mall-go
 go 1.22.3
 
 require (
-	github.com/ChangSZ/golib v0.0.0-20240708074702-ff14cf8be1e3
+	github.com/ChangSZ/golib v0.0.0-20240708081737-602754646851
 	github.com/dave/dst v0.27.3
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/gin-contrib/cors v1.7.2
@@ -73,7 +73,6 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/go-kratos/kratos/v2 v2.7.3 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-openapi/jsonpointer v0.21.0 // indirect
 	github.com/go-openapi/jsonreference v0.21.0 // indirect
