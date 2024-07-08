@@ -17,7 +17,7 @@ const _UI = `
 
 func RoutersInit() *gin.Engine {
 	eng := gin.Default()
-	router.InitEngine(eng, _UI)
+	router.InitEngine(eng, "mall-portal", _UI)
 
 	setUmsMemberRouter(eng)
 	setUmsMemberCouponRouter(eng)

@@ -8,8 +8,9 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
-	"github.com/ChangSZ/mall-go/pkg/copy"
-	"github.com/ChangSZ/mall-go/pkg/math"
+
+	"github.com/ChangSZ/golib/copy"
+	"github.com/ChangSZ/golib/mathutil"
 )
 
 type service struct{}
@@ -85,7 +86,7 @@ func (s *service) CalcCartPromotion(ctx context.Context, cartItemList []dto.OmsC
 					skuStock := s.GetOriginalPrice(*promotionProduct, item.ProductSkuId)
 					originalPrice := skuStock.Price
 
-					cartPromotionItem.ReduceAmount = math.RoundHalfEven(
+					cartPromotionItem.ReduceAmount = mathutil.RoundHalfEven(
 						(originalPrice/totalAmount)*fullReduction.ReducePrice, 1)
 					cartPromotionItem.RealStock = skuStock.Stock - skuStock.LockStock
 					cartPromotionItem.Integration = promotionProduct.GiftPoint

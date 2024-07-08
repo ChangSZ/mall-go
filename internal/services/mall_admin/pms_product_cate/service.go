@@ -9,7 +9,8 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_category"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_category_attribute_relation"
-	"github.com/ChangSZ/mall-go/pkg/copy"
+
+	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct{}

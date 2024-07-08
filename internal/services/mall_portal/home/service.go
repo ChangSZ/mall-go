@@ -13,7 +13,8 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_flash_promotion"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_flash_promotion_session"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_home_advertise"
-	"github.com/ChangSZ/mall-go/pkg/copy"
+
+	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct{}
