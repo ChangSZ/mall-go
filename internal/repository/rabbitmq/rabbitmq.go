@@ -4,7 +4,8 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/pkg/queue"
+
+	"github.com/ChangSZ/golib/queue"
 )
 
 type QueueEnum struct {

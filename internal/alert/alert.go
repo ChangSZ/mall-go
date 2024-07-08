@@ -4,9 +4,9 @@ import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/pkg/errors"
-	"github.com/ChangSZ/mall-go/pkg/mail"
 
 	"github.com/ChangSZ/golib/log"
+	"github.com/ChangSZ/golib/mail"
 )
 
 // NotifyHandler 告警通知

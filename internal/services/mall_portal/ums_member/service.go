@@ -13,9 +13,10 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_member"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_member_level"
-	"github.com/ChangSZ/mall-go/pkg/copy"
-	"github.com/ChangSZ/mall-go/pkg/jwt"
-	"github.com/ChangSZ/mall-go/pkg/password"
+
+	"github.com/ChangSZ/golib/copy"
+	"github.com/ChangSZ/golib/crypto/password"
+	"github.com/ChangSZ/golib/jwt"
 )
 
 var (

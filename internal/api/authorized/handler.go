@@ -3,8 +3,8 @@ package authorized
 import (
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/services/authorized"
-	"github.com/ChangSZ/mall-go/pkg/hash"
 
+	"github.com/ChangSZ/golib/hash"
 	"github.com/gin-gonic/gin"
 )
 

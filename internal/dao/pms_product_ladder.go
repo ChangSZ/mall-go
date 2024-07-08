@@ -5,8 +5,8 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_ladder"
-	"github.com/ChangSZ/mall-go/pkg/copy"
 
+	"github.com/ChangSZ/golib/copy"
 	"gorm.io/gorm"
 )
 

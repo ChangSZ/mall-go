@@ -21,10 +21,10 @@ import (
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_coupon"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_receive_address"
-	"github.com/ChangSZ/mall-go/pkg/copy"
-	"github.com/ChangSZ/mall-go/pkg/math"
 
+	"github.com/ChangSZ/golib/copy"
 	"github.com/ChangSZ/golib/log"
+	"github.com/ChangSZ/golib/mathutil"
 )
 
 var (
@@ -153,7 +153,7 @@ func (s *service) GenerateOrder(ctx context.Context, orderParam dto.OrderParam) 
 		} else {
 			// 可用情况下分摊到可用商品中
 			for i, orderItem := range orderItemList {
-				perAmount := math.RoundHalfEven(orderItem.ProductPrice/totalAmount, 3) * integrationAmount
+				perAmount := mathutil.RoundHalfEven(orderItem.ProductPrice/totalAmount, 3) * integrationAmount
 				orderItemList[i].IntegrationAmount = perAmount
 			}
 		}
@@ -793,9 +793,9 @@ func (s *service) GetUseIntegrationAmount(ctx context.Context, useIntegration in
 	}
 
 	// 是否超过订单抵用最高百分比
-	var integrationAmount float64 = math.RoundHalfEven(
+	var integrationAmount float64 = mathutil.RoundHalfEven(
 		float64(useIntegration)/float64(integrationConsumeSetting.UseUnit), 2)
-	var maxPercent float64 = math.RoundHalfEven(
+	var maxPercent float64 = mathutil.RoundHalfEven(
 		float64(integrationConsumeSetting.MaxPercentPerOrder)/100.0, 2)
 	if integrationAmount > totalAmount*maxPercent {
 		return 0
@@ -833,7 +833,7 @@ func (s *service) CalcPerCouponAmount(orderItemList []dto.OmsOrderItem, coupon d
 	totalAmount := s.CalcTotalAmount(orderItemList)
 	for i, orderItem := range orderItemList {
 		// (商品价格/可用商品总价)*优惠券面额
-		couponAmount := math.RoundHalfEven((orderItem.ProductPrice/totalAmount)*coupon.Amount, 3)
+		couponAmount := mathutil.RoundHalfEven((orderItem.ProductPrice/totalAmount)*coupon.Amount, 3)
 		orderItemList[i].CouponAmount = couponAmount
 	}
 }

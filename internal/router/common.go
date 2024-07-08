@@ -18,7 +18,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
-func InitEngine(eng *gin.Engine, ui string) *gin.Engine {
+func InitEngine(eng *gin.Engine, serverName, ui string) *gin.Engine {
 	if env.Active().IsPro() {
 		gin.SetMode(gin.ReleaseMode)
 	} else {
@@ -40,7 +40,7 @@ func InitEngine(eng *gin.Engine, ui string) *gin.Engine {
 		cors.New(config),
 		middleware.Rate(),
 		middleware.Metrics(),
-		middleware.Tracing("server"),
+		middleware.Tracing(serverName),
 		middleware.AccessLog(log.GetLoggerWithTrace()),
 		// middleware.AlertNotify(),
 	)

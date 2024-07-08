@@ -7,7 +7,8 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_sku_stock"
-	"github.com/ChangSZ/mall-go/pkg/copy"
+
+	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct{}

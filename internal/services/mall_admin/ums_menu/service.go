@@ -6,8 +6,8 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
-	"github.com/ChangSZ/mall-go/pkg/copy"
 
+	"github.com/ChangSZ/golib/copy"
 	"github.com/ChangSZ/golib/log"
 )
 

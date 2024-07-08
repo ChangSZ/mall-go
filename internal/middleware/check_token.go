@@ -11,8 +11,8 @@ import (
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
-	"github.com/ChangSZ/mall-go/pkg/jwt"
 
+	"github.com/ChangSZ/golib/jwt"
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
 )

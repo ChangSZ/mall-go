@@ -5,8 +5,8 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cms_prefrence_area_product_relation"
-	"github.com/ChangSZ/mall-go/pkg/copy"
 
+	"github.com/ChangSZ/golib/copy"
 	"gorm.io/gorm"
 )
 
