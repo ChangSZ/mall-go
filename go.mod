@@ -3,7 +3,7 @@ module github.com/ChangSZ/mall-go
 go 1.22.3
 
 require (
-	github.com/ChangSZ/golib v0.0.0-20240708072806-829b34006f67
+	github.com/ChangSZ/golib v0.0.0-20240708074702-ff14cf8be1e3
 	github.com/dave/dst v0.27.3
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/gin-contrib/cors v1.7.2

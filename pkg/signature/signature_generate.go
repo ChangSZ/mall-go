@@ -10,7 +10,8 @@ import (
 	"strings"
 
 	"github.com/ChangSZ/mall-go/pkg/errors"
-	"github.com/ChangSZ/mall-go/pkg/timeutil"
+
+	"github.com/ChangSZ/golib/timeutil"
 )
 
 // Generate
