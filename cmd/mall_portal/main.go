@@ -9,9 +9,9 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/router/mall_portal"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/oms_portal_order"
-	"github.com/ChangSZ/mall-go/pkg/shutdown"
 
 	"github.com/ChangSZ/golib/log"
+	"github.com/ChangSZ/golib/shutdown"
 )
 
 // @title swagger 接口文档

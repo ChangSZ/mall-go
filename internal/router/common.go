@@ -6,9 +6,9 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/middleware"
-	"github.com/ChangSZ/mall-go/pkg/color"
 	"github.com/ChangSZ/mall-go/pkg/env"
 
+	"github.com/ChangSZ/golib/color"
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/pprof"
