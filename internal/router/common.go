@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/ChangSZ/golib/color"
+	"github.com/ChangSZ/golib/gin/md"
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/pprof"
@@ -13,6 +14,7 @@ import (
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
+	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/middleware"
 	"github.com/ChangSZ/mall-go/pkg/env"
@@ -38,10 +40,10 @@ func InitEngine(eng *gin.Engine, serverName, ui string) *gin.Engine {
 
 	eng.Use(
 		cors.New(config),
-		middleware.Rate(),
+		md.Rate(configs.MaxRequestsPerSecond),
 		middleware.Metrics(),
-		middleware.Tracing(serverName),
-		middleware.AccessLog(log.GetLoggerWithTrace()),
+		md.Tracing(serverName),
+		md.AccessLog(log.GetLoggerWithTrace()),
 		// middleware.AlertNotify(),
 	)
 
