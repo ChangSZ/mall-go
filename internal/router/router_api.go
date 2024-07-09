@@ -1,6 +1,8 @@
 package router
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/internal/api/admin"
 	"github.com/ChangSZ/mall-go/internal/api/authorized"
 	"github.com/ChangSZ/mall-go/internal/api/config"
@@ -11,8 +13,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/middleware"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/cron"
-
-	"github.com/gin-gonic/gin"
 )
 
 func setApiRouter(eng *gin.Engine, cronServer cron.Server) {

@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 )
 
 func (h *handler) GormView(ctx *gin.Context) {

@@ -1,9 +1,9 @@
 package pms_sku_stock
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/pms_sku_stock"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/pms_sku_stock"
 )
 
 var _ Handler = (*handler)(nil)

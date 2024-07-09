@@ -1,9 +1,9 @@
 package oms_portal_order_return_apply
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/oms_portal_order_return_apply"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/oms_portal_order_return_apply"
 )
 
 var _ Handler = (*handler)(nil)

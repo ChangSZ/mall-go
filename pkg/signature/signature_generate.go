@@ -9,9 +9,9 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/ChangSZ/mall-go/pkg/errors"
-
 	"github.com/ChangSZ/golib/timeutil"
+
+	"github.com/ChangSZ/mall-go/pkg/errors"
 )
 
 // Generate

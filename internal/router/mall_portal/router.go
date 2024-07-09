@@ -1,10 +1,10 @@
 package mall_portal
 
 import (
+	"github.com/gin-gonic/gin"
+
 	_ "github.com/ChangSZ/mall-go/docs"
 	"github.com/ChangSZ/mall-go/internal/router"
-
-	"github.com/gin-gonic/gin"
 )
 
 const _UI = `

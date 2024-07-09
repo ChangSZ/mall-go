@@ -1,9 +1,9 @@
 package pms_product_attr
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/pms_product_attr"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/pms_product_attr"
 )
 
 var _ Handler = (*handler)(nil)

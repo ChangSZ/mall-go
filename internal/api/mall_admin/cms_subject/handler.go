@@ -1,9 +1,9 @@
 package cms_subject
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/cms_subject"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/cms_subject"
 )
 
 var _ Handler = (*handler)(nil)

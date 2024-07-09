@@ -1,9 +1,9 @@
 package ums_member
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
 )
 
 var _ Handler = (*handler)(nil)

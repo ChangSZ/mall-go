@@ -3,10 +3,10 @@ package dao
 import (
 	"context"
 
+	"gorm.io/gorm"
+
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product"
-
-	"gorm.io/gorm"
 )
 
 type PmsProductDao struct{}

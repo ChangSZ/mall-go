@@ -3,10 +3,10 @@ package cron
 import (
 	"fmt"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/jakecoffman/cron"
+
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 )
 
 func (s *server) AddJob(task *cron_task.CronTask) cron.FuncJob {

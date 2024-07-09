@@ -6,6 +6,8 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/ChangSZ/golib/copy"
+
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
@@ -15,8 +17,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_coupon_product_category_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_coupon_product_relation"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
-
-	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct{}

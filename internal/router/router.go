@@ -4,11 +4,11 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/assets"
 	_ "github.com/ChangSZ/mall-go/docs"
 	"github.com/ChangSZ/mall-go/internal/repository/cron"
-
-	"github.com/gin-gonic/gin"
 )
 
 const _UI = `

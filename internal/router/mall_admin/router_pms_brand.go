@@ -1,10 +1,10 @@
 package mall_admin
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/internal/api/mall_admin/pms_brand"
 	"github.com/ChangSZ/mall-go/internal/middleware"
-
-	"github.com/gin-gonic/gin"
 )
 
 // 商品分类管理

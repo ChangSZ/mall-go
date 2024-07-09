@@ -1,10 +1,10 @@
 package mall_portal
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/internal/api/mall_portal/ums_member_coupon"
 	"github.com/ChangSZ/mall-go/internal/middleware"
-
-	"github.com/gin-gonic/gin"
 )
 
 // 会员优惠券管理

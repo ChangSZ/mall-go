@@ -1,9 +1,9 @@
 package oms_order_return_reason
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/oms_order_return_reason"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/oms_order_return_reason"
 )
 
 var _ Handler = (*handler)(nil)

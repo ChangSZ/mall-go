@@ -3,9 +3,9 @@ package sysmessage
 import (
 	"errors"
 
-	"github.com/ChangSZ/mall-go/internal/repository/socket"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/repository/socket"
 )
 
 var (

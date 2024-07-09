@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/pkg/file"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/pkg/file"
 )
 
 type handler struct{}

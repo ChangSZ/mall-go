@@ -1,10 +1,10 @@
 package mall_portal
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/internal/api/mall_portal/member_collection"
 	"github.com/ChangSZ/mall-go/internal/middleware"
-
-	"github.com/gin-gonic/gin"
 )
 
 // 会员商品收藏管理

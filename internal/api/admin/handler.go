@@ -1,11 +1,11 @@
 package admin
 
 import (
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/services/admin"
-
 	"github.com/ChangSZ/golib/hash"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/services/admin"
 )
 
 var _ Handler = (*handler)(nil)

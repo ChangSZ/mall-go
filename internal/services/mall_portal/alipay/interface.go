@@ -4,9 +4,9 @@ import (
 	"context"
 	"net/url"
 
-	"github.com/ChangSZ/mall-go/internal/dto"
-
 	"github.com/smartwalle/alipay/v3"
+
+	"github.com/ChangSZ/mall-go/internal/dto"
 )
 
 var _ Service = (*service)(nil)

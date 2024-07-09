@@ -1,9 +1,9 @@
 package ums_role
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_role"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_role"
 )
 
 var _ Handler = (*handler)(nil)

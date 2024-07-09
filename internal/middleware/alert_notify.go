@@ -5,15 +5,15 @@ import (
 	"runtime/debug"
 	"time"
 
+	"github.com/ChangSZ/golib/log"
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/alert"
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/pkg/env"
-
-	"github.com/ChangSZ/golib/log"
-	"github.com/gin-gonic/gin"
 )
 
 func AlertNotify() gin.HandlerFunc {

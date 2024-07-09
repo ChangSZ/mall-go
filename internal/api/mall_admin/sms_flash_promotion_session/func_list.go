@@ -1,11 +1,11 @@
 package sms_flash_promotion_session
 
 import (
-	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/dto"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/dto"
 )
 
 type listRequest struct{}

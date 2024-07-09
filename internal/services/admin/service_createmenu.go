@@ -4,11 +4,11 @@ import (
 	"context"
 	"strings"
 
+	"github.com/spf13/cast"
+
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/admin_menu"
-
-	"github.com/spf13/cast"
 )
 
 type CreateMenuData struct {

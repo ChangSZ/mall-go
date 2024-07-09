@@ -1,9 +1,9 @@
 package member_read_history
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/member_read_history"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/member_read_history"
 )
 
 var _ Handler = (*handler)(nil)

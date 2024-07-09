@@ -1,9 +1,9 @@
 package oms_order
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/oms_order"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/oms_order"
 )
 
 var _ Handler = (*handler)(nil)

@@ -1,9 +1,9 @@
 package ums_member_receive_address
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_receive_address"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_receive_address"
 )
 
 var _ Handler = (*handler)(nil)

@@ -1,9 +1,9 @@
 package sms_flash_promotion_session
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_flash_promotion_session"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_flash_promotion_session"
 )
 
 var _ Handler = (*handler)(nil)

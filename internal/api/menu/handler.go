@@ -1,11 +1,11 @@
 package menu
 
 import (
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/services/menu"
-
 	"github.com/ChangSZ/golib/hash"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/services/menu"
 )
 
 var _ Handler = (*handler)(nil)

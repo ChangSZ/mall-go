@@ -4,10 +4,10 @@ import (
 	"net/http"
 	"runtime"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/pkg/file"
-
-	"github.com/gin-gonic/gin"
 )
 
 type handler struct{}

@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/oms_order_item"
-
 	"github.com/ChangSZ/golib/copy"
 	"gorm.io/gorm"
+
+	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/oms_order_item"
 )
 
 type OrderDao struct{}

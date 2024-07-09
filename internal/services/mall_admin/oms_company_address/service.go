@@ -3,11 +3,11 @@ package oms_company_address
 import (
 	"context"
 
+	"github.com/ChangSZ/golib/copy"
+
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/oms_company_address"
-
-	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct{}

@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
-
-	"github.com/gin-gonic/gin"
 )
 
 type upgradeViewResponse struct {

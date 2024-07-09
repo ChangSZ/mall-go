@@ -6,12 +6,6 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/proposal/tablesqls"
-	"github.com/ChangSZ/mall-go/pkg/validator"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v7"
@@ -20,6 +14,12 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+
+	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/code"
+	"github.com/ChangSZ/mall-go/internal/proposal/tablesqls"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 )
 
 type initExecuteRequest struct {

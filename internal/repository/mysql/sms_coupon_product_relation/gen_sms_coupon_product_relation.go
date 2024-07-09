@@ -8,10 +8,10 @@ package sms_coupon_product_relation
 import (
 	"fmt"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mysql"
-
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
+
+	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 )
 
 func NewModel() *SmsCouponProductRelation {

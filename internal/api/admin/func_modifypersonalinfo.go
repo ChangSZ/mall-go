@@ -3,14 +3,14 @@ package admin
 import (
 	"net/http"
 
+	"github.com/ChangSZ/golib/log"
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/admin"
 	"github.com/ChangSZ/mall-go/pkg/validator"
-
-	"github.com/ChangSZ/golib/log"
-	"github.com/gin-gonic/gin"
 )
 
 type modifyPersonalInfoRequest struct {

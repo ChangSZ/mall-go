@@ -1,9 +1,9 @@
 package sms_home_new_product
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_home_new_product"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_home_new_product"
 )
 
 var _ Handler = (*handler)(nil)

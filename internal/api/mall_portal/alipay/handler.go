@@ -1,9 +1,9 @@
 package alipay
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/alipay"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/alipay"
 )
 
 var _ Handler = (*handler)(nil)

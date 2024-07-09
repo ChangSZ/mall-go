@@ -1,9 +1,9 @@
 package pms_brand
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/pms_brand"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/pms_brand"
 )
 
 var _ Handler = (*handler)(nil)

@@ -1,9 +1,9 @@
 package home
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/home"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/home"
 )
 
 var _ Handler = (*handler)(nil)

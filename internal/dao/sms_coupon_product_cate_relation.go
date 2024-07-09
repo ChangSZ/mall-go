@@ -3,11 +3,11 @@ package dao
 import (
 	"context"
 
-	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_coupon_product_category_relation"
-
 	"github.com/ChangSZ/golib/copy"
 	"gorm.io/gorm"
+
+	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_coupon_product_category_relation"
 )
 
 type SmsCouponProductCategoryRelationDao struct{}

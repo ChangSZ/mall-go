@@ -3,9 +3,9 @@ package api
 import (
 	"net/http"
 
-	"github.com/ChangSZ/mall-go/internal/code"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/code"
 )
 
 // 框架失败请使用这个函数

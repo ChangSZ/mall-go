@@ -3,11 +3,11 @@ package cms_prefrence_area
 import (
 	"context"
 
+	"github.com/ChangSZ/golib/copy"
+
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cms_prefrence_area"
-
-	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct{}

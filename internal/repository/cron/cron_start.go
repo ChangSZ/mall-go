@@ -3,10 +3,10 @@ package cron
 import (
 	"math"
 
+	"github.com/ChangSZ/golib/log"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
-
-	"github.com/ChangSZ/golib/log"
 )
 
 func (s *server) Start() {

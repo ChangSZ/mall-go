@@ -1,13 +1,13 @@
 package alert
 
 import (
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/proposal"
-	"github.com/ChangSZ/mall-go/pkg/errors"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/ChangSZ/golib/mail"
 	"github.com/spf13/cast"
+
+	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/proposal"
+	"github.com/ChangSZ/mall-go/pkg/errors"
 )
 
 // NotifyHandler 告警通知

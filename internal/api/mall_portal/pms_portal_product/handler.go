@@ -1,9 +1,9 @@
 package pms_portal_product
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/pms_portal_product"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/pms_portal_product"
 )
 
 var _ Handler = (*handler)(nil)

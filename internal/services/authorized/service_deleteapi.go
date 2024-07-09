@@ -3,13 +3,13 @@ package authorized
 import (
 	"context"
 
+	"gorm.io/gorm"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/authorized_api"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
-
-	"gorm.io/gorm"
 )
 
 func (s *service) DeleteAPI(ctx context.Context, id int64) (err error) {

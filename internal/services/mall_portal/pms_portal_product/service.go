@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/ChangSZ/golib/copy"
+
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
@@ -15,8 +17,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_full_reduction"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_ladder"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_sku_stock"
-
-	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct{}

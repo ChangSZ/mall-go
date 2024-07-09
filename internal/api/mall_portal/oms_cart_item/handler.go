@@ -1,9 +1,9 @@
 package oms_cart_item
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/oms_cart_item"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/oms_cart_item"
 )
 
 var _ Handler = (*handler)(nil)

@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/ChangSZ/golib/jwt"
+	"github.com/ChangSZ/golib/log"
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
-
-	"github.com/ChangSZ/golib/jwt"
-	"github.com/ChangSZ/golib/log"
-	"github.com/gin-gonic/gin"
 )
 
 var (

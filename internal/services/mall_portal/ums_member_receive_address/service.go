@@ -3,12 +3,12 @@ package ums_member_receive_address
 import (
 	"context"
 
+	"github.com/ChangSZ/golib/copy"
+
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_member_receive_address"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
-
-	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct{}

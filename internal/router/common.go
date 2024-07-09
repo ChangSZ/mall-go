@@ -4,10 +4,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/middleware"
-	"github.com/ChangSZ/mall-go/pkg/env"
-
 	"github.com/ChangSZ/golib/color"
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-contrib/cors"
@@ -16,6 +12,10 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+
+	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/middleware"
+	"github.com/ChangSZ/mall-go/pkg/env"
 )
 
 func InitEngine(eng *gin.Engine, serverName, ui string) *gin.Engine {

@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/pkg/errors"
-
 	"github.com/ChangSZ/golib/log"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
+
+	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/pkg/errors"
 )
 
 // Predicate is a string that acts as a condition in the where clause

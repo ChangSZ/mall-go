@@ -1,9 +1,9 @@
 package oms_company_address
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/oms_company_address"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/oms_company_address"
 )
 
 var _ Handler = (*handler)(nil)

@@ -1,13 +1,13 @@
 package main
 
 import (
+	"github.com/ChangSZ/golib/log"
+	"github.com/ChangSZ/golib/shutdown"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/router/mall_admin"
-
-	"github.com/ChangSZ/golib/log"
-	"github.com/ChangSZ/golib/shutdown"
 )
 
 // @title swagger 接口文档

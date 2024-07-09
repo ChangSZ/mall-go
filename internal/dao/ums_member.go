@@ -3,9 +3,9 @@ package dao
 import (
 	"context"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_member"
-
 	"gorm.io/gorm"
+
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_member"
 )
 
 type UmsMemberDao struct{}

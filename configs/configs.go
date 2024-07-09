@@ -8,11 +8,11 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ChangSZ/mall-go/pkg/env"
-	"github.com/ChangSZ/mall-go/pkg/file"
-
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
+
+	"github.com/ChangSZ/mall-go/pkg/env"
+	"github.com/ChangSZ/mall-go/pkg/file"
 )
 
 var config = new(Config)

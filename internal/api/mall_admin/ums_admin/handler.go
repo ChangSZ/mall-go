@@ -1,10 +1,10 @@
 package ums_admin
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_role"
-
-	"github.com/gin-gonic/gin"
 )
 
 var _ Handler = (*handler)(nil)

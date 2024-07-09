@@ -5,13 +5,13 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/code"
-
 	"github.com/dave/dst"
 	"github.com/dave/dst/decorator"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
+
+	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/code"
 )
 
 const minBusinessCode = 20000

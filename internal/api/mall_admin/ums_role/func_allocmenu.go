@@ -1,11 +1,11 @@
 package ums_role
 
 import (
-	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/pkg/validator"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 )
 
 type allocMenuRequest struct {

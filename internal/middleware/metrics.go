@@ -4,13 +4,13 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/metrics"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/proposal"
 	"github.com/ChangSZ/mall-go/pkg/env"
-
-	"github.com/gin-gonic/gin"
 )
 
 // Metrics 统计

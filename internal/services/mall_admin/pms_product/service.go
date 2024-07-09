@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/ChangSZ/golib/copy"
+	"github.com/ChangSZ/golib/log"
+
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
@@ -17,9 +20,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_ladder"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_vertify_record"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_sku_stock"
-
-	"github.com/ChangSZ/golib/copy"
-	"github.com/ChangSZ/golib/log"
 )
 
 type service struct{}

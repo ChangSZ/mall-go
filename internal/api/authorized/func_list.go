@@ -3,15 +3,15 @@ package authorized
 import (
 	"net/http"
 
-	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/internal/services/authorized"
-	"github.com/ChangSZ/mall-go/pkg/validator"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/ChangSZ/golib/timeutil"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
+
+	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/code"
+	"github.com/ChangSZ/mall-go/internal/services/authorized"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 )
 
 type listRequest struct {

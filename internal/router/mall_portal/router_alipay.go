@@ -1,9 +1,9 @@
 package mall_portal
 
 import (
-	"github.com/ChangSZ/mall-go/internal/api/mall_portal/alipay"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/api/mall_portal/alipay"
 )
 
 // 支付宝支付

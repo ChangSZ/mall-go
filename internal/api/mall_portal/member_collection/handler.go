@@ -1,9 +1,9 @@
 package member_collection
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/member_collection"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/member_collection"
 )
 
 var _ Handler = (*handler)(nil)

@@ -3,9 +3,9 @@ package rabbitmq
 import (
 	"context"
 
-	"github.com/ChangSZ/mall-go/configs"
-
 	"github.com/ChangSZ/golib/queue"
+
+	"github.com/ChangSZ/mall-go/configs"
 )
 
 type QueueEnum struct {

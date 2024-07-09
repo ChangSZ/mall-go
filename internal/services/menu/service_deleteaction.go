@@ -3,11 +3,11 @@ package menu
 import (
 	"context"
 
+	"gorm.io/gorm"
+
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/menu_action"
-
-	"gorm.io/gorm"
 )
 
 func (s *service) DeleteAction(ctx context.Context, id int64) (err error) {

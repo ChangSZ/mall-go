@@ -3,11 +3,11 @@ package member_product_collection
 import (
 	"context"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mongodb"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"github.com/ChangSZ/mall-go/internal/repository/mongodb"
 )
 
 var Collection = mongodb.DB().Connection().Collection("memberProductCollection")

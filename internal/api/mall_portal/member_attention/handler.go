@@ -1,9 +1,9 @@
 package member_attention
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/member_attention"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/member_attention"
 )
 
 var _ Handler = (*handler)(nil)

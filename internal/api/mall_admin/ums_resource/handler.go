@@ -1,9 +1,9 @@
 package ums_resource
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_resource"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_resource"
 )
 
 var _ Handler = (*handler)(nil)

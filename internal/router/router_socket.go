@@ -1,9 +1,9 @@
 package router
 
 import (
-	"github.com/ChangSZ/mall-go/internal/websocket/sysmessage"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/websocket/sysmessage"
 )
 
 func setSocketRouter(eng *gin.Engine) {

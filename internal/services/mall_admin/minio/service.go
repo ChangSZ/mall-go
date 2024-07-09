@@ -7,11 +7,11 @@ import (
 	"mime/multipart"
 	"time"
 
-	"github.com/ChangSZ/mall-go/configs"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
+
+	"github.com/ChangSZ/mall-go/configs"
 )
 
 var (

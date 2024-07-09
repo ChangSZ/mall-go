@@ -1,10 +1,10 @@
 package pms_brand
 
 import (
-	"github.com/ChangSZ/mall-go/internal/api"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/api"
 )
 
 type deleteBatchRequest struct {

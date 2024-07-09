@@ -3,9 +3,9 @@ package cron
 import (
 	"sync"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
-
 	"github.com/jakecoffman/cron"
+
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 )
 
 var _ Server = (*server)(nil)

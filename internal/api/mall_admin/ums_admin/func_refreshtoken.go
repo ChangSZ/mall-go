@@ -1,12 +1,12 @@
 package ums_admin
 
 import (
+	"github.com/ChangSZ/golib/log"
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-
-	"github.com/ChangSZ/golib/log"
-	"github.com/gin-gonic/gin"
 )
 
 type refreshTokenRequest struct{}

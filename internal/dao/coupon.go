@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/ChangSZ/mall-go/internal/dto"
-
 	"gorm.io/gorm"
+
+	"github.com/ChangSZ/mall-go/internal/dto"
 )
 
 type CouponDao struct{}

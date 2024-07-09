@@ -1,9 +1,9 @@
 package ums_member_level
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_member_level"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_member_level"
 )
 
 var _ Handler = (*handler)(nil)

@@ -1,9 +1,9 @@
 package ums_menu
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_menu"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_menu"
 )
 
 var _ Handler = (*handler)(nil)

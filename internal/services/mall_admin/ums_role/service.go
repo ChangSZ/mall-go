@@ -6,6 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/ChangSZ/golib/copy"
+
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
@@ -14,8 +16,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_menu_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_resource_relation"
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_admin"
-
-	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct {

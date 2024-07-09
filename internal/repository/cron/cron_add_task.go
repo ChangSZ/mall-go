@@ -3,9 +3,9 @@ package cron
 import (
 	"strings"
 
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
-
 	"github.com/spf13/cast"
+
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/cron_task"
 )
 
 func (s *server) AddTask(task *cron_task.CronTask) {

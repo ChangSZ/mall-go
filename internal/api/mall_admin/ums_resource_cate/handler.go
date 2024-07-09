@@ -1,9 +1,9 @@
 package ums_resource_cate
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_resource_cate"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_resource_cate"
 )
 
 var _ Handler = (*handler)(nil)

@@ -3,11 +3,11 @@ package dao
 import (
 	"context"
 
-	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_sku_stock"
-
 	"github.com/ChangSZ/golib/copy"
 	"gorm.io/gorm"
+
+	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_sku_stock"
 )
 
 type PmsSkuStockDao struct{}

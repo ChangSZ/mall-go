@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ChangSZ/mall-go/configs"
-	"github.com/ChangSZ/mall-go/internal/api"
-	"github.com/ChangSZ/mall-go/internal/code"
-	"github.com/ChangSZ/mall-go/pkg/env"
-	"github.com/ChangSZ/mall-go/pkg/validator"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/ChangSZ/golib/mail"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 	"github.com/spf13/viper"
+
+	"github.com/ChangSZ/mall-go/configs"
+	"github.com/ChangSZ/mall-go/internal/api"
+	"github.com/ChangSZ/mall-go/internal/code"
+	"github.com/ChangSZ/mall-go/pkg/env"
+	"github.com/ChangSZ/mall-go/pkg/validator"
 )
 
 type emailRequest struct {

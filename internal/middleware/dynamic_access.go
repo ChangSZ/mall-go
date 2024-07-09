@@ -3,14 +3,14 @@ package middleware
 import (
 	"net/http"
 
+	"github.com/ChangSZ/golib/log"
+	"github.com/gin-gonic/gin"
+	"github.com/gobwas/glob"
+
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/code"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_admin"
-
-	"github.com/ChangSZ/golib/log"
-	"github.com/gin-gonic/gin"
-	"github.com/gobwas/glob"
 )
 
 func DynamicAccess() gin.HandlerFunc {

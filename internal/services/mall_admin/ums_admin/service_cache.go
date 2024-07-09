@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/ChangSZ/golib/log"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
@@ -13,8 +15,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_role_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
-
-	"github.com/ChangSZ/golib/log"
 )
 
 var (

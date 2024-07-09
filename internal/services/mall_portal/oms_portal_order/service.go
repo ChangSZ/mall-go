@@ -6,6 +6,10 @@ import (
 	"strings"
 	"time"
 
+	"github.com/ChangSZ/golib/copy"
+	"github.com/ChangSZ/golib/log"
+	"github.com/ChangSZ/golib/mathutil"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/dto"
@@ -21,10 +25,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_coupon"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_receive_address"
-
-	"github.com/ChangSZ/golib/copy"
-	"github.com/ChangSZ/golib/log"
-	"github.com/ChangSZ/golib/mathutil"
 )
 
 var (

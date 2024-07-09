@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ChangSZ/mall-go/pkg/errors"
-
 	"github.com/gorilla/websocket"
+
+	"github.com/ChangSZ/mall-go/pkg/errors"
 )
 
 var _ Server = (*server)(nil)

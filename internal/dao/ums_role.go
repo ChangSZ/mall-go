@@ -1,10 +1,10 @@
 package dao
 
 import (
+	"gorm.io/gorm"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
-
-	"gorm.io/gorm"
 )
 
 type UmsRoleDao struct{}

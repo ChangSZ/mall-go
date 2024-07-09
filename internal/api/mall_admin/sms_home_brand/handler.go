@@ -1,9 +1,9 @@
 package sms_home_brand
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_home_brand"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_home_brand"
 )
 
 var _ Handler = (*handler)(nil)

@@ -3,10 +3,10 @@ package dao
 import (
 	"context"
 
+	"gorm.io/gorm"
+
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_attribute"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_attribute_category"
-
-	"gorm.io/gorm"
 )
 
 type PmsProductAttrCateItem struct {

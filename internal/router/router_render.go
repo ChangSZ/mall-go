@@ -3,6 +3,8 @@ package router
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/internal/render/admin"
 	"github.com/ChangSZ/mall-go/internal/render/authorized"
 	"github.com/ChangSZ/mall-go/internal/render/config"
@@ -13,8 +15,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/render/install"
 	"github.com/ChangSZ/mall-go/internal/render/tool"
 	"github.com/ChangSZ/mall-go/internal/render/upgrade"
-
-	"github.com/gin-gonic/gin"
 )
 
 func setRenderRouter(eng *gin.Engine) {

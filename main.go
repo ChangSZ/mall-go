@@ -1,6 +1,9 @@
 package main
 
 import (
+	"github.com/ChangSZ/golib/log"
+	"github.com/ChangSZ/golib/shutdown"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/repository/cron"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
@@ -8,9 +11,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/router"
 	"github.com/ChangSZ/mall-go/pkg/browser"
 	"github.com/ChangSZ/mall-go/pkg/file"
-
-	"github.com/ChangSZ/golib/log"
-	"github.com/ChangSZ/golib/shutdown"
 )
 
 // @title swagger 接口文档

@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/ChangSZ/mall-go/internal/proposal"
-
 	"github.com/gin-gonic/gin"
 	"go.opentelemetry.io/otel/trace"
+
+	"github.com/ChangSZ/mall-go/internal/proposal"
 )
 
 const (

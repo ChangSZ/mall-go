@@ -1,9 +1,9 @@
 package sms_home_recommend_product
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_home_recommend_product"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_home_recommend_product"
 )
 
 var _ Handler = (*handler)(nil)

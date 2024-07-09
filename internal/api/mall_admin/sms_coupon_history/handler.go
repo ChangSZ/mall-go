@@ -1,9 +1,9 @@
 package sms_coupon_history
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_coupon_history"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_coupon_history"
 )
 
 var _ Handler = (*handler)(nil)

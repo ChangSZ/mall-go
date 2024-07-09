@@ -1,9 +1,9 @@
 package cms_prefrence_area
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/cms_prefrence_area"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/cms_prefrence_area"
 )
 
 var _ Handler = (*handler)(nil)

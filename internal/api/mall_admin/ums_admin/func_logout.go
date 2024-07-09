@@ -1,10 +1,10 @@
 package ums_admin
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/pkg/core"
-
-	"github.com/gin-gonic/gin"
 )
 
 type logoutRequest struct{}

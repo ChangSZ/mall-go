@@ -3,15 +3,15 @@ package main
 import (
 	"context"
 
+	"github.com/ChangSZ/golib/log"
+	"github.com/ChangSZ/golib/shutdown"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/repository/mongodb"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/redis"
 	"github.com/ChangSZ/mall-go/internal/router/mall_portal"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/oms_portal_order"
-
-	"github.com/ChangSZ/golib/log"
-	"github.com/ChangSZ/golib/shutdown"
 )
 
 // @title swagger 接口文档

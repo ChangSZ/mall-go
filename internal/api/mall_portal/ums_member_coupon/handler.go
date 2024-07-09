@@ -1,9 +1,9 @@
 package ums_member_coupon
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_coupon"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_coupon"
 )
 
 var _ Handler = (*handler)(nil)

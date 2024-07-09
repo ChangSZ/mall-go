@@ -1,9 +1,9 @@
 package minio
 
 import (
-	"github.com/ChangSZ/mall-go/internal/services/mall_admin/minio"
-
 	"github.com/gin-gonic/gin"
+
+	"github.com/ChangSZ/mall-go/internal/services/mall_admin/minio"
 )
 
 var _ Handler = (*handler)(nil)

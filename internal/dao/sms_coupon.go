@@ -3,9 +3,9 @@ package dao
 import (
 	"context"
 
-	"github.com/ChangSZ/mall-go/internal/dto"
-
 	"gorm.io/gorm"
+
+	"github.com/ChangSZ/mall-go/internal/dto"
 )
 
 type SmsCouponDao struct{}

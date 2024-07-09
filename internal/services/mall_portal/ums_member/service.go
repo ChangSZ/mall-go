@@ -6,6 +6,10 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/ChangSZ/golib/copy"
+	"github.com/ChangSZ/golib/crypto/password"
+	"github.com/ChangSZ/golib/jwt"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/dto"
@@ -13,10 +17,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_member"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_member_level"
-
-	"github.com/ChangSZ/golib/copy"
-	"github.com/ChangSZ/golib/crypto/password"
-	"github.com/ChangSZ/golib/jwt"
 )
 
 var (

@@ -6,11 +6,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/ChangSZ/mall-go/internal/repository/rabbitmq"
-
 	"github.com/ChangSZ/golib/log"
 	"github.com/ChangSZ/golib/queue"
 	"github.com/robfig/cron/v3"
+
+	"github.com/ChangSZ/mall-go/internal/repository/rabbitmq"
 )
 
 func CancelOrderReceive(ctx context.Context) {

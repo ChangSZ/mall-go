@@ -3,13 +3,13 @@ package pms_portal_brand
 import (
 	"context"
 
+	"github.com/ChangSZ/golib/copy"
+
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_brand"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product"
-
-	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct{}

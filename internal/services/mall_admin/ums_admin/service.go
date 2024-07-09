@@ -5,6 +5,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/ChangSZ/golib/copy"
+	"github.com/ChangSZ/golib/crypto/password"
+	"github.com/ChangSZ/golib/jwt"
+	"github.com/ChangSZ/golib/log"
+
 	"github.com/ChangSZ/mall-go/configs"
 	"github.com/ChangSZ/mall-go/internal/dao"
 	"github.com/ChangSZ/mall-go/internal/dto"
@@ -13,11 +18,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_login_log"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_role_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
-
-	"github.com/ChangSZ/golib/copy"
-	"github.com/ChangSZ/golib/crypto/password"
-	"github.com/ChangSZ/golib/jwt"
-	"github.com/ChangSZ/golib/log"
 )
 
 var (

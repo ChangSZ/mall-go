@@ -4,12 +4,12 @@ import (
 	"context"
 	"time"
 
+	"github.com/ChangSZ/golib/copy"
+
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_flash_promotion_session"
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/sms_flash_promotion_product_relation"
-
-	"github.com/ChangSZ/golib/copy"
 )
 
 type service struct{}
