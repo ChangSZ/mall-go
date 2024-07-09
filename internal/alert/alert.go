@@ -7,6 +7,7 @@ import (
 
 	"github.com/ChangSZ/golib/log"
 	"github.com/ChangSZ/golib/mail"
+	"github.com/spf13/cast"
 )
 
 // NotifyHandler 告警通知
@@ -31,18 +32,22 @@ func NotifyHandler() func(msg *proposal.AlertMessage) {
 			return
 		}
 
-		options := &mail.Options{
-			MailHost: cfg.Host,
-			MailPort: cfg.Port,
-			MailUser: cfg.User,
-			MailPass: cfg.Pass,
-			MailTo:   cfg.To,
-			Subject:  subject,
-			Body:     body,
+		m, err := mail.Init(mail.WithHost(cfg.Host),
+			mail.WithPort(cast.ToInt(cfg.Port)),
+			mail.WithUser(cfg.User),
+			mail.WithPwd(cfg.Pass),
+		)
+		if err != nil {
+			log.Error(err)
+			return
 		}
-		if err := mail.Send(options); err != nil {
+		m.SetTo([]string{cfg.To})
+		m.SetSubject(subject)
+		m.SetBody(body)
+		if err := m.Send(); err != nil {
 			log.Error("发送告警通知邮件失败: ", errors.WithStack(err))
+			return
 		}
-		return
+		log.Infof("告警通知邮件发送成功, To: %v", cfg.To)
 	}
 }

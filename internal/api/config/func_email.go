@@ -53,16 +53,20 @@ func (h *handler) Email(ctx *gin.Context) {
 		return
 	}
 
-	options := &mail.Options{
-		MailHost: req.Host,
-		MailPort: cast.ToInt(req.Port),
-		MailUser: req.User,
-		MailPass: req.Pass,
-		MailTo:   req.To,
-		Subject:  fmt.Sprintf("%s[%s] 邮箱告警人调整通知。", configs.ProjectName, env.Active().Value()),
-		Body:     fmt.Sprintf("%s[%s] 已添加您为系统告警通知人。", configs.ProjectName, env.Active().Value()),
+	m, err := mail.Init(mail.WithHost(req.Host),
+		mail.WithPort(cast.ToInt(req.Port)),
+		mail.WithUser(req.User),
+		mail.WithPwd(req.Pass),
+	)
+	if err != nil {
+		log.WithTrace(ctx).Error(err)
+		api.Response(ctx, http.StatusBadRequest, code.SendEmailError, err)
+		return
 	}
-	if err := mail.Send(options); err != nil {
+	m.SetTo([]string{req.To})
+	m.SetSubject(fmt.Sprintf("%s[%s] 邮箱告警人调整通知。", configs.ProjectName, env.Active().Value()))
+	m.SetBody(fmt.Sprintf("%s[%s] 已添加您为系统告警通知人。", configs.ProjectName, env.Active().Value()))
+	if err := m.Send(); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.SendEmailError, err)
 		return
@@ -74,8 +78,7 @@ func (h *handler) Email(ctx *gin.Context) {
 	viper.Set("mail.pass", req.Pass)
 	viper.Set("mail.to", req.To)
 
-	err := viper.WriteConfig()
-	if err != nil {
+	if err := viper.WriteConfig(); err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Response(ctx, http.StatusBadRequest, code.WriteConfigError, err)
 		return
