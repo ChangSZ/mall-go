@@ -12,6 +12,8 @@ services:
     volumes:
       - ~/mydata/mysql/data:/var/lib/mysql #数据文件目录挂载
       - ~/mydata/mysql/log:/var/log/mysql #日志文件目录挂载
+    networks:
+      - host
   redis:
     image: redis:7.2
     container_name: redis
@@ -20,6 +22,8 @@ services:
       - ~/mydata/redis/data:/data #数据文件目录挂载
     ports:
       - 6379:6379
+    networks:
+      - host
   rabbitmq:
     image: rabbitmq:3.12-management
     container_name: rabbitmq
@@ -31,6 +35,8 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - host
   mongo:
     image: mongo:latest
     container_name: mongo
@@ -38,6 +44,8 @@ services:
       - ~/mydata/mongo/db:/data/db #数据文件目录挂载
     ports:
       - 27017:27017
+    networks:
+      - host
   minio:
     image: minio/minio
     container_name: minio
@@ -50,3 +58,5 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
+    networks:
+      - host
