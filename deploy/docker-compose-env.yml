@@ -12,12 +12,14 @@ services:
     volumes:
       - ~/mydata/mysql/data:/var/lib/mysql #数据文件目录挂载
       - ~/mydata/mysql/log:/var/log/mysql #日志文件目录挂载
+      - /etc/localtime:/etc/localtime:ro
   redis:
     image: redis:7.2
     container_name: redis
     command: redis-server --appendonly yes
     volumes:
       - ~/mydata/redis/data:/data #数据文件目录挂载
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 6379:6379
   rabbitmq:
@@ -25,6 +27,7 @@ services:
     container_name: rabbitmq
     volumes:
       - ~/mydata/rabbitmq/data:/var/lib/rabbitmq #数据文件目录挂载
+      - /etc/localtime:/etc/localtime:ro
     environment:
       RABBITMQ_DEFAULT_USER: mall
       RABBITMQ_DEFAULT_PASS: mall
@@ -36,6 +39,7 @@ services:
     container_name: mongo
     volumes:
       - ~/mydata/mongo/db:/data/db #数据文件目录挂载
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 27017:27017
   minio:
@@ -44,6 +48,7 @@ services:
     command: server /data --console-address ":9001" #指定数据目录及console运行端口启动
     volumes:
       - ~/mydata/minio/data:/data #数据目录挂载
+      - /etc/localtime:/etc/localtime:ro
     environment:
       - "MINIO_ROOT_USER=minioadmin"
       - "MINIO_ROOT_PASSWORD=minioadmin"

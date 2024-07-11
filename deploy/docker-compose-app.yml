@@ -7,9 +7,7 @@ services:
       - 8080:8080
     volumes:
       - ~/mydata/app/mall-admin/logs:/var/logs
-      - /etc/localtime:/etc/localtime
-    environment:
-      - 'TZ="Asia/Shanghai"'
+      - /etc/localtime:/etc/localtime:ro
     external_links:
       - mysql:db #可以用db这个域名访问mysql服务
   mall-portal:
@@ -19,9 +17,7 @@ services:
       - 8085:8085
     volumes:
       - ~/mydata/app/mall-portal/logs:/var/logs
-      - /etc/localtime:/etc/localtime
-    environment:
-      - 'TZ="Asia/Shanghai"'
+      - /etc/localtime:/etc/localtime:ro
     external_links:
       - redis:redis #可以用redis这个域名访问redis服务
       - mongo:mongo #可以用mongo这个域名访问mongo服务

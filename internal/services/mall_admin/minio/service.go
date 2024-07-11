@@ -81,7 +81,7 @@ func (s *service) Upload(ctx context.Context, file multipart.File, filename stri
  */
 func (s *service) createBucketPolicy(bucketName string) (string, error) {
 	policy := map[string]interface{}{
-		"version": "2024-05-17",
+		"version": time.Now().Format("2006-01-02"),
 		"statement": []map[string]interface{}{
 			{
 				"effect":    "Allow",
