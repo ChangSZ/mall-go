@@ -186,6 +186,9 @@ func (s *service) GetAdminByUsername(ctx context.Context, username string) (*ums
 	if err != nil {
 		return nil, err
 	}
+	if admin == nil {
+		return nil, fmt.Errorf("没有找到用户信息: %v", username)
+	}
 
 	// 将数据库中的数据存入缓存中
 	s.cacheService.SetAdmin(ctx, admin)
