@@ -1,11 +1,11 @@
-FROM golang:1.21-alpine AS builder
+FROM golang:1.22.3 AS builder
 
 WORKDIR /work
 ENV GOPROXY=https://goproxy.cn,direct
 COPY . .
 RUN go build -o bin/portal cmd/mall_portal/main.go
 
-FROM alpine:latest
+FROM alpine:3.17
 WORKDIR /work
 COPY --from=builder /work/bin/. .
 COPY --from=builder /work/configs/*.toml  ./configs/

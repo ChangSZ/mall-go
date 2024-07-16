@@ -6,20 +6,20 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ~/mydata/app/mall-admin/logs:/var/logs
+      - ~/mydata/app/mall-admin/logs:/work/logs
       - /etc/localtime:/etc/localtime:ro
     external_links:
-      - mysql:db #可以用db这个域名访问mysql服务
+      - mysql:mysql
   mall-portal:
     image: mall-go/portal:v1.0
     container_name: mall-portal
     ports:
       - 8085:8085
     volumes:
-      - ~/mydata/app/mall-portal/logs:/var/logs
+      - ~/mydata/app/mall-portal/logs:/work/logs
       - /etc/localtime:/etc/localtime:ro
     external_links:
-      - redis:redis #可以用redis这个域名访问redis服务
-      - mongo:mongo #可以用mongo这个域名访问mongo服务
-      - mysql:db #可以用db这个域名访问mysql服务
-      - rabbitmq:rabbit #可以用rabbit这个域名访问rabbitmq服务
+      - redis:redis
+      - mongo:mongo
+      - mysql:mysql
+      - rabbitmq:rabbitmq

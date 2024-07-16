@@ -24,7 +24,7 @@ tokenHeader = 'Authorization'
 [minio]
 accessKey = 'minioadmin'
 bucketName = 'mall'
-endpoint = 'minio:9000'
+endpoint = '172.19.26.255:9000'
 secretKey = 'minioadmin'
 
 [mysql]
@@ -34,24 +34,24 @@ maxIdleConn = 60
 maxOpenConn = 10
 
 [mysql.read]
-addr = 'mysql:3306'
+addr = '172.19.26.255:3306'
 name = 'mall'
 pass = 'root'
 user = 'root'
 
 [mysql.write]
-addr = 'mysql:3306'
+addr = '172.19.26.255:3306'
 name = 'mall'
 pass = 'root'
 user = 'root'
 
 [mongodb]
-host = 'mongo'
+host = '172.19.26.255'
 port = 27017
 database = 'mall-portal'
 
 [redis]
-addr = 'redis:6379'
+addr = '172.19.26.255:6379'
 database = 'mall'
 db = '0'
 maxRetries = 3
@@ -71,7 +71,7 @@ orderId = 'oms:orderId'
 member = 'ums:member'
 
 [rabbitmq]
-host = 'rabbitmq'
+host = '172.19.26.255'
 port = 5672
 virtualHost = '/'
 username = 'mall'
