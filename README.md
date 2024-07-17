@@ -2,16 +2,21 @@
 
 `go-mall` 是基于 [go-gin-api](https://github.com/xinliangnote/go-gin-api) 框架(基本已经改得面目全非了)实现的一套电商系统的后台管理系统，包含商品管理、订单管理、会员管理、促销管理、运营管理、内容管理、统计报表、财务管理、权限管理、设置等模块。
 
-! 本项目未包含任何效果图, 可以去源项目查看, 链接如下:
+
+> - **快速体验admin** --> [在线访问地址](http://mall.water-melon.top/admin) 
+> - **快速体验app**   --> [在线访问地址](http://mall.water-melon.top/app) (暂未部署)
+
+</br>
+! 本项目暂未未包含任何效果图, 可以去源项目查看, 链接如下:
 
 本项目对[macrozheng/mall](https://github.com/macrozheng/mall)商城项目后端代码的重构 ==> [进度](./note.md)
 
-mall_admin前端 ==> [mall-admin-web](https://github.com/ChangSZ/mall-admin-web) ==> [fork源](https://github.com/macrozheng/mall-admin-web)
+mall_admin前端 --> [mall-admin-web](https://github.com/ChangSZ/mall-admin-web) 
 
-mall_portal前端 ==> [mall-app-web](https://github.com/ChangSZ/mall-app-web) ==> [fork源](https://github.com/macrozheng/mall-app-web)
+mall_portal(app)前端 --> [mall-app-web](https://github.com/ChangSZ/mall-app-web)
 <hr/>
 
-## 须知
+## 友情提示
 铁子们, 当前mall_admin、mall_portal基本功能均已OK, 使用中暂未发现问题, 我还未进行覆盖性测试, 你们可以搭建前后端自己先玩着. 有问题麻烦狠狠issue
 
 工程相关文档后期会逐步补充完善
@@ -19,26 +24,32 @@ mall_portal前端 ==> [mall-app-web](https://github.com/ChangSZ/mall-app-web) ==
 推荐先mark吧🤩, 靠谱楼主, 会持续更新的~
 
 ## 快速开始
-### 环境准备
-- golang 1.21
-- MySQL
-  - 连接地址，例如：127.0.0.1:3306
-  - 数据库名: mall，会在此数据库下初始化数据表
-  - 用户名，不可为空
-  - 密码，不可为空
-- Redis
-  - 连接地址，例如：127.0.0.1:6379
-  - 密码，可为空
-  - 连接DB，默认是 0
-
-### 下载运行
+### 拉取代码
 ```bash
 $ git clone https://github.com/ChangSZ/mall-go.git
 $ cd mall-go
+```
+
+### 环境准备
+```bash
 # 启动mysql、redis等中间件(也可以选择其他方式)
 $ docker-compose -f deploy/docker-compose-env.yml up -d
-# 数据导入(进入mysql中执行)： internal\proposal\tablesqls\mall.sql
-$ cd mall-go
+# sql文件拷贝进mysql镜像中
+$ docker cp internal/proposal/tablesqls/mall.sql mysql:/
+# 进入mysql容器
+$ docker exec -it mysql bash
+# 登录数据库
+$ mysql -u root -proot
+# 创建数据库并退出登录
+$ CREATE DATABASE api;  # 框架使用
+$ CREATE DATABASE mall; 
+$ exit;
+# 数据导入
+$ mysql -u root -p mall < mall.sql
+```
+
+### 开始运行
+```bash
 # 运行GO框架
 $ go run main.go -env fat  
 # 运行mall_admin

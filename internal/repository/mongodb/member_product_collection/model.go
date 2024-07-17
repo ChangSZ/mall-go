@@ -17,5 +17,5 @@ type MemberProductCollection struct {
 	ProductPic      string             `bson:"productPic"`
 	ProductSubTitle string             `bson:"productSubTitle"`
 	ProductPrice    float64            `bson:"productPrice"`
-	CreateTime      time.Time          `bson:"create_time"`
+	CreateTime      time.Time          `bson:"createTime"`
 }
