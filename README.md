@@ -4,7 +4,7 @@
 
 
 > - **快速体验admin** --> [在线访问地址](http://mall.water-melon.top/admin) 
-> - **快速体验app**   --> [在线访问地址](http://mall.water-melon.top/app) (暂未部署)
+> - **快速体验app**   --> [在线访问地址](http://mall.water-melon.top/app)
 
 </br>
 ! 本项目暂未未包含任何效果图, 可以去源项目查看, 链接如下:
