@@ -1,6 +1,6 @@
 ## 关于
 
-`go-mall` 是基于 [go-gin-api](https://github.com/xinliangnote/go-gin-api) 框架(基本已经改得面目全非了)实现的一套电商系统的后台管理系统，包含商品管理、订单管理、会员管理、促销管理、运营管理、内容管理、统计报表、财务管理、权限管理、设置等模块。
+`go-mall` 是基于 [gin-boilerplate](https://github.com/ChangSZ/gin-boilerplate) 框架实现的一套电商系统的后台管理系统，包含商品管理、订单管理、会员管理、促销管理、运营管理、内容管理、统计报表、财务管理、权限管理、设置等模块。
 
 
 > - **快速体验admin** --> [在线访问地址](http://mall.water-melon.top/admin) 
@@ -81,5 +81,5 @@ $ go run cmd/mall_portal/main.go -env fat
 - 查询小助手
 - 其他的可以用来学习娱乐
 
-### 使用介绍
-参见[go-gin-api语雀](https://www.yuque.com/xinliangnote/go-gin-api), 前端几乎没动, 可以参考使用
+### 详细使用介绍
+参见[go框架: gin-boilerplate](https://water-melon.top/detail/10)
