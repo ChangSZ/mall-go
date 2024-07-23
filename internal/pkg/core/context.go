@@ -1,8 +1,7 @@
 package core
 
 import (
-	stdctx "context"
-	"net/http"
+	"context"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -14,11 +13,10 @@ import (
 const (
 	_Alias           = "_alias_"
 	_SessionUserInfo = "_session_user_info"
-	_AbortErrorName  = "_abort_error_"
 	_UmsUserInfo     = "_ums_user_info_"
 )
 
-func SessionUserInfo(ctx stdctx.Context) proposal.SessionUserInfo {
+func SessionUserInfo(ctx context.Context) proposal.SessionUserInfo {
 	val, ok := ctx.Value(_SessionUserInfo).(proposal.SessionUserInfo)
 	if !ok {
 		return proposal.SessionUserInfo{}
@@ -30,7 +28,7 @@ func SetSessionUserInfo(ctx *gin.Context, info proposal.SessionUserInfo) {
 	ctx.Set(_SessionUserInfo, info)
 }
 
-func GetUmsUserInfo(ctx stdctx.Context) proposal.UmsUserInfo {
+func GetUmsUserInfo(ctx context.Context) proposal.UmsUserInfo {
 	val, ok := ctx.Value(_UmsUserInfo).(proposal.UmsUserInfo)
 	if !ok {
 		return proposal.UmsUserInfo{}
@@ -40,26 +38,6 @@ func GetUmsUserInfo(ctx stdctx.Context) proposal.UmsUserInfo {
 
 func SetUmsUserInfo(ctx *gin.Context, info proposal.UmsUserInfo) {
 	ctx.Set(_UmsUserInfo, info)
-}
-
-func AbortWithError(ctx *gin.Context, err BusinessError) {
-	if err != nil {
-		httpCode := err.HTTPCode()
-		if httpCode == 0 {
-			httpCode = http.StatusInternalServerError
-		}
-
-		ctx.AbortWithStatus(httpCode)
-		ctx.Set(_AbortErrorName, err)
-	}
-}
-
-func AbortError(ctx *gin.Context) BusinessError {
-	err, ok := ctx.Get(_AbortErrorName)
-	if !ok {
-		return nil
-	}
-	return err.(BusinessError)
 }
 
 func Alias(ctx *gin.Context) string {

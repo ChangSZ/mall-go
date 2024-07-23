@@ -12,7 +12,6 @@ func RecordHandler() func(msg *proposal.MetricsMessage) {
 			msg.Path,
 			msg.IsSuccess,
 			msg.HTTPCode,
-			msg.BusinessCode,
 			msg.CostSeconds,
 			msg.TraceID,
 		)

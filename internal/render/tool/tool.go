@@ -51,18 +51,17 @@ func (h *handler) Log(ctx *gin.Context) {
 	}
 
 	type logParseData struct {
-		Level        string  `json:"level"`
-		Time         string  `json:"time"`
-		Caller       string  `json:"caller"`
-		Msg          string  `json:"msg"`
-		Domain       string  `json:"domain"`
-		Method       string  `json:"method"`
-		Path         string  `json:"path"`
-		HTTPCode     int     `json:"http_code"`
-		BusinessCode int     `json:"business_code"`
-		Success      bool    `json:"success"`
-		CostSeconds  float64 `json:"cost_seconds"`
-		TraceID      string  `json:"trace_id"`
+		Level       string  `json:"level"`
+		Time        string  `json:"time"`
+		Caller      string  `json:"caller"`
+		Msg         string  `json:"msg"`
+		Domain      string  `json:"domain"`
+		Method      string  `json:"method"`
+		Path        string  `json:"path"`
+		HTTPCode    int     `json:"http_code"`
+		Success     bool    `json:"success"`
+		CostSeconds float64 `json:"cost_seconds"`
+		TraceID     string  `json:"trace_id"`
 	}
 
 	readLineFromEnd, err := file.NewReadLineFromEnd(configs.ProjectLogFile)

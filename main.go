@@ -44,20 +44,20 @@ func main() {
 	_, ok := file.IsExists(configs.ProjectInstallMark)
 	if !ok { // 未安装
 		openBrowserUri += "/install"
-	} else { // 已安装
-		// 初始化 DB
-		mysql.Init()
-
-		// 初始化 Cache
-		redis.Init()
-
-		// 初始化 CRON Server
-		cronServer, err = cron.New()
-		if err != nil {
-			log.Fatal("new cron err: ", err)
-		}
-		cronServer.Start()
 	}
+
+	// 初始化 DB
+	mysql.Init()
+
+	// 初始化 Cache
+	redis.Init()
+
+	// 初始化 CRON Server
+	cronServer, err = cron.New()
+	if err != nil {
+		log.Fatal("new cron err: ", err)
+	}
+	cronServer.Start()
 
 	// 初始化路由
 	eng := router.RoutersInit(cronServer)

@@ -29,7 +29,7 @@ var metricsRequestsCost = prometheus.NewHistogramVec(
 		Name:      "requests_cost",
 		Help:      "request(ms) cost milliseconds",
 	},
-	[]string{"method", "path", "success", "http_code", "business_code", "cost_milliseconds", "trace_id"},
+	[]string{"method", "path", "success", "http_code", "cost_milliseconds", "trace_id"},
 )
 
 func init() {
@@ -37,7 +37,7 @@ func init() {
 }
 
 // RecordMetrics 记录指标
-func RecordMetrics(method, path string, success bool, httpCode, businessCode int, costSeconds float64, traceId string) {
+func RecordMetrics(method, path string, success bool, httpCode int, costSeconds float64, traceId string) {
 	metricsRequestsTotal.With(prometheus.Labels{
 		"method": method,
 		"path":   path,
@@ -48,7 +48,6 @@ func RecordMetrics(method, path string, success bool, httpCode, businessCode int
 		"path":              path,
 		"success":           cast.ToString(success),
 		"http_code":         cast.ToString(httpCode),
-		"business_code":     cast.ToString(businessCode),
 		"cost_milliseconds": cast.ToString(costSeconds * 1000),
 		"trace_id":          traceId,
 	}).Observe(costSeconds)

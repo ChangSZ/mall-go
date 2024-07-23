@@ -4,7 +4,7 @@ import "time"
 
 const (
 	// MinGoVersion 最小 Go 版本
-	MinGoVersion = 1.16
+	MinGoVersion = 1.22
 
 	// ProjectVersion 项目版本
 	ProjectVersion = "v0.0.1"

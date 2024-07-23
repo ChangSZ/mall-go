@@ -44,7 +44,6 @@ func InitEngine(eng *gin.Engine, serverName, ui string) *gin.Engine {
 		middleware.Metrics(),
 		md.Tracing(serverName),
 		md.AccessLog(log.GetLoggerWithTrace()),
-		// middleware.AlertNotify(),
 	)
 
 	fmt.Println(color.Blue(ui))
