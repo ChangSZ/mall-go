@@ -21,7 +21,7 @@ mall_portal(app)前端 --> [mall-app-web](https://github.com/ChangSZ/mall-app-we
 
 工程相关文档后期会逐步补充完善
 
-推荐先mark吧🤩, 靠谱楼主, 会持续更新的~
+推荐先mark吧🤩, 靠谱楼主, 会持续更新的（最近在找新机会，停止更新一会儿）~
 
 ## 快速开始
 ### 拉取代码
