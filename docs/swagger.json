@@ -696,6 +696,214 @@
                 }
             }
         },
+        "/alipay/notify": {
+            "post": {
+                "description": "支付宝异步回调",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AlipayController"
+                ],
+                "summary": "支付宝异步回调",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/alipay.notifyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/alipay.notifyResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/alipay/pay": {
+            "get": {
+                "description": "支付宝电脑网站支付",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AlipayController"
+                ],
+                "summary": "支付宝电脑网站支付",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/alipay.payRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/alipay.payResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/alipay/query": {
+            "get": {
+                "description": "支付宝统一收单线下交易查询",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AlipayController"
+                ],
+                "summary": "支付宝统一收单线下交易查询",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/alipay.queryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/alipay.queryResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/alipay/webPay": {
+            "get": {
+                "description": "支付宝手机网站支付",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "AlipayController"
+                ],
+                "summary": "支付宝手机网站支付",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/alipay.webPayRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/alipay.webPayResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
         "/api/admin": {
             "get": {
                 "security": [
@@ -7372,6 +7580,266 @@
                 }
             }
         },
+        "/member/attention/add": {
+            "post": {
+                "description": "添加品牌关注",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberAttentionController"
+                ],
+                "summary": "添加品牌关注",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_attention.addRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/attention/clear": {
+            "post": {
+                "description": "清空当前用户品牌关注列表",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberAttentionController"
+                ],
+                "summary": "清空当前用户品牌关注列表",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_attention.clearRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/attention/delete": {
+            "post": {
+                "description": "取消品牌关注",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberAttentionController"
+                ],
+                "summary": "取消品牌关注",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_attention.deleteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/attention/detail": {
+            "get": {
+                "description": "根据品牌ID获取品牌关注详情",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberAttentionController"
+                ],
+                "summary": "根据品牌ID获取品牌关注详情",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_attention.detailRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/member_attention.detailResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/attention/list": {
+            "get": {
+                "description": "分页查询当前用户品牌关注列表",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberAttentionController"
+                ],
+                "summary": "分页查询当前用户品牌关注列表",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_attention.listRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/member_attention.listResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
         "/member/coupon/add/{couponId}": {
             "post": {
                 "description": "领取指定优惠券",
@@ -7629,6 +8097,474 @@
                                             "items": {
                                                 "$ref": "#/definitions/dto.SmsCouponHistory"
                                             }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/productCollection/add": {
+            "post": {
+                "description": "添加商品收藏",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberCollectionController"
+                ],
+                "summary": "添加商品收藏",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_collection.addRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/productCollection/clear": {
+            "post": {
+                "description": "清空当前用户商品收藏列表",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberCollectionController"
+                ],
+                "summary": "清空当前用户商品收藏列表",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_collection.clearRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/productCollection/delete": {
+            "post": {
+                "description": "删除商品收藏",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberCollectionController"
+                ],
+                "summary": "删除商品收藏",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_collection.deleteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/productCollection/detail": {
+            "get": {
+                "description": "显示商品收藏详情",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberCollectionController"
+                ],
+                "summary": "显示商品收藏详情",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_collection.detailRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/member_collection.detailResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/productCollection/list": {
+            "get": {
+                "description": "显示当前用户商品收藏列表",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberCollectionController"
+                ],
+                "summary": "显示当前用户商品收藏列表",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_collection.listRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/member_collection.listResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/readHistory/clear": {
+            "post": {
+                "description": "清空浏览记录",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberCollectionController"
+                ],
+                "summary": "清空浏览记录",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_read_history.clearRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/readHistory/create": {
+            "post": {
+                "description": "创建浏览记录",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberCollectionController"
+                ],
+                "summary": "创建浏览记录",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_read_history.createRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/readHistory/delete": {
+            "post": {
+                "description": "删除浏览记录",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberCollectionController"
+                ],
+                "summary": "删除浏览记录",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_read_history.deleteRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/code.Failure"
+                        }
+                    }
+                }
+            }
+        },
+        "/member/readHistory/list": {
+            "get": {
+                "description": "分页获取浏览记录",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MemberCollectionController"
+                ],
+                "summary": "分页获取浏览记录",
+                "parameters": [
+                    {
+                        "description": "请求信息",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/member_read_history.listRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/code.Success"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/member_read_history.listResponse"
                                         }
                                     }
                                 }
@@ -13387,6 +14323,66 @@
                 }
             }
         },
+        "alipay.notifyRequest": {
+            "type": "object"
+        },
+        "alipay.notifyResponse": {
+            "type": "object"
+        },
+        "alipay.payRequest": {
+            "type": "object",
+            "properties": {
+                "outTradeNo": {
+                    "description": "商户订单号，商家自定义，保持唯一性",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "商品的标题/交易标题/订单标题/订单关键字等",
+                    "type": "string"
+                },
+                "totalAmount": {
+                    "description": "订单总金额，单位为元，精确到小数点后两位",
+                    "type": "number"
+                }
+            }
+        },
+        "alipay.payResponse": {
+            "type": "object"
+        },
+        "alipay.queryRequest": {
+            "type": "object",
+            "properties": {
+                "outTradeNo": {
+                    "type": "string"
+                },
+                "tradeNo": {
+                    "type": "string"
+                }
+            }
+        },
+        "alipay.queryResponse": {
+            "type": "object"
+        },
+        "alipay.webPayRequest": {
+            "type": "object",
+            "properties": {
+                "outTradeNo": {
+                    "description": "商户订单号，商家自定义，保持唯一性",
+                    "type": "string"
+                },
+                "subject": {
+                    "description": "商品的标题/交易标题/订单标题/订单关键字等",
+                    "type": "string"
+                },
+                "totalAmount": {
+                    "description": "订单总金额，单位为元，精确到小数点后两位",
+                    "type": "number"
+                }
+            }
+        },
+        "alipay.webPayResponse": {
+            "type": "object"
+        },
         "authorized.createAPIResponse": {
             "type": "object",
             "properties": {
@@ -14240,6 +15236,108 @@
                 },
                 "startTime": {
                     "description": "本场开始时间",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.MemberBrandAttention": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "brandCity": {
+                    "type": "string"
+                },
+                "brandId": {
+                    "type": "integer"
+                },
+                "brandLogo": {
+                    "type": "string"
+                },
+                "brandName": {
+                    "type": "string"
+                },
+                "createTime": {
+                    "type": "string"
+                },
+                "memberIcon": {
+                    "type": "string"
+                },
+                "memberId": {
+                    "type": "integer"
+                },
+                "memberNickname": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.MemberProductCollection": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "memberIcon": {
+                    "type": "string"
+                },
+                "memberId": {
+                    "type": "integer"
+                },
+                "memberNickname": {
+                    "type": "string"
+                },
+                "productId": {
+                    "type": "integer"
+                },
+                "productName": {
+                    "type": "string"
+                },
+                "productPic": {
+                    "type": "string"
+                },
+                "productPrice": {
+                    "type": "number"
+                },
+                "productSubTitle": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.MemberReadHistory": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "createTime": {
+                    "type": "string"
+                },
+                "memberIcon": {
+                    "type": "string"
+                },
+                "memberId": {
+                    "type": "integer"
+                },
+                "memberNickname": {
+                    "type": "string"
+                },
+                "productId": {
+                    "type": "integer"
+                },
+                "productName": {
+                    "type": "string"
+                },
+                "productPic": {
+                    "type": "string"
+                },
+                "productPrice": {
+                    "type": "number"
+                },
+                "productSubTitle": {
                     "type": "string"
                 }
             }
@@ -16335,6 +17433,344 @@
                 }
             }
         },
+        "member_attention.addRequest": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "brandCity": {
+                    "type": "string"
+                },
+                "brandId": {
+                    "type": "integer"
+                },
+                "brandLogo": {
+                    "type": "string"
+                },
+                "brandName": {
+                    "type": "string"
+                },
+                "createTime": {
+                    "type": "string"
+                },
+                "memberIcon": {
+                    "type": "string"
+                },
+                "memberId": {
+                    "type": "integer"
+                },
+                "memberNickname": {
+                    "type": "string"
+                }
+            }
+        },
+        "member_attention.clearRequest": {
+            "type": "object"
+        },
+        "member_attention.deleteRequest": {
+            "type": "object",
+            "required": [
+                "brandId"
+            ],
+            "properties": {
+                "brandId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "member_attention.detailRequest": {
+            "type": "object",
+            "required": [
+                "brandId"
+            ],
+            "properties": {
+                "brandId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "member_attention.detailResponse": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "brandCity": {
+                    "type": "string"
+                },
+                "brandId": {
+                    "type": "integer"
+                },
+                "brandLogo": {
+                    "type": "string"
+                },
+                "brandName": {
+                    "type": "string"
+                },
+                "createTime": {
+                    "type": "string"
+                },
+                "memberIcon": {
+                    "type": "string"
+                },
+                "memberId": {
+                    "type": "integer"
+                },
+                "memberNickname": {
+                    "type": "string"
+                }
+            }
+        },
+        "member_attention.listRequest": {
+            "type": "object",
+            "properties": {
+                "pageNum": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                }
+            }
+        },
+        "member_attention.listResponse": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.MemberBrandAttention"
+                    }
+                },
+                "pageNum": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "totalPage": {
+                    "type": "integer"
+                }
+            }
+        },
+        "member_collection.addRequest": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "memberIcon": {
+                    "type": "string"
+                },
+                "memberId": {
+                    "type": "integer"
+                },
+                "memberNickname": {
+                    "type": "string"
+                },
+                "productId": {
+                    "type": "integer"
+                },
+                "productName": {
+                    "type": "string"
+                },
+                "productPic": {
+                    "type": "string"
+                },
+                "productPrice": {
+                    "type": "number"
+                },
+                "productSubTitle": {
+                    "type": "string"
+                }
+            }
+        },
+        "member_collection.clearRequest": {
+            "type": "object"
+        },
+        "member_collection.deleteRequest": {
+            "type": "object",
+            "required": [
+                "productId"
+            ],
+            "properties": {
+                "productId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "member_collection.detailRequest": {
+            "type": "object",
+            "required": [
+                "productId"
+            ],
+            "properties": {
+                "productId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "member_collection.detailResponse": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "create_time": {
+                    "type": "string"
+                },
+                "memberIcon": {
+                    "type": "string"
+                },
+                "memberId": {
+                    "type": "integer"
+                },
+                "memberNickname": {
+                    "type": "string"
+                },
+                "productId": {
+                    "type": "integer"
+                },
+                "productName": {
+                    "type": "string"
+                },
+                "productPic": {
+                    "type": "string"
+                },
+                "productPrice": {
+                    "type": "number"
+                },
+                "productSubTitle": {
+                    "type": "string"
+                }
+            }
+        },
+        "member_collection.listRequest": {
+            "type": "object",
+            "properties": {
+                "pageNum": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                }
+            }
+        },
+        "member_collection.listResponse": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.MemberProductCollection"
+                    }
+                },
+                "pageNum": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "totalPage": {
+                    "type": "integer"
+                }
+            }
+        },
+        "member_read_history.clearRequest": {
+            "type": "object"
+        },
+        "member_read_history.createRequest": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "createTime": {
+                    "type": "string"
+                },
+                "memberIcon": {
+                    "type": "string"
+                },
+                "memberId": {
+                    "type": "integer"
+                },
+                "memberNickname": {
+                    "type": "string"
+                },
+                "productId": {
+                    "type": "integer"
+                },
+                "productName": {
+                    "type": "string"
+                },
+                "productPic": {
+                    "type": "string"
+                },
+                "productPrice": {
+                    "type": "number"
+                },
+                "productSubTitle": {
+                    "type": "string"
+                }
+            }
+        },
+        "member_read_history.deleteRequest": {
+            "type": "object",
+            "required": [
+                "ids"
+            ],
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "member_read_history.listRequest": {
+            "type": "object",
+            "properties": {
+                "pageNum": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                }
+            }
+        },
+        "member_read_history.listResponse": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.MemberReadHistory"
+                    }
+                },
+                "pageNum": {
+                    "type": "integer"
+                },
+                "pageSize": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                },
+                "totalPage": {
+                    "type": "integer"
+                }
+            }
+        },
         "menu.createActionResponse": {
             "type": "object",
             "properties": {
@@ -17704,6 +19140,9 @@
         },
         "oms_portal_order.cancelOrderRequest": {
             "type": "object",
+            "required": [
+                "orderId"
+            ],
             "properties": {
                 "orderId": {
                     "type": "integer"
@@ -17721,6 +19160,9 @@
         },
         "oms_portal_order.cancelUserOrderRequest": {
             "type": "object",
+            "required": [
+                "orderId"
+            ],
             "properties": {
                 "orderId": {
                     "type": "integer"
@@ -17732,6 +19174,9 @@
         },
         "oms_portal_order.confirmReceiveOrderRequest": {
             "type": "object",
+            "required": [
+                "orderId"
+            ],
             "properties": {
                 "orderId": {
                     "type": "integer"
@@ -17743,6 +19188,9 @@
         },
         "oms_portal_order.deleteOrderRequest": {
             "type": "object",
+            "required": [
+                "orderId"
+            ],
             "properties": {
                 "orderId": {
                     "type": "integer"

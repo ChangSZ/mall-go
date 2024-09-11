@@ -165,6 +165,47 @@ definitions:
         description: 主键ID
         type: integer
     type: object
+  alipay.notifyRequest:
+    type: object
+  alipay.notifyResponse:
+    type: object
+  alipay.payRequest:
+    properties:
+      outTradeNo:
+        description: 商户订单号，商家自定义，保持唯一性
+        type: string
+      subject:
+        description: 商品的标题/交易标题/订单标题/订单关键字等
+        type: string
+      totalAmount:
+        description: 订单总金额，单位为元，精确到小数点后两位
+        type: number
+    type: object
+  alipay.payResponse:
+    type: object
+  alipay.queryRequest:
+    properties:
+      outTradeNo:
+        type: string
+      tradeNo:
+        type: string
+    type: object
+  alipay.queryResponse:
+    type: object
+  alipay.webPayRequest:
+    properties:
+      outTradeNo:
+        description: 商户订单号，商家自定义，保持唯一性
+        type: string
+      subject:
+        description: 商品的标题/交易标题/订单标题/订单关键字等
+        type: string
+      totalAmount:
+        description: 订单总金额，单位为元，精确到小数点后两位
+        type: number
+    type: object
+  alipay.webPayResponse:
+    type: object
   authorized.createAPIResponse:
     properties:
       id:
@@ -765,6 +806,73 @@ definitions:
         type: array
       startTime:
         description: 本场开始时间
+        type: string
+    type: object
+  dto.MemberBrandAttention:
+    properties:
+      _id:
+        type: string
+      brandCity:
+        type: string
+      brandId:
+        type: integer
+      brandLogo:
+        type: string
+      brandName:
+        type: string
+      createTime:
+        type: string
+      memberIcon:
+        type: string
+      memberId:
+        type: integer
+      memberNickname:
+        type: string
+    type: object
+  dto.MemberProductCollection:
+    properties:
+      _id:
+        type: string
+      create_time:
+        type: string
+      memberIcon:
+        type: string
+      memberId:
+        type: integer
+      memberNickname:
+        type: string
+      productId:
+        type: integer
+      productName:
+        type: string
+      productPic:
+        type: string
+      productPrice:
+        type: number
+      productSubTitle:
+        type: string
+    type: object
+  dto.MemberReadHistory:
+    properties:
+      _id:
+        type: string
+      createTime:
+        type: string
+      memberIcon:
+        type: string
+      memberId:
+        type: integer
+      memberNickname:
+        type: string
+      productId:
+        type: integer
+      productName:
+        type: string
+      productPic:
+        type: string
+      productPrice:
+        type: number
+      productSubTitle:
         type: string
     type: object
   dto.OmsCartItem:
@@ -2215,6 +2323,226 @@ definitions:
       pageSize:
         type: integer
     type: object
+  member_attention.addRequest:
+    properties:
+      _id:
+        type: string
+      brandCity:
+        type: string
+      brandId:
+        type: integer
+      brandLogo:
+        type: string
+      brandName:
+        type: string
+      createTime:
+        type: string
+      memberIcon:
+        type: string
+      memberId:
+        type: integer
+      memberNickname:
+        type: string
+    type: object
+  member_attention.clearRequest:
+    type: object
+  member_attention.deleteRequest:
+    properties:
+      brandId:
+        type: integer
+    required:
+    - brandId
+    type: object
+  member_attention.detailRequest:
+    properties:
+      brandId:
+        type: integer
+    required:
+    - brandId
+    type: object
+  member_attention.detailResponse:
+    properties:
+      _id:
+        type: string
+      brandCity:
+        type: string
+      brandId:
+        type: integer
+      brandLogo:
+        type: string
+      brandName:
+        type: string
+      createTime:
+        type: string
+      memberIcon:
+        type: string
+      memberId:
+        type: integer
+      memberNickname:
+        type: string
+    type: object
+  member_attention.listRequest:
+    properties:
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  member_attention.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.MemberBrandAttention'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  member_collection.addRequest:
+    properties:
+      _id:
+        type: string
+      create_time:
+        type: string
+      memberIcon:
+        type: string
+      memberId:
+        type: integer
+      memberNickname:
+        type: string
+      productId:
+        type: integer
+      productName:
+        type: string
+      productPic:
+        type: string
+      productPrice:
+        type: number
+      productSubTitle:
+        type: string
+    type: object
+  member_collection.clearRequest:
+    type: object
+  member_collection.deleteRequest:
+    properties:
+      productId:
+        type: integer
+    required:
+    - productId
+    type: object
+  member_collection.detailRequest:
+    properties:
+      productId:
+        type: integer
+    required:
+    - productId
+    type: object
+  member_collection.detailResponse:
+    properties:
+      _id:
+        type: string
+      create_time:
+        type: string
+      memberIcon:
+        type: string
+      memberId:
+        type: integer
+      memberNickname:
+        type: string
+      productId:
+        type: integer
+      productName:
+        type: string
+      productPic:
+        type: string
+      productPrice:
+        type: number
+      productSubTitle:
+        type: string
+    type: object
+  member_collection.listRequest:
+    properties:
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  member_collection.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.MemberProductCollection'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
+  member_read_history.clearRequest:
+    type: object
+  member_read_history.createRequest:
+    properties:
+      _id:
+        type: string
+      createTime:
+        type: string
+      memberIcon:
+        type: string
+      memberId:
+        type: integer
+      memberNickname:
+        type: string
+      productId:
+        type: integer
+      productName:
+        type: string
+      productPic:
+        type: string
+      productPrice:
+        type: number
+      productSubTitle:
+        type: string
+    type: object
+  member_read_history.deleteRequest:
+    properties:
+      ids:
+        items:
+          type: string
+        type: array
+    required:
+    - ids
+    type: object
+  member_read_history.listRequest:
+    properties:
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+    type: object
+  member_read_history.listResponse:
+    properties:
+      list:
+        items:
+          $ref: '#/definitions/dto.MemberReadHistory'
+        type: array
+      pageNum:
+        type: integer
+      pageSize:
+        type: integer
+      total:
+        type: integer
+      totalPage:
+        type: integer
+    type: object
   menu.createActionResponse:
     properties:
       id:
@@ -3184,6 +3512,8 @@ definitions:
     properties:
       orderId:
         type: integer
+    required:
+    - orderId
     type: object
   oms_portal_order.cancelOrderResponse:
     type: object
@@ -3195,6 +3525,8 @@ definitions:
     properties:
       orderId:
         type: integer
+    required:
+    - orderId
     type: object
   oms_portal_order.cancelUserOrderResponse:
     type: object
@@ -3202,6 +3534,8 @@ definitions:
     properties:
       orderId:
         type: integer
+    required:
+    - orderId
     type: object
   oms_portal_order.confirmReceiveOrderResponse:
     type: object
@@ -3209,6 +3543,8 @@ definitions:
     properties:
       orderId:
         type: integer
+    required:
+    - orderId
     type: object
   oms_portal_order.deleteOrderResponse:
     type: object
@@ -6681,6 +7017,130 @@ paths:
       summary: 修改帐号状态
       tags:
       - UmsAdminController
+  /alipay/notify:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 支付宝异步回调
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/alipay.notifyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/alipay.notifyResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 支付宝异步回调
+      tags:
+      - AlipayController
+  /alipay/pay:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 支付宝电脑网站支付
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/alipay.payRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/alipay.payResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 支付宝电脑网站支付
+      tags:
+      - AlipayController
+  /alipay/query:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 支付宝统一收单线下交易查询
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/alipay.queryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/alipay.queryResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 支付宝统一收单线下交易查询
+      tags:
+      - AlipayController
+  /alipay/webPay:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 支付宝手机网站支付
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/alipay.webPayRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/alipay.webPayResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 支付宝手机网站支付
+      tags:
+      - AlipayController
   /api/admin:
     get:
       consumes:
@@ -10777,6 +11237,161 @@ paths:
       summary: 修改收货地址
       tags:
       - UmsMemberReceiveAddressController
+  /member/attention/add:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加品牌关注
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_attention.addRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加品牌关注
+      tags:
+      - MemberAttentionController
+  /member/attention/clear:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 清空当前用户品牌关注列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_attention.clearRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 清空当前用户品牌关注列表
+      tags:
+      - MemberAttentionController
+  /member/attention/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 取消品牌关注
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_attention.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 取消品牌关注
+      tags:
+      - MemberAttentionController
+  /member/attention/detail:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 根据品牌ID获取品牌关注详情
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_attention.detailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/member_attention.detailResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 根据品牌ID获取品牌关注详情
+      tags:
+      - MemberAttentionController
+  /member/attention/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页查询当前用户品牌关注列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_attention.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/member_attention.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页查询当前用户品牌关注列表
+      tags:
+      - MemberAttentionController
   /member/coupon/add/{couponId}:
     post:
       consumes:
@@ -10940,6 +11555,285 @@ paths:
       summary: 获取会员优惠券历史列表
       tags:
       - UmsMemberCouponController
+  /member/productCollection/add:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 添加商品收藏
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_collection.addRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 添加商品收藏
+      tags:
+      - MemberCollectionController
+  /member/productCollection/clear:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 清空当前用户商品收藏列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_collection.clearRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 清空当前用户商品收藏列表
+      tags:
+      - MemberCollectionController
+  /member/productCollection/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除商品收藏
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_collection.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除商品收藏
+      tags:
+      - MemberCollectionController
+  /member/productCollection/detail:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 显示商品收藏详情
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_collection.detailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/member_collection.detailResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 显示商品收藏详情
+      tags:
+      - MemberCollectionController
+  /member/productCollection/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 显示当前用户商品收藏列表
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_collection.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/member_collection.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 显示当前用户商品收藏列表
+      tags:
+      - MemberCollectionController
+  /member/readHistory/clear:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 清空浏览记录
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_read_history.clearRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 清空浏览记录
+      tags:
+      - MemberCollectionController
+  /member/readHistory/create:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 创建浏览记录
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_read_history.createRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 创建浏览记录
+      tags:
+      - MemberCollectionController
+  /member/readHistory/delete:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 删除浏览记录
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_read_history.deleteRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  type: integer
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 删除浏览记录
+      tags:
+      - MemberCollectionController
+  /member/readHistory/list:
+    get:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: 分页获取浏览记录
+      parameters:
+      - description: 请求信息
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/member_read_history.listRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/code.Success'
+            - properties:
+                data:
+                  $ref: '#/definitions/member_read_history.listResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/code.Failure'
+      summary: 分页获取浏览记录
+      tags:
+      - MemberCollectionController
   /memberLevel/list:
     get:
       consumes:

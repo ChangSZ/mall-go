@@ -9,7 +9,7 @@
 </br>
 ! 本项目暂未未包含任何效果图, 可以去源项目查看, 链接如下:
 
-本项目对[macrozheng/mall](https://github.com/macrozheng/mall)商城项目后端代码的重构 ==> [进度](./note.md)
+本项目是对[macrozheng/mall](https://github.com/macrozheng/mall)商城项目后端代码的重构 ==> [进度](./note.md)
 
 mall_admin前端 --> [mall-admin-web](https://github.com/ChangSZ/mall-admin-web) 
 
@@ -21,7 +21,70 @@ mall_portal(app)前端 --> [mall-app-web](https://github.com/ChangSZ/mall-app-we
 
 工程相关文档后期会逐步补充完善
 
-推荐先mark吧🤩, 靠谱楼主, 会持续更新的（最近在找新机会，停止更新一会儿）~
+推荐先mark吧🤩, 靠谱楼主, 会持续更新的~
+
+</br>
+
+## 技术选型
+
+### 后端技术
+
+| 技术                 | 说明               | 官网                                       |
+| -------------------- | ------------------ | ------------------------------------------ |
+| Gin-Boilerplate      | Web应用开发框架    | https://github.com/ChangSZ/gin-boilerplate |
+| Gorm                 | ORM框架            | https://github.com/go-gorm/gorm            |
+| Golib                | 工具包集合         | https://github.com/ChangSZ/golib           |
+| Elasticsearch        | 搜索引擎           | https://github.com/elastic/elasticsearch   |
+| RabbitMQ             | 消息队列           | https://www.rabbitmq.com/                  |
+| Redis                | 内存数据存储       | https://redis.io/                          |
+| MongoDB              | NoSql数据库        | https://www.mongodb.com                    |
+| LogStash             | 日志收集工具       | https://github.com/elastic/logstash        |
+| Kibana               | 日志可视化查看工具 | https://github.com/elastic/kibana          |
+| Nginx                | 静态资源服务器     | https://www.nginx.com/                     |
+| Docker               | 应用容器引擎       | https://www.docker.com                     |
+| Jenkins              | 自动化部署工具     | https://github.com/jenkinsci/jenkins       |
+| MinIO                | 对象存储           | https://github.com/minio/minio             |
+| JWT                  | JWT登录支持        | https://github.com/golang-jwt/jwt          |
+| Swagger-UI           | API文档生成工具    | https://github.com/swagger-api/swagger-ui  |
+| Hibernator-Validator | 验证框架           | https://github.com/go-playground/validator |
+| Websocket            | websocket          | https://github.com/gorilla/websocket       |
+| Trace                | 链路追踪           | https://go.opentelemetry.io                |
+
+### 前端技术
+
+| 技术       | 说明                  | 官网                                   |
+| ---------- | --------------------- | -------------------------------------- |
+| Vue        | 前端框架              | https://vuejs.org/                     |
+| Vue-router | 路由框架              | https://router.vuejs.org/              |
+| Vuex       | 全局状态管理框架      | https://vuex.vuejs.org/                |
+| Element    | 前端UI框架            | https://element.eleme.io               |
+| Axios      | 前端HTTP框架          | https://github.com/axios/axios         |
+| v-charts   | 基于Echarts的图表框架 | https://v-charts.js.org/               |
+| Js-cookie  | cookie管理工具        | https://github.com/js-cookie/js-cookie |
+| nprogress  | 进度条控件            | https://github.com/rstacruz/nprogress  |
+
+### 移动端技术
+
+| 技术         | 说明             | 官网                                    |
+| ------------ | ---------------- | --------------------------------------- |
+| Vue          | 核心前端框架     | https://vuejs.org                       |
+| Vuex         | 全局状态管理框架 | https://vuex.vuejs.org                  |
+| uni-app      | 移动端前端框架   | https://uniapp.dcloud.io                |
+| mix-mall     | 电商项目模板     | https://ext.dcloud.net.cn/plugin?id=200 |
+| luch-request | HTTP请求框架     | https://github.com/lei-mu/luch-request  |
+
+
+### 架构图
+
+#### 系统架构图
+
+![系统架构图](./docs/resource/re_mall_system_arch.jpg)
+
+#### 业务架构图
+
+![业务架构图](./docs/resource/re_mall_business_arch.jpg)
+
+<hr/>
 
 ## 快速开始
 ### 拉取代码
