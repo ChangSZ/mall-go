@@ -32,7 +32,7 @@ func (h *handler) UpdateRecommendStatus(ctx *gin.Context) {
 	res := new(updateRecommendStatusResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

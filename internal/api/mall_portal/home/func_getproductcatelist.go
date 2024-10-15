@@ -32,7 +32,7 @@ func (h *handler) GetProductCateList(ctx *gin.Context) {
 	res := new(getProductCateListResponse)
 	if err := ctx.ShouldBindUri(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

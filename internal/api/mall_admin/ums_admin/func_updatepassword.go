@@ -33,7 +33,7 @@ func (h *handler) UpdatePassword(ctx *gin.Context) {
 	res := new(updatePasswordResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 	status, err := h.service.UpdatePassword(ctx, req.Username, req.OldPassword, req.NewPassword)

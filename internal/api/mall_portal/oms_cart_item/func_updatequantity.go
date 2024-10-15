@@ -32,7 +32,7 @@ func (h *handler) UpdateQuantity(ctx *gin.Context) {
 	res := new(updateQuantityResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

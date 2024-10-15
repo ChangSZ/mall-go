@@ -90,7 +90,7 @@ func (h *handler) SearchMySQL(ctx *gin.Context) {
 	res := new(searchMySQLResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetError(err).Error())
 		return
 	}
 

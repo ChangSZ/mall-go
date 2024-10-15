@@ -16,7 +16,7 @@ func init() {
 	}
 }
 
-func GetValidationError(err error) error {
+func GetError(err error) error {
 	errs, ok := err.(validator.ValidationErrors)
 	if ok {
 		TransErrs := errs.Translate(trans)
@@ -31,7 +31,7 @@ func GetValidationError(err error) error {
 	}
 }
 
-func GetValidationErrors(err error) []error {
+func GetErrors(err error) []error {
 	errs, ok := err.(validator.ValidationErrors)
 	if ok {
 		TransErrs := errs.Translate(trans)

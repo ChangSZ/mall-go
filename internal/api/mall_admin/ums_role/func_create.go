@@ -32,7 +32,7 @@ func (h *handler) Create(ctx *gin.Context) {
 	res := new(createResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 	cnt, err := h.service.Create(ctx, req.UmsRoleParam)

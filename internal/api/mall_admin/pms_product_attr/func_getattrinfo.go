@@ -31,7 +31,7 @@ func (h *handler) GetAttrInfo(ctx *gin.Context) {
 	uri := new(dto.PmsProductCateIdUri)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

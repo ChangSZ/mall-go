@@ -33,7 +33,7 @@ func (h *handler) RecommendProductList(ctx *gin.Context) {
 	res := new(recommendProductListResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 
