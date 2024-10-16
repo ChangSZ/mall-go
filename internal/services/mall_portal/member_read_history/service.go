@@ -12,6 +12,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -66,15 +67,16 @@ func (s *service) Delete(ctx context.Context, ids []string) (int64, error) {
 }
 
 func (s *service) List(ctx context.Context, pageNum, pageSize int64) (
-	[]dto.MemberReadHistory, int64, error) {
+	*pagehelper.ListData[dto.MemberReadHistory], error) {
+	res := pagehelper.New[dto.MemberReadHistory]()
 	member, err := ums_member.New().GetCurrentMember(ctx)
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	list, total, err := member_read_history.FindByMemberIDOrderByCreateTimeDesc(ctx, member.Id, pageNum, pageSize)
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 	listData := make([]dto.MemberReadHistory, 0, len(list))
 	for _, v := range list {
@@ -82,7 +84,8 @@ func (s *service) List(ctx context.Context, pageNum, pageSize int64) (
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	return listData, total, nil
+	res.Set(int(pageNum), int(pageSize), total, listData)
+	return res, nil
 }
 
 func (s *service) Clear(ctx context.Context) (int64, error) {

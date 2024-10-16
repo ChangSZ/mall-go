@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -15,7 +16,8 @@ type Service interface {
 	/**
 	 * 分页查询订单
 	 */
-	List(ctx context.Context, queryParam dto.OmsOrderQueryParam, pageSize, pageNum int) ([]dto.OmsOrder, int64, error)
+	List(ctx context.Context, queryParam dto.OmsOrderQueryParam, pageSize, pageNum int) (
+		*pagehelper.ListData[dto.OmsOrder], error)
 
 	/**
 	 * 批量发货

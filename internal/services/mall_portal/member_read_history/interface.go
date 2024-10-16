@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -25,7 +26,7 @@ type Service interface {
 	/**
 	 * 分页获取用户浏览历史记录
 	 */
-	List(ctx context.Context, pageNum, pageSize int64) ([]dto.MemberReadHistory, int64, error)
+	List(ctx context.Context, pageNum, pageSize int64) (*pagehelper.ListData[dto.MemberReadHistory], error)
 
 	/**
 	 * 清空浏览记录

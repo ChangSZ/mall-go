@@ -8,6 +8,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/cms_subject"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -34,15 +35,16 @@ func (s *service) ListAll(ctx context.Context) ([]dto.CmsSubject, error) {
 }
 
 func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum int) (
-	[]dto.CmsSubject, int64, error) {
+	*pagehelper.ListData[dto.CmsSubject], error) {
 	qb := cms_subject.NewQueryBuilder()
 	if keyword != "" {
 		qb = qb.WhereTitle(mysql.LikePredicate, "%"+keyword+"%")
 	}
 
+	res := pagehelper.New[dto.CmsSubject]()
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	offset := (pageNum - 1) * pageSize
@@ -51,7 +53,7 @@ func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum in
 		Offset(offset).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	listData := make([]dto.CmsSubject, 0, len(list))
@@ -60,5 +62,7 @@ func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum in
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	return listData, count, err
+
+	res.Set(pageNum, pageSize, count, listData)
+	return res, err
 }

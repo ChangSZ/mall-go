@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -41,7 +42,7 @@ type Service interface {
 	 * 分页查询品牌
 	 */
 	List(ctx context.Context, keyword string, showStatus int32, pageSize, pageNum int) (
-		[]dto.PmsBrand, int64, error)
+		*pagehelper.ListData[dto.PmsBrand], error)
 
 	/**
 	 * 获取品牌详情

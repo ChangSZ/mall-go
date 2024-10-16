@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -16,7 +17,7 @@ type Service interface {
 	 * 综合搜索商品
 	 */
 	Search(ctx context.Context, keyword string, brandId, productCategoryId int64,
-		pageNum, pageSize, sort int) ([]dto.PmsProduct, int64, error)
+		pageNum, pageSize, sort int) (*pagehelper.ListData[dto.PmsProduct], error)
 
 	/**
 	 * 以树形结构获取所有商品分类

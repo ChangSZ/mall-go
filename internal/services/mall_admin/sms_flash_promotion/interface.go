@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -40,5 +41,6 @@ type Service interface {
 	/**
 	 * 分页查询活动
 	 */
-	List(ctx context.Context, keyword string, pageSize, pageNum int) ([]dto.SmsFlashPromotion, int64, error)
+	List(ctx context.Context, keyword string, pageSize, pageNum int) (
+		*pagehelper.ListData[dto.SmsFlashPromotion], error)
 }

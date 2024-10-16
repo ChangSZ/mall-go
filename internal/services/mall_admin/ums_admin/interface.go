@@ -6,6 +6,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -41,7 +42,7 @@ type Service interface {
 	/**
 	 * 根据用户名或昵称分页查询用户
 	 */
-	List(ctx context.Context, keyword string, pageSize, pageNum int) ([]dto.UmsAdmin, int64, error)
+	List(ctx context.Context, keyword string, pageSize, pageNum int) (*pagehelper.ListData[dto.UmsAdmin], error)
 
 	/**
 	 * 修改指定用户信息

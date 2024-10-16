@@ -12,6 +12,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -77,15 +78,16 @@ func (s *service) Delete(ctx context.Context, productId int64) (int64, error) {
 }
 
 func (s *service) List(ctx context.Context, pageNum, pageSize int64) (
-	[]dto.MemberProductCollection, int64, error) {
+	*pagehelper.ListData[dto.MemberProductCollection], error) {
+	res := pagehelper.New[dto.MemberProductCollection]()
 	member, err := ums_member.New().GetCurrentMember(ctx)
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	list, total, err := member_product_collection.FindByMemberIDWithPagination(ctx, member.Id, pageNum, pageSize)
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 	listData := make([]dto.MemberProductCollection, 0, len(list))
 	for _, v := range list {
@@ -93,7 +95,8 @@ func (s *service) List(ctx context.Context, pageNum, pageSize int64) (
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	return listData, total, nil
+	res.Set(int(pageNum), int(pageSize), total, listData)
+	return res, nil
 }
 
 func (s *service) Detail(ctx context.Context, productId int64) (*dto.MemberProductCollection, error) {

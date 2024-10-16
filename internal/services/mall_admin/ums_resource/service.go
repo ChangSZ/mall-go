@@ -10,6 +10,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_admin"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct {
@@ -72,7 +73,8 @@ func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
 }
 
 func (s *service) List(ctx context.Context, categoryId int64,
-	nameKeyword, urlKeyword string, pageSize, pageNum int) ([]dto.UmsResource, int64, error) {
+	nameKeyword, urlKeyword string, pageSize, pageNum int) (*pagehelper.ListData[dto.UmsResource], error) {
+	res := pagehelper.New[dto.UmsResource]()
 	qb := ums_resource.NewQueryBuilder()
 	if categoryId != 0 {
 		qb = qb.WhereCategoryId(mysql.EqualPredicate, categoryId)
@@ -85,7 +87,7 @@ func (s *service) List(ctx context.Context, categoryId int64,
 	}
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 	offset := (pageNum - 1) * pageSize
 	list, err := qb.
@@ -93,7 +95,7 @@ func (s *service) List(ctx context.Context, categoryId int64,
 		Offset(offset).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	listData := make([]dto.UmsResource, 0, len(list))
@@ -102,7 +104,8 @@ func (s *service) List(ctx context.Context, categoryId int64,
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	return listData, count, nil
+	res.Set(pageNum, pageSize, count, listData)
+	return res, nil
 }
 
 func (s *service) ListAll(ctx context.Context) ([]dto.UmsResource, error) {

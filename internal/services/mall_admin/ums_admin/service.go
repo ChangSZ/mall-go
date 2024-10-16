@@ -18,6 +18,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_login_log"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_admin_role_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_resource"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var (
@@ -142,10 +143,12 @@ func (s *service) GetRoleList(ctx context.Context, adminId int64) ([]dto.UmsRole
 	return listData, nil
 }
 
-func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum int) ([]dto.UmsAdmin, int64, error) {
+func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum int) (
+	*pagehelper.ListData[dto.UmsAdmin], error) {
+	res := pagehelper.New[dto.UmsAdmin]()
 	list, total, err := new(dao.UmsAdminDao).AdminPageList(ctx, mysql.DB().GetDbR(), keyword, pageSize, pageNum)
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 	listData := make([]dto.UmsAdmin, 0, len(list))
 	for _, v := range list {
@@ -153,7 +156,8 @@ func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum in
 		copy.AssignStruct(&v, &tmp)
 		listData = append(listData, tmp)
 	}
-	return listData, total, nil
+	res.Set(pageNum, pageSize, total, listData)
+	return res, nil
 }
 
 func (s *service) GetResourceList(ctx context.Context, adminId int64) ([]ums_resource.UmsResource, error) {

@@ -8,6 +8,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/oms_order_return_apply"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -19,9 +20,12 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) List(ctx context.Context, queryParam dto.OmsReturnApplyQueryParam, pageSize, pageNum int) (
-	[]dto.OmsOrderReturnApply, int64, error) {
-	return new(dao.OmsOrderReturnApplyDao).List(ctx,
-		mysql.DB().GetDbR().WithContext(ctx), queryParam, pageSize, pageNum)
+	*pagehelper.ListData[dto.OmsOrderReturnApply], error) {
+	list, total, err := new(dao.OmsOrderReturnApplyDao).List(
+		ctx, mysql.DB().GetDbR().WithContext(ctx), queryParam, pageSize, pageNum)
+	res := pagehelper.New[dto.OmsOrderReturnApply]()
+	res.Set(pageNum, pageSize, total, list)
+	return res, err
 }
 
 func (s *service) Delete(ctx context.Context, ids []int64) (int64, error) {
