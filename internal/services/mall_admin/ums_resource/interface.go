@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -36,7 +37,7 @@ type Service interface {
 	 * 分页查询资源
 	 */
 	List(ctx context.Context, categoryId int64,
-		nameKeyword, urlKeyword string, pageSize, pageNum int) ([]dto.UmsResource, int64, error)
+		nameKeyword, urlKeyword string, pageSize, pageNum int) (*pagehelper.ListData[dto.UmsResource], error)
 
 	/**
 	 * 查询全部资源

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -31,7 +32,7 @@ type Service interface {
 	 * 分页查询商品
 	 */
 	List(ctx context.Context, queryParam dto.PmsProductQueryParam, pageSize, pageNum int) (
-		[]dto.PmsProduct, int64, error)
+		*pagehelper.ListData[dto.PmsProduct], error)
 
 	/**
 	 * 批量修改审核状态

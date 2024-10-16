@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -30,7 +31,7 @@ type Service interface {
 	/**
 	 * 分页获取退货原因
 	 */
-	List(ctx context.Context, pageSize, pageNum int) ([]dto.OmsOrderReturnReason, int64, error)
+	List(ctx context.Context, pageSize, pageNum int) (*pagehelper.ListData[dto.OmsOrderReturnReason], error)
 
 	/**
 	 * 批量修改退货原因状态

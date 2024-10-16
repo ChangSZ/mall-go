@@ -9,6 +9,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_flash_promotion"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -70,14 +71,15 @@ func (s *service) GetItem(ctx context.Context, id int64) (*dto.SmsFlashPromotion
 }
 
 func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum int) (
-	[]dto.SmsFlashPromotion, int64, error) {
+	*pagehelper.ListData[dto.SmsFlashPromotion], error) {
+	res := pagehelper.New[dto.SmsFlashPromotion]()
 	qb := sms_flash_promotion.NewQueryBuilder()
 	if keyword != "" {
 		qb = qb.WhereTitle(mysql.LikePredicate, "%"+keyword+"%")
 	}
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	offset := (pageNum - 1) * pageSize
@@ -86,7 +88,7 @@ func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum in
 		Offset(offset).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	listData := make([]dto.SmsFlashPromotion, 0, len(list))
@@ -95,5 +97,6 @@ func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum in
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	return listData, count, err
+	res.Set(pageNum, pageSize, count, listData)
+	return res, err
 }

@@ -10,6 +10,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/oms_order"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/oms_order_operate_history"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -21,8 +22,12 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) List(ctx context.Context, queryParam dto.OmsOrderQueryParam, pageSize, pageNum int) (
-	[]dto.OmsOrder, int64, error) {
-	return new(dao.OmsOrderDao).List(ctx, mysql.DB().GetDbR().WithContext(ctx), queryParam, pageSize, pageNum)
+	*pagehelper.ListData[dto.OmsOrder], error) {
+	list, total, err := new(dao.OmsOrderDao).List(
+		ctx, mysql.DB().GetDbR().WithContext(ctx), queryParam, pageSize, pageNum)
+	res := pagehelper.New[dto.OmsOrder]()
+	res.Set(pageNum, pageSize, total, list)
+	return res, err
 }
 
 func (s *service) Delivery(ctx context.Context, deliveryParamList []dto.OmsOrderDeliveryParam) (int64, error) {

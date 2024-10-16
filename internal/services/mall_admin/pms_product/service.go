@@ -20,6 +20,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_ladder"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_vertify_record"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_sku_stock"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -348,7 +349,8 @@ func (s *service) handleUpdateSkuStockList(ctx context.Context, currSkuList []dt
 }
 
 func (s *service) List(ctx context.Context, queryParam dto.PmsProductQueryParam, pageSize, pageNum int) (
-	[]dto.PmsProduct, int64, error) {
+	*pagehelper.ListData[dto.PmsProduct], error) {
+	res := pagehelper.New[dto.PmsProduct]()
 	qb := pms_product.NewQueryBuilder()
 	qb = qb.WhereDeleteStatus(mysql.EqualPredicate, 0)
 
@@ -372,7 +374,7 @@ func (s *service) List(ctx context.Context, queryParam dto.PmsProductQueryParam,
 	}
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 	offset := (pageNum - 1) * pageSize
 	list, err := qb.
@@ -380,7 +382,7 @@ func (s *service) List(ctx context.Context, queryParam dto.PmsProductQueryParam,
 		Offset(offset).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	listData := make([]dto.PmsProduct, 0, len(list))
@@ -389,7 +391,8 @@ func (s *service) List(ctx context.Context, queryParam dto.PmsProductQueryParam,
 		copy.AssignStruct(v, &data)
 		listData = append(listData, data)
 	}
-	return listData, count, err
+	res.Set(pageNum, pageSize, count, listData)
+	return res, err
 }
 
 func (s *service) UpdateVerifyStatus(ctx context.Context,

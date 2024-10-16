@@ -8,6 +8,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/oms_order_return_reason"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -42,11 +43,12 @@ func (s *service) Delete(ctx context.Context, ids []int64) (int64, error) {
 	return qb.Delete(mysql.DB().GetDbW().WithContext(ctx))
 }
 
-func (s *service) List(ctx context.Context, pageSize, pageNum int) ([]dto.OmsOrderReturnReason, int64, error) {
+func (s *service) List(ctx context.Context, pageSize, pageNum int) (*pagehelper.ListData[dto.OmsOrderReturnReason], error) {
+	res := pagehelper.New[dto.OmsOrderReturnReason]()
 	qb := oms_order_return_reason.NewQueryBuilder()
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	offset := (pageNum - 1) * pageSize
@@ -56,7 +58,7 @@ func (s *service) List(ctx context.Context, pageSize, pageNum int) ([]dto.OmsOrd
 		OrderBySort(false).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	listData := make([]dto.OmsOrderReturnReason, 0, len(list))
@@ -65,7 +67,8 @@ func (s *service) List(ctx context.Context, pageSize, pageNum int) ([]dto.OmsOrd
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	return listData, count, err
+	res.Set(pageNum, pageSize, count, listData)
+	return res, err
 }
 
 func (s *service) UpdateStatus(ctx context.Context, ids []int64, status int32) (int64, error) {

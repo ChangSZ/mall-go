@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -19,5 +20,5 @@ type Service interface {
 	 * @param orderSn 使用订单号码
 	 */
 	List(ctx context.Context, couponId int64, useStatus int32, orderSn string, pageSize, pageNum int) (
-		[]dto.SmsCouponHistory, int64, error)
+		*pagehelper.ListData[dto.SmsCouponHistory], error)
 }

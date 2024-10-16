@@ -11,6 +11,7 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_attribute"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_attribute_category"
+	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -22,13 +23,14 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) List(ctx context.Context, cid int64, attrType int32, pageSize, pageNum int) (
-	[]dto.PmsProductAttribute, int64, error) {
+	*pagehelper.ListData[dto.PmsProductAttribute], error) {
+	res := pagehelper.New[dto.PmsProductAttribute]()
 	qb := pms_product_attribute.NewQueryBuilder()
 	qb = qb.WhereProductAttributeCategoryId(mysql.EqualPredicate, cid)
 	qb = qb.WhereType(mysql.EqualPredicate, attrType)
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	offset := (pageNum - 1) * pageSize
@@ -38,7 +40,7 @@ func (s *service) List(ctx context.Context, cid int64, attrType int32, pageSize,
 		OrderBySort(false).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return nil, 0, err
+		return res, err
 	}
 
 	listData := make([]dto.PmsProductAttribute, 0, len(list))
@@ -47,7 +49,8 @@ func (s *service) List(ctx context.Context, cid int64, attrType int32, pageSize,
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	return listData, count, err
+	res.Set(pageNum, pageSize, count, listData)
+	return res, err
 }
 
 func (s *service) Create(ctx context.Context, param dto.PmsProductAttrParam) (int64, error) {
