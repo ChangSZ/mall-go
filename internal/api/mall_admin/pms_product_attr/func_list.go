@@ -39,13 +39,13 @@ func (h *handler) List(ctx *gin.Context) {
 	uri := new(dto.PmsProductAttrUri)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

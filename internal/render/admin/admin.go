@@ -45,7 +45,7 @@ func (h *handler) AdminMenu(ctx *gin.Context) {
 	req := new(adminMenuRequest)
 	if err := ctx.ShouldBindUri(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetError(err).Error())
 		return
 	}
 
@@ -67,7 +67,7 @@ func (h *handler) MenuAction(ctx *gin.Context) {
 	req := new(menuActionRequest)
 	if err := ctx.ShouldBindUri(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetError(err).Error())
 		return
 	}
 

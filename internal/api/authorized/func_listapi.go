@@ -45,7 +45,7 @@ func (h *handler) ListAPI(ctx *gin.Context) {
 	res := new(listAPIResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetError(err).Error())
 		return
 	}
 

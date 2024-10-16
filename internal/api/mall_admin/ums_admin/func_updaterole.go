@@ -32,7 +32,7 @@ func (h *handler) UpdateRole(ctx *gin.Context) {
 	res := new(updateRoleResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 	count, err := h.service.UpdateRole(ctx, req.AdminId, req.RoleIds)

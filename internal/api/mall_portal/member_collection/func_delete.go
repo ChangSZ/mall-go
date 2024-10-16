@@ -31,7 +31,7 @@ func (h *handler) Delete(ctx *gin.Context) {
 	res := new(deleteResponse)
 	if err := ctx.ShouldBindQuery(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

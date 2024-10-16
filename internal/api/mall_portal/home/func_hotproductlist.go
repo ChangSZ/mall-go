@@ -33,7 +33,7 @@ func (h *handler) HotProductList(ctx *gin.Context) {
 	res := new(hotProductListResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

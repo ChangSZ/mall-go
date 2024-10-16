@@ -33,13 +33,13 @@ func (h *handler) UpdateHidden(ctx *gin.Context) {
 	uri := new(dto.UriID)
 	if err := ctx.ShouldBindUri(uri); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

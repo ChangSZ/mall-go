@@ -29,7 +29,7 @@ func (h *handler) Add(ctx *gin.Context) {
 	_ = new(addResponse)
 	if err := ctx.ShouldBindUri(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

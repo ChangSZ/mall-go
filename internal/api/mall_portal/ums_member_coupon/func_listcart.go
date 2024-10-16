@@ -33,7 +33,7 @@ func (h *handler) ListCart(ctx *gin.Context) {
 	res := new(listCartResponse)
 	if err := ctx.ShouldBindUri(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

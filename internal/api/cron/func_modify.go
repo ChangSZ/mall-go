@@ -64,7 +64,7 @@ func (h *handler) Modify(ctx *gin.Context) {
 	res := new(modifyResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetError(err).Error())
 		return
 	}
 

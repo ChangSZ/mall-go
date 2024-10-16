@@ -34,7 +34,7 @@ func (h *handler) GetSubjectList(ctx *gin.Context) {
 	res := new(getSubjectListResponse)
 	if err := ctx.ShouldBind(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.ValidateFailed(ctx, validator.GetValidationError(err).Error())
+		api.ValidateFailed(ctx, validator.GetError(err).Error())
 		return
 	}
 

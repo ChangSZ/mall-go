@@ -36,7 +36,7 @@ func (h *handler) HashIdsEncode(ctx *gin.Context) {
 	res := new(hashIdsEncodeResponse)
 	if err := ctx.ShouldBindUri(req); err != nil {
 		log.WithTrace(ctx).Error(err)
-		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetValidationError(err).Error())
+		api.Response(ctx, http.StatusBadRequest, code.ParamBindError, validator.GetError(err).Error())
 		return
 	}
 
