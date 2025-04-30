@@ -17,13 +17,10 @@ mall_portal(app)前端 --> [mall-app-web](https://github.com/ChangSZ/mall-app-we
 <hr/>
 
 ## 友情提示
-铁子们, 当前mall_admin、mall_portal基本功能均已OK, 使用中暂未发现问题, 我还未进行覆盖性测试, 你们可以搭建前后端自己先玩着. 有问题麻烦狠狠issue
+本项目主要是用来学习的～
 
-工程相关文档后期会逐步补充完善
+铁子们, 当前使用中暂未发现问题, 你们可以搭建前后端试着玩着. 有问题麻烦狠狠issue
 
-推荐先mark吧🤩, 靠谱楼主, 会持续更新的~
-
-</br>
 
 ## 技术选型
 
