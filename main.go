@@ -57,7 +57,9 @@ func main() {
 	if err != nil {
 		log.Fatal("new cron err: ", err)
 	}
-	cronServer.Start()
+	if ok {
+		cronServer.Start()
+	}
 
 	// 初始化路由
 	eng := router.RoutersInit(cronServer)
