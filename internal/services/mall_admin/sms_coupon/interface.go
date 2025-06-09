@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -31,8 +30,7 @@ type Service interface {
 	/**
 	 * 分页获取优惠券列表
 	 */
-	List(ctx context.Context, name string, couponType int32, pageSize, pageNum int) (
-		*pagehelper.ListData[dto.SmsCoupon], error)
+	List(ctx context.Context, name string, couponType int32, pageSize, pageNum int) ([]dto.SmsCoupon, int64, error)
 
 	/**
 	 * 获取优惠券详情

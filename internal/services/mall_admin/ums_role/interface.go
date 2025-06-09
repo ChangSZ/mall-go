@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -40,7 +39,7 @@ type Service interface {
 	/**
 	 * 分页获取角色列表
 	 */
-	List(ctx context.Context, keyword string, pageSize, pageNum int) (*pagehelper.ListData[dto.UmsRole], error)
+	List(ctx context.Context, keyword string, pageSize, pageNum int) ([]dto.UmsRole, int64, error)
 
 	/**
 	 * 根据管理员ID获取对应菜单

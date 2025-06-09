@@ -25,7 +25,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_coupon"
 	"github.com/ChangSZ/mall-go/internal/services/mall_portal/ums_member_receive_address"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var (
@@ -478,12 +477,10 @@ func (s *service) ConfirmReceiveOrder(ctx context.Context, orderId int64) error 
 	return err
 }
 
-func (s *service) List(ctx context.Context, status int32, pageNum, pageSize int) (
-	*pagehelper.ListData[dto.OrderDetail], error) {
-	res := pagehelper.New[dto.OrderDetail]()
+func (s *service) List(ctx context.Context, status int32, pageNum, pageSize int) ([]dto.OrderDetail, int64, error) {
 	member, err := ums_member.New().GetCurrentMember(ctx)
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 
 	qb := oms_order.NewQueryBuilder().
@@ -495,7 +492,7 @@ func (s *service) List(ctx context.Context, status int32, pageNum, pageSize int)
 
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 
 	offset := (pageNum - 1) * pageSize
@@ -505,10 +502,10 @@ func (s *service) List(ctx context.Context, status int32, pageNum, pageSize int)
 		OrderByCreateTime(false).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, count, err
 	}
 	if len(orderList) == 0 {
-		return res, nil
+		return nil, count, nil
 	}
 
 	orderIds := make([]int64, 0)
@@ -519,7 +516,7 @@ func (s *service) List(ctx context.Context, status int32, pageNum, pageSize int)
 		WhereOrderIdIn(orderIds).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, count, err
 	}
 	relatedItemsMap := make(map[int64][]dto.OmsOrderItem)
 	for _, orderItem := range orderItemList {
@@ -542,8 +539,7 @@ func (s *service) List(ctx context.Context, status int32, pageNum, pageSize int)
 		}
 		orderDetailList = append(orderDetailList, orderDetail)
 	}
-	res.Set(pageNum, pageSize, count, orderDetailList)
-	return res, err
+	return orderDetailList, count, err
 }
 
 func (s *service) Detail(ctx context.Context, orderId int64) (*dto.OrderDetail, error) {

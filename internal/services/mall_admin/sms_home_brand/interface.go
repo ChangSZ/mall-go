@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -37,5 +36,5 @@ type Service interface {
 	 * 分页查询品牌推荐
 	 */
 	List(ctx context.Context, brandName string, recommendStatus int32, pageSize, pageNum int) (
-		*pagehelper.ListData[dto.SmsHomeBrand], error)
+		[]dto.SmsHomeBrand, int64, error)
 }

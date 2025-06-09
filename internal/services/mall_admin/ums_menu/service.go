@@ -9,7 +9,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_menu"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -83,14 +82,13 @@ func (s *service) Delete(ctx context.Context, id int64) (int64, error) {
 }
 
 func (s *service) List(ctx context.Context,
-	parentId int64, pageSize, pageNum int) (*pagehelper.ListData[dto.UmsMenu], error) {
-	res := pagehelper.New[dto.UmsMenu]()
+	parentId int64, pageSize, pageNum int) ([]dto.UmsMenu, int64, error) {
 	qb := ums_menu.NewQueryBuilder()
 	qb = qb.WhereParentId(mysql.EqualPredicate, parentId)
 
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 	offset := (pageNum - 1) * pageSize
 	list, err := qb.
@@ -99,7 +97,7 @@ func (s *service) List(ctx context.Context,
 		OrderBySort(false).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 
 	listData := make([]dto.UmsMenu, 0, len(list))
@@ -108,8 +106,7 @@ func (s *service) List(ctx context.Context,
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	res.Set(pageNum, pageSize, count, listData)
-	return res, err
+	return listData, count, err
 }
 
 func (s *service) TreeList(ctx context.Context) ([]dto.UmsMenuNode, error) {

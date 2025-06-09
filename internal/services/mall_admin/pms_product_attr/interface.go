@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -19,8 +18,7 @@ type Service interface {
 	 * @param type 0->规格；1->参数
 	 */
 
-	List(ctx context.Context, cid int64, attrType int32, pageSize, pageNum int) (
-		*pagehelper.ListData[dto.PmsProductAttribute], error)
+	List(ctx context.Context, cid int64, attrType int32, pageSize, pageNum int) ([]dto.PmsProductAttribute, int64, error)
 
 	/**
 	 * 添加商品属性

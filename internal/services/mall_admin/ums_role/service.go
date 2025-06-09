@@ -16,7 +16,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_menu_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/ums_role_resource_relation"
 	"github.com/ChangSZ/mall-go/internal/services/mall_admin/ums_admin"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct {
@@ -83,16 +82,14 @@ func (s *service) ListAll(ctx context.Context) ([]dto.UmsRole, error) {
 	return listData, nil
 }
 
-func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum int) (
-	*pagehelper.ListData[dto.UmsRole], error) {
-	res := pagehelper.New[dto.UmsRole]()
+func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum int) ([]dto.UmsRole, int64, error) {
 	qb := ums_role.NewQueryBuilder()
 	if strings.TrimSpace(keyword) != "" {
 		qb = qb.WhereName(mysql.LikePredicate, "%"+keyword+"%")
 	}
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 	offset := (pageNum - 1) * pageSize
 	list, err := qb.
@@ -100,7 +97,7 @@ func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum in
 		Offset(offset).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 	listData := make([]dto.UmsRole, 0, len(list))
 	for _, v := range list {
@@ -108,8 +105,7 @@ func (s *service) List(ctx context.Context, keyword string, pageSize, pageNum in
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	res.Set(pageNum, pageSize, count, listData)
-	return res, err
+	return listData, count, err
 }
 
 func (s *service) GetMenuList(ctx context.Context, adminId int64) ([]dto.UmsMenu, error) {

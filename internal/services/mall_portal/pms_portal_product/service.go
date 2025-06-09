@@ -17,7 +17,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_full_reduction"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product_ladder"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_sku_stock"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -29,8 +28,7 @@ func New() Service {
 func (s *service) i() {}
 
 func (s *service) Search(ctx context.Context, keyword string, brandId, productCategoryId int64,
-	pageNum, pageSize, sort int) (*pagehelper.ListData[dto.PmsProduct], error) {
-	res := pagehelper.New[dto.PmsProduct]()
+	pageNum, pageSize, sort int) ([]dto.PmsProduct, int64, error) {
 	qb := pms_product.NewQueryBuilder().
 		WhereDeleteStatus(mysql.EqualPredicate, 0).
 		WherePublishStatus(mysql.EqualPredicate, 1)
@@ -56,7 +54,7 @@ func (s *service) Search(ctx context.Context, keyword string, brandId, productCa
 	}
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 	offset := (pageNum - 1) * pageSize
 	list, err := qb.
@@ -64,7 +62,7 @@ func (s *service) Search(ctx context.Context, keyword string, brandId, productCa
 		Offset(offset).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 
 	listData := make([]dto.PmsProduct, 0, len(list))
@@ -73,8 +71,7 @@ func (s *service) Search(ctx context.Context, keyword string, brandId, productCa
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	res.Set(pageNum, pageSize, count, listData)
-	return res, nil
+	return listData, count, nil
 }
 
 func (s *service) CategoryTreeList(ctx context.Context) ([]dto.PmsProductCategoryNode, error) {

@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -42,5 +41,5 @@ type Service interface {
 	 * 分页查询广告
 	 */
 	List(ctx context.Context, name string, adType int32, endTime string, pageSize, pageNum int) (
-		*pagehelper.ListData[dto.SmsHomeAdvertise], error)
+		[]dto.SmsHomeAdvertise, int64, error)
 }
