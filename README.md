@@ -88,6 +88,7 @@ mall_portal(app)前端 --> [mall-app-web](https://github.com/ChangSZ/mall-app-we
 ```bash
 $ git clone https://github.com/ChangSZ/mall-go.git
 $ cd mall-go
+$ go mod tidy
 ```
 
 ### 环境准备
@@ -118,6 +119,11 @@ $ go run cmd/mall_admin/main.go -env fat
 $ go run cmd/mall_portal/main.go -env fat
 # -env 表示设置哪个环境，主要是区分使用哪个配置文件，默认为 fat
 ```
+
+### 启动前端
+- 注意该项目仅是商城项目的后端API，需要配合前端项目一起使用
+  
+下载对应前端([mall-admin-web](https://github.com/ChangSZ/mall-admin-web) 或[mall-app-web](https://github.com/ChangSZ/mall-app-web))的代码并启动前端项目。
 
 ## Go框架
 ### 安装界面
