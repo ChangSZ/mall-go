@@ -4,13 +4,10 @@ import (
 	"context"
 	"strings"
 
-	"github.com/ChangSZ/golib/copy"
-
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_brand"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/pms_product"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -109,7 +106,7 @@ func (s *service) ListAll(ctx context.Context) ([]dto.PmsBrand, error) {
 }
 
 func (s *service) List(ctx context.Context, keyword string, showStatus int32, pageSize, pageNum int) (
-	*pagehelper.ListData[dto.PmsBrand], error) {
+	[]dto.PmsBrand, int64, error) {
 	qb := pms_brand.NewQueryBuilder()
 	if strings.TrimSpace(keyword) != "" {
 		qb = qb.WhereName(mysql.LikePredicate, "%"+keyword+"%")
@@ -117,13 +114,10 @@ func (s *service) List(ctx context.Context, keyword string, showStatus int32, pa
 	if showStatus != 0 {
 		qb = qb.WhereShowStatus(mysql.EqualPredicate, showStatus)
 	}
-
-	res := pagehelper.New[dto.PmsBrand]()
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
-
 	offset := (pageNum - 1) * pageSize
 	list, err := qb.
 		Limit(pageSize).
@@ -131,18 +125,26 @@ func (s *service) List(ctx context.Context, keyword string, showStatus int32, pa
 		OrderBySort(false).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 
 	listData := make([]dto.PmsBrand, 0, len(list))
 	for _, v := range list {
-		tmp := dto.PmsBrand{}
-		copy.AssignStruct(v, &tmp)
-		listData = append(listData, tmp)
+		listData = append(listData, dto.PmsBrand{
+			Id:                  v.Id,
+			Name:                v.Name,
+			FirstLetter:         v.FirstLetter,
+			Sort:                v.Sort,
+			FactoryStatus:       v.FactoryStatus,
+			ShowStatus:          v.ShowStatus,
+			ProductCount:        v.ProductCount,
+			ProductCommentCount: v.ProductCommentCount,
+			Logo:                v.Logo,
+			BigPic:              v.BigPic,
+			BrandStory:          v.BrandStory,
+		})
 	}
-
-	res.Set(pageNum, pageSize, count, listData)
-	return res, err
+	return listData, count, err
 }
 
 func (s *service) GetItem(ctx context.Context, id int64) (*dto.PmsBrand, error) {

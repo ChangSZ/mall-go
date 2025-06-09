@@ -10,7 +10,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_home_advertise"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -80,8 +79,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.SmsHomeAdverti
 }
 
 func (s *service) List(ctx context.Context, name string, adType int32, endTime string, pageSize, pageNum int) (
-	*pagehelper.ListData[dto.SmsHomeAdvertise], error) {
-	res := pagehelper.New[dto.SmsHomeAdvertise]()
+	[]dto.SmsHomeAdvertise, int64, error) {
 	qb := sms_home_advertise.NewQueryBuilder()
 	if name != "" {
 		qb = qb.WhereName(mysql.LikePredicate, "%"+name+"%")
@@ -95,19 +93,19 @@ func (s *service) List(ctx context.Context, name string, adType int32, endTime s
 		start, err := time.Parse("2006-01-02 15:04:05", startStr)
 		if err != nil {
 			log.WithTrace(ctx).Errorf("解析时间出错: %s, err: %v", startStr, err)
-			return res, err
+			return nil, 0, err
 		}
 		end, err := time.Parse("2006-01-02 15:04:05", endStr)
 		if err != nil {
 			log.WithTrace(ctx).Errorf("解析时间出错: %s, err: %v", endStr, err)
-			return res, err
+			return nil, 0, err
 		}
 		qb = qb.WhereEndTime(mysql.GreaterThanOrEqualPredicate, start)
 		qb = qb.WhereEndTime(mysql.SmallerThanOrEqualPredicate, end)
 	}
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 
 	offset := (pageNum - 1) * pageSize
@@ -117,7 +115,7 @@ func (s *service) List(ctx context.Context, name string, adType int32, endTime s
 		OrderBySort(false).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 
 	listData := make([]dto.SmsHomeAdvertise, 0, len(list))
@@ -126,6 +124,5 @@ func (s *service) List(ctx context.Context, name string, adType int32, endTime s
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	res.Set(pageNum, pageSize, count, listData)
-	return res, err
+	return listData, count, err
 }

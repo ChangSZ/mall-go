@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -36,7 +35,7 @@ type Service interface {
 	/**
 	 * 分页查询后台菜单
 	 */
-	List(ctx context.Context, parentId int64, pageSize, pageNum int) (*pagehelper.ListData[dto.UmsMenu], error)
+	List(ctx context.Context, parentId int64, pageSize, pageNum int) ([]dto.UmsMenu, int64, error)
 
 	/**
 	 * 树形结构返回所有菜单列表

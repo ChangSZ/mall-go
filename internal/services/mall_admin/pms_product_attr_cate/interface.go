@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -36,7 +35,7 @@ type Service interface {
 	/**
 	 * 分页查询属性分类
 	 */
-	List(ctx context.Context, pageSize, pageNum int) (*pagehelper.ListData[dto.PmsProductAttributeCategory], error)
+	List(ctx context.Context, pageSize, pageNum int) ([]dto.PmsProductAttributeCategory, int64, error)
 
 	/**
 	 * 获取包含属性的属性分类

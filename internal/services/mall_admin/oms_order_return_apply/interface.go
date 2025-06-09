@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -17,7 +16,7 @@ type Service interface {
 	 * 分页查询申请
 	 */
 	List(ctx context.Context, queryParam dto.OmsReturnApplyQueryParam, pageSize, pageNum int) (
-		*pagehelper.ListData[dto.OmsOrderReturnApply], error)
+		[]dto.OmsOrderReturnApply, int64, error)
 
 	/**
 	 * 批量删除申请

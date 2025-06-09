@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -26,7 +25,7 @@ type Service interface {
 	/**
 	 * 获取用户关注列表
 	 */
-	List(ctx context.Context, pageNum, pageSize int64) (*pagehelper.ListData[dto.MemberBrandAttention], error)
+	List(ctx context.Context, pageNum, pageSize int64) ([]dto.MemberBrandAttention, int64, error)
 
 	/**
 	 * 获取用户关注详情

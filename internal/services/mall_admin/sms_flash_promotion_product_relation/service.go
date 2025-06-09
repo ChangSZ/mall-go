@@ -9,7 +9,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/dto"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_flash_promotion_product_relation"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -73,12 +72,9 @@ func (s *service) GetItem(ctx context.Context, id int64) (*dto.SmsFlashPromotion
 }
 
 func (s *service) List(ctx context.Context, flashPromotionId, flashPromotionSessionId int64, pageSize, pageNum int) (
-	*pagehelper.ListData[dto.SmsFlashPromotionProductRelation], error) {
-	res := pagehelper.New[dto.SmsFlashPromotionProductRelation]()
-	list, total, err := new(dao.SmsFlashPromotionProductRelationDao).GetList(ctx,
+	[]dto.SmsFlashPromotionProductRelation, int64, error) {
+	return new(dao.SmsFlashPromotionProductRelationDao).GetList(ctx,
 		mysql.DB().GetDbR().WithContext(ctx), flashPromotionId, flashPromotionSessionId, pageSize, pageNum)
-	res.Set(pageNum, pageSize, total, list)
-	return res, err
 }
 
 func (s *service) GetCount(ctx context.Context, flashPromotionId, flashPromotionSessionId int64) (int64, error) {

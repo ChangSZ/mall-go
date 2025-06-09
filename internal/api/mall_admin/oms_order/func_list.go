@@ -6,7 +6,6 @@ import (
 
 	"github.com/ChangSZ/mall-go/internal/api"
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 	"github.com/ChangSZ/mall-go/pkg/validator"
 )
 
@@ -17,7 +16,11 @@ type listRequest struct {
 }
 
 type listResponse struct {
-	*pagehelper.ListData[dto.OmsOrder] `json:",inline"`
+	PageNum   int            `json:"pageNum"`
+	PageSize  int            `json:"pageSize"`
+	TotalPage int64          `json:"totalPage"`
+	Total     int64          `json:"total"`
+	List      []dto.OmsOrder `json:"list"`
 }
 
 // List 查询订单
@@ -39,12 +42,20 @@ func (h *handler) List(ctx *gin.Context) {
 		return
 	}
 
-	list, err := h.service.List(ctx, req.OmsOrderQueryParam, req.PageSize, req.PageNum)
+	list, total, err := h.service.List(ctx, req.OmsOrderQueryParam, req.PageSize, req.PageNum)
 	if err != nil {
 		log.WithTrace(ctx).Error(err)
 		api.Failed(ctx, err.Error())
 		return
 	}
-	res.ListData = list
+	res.PageNum = req.PageNum
+	res.PageSize = req.PageSize
+	totalPage := total / int64(req.PageSize)
+	if total%int64(req.PageSize) > 0 {
+		totalPage += 1
+	}
+	res.TotalPage = totalPage
+	res.Total = total
+	res.List = list
 	api.Success(ctx, res)
 }

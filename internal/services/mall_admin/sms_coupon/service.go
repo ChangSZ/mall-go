@@ -11,7 +11,6 @@ import (
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_coupon"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_coupon_product_category_relation"
 	"github.com/ChangSZ/mall-go/internal/repository/mysql/sms_coupon_product_relation"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 type service struct{}
@@ -153,8 +152,7 @@ func (s *service) Update(ctx context.Context, id int64, param dto.SmsCouponParam
 }
 
 func (s *service) List(ctx context.Context, name string, couponType int32, pageSize, pageNum int) (
-	*pagehelper.ListData[dto.SmsCoupon], error) {
-	res := pagehelper.New[dto.SmsCoupon]()
+	[]dto.SmsCoupon, int64, error) {
 	qb := sms_coupon.NewQueryBuilder()
 	if name != "" {
 		qb = qb.WhereName(mysql.LikePredicate, "%"+name+"%")
@@ -164,7 +162,7 @@ func (s *service) List(ctx context.Context, name string, couponType int32, pageS
 	}
 	count, err := qb.Count(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 
 	offset := (pageNum - 1) * pageSize
@@ -173,7 +171,7 @@ func (s *service) List(ctx context.Context, name string, couponType int32, pageS
 		Offset(offset).
 		QueryAll(mysql.DB().GetDbR().WithContext(ctx))
 	if err != nil {
-		return res, err
+		return nil, 0, err
 	}
 
 	listData := make([]dto.SmsCoupon, 0, len(list))
@@ -182,8 +180,7 @@ func (s *service) List(ctx context.Context, name string, couponType int32, pageS
 		copy.AssignStruct(v, &tmp)
 		listData = append(listData, tmp)
 	}
-	res.Set(pageNum, pageSize, count, listData)
-	return res, err
+	return listData, count, err
 }
 
 func (s *service) GetItem(ctx context.Context, id int64) (*dto.SmsCouponParam, error) {

@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/ChangSZ/mall-go/internal/dto"
-	"github.com/ChangSZ/mall-go/pkg/pagehelper"
 )
 
 var _ Service = (*service)(nil)
@@ -40,7 +39,7 @@ type Service interface {
 	 * @param flashPromotionSessionId 限时购场次id
 	 */
 	List(ctx context.Context, flashPromotionId, flashPromotionSessionId int64, pageSize, pageNum int) (
-		*pagehelper.ListData[dto.SmsFlashPromotionProductRelation], error)
+		[]dto.SmsFlashPromotionProductRelation, int64, error)
 
 	/**
 	 * 根据活动和场次id获取商品关系数量
